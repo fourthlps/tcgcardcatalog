@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyage Log — One Piece TCG Catalog</title>
+<style>
+  :root {
+    --ink: #16263e;
+    --parchment: #f6efe2;
+    --parchment-deep: #ece1cc;
+    --gold: #c99a3b;
+    --teal: #2b6e68;
+    --rust: #b5552e;
+    --charcoal: #2a2620;
+    --charcoal-soft: #5c564a;
+    --border: rgba(42,38,32,0.18);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--charcoal);
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .display { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; }
+  header {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 22px 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  header .wordmark { font-family: Georgia, serif; font-size: 22px; letter-spacing: 0.02em; }
+  header .tag { font-size: 12px; color: #9fb0c9; letter-spacing: 0.08em; text-transform: uppercase; }
+  main { max-width: 760px; margin: 0 auto; padding: 28px 20px 60px; }
+  .crumb { font-size: 13px; color: var(--charcoal-soft); margin-bottom: 18px; }
+  .crumb span.live { color: var(--teal); cursor: pointer; text-decoration: underline; }
+  .crumb span.live:hover { color: var(--rust); }
+  h1.page-title { font-size: 26px; margin: 0 0 22px; }
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+  }
+  .tile {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .tile:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .tile.disabled { opacity: 0.5; cursor: default; }
+  .tile.disabled:hover { transform: none; border-color: var(--border); }
+  .tile .name { font-weight: 600; margin: 8px 0 2px; }
+  .tile .meta { font-size: 12px; color: var(--charcoal-soft); }
+  .log-list { border-top: 1px solid var(--border); }
+  .log-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .log-row:hover .log-row-name { color: var(--rust); }
+  .log-num { font-family: Georgia, serif; font-size: 13px; color: var(--gold); min-width: 28px; }
+  .log-row-name { font-weight: 600; flex: 1; }
+  .log-row-meta { font-size: 12px; color: var(--charcoal-soft); }
+  .search-bar {
+    width: 100%; padding: 10px 12px; margin-bottom: 16px;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: #fff; font-size: 14px; color: var(--charcoal);
+  }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
+  .card-tile {
+    background: #fff; border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px; cursor: pointer; display: flex; gap: 10px; align-items: center;
+  }
+  .card-tile:hover { border-color: var(--gold); }
+  .card-tile img { width: 42px; height: 58px; object-fit: cover; border-radius: 3px; background: var(--parchment-deep); flex-shrink: 0; }
+  .card-tile .ct-name { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
+  .card-tile .ct-price { font-size: 13px; color: var(--charcoal-soft); margin-top: 2px; }
+  .rarity-tag {
+    display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px;
+    background: var(--parchment-deep); color: var(--charcoal-soft);
+  }
+  .rarity-SEC, .rarity-SR { background: #f1e0c2; color: var(--rust); }
+  .rarity-L { background: #dde7e5; color: var(--teal); }
+  .detail-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px;
+  }
+  .detail-top { display: flex; gap: 20px; }
+  .detail-top img { width: 140px; border-radius: 6px; background: var(--parchment-deep); }
+  .detail-name { font-size: 20px; margin: 0 0 6px; }
+  .detail-ability { font-size: 14px; color: var(--charcoal-soft); margin-top: 14px; white-space: pre-line; }
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .price-box { background: var(--parchment); border-radius: 6px; padding: 12px 14px; }
+  .price-box .pl { font-size: 12px; color: var(--charcoal-soft); margin-bottom: 4px; }
+  .price-box .pv { font-size: 22px; font-weight: 700; color: var(--gold); font-family: Georgia, serif; }
+  .stats-row { display: flex; gap: 16px; margin-top: 10px; font-size: 13px; color: var(--charcoal-soft); flex-wrap: wrap; }
+  .footnote { font-size: 11px; color: var(--charcoal-soft); margin-top: 18px; }
+  .back-btn {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    padding: 7px 14px; font-size: 13px; cursor: pointer; margin-bottom: 16px; color: var(--charcoal);
+  }
+  .back-btn:hover { border-color: var(--gold); }
+  .empty-state { color: var(--charcoal-soft); font-size: 14px; padding: 30px 0; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="wordmark">⚓ Voyage Log</span>
+  <span class="tag">TCG price &amp; set catalog</span>
+</header>
+
+<main>
+  <div class="crumb" id="crumb"><span class="live" onclick="goHome()">หน้าแรก</span></div>
+
+  <div id="view-home">
+    <h1 class="page-title display">เลือกเกมการ์ด</h1>
+    <div class="game-grid" id="game-grid"></div>
+  </div>
+
+  <div id="view-sets" style="display:none;">
+    <button class="back-btn" onclick="goHome()">← กลับหน้าแรก</button>
+    <h1 class="page-title display">One Piece — รายชื่อชุด</h1>
+    <div class="log-list" id="sets-list"></div>
+  </div>
+
+  <div id="view-cards" style="display:none;">
+    <button class="back-btn" onclick="renderSets()">← กลับไปเลือกชุด</button>
+    <h1 class="page-title display" id="cards-title"></h1>
+    <input class="search-bar" id="card-search" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="filterCards()">
+    <div class="card-grid" id="card-grid"></div>
+  </div>
+
+  <div id="view-detail" style="display:none;">
+    <button class="back-btn" id="back-to-cards">← กลับไปดูการ์ดทั้งหมด</button>
+    <div class="detail-card" id="detail-card"></div>
+  </div>
+</main>
+
+<script>
+let DATA = { index: [], setsCache: {} };
+let state = { setCode: null, cards: [] };
+
+async function loadIndex() {
+  try {
+    const res = await fetch('data/one_piece/index.json');
+    DATA.index = await res.json();
+  } catch (e) {
+    DATA.index = [];
+  }
+  renderHome();
+}
+
+function totalCards() {
+  return DATA.index.reduce((s, x) => s + x.card_count, 0);
+}
+
+function renderHome() {
+  const grid = document.getElementById('game-grid');
+  const hasData = DATA.index.length > 0;
+  grid.innerHTML = `
+    <div class="tile" onclick="openOnePiece()">
+      <div style="font-size:26px;">⚓</div>
+      <div class="name">One Piece</div>
+      <div class="meta">${hasData ? DATA.index.length + ' ชุด · ' + totalCards().toLocaleString() + ' ใบ' : 'ไม่พบข้อมูล'}</div>
+    </div>
+    <div class="tile disabled"><div style="font-size:26px;">✦</div><div class="name">Pokémon</div><div class="meta">เร็วๆ นี้</div></div>
+    <div class="tile disabled"><div style="font-size:26px;">🔥</div><div class="name">Naruto</div><div class="meta">เร็วๆ นี้</div></div>
+    <div class="tile disabled"><div style="font-size:26px;">📦</div><div class="name">กล่องสะสม</div><div class="meta">เร็วๆ นี้</div></div>
+  `;
+}
+
+function show(id) {
+  ['view-home','view-sets','view-cards','view-detail'].forEach(v => {
+    document.getElementById(v).style.display = (v === id) ? 'block' : 'none';
+  });
+}
+
+function setCrumb(html) {
+  document.getElementById('crumb').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span>' + html;
+}
+
+function goHome() { show('view-home'); setCrumb(''); renderHome(); }
+
+function openOnePiece() {
+  show('view-sets');
+  setCrumb(' / One Piece');
+  renderSets();
+}
+
+function renderSets() {
+  show('view-sets');
+  setCrumb(' / One Piece');
+  const list = document.getElementById('sets-list');
+  if (!DATA.index.length) {
+    list.innerHTML = '<div class="empty-state">ยังไม่พบไฟล์ data/one_piece/index.json — เช็ค README</div>';
+    return;
+  }
+  list.innerHTML = DATA.index.map(s => `
+    <div class="log-row" onclick="openSet('${s.set_code}')">
+      <div class="log-num">${s.set_code}</div>
+      <div class="log-row-name display">${s.set_name}</div>
+      <div class="log-row-meta">${s.card_count} ใบ</div>
+    </div>
+  `).join('');
+}
+
+async function openSet(code) {
+  state.setCode = code;
+  document.getElementById('card-search').value = '';
+  if (!DATA.setsCache[code]) {
+    const res = await fetch('data/one_piece/' + code + '.json');
+    DATA.setsCache[code] = await res.json();
+  }
+  state.cards = DATA.setsCache[code];
+  const setMeta = DATA.index.find(s => s.set_code === code);
+  document.getElementById('cards-title').textContent = code + ' — ' + (setMeta ? setMeta.set_name : '');
+  setCrumb(' / <span class="live" onclick="renderSets()">One Piece</span> / ' + code);
+  show('view-cards');
+  paintCards(state.cards);
+}
+
+function rarityClass(r) {
+  if (!r) return '';
+  return 'rarity-' + r.replace(/[^A-Z]/g, '');
+}
+
+function paintCards(cards) {
+  const grid = document.getElementById('card-grid');
+  if (!cards.length) {
+    grid.innerHTML = '<div class="empty-state">ไม่พบการ์ด</div>';
+    return;
+  }
+  grid.innerHTML = cards.map((c, i) => `
+    <div class="card-tile" onclick="openCard(${i})">
+      <img src="${c.card_image || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div>
+        <p class="ct-name">${c.card_name}</p>
+        <span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span>
+        <p class="ct-price">~$${(c.market_price ?? 0).toFixed(2)}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCards() {
+  const q = document.getElementById('card-search').value.trim().toLowerCase();
+  const filtered = state.cards.filter(c => c.card_name.toLowerCase().includes(q));
+  paintCards(filtered);
+}
+
+function openCard(idx) {
+  const c = state.cards[idx];
+  document.getElementById('back-to-cards').onclick = () => openSet(state.setCode);
+  const stats = [];
+  if (c.card_cost !== null && c.card_cost !== undefined) stats.push('Cost ' + c.card_cost);
+  if (c.card_power) stats.push('Power ' + c.card_power);
+  if (c.life) stats.push('Life ' + c.life);
+  if (c.card_color) stats.push(c.card_color);
+  if (c.card_type) stats.push(c.card_type);
+
+  document.getElementById('detail-card').innerHTML = `
+    <div class="detail-top">
+      <img src="${c.card_image || ''}" onerror="this.style.visibility='hidden'">
+      <div>
+        <p class="detail-name display">${c.card_name}</p>
+        <span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span>
+        <div class="stats-row">${stats.map(s => '<span>' + s + '</span>').join('')}</div>
+      </div>
+    </div>
+    <p class="detail-ability">${c.card_text || ''}</p>
+    <div class="price-grid">
+      <div class="price-box"><div class="pl">ราคาตลาด (market)</div><div class="pv">$${(c.market_price ?? 0).toFixed(2)}</div></div>
+      <div class="price-box"><div class="pl">ราคาอ้างอิง (inventory)</div><div class="pv">$${(c.inventory_price ?? 0).toFixed(2)}</div></div>
+    </div>
+    <p class="footnote">ที่มา: optcgapi.com · ข้อมูล ณ วันที่ ${c.date_scraped || '—'} · ${c.card_set_id || ''}</p>
+  `;
+  setCrumb(' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\'' + state.setCode + '\')">' + state.setCode + '</span> / ' + c.card_name);
+  show('view-detail');
+}
+
+loadIndex();
+</script>
+
+</body>
+</html>
