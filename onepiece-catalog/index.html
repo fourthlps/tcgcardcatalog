@@ -500,7 +500,7 @@ function paintSearchResults(results, q) {
       return `<div class="card-tile" onclick="openSet('${r.set_code}')"><div class="ct-icon">⚓</div><div><p class="ct-name">${r.set_code} — ${r.set_name}</p><span class="rarity-tag">SET</span></div></div>`;
     }
     const c = r.card;
-    return `<div class="card-tile" onclick="jumpToCard('${r.set_code}','${c.id}')">
+    return `<div class="card-tile" onclick="jumpToCard('${r.set_code}','${c.card_image_id}')">
       <img src="${c.card_image || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
       <div><p class="ct-name">${c.card_name}</p><span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span><p class="ct-price">${formatPrice(c.market_price)}</p></div>
     </div>`;
@@ -511,7 +511,7 @@ function jumpToCard(code, cardId) {
   state.setCode = code;
   state.cards = DATA.setsCache[code] || [];
   state.displayed = state.cards;
-  const idx = state.cards.findIndex(c => String(c.id) === String(cardId));
+  const idx = state.cards.findIndex(c => String(c.card_image_id) === String(cardId));
   if (idx >= 0) openCard(idx); else openSet(code);
 }
 
