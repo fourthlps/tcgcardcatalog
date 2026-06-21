@@ -30,12 +30,18 @@
     color: var(--parchment);
     padding: 22px 24px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 14px;
   }
   header .wordmark { font-family: Georgia, serif; font-size: 22px; letter-spacing: 0.02em; }
   header .tag { font-size: 12px; color: #9fb0c9; letter-spacing: 0.08em; text-transform: uppercase; }
-  main { max-width: 760px; margin: 0 auto; padding: 28px 20px 60px; }
+  .currency-btn {
+    margin-left: auto; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+    color: var(--parchment); padding: 6px 14px; border-radius: 999px; font-size: 12px; cursor: pointer;
+    white-space: nowrap;
+  }
+  .currency-btn:hover { background: rgba(255,255,255,0.2); }
+  main { max-width: 820px; margin: 0 auto; padding: 28px 20px 60px; }
   .crumb { font-size: 13px; color: var(--charcoal-soft); margin-bottom: 18px; }
   .crumb span.live { color: var(--teal); cursor: pointer; text-decoration: underline; }
   .crumb span.live:hover { color: var(--rust); }
@@ -59,31 +65,45 @@
   .tile.disabled:hover { transform: none; border-color: var(--border); }
   .tile .name { font-weight: 600; margin: 8px 0 2px; }
   .tile .meta { font-size: 12px; color: var(--charcoal-soft); }
-  .log-list { border-top: 1px solid var(--border); }
-  .log-row {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    padding: 14px 4px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
+
+  .sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
+  .set-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    cursor: pointer; transition: border-color 0.15s, transform 0.1s;
   }
-  .log-row:hover .log-row-name { color: var(--rust); }
-  .log-num { font-family: Georgia, serif; font-size: 13px; color: var(--gold); min-width: 28px; }
-  .log-row-name { font-weight: 600; flex: 1; }
-  .log-row-meta { font-size: 12px; color: var(--charcoal-soft); }
+  .set-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .set-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--parchment-deep); display: block; }
+  .set-card-body { padding: 10px 12px 14px; }
+
+  .log-num { font-family: Georgia, serif; font-size: 13px; color: var(--gold); margin-bottom: 2px; }
+  .log-row-name { font-weight: 600; }
+  .log-row-meta { font-size: 12px; color: var(--charcoal-soft); margin-top: 2px; }
+
   .search-bar {
-    width: 100%; padding: 10px 12px; margin-bottom: 16px;
+    width: 100%; padding: 10px 12px; margin-bottom: 14px;
     border: 1px solid var(--border); border-radius: 6px;
     background: #fff; font-size: 14px; color: var(--charcoal);
   }
+  .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+  .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: #fff; cursor: pointer; color: var(--charcoal-soft);
+  }
+  .chip:hover { border-color: var(--gold); }
+  .chip.active { background: var(--ink); border-color: var(--ink); color: var(--parchment); }
+  .sort-select {
+    margin-left: auto; font-size: 13px; padding: 7px 10px; border-radius: 6px;
+    border: 1px solid var(--border); background: #fff; color: var(--charcoal);
+  }
+
   .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
   .card-tile {
     background: #fff; border: 1px solid var(--border); border-radius: 6px;
     padding: 12px; cursor: pointer; display: flex; gap: 10px; align-items: center;
   }
   .card-tile:hover { border-color: var(--gold); }
-  .card-tile img { width: 42px; height: 58px; object-fit: cover; border-radius: 3px; background: var(--parchment-deep); flex-shrink: 0; }
+  .card-tile img { width: 56px; height: 78px; object-fit: cover; border-radius: 3px; background: var(--parchment-deep); flex-shrink: 0; }
   .card-tile .ct-name { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
   .card-tile .ct-price { font-size: 13px; color: var(--charcoal-soft); margin-top: 2px; }
   .rarity-tag {
@@ -92,12 +112,11 @@
   }
   .rarity-SEC, .rarity-SR { background: #f1e0c2; color: var(--rust); }
   .rarity-L { background: #dde7e5; color: var(--teal); }
-  .detail-card {
-    background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px;
-  }
-  .detail-top { display: flex; gap: 20px; }
-  .detail-top img { width: 140px; border-radius: 6px; background: var(--parchment-deep); }
-  .detail-name { font-size: 20px; margin: 0 0 6px; }
+
+  .detail-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px; }
+  .detail-top { display: flex; gap: 24px; flex-wrap: wrap; }
+  .detail-top img { width: 220px; border-radius: 8px; background: var(--parchment-deep); }
+  .detail-name { font-size: 22px; margin: 0 0 8px; }
   .detail-ability { font-size: 14px; color: var(--charcoal-soft); margin-top: 14px; white-space: pre-line; }
   .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
   .price-box { background: var(--parchment); border-radius: 6px; padding: 12px 14px; }
@@ -118,6 +137,7 @@
 <header>
   <span class="wordmark">⚓ Voyage Log</span>
   <span class="tag">TCG price &amp; set catalog</span>
+  <button class="currency-btn" id="currency-toggle" onclick="toggleCurrency()">🇺🇸 USD</button>
 </header>
 
 <main>
@@ -131,13 +151,21 @@
   <div id="view-sets" style="display:none;">
     <button class="back-btn" onclick="goHome()">← กลับหน้าแรก</button>
     <h1 class="page-title display">One Piece — รายชื่อชุด</h1>
-    <div class="log-list" id="sets-list"></div>
+    <div class="sets-grid" id="sets-list"></div>
   </div>
 
   <div id="view-cards" style="display:none;">
     <button class="back-btn" onclick="renderSets()">← กลับไปเลือกชุด</button>
     <h1 class="page-title display" id="cards-title"></h1>
-    <input class="search-bar" id="card-search" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="filterCards()">
+    <input class="search-bar" id="card-search" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
+    <div class="filter-row">
+      <div class="chip-group" id="rarity-chips"></div>
+      <select class="sort-select" id="sort-select" onchange="applyFilters()">
+        <option value="default">เรียงตามเลขการ์ด</option>
+        <option value="price-desc">ราคา: สูง → ต่ำ</option>
+        <option value="price-asc">ราคา: ต่ำ → สูง</option>
+      </select>
+    </div>
     <div class="card-grid" id="card-grid"></div>
   </div>
 
@@ -149,7 +177,7 @@
 
 <script>
 let DATA = { index: [], setsCache: {} };
-let state = { setCode: null, cards: [] };
+let state = { setCode: null, cards: [], displayed: [], activeRarities: new Set(), currency: 'USD', fxRate: 32.9, lastCardIdx: null };
 
 async function loadIndex() {
   try {
@@ -165,6 +193,35 @@ async function loadIndex() {
     DATA.index = [];
   }
   renderHome();
+  loadFxRate();
+}
+
+async function loadFxRate() {
+  try {
+    const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');
+    const data = await res.json();
+    if (data.rates && data.rates.THB) state.fxRate = data.rates.THB;
+  } catch (e) { /* keep fallback rate */ }
+}
+
+function formatPrice(usd) {
+  const v = usd ?? 0;
+  if (state.currency === 'THB') {
+    return '฿' + (v * state.fxRate).toLocaleString('th-TH', { maximumFractionDigits: 0 });
+  }
+  return '$' + v.toFixed(2);
+}
+
+function toggleCurrency() {
+  state.currency = state.currency === 'USD' ? 'THB' : 'USD';
+  document.getElementById('currency-toggle').textContent = state.currency === 'USD' ? '🇺🇸 USD' : '🇹🇭 THB';
+  if (document.getElementById('view-cards').style.display !== 'none') {
+    paintCards(state.displayed);
+  } else if (document.getElementById('view-detail').style.display !== 'none' && state.lastCardIdx != null) {
+    openCard(state.lastCardIdx);
+  } else if (document.getElementById('view-sets').style.display !== 'none') {
+    renderSets();
+  }
 }
 
 function totalCards() {
@@ -209,27 +266,72 @@ function renderSets() {
   setCrumb(' / One Piece');
   const list = document.getElementById('sets-list');
   if (!DATA.index.length) {
-    list.innerHTML = '<div class="empty-state">ยังไม่พบไฟล์ data/one_piece/index.json — เช็ค README</div>';
+    list.innerHTML = '<div class="empty-state">ยังไม่พบไฟล์ one_piece_OP01-OP16_with_prices.json</div>';
     return;
   }
-  list.innerHTML = DATA.index.map(s => `
-    <div class="log-row" onclick="openSet('${s.set_code}')">
-      <div class="log-num">${s.set_code}</div>
-      <div class="log-row-name display">${s.set_name}</div>
-      <div class="log-row-meta">${s.card_count} ใบ</div>
-    </div>
-  `).join('');
+  list.innerHTML = DATA.index.map(s => {
+    const cards = DATA.setsCache[s.set_code] || [];
+    const prices = cards.map(c => c.market_price).filter(p => typeof p === 'number');
+    const min = prices.length ? Math.min(...prices) : null;
+    const max = prices.length ? Math.max(...prices) : null;
+    const rep = cards.find(c => c.rarity === 'L') || cards[0];
+    const img = rep ? rep.card_image : '';
+    return `
+      <div class="set-card" onclick="openSet('${s.set_code}')">
+        <img src="${img || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="set-card-body">
+          <div class="log-num">${s.set_code}</div>
+          <div class="log-row-name display">${s.set_name}</div>
+          <div class="log-row-meta">${s.card_count} ใบ${min != null ? ' · ' + formatPrice(min) + '–' + formatPrice(max) : ''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 async function openSet(code) {
   state.setCode = code;
   document.getElementById('card-search').value = '';
+  document.getElementById('sort-select').value = 'default';
+  state.activeRarities = new Set();
   state.cards = DATA.setsCache[code] || [];
   const setMeta = DATA.index.find(s => s.set_code === code);
   document.getElementById('cards-title').textContent = code + ' — ' + (setMeta ? setMeta.set_name : '');
   setCrumb(' / <span class="live" onclick="renderSets()">One Piece</span> / ' + code);
   show('view-cards');
-  paintCards(state.cards);
+  renderRarityChips();
+  applyFilters();
+}
+
+function renderRarityChips() {
+  const order = ['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const rarities = Array.from(new Set(state.cards.map(c => c.rarity).filter(Boolean)));
+  rarities.sort((a, b) => {
+    const ai = order.indexOf(a), bi = order.indexOf(b);
+    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+  });
+  document.getElementById('rarity-chips').innerHTML = rarities.map(r =>
+    `<button class="chip" data-rarity="${r}" onclick="toggleRarityChip('${r}')">${r}</button>`
+  ).join('');
+}
+
+function toggleRarityChip(r) {
+  if (state.activeRarities.has(r)) state.activeRarities.delete(r); else state.activeRarities.add(r);
+  document.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', state.activeRarities.has(c.dataset.rarity));
+  });
+  applyFilters();
+}
+
+function applyFilters() {
+  let list = state.cards.slice();
+  const q = document.getElementById('card-search').value.trim().toLowerCase();
+  if (q) list = list.filter(c => c.card_name.toLowerCase().includes(q));
+  if (state.activeRarities.size) list = list.filter(c => state.activeRarities.has(c.rarity));
+  const sortMode = document.getElementById('sort-select').value;
+  if (sortMode === 'price-desc') list.sort((a, b) => (b.market_price ?? 0) - (a.market_price ?? 0));
+  else if (sortMode === 'price-asc') list.sort((a, b) => (a.market_price ?? 0) - (b.market_price ?? 0));
+  paintCards(list);
 }
 
 function rarityClass(r) {
@@ -238,6 +340,7 @@ function rarityClass(r) {
 }
 
 function paintCards(cards) {
+  state.displayed = cards;
   const grid = document.getElementById('card-grid');
   if (!cards.length) {
     grid.innerHTML = '<div class="empty-state">ไม่พบการ์ด</div>';
@@ -249,20 +352,15 @@ function paintCards(cards) {
       <div>
         <p class="ct-name">${c.card_name}</p>
         <span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span>
-        <p class="ct-price">~$${(c.market_price ?? 0).toFixed(2)}</p>
+        <p class="ct-price">${formatPrice(c.market_price)}</p>
       </div>
     </div>
   `).join('');
 }
 
-function filterCards() {
-  const q = document.getElementById('card-search').value.trim().toLowerCase();
-  const filtered = state.cards.filter(c => c.card_name.toLowerCase().includes(q));
-  paintCards(filtered);
-}
-
 function openCard(idx) {
-  const c = state.cards[idx];
+  const c = state.displayed[idx];
+  state.lastCardIdx = idx;
   document.getElementById('back-to-cards').onclick = () => openSet(state.setCode);
   const stats = [];
   if (c.card_cost !== null && c.card_cost !== undefined) stats.push('Cost ' + c.card_cost);
@@ -282,8 +380,8 @@ function openCard(idx) {
     </div>
     <p class="detail-ability">${c.card_text || ''}</p>
     <div class="price-grid">
-      <div class="price-box"><div class="pl">ราคาตลาด (market)</div><div class="pv">$${(c.market_price ?? 0).toFixed(2)}</div></div>
-      <div class="price-box"><div class="pl">ราคาอ้างอิง (inventory)</div><div class="pv">$${(c.inventory_price ?? 0).toFixed(2)}</div></div>
+      <div class="price-box"><div class="pl">ราคาตลาด (market)</div><div class="pv">${formatPrice(c.market_price)}</div></div>
+      <div class="price-box"><div class="pl">ราคาอ้างอิง (inventory)</div><div class="pv">${formatPrice(c.inventory_price)}</div></div>
     </div>
     <p class="footnote">ที่มา: optcgapi.com · ข้อมูล ณ วันที่ ${c.date_scraped || '—'} · ${c.card_set_id || ''}</p>
   `;
