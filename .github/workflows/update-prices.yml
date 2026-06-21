@@ -1,0 +1,33 @@
+name: Update One Piece TCG prices
+
+on:
+  schedule:
+    - cron: '0 18 * * 0'   # ทุกวันอาทิตย์ 18:00 UTC = ตี 1 วันจันทร์ เวลาไทย
+  workflow_dispatch:        # ปุ่มกดรันเองได้ทันทีจากแท็บ Actions ด้วย
+
+permissions:
+  contents: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch latest prices
+        run: python scripts/update_prices.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "price-update-bot"
+          git config user.email "actions@github.com"
+          git add onepiece-catalog/one_piece_OP01-OP16_with_prices.json
+          git diff --staged --quiet || git commit -m "Auto-update prices $(date +'%Y-%m-%d')"
+          git push
