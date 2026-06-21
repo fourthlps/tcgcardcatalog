@@ -153,8 +153,14 @@ let state = { setCode: null, cards: [] };
 
 async function loadIndex() {
   try {
-    const res = await fetch('data/one_piece/index.json');
-    DATA.index = await res.json();
+    const res = await fetch('one_piece_OP01-OP16_with_prices.json');
+    const raw = await res.json();
+    DATA.setsCache = raw;
+    DATA.index = Object.keys(raw).map(code => ({
+      set_code: code,
+      set_name: raw[code].length ? raw[code][0].set_name : '',
+      card_count: raw[code].length
+    }));
   } catch (e) {
     DATA.index = [];
   }
@@ -218,11 +224,7 @@ function renderSets() {
 async function openSet(code) {
   state.setCode = code;
   document.getElementById('card-search').value = '';
-  if (!DATA.setsCache[code]) {
-    const res = await fetch('data/one_piece/' + code + '.json');
-    DATA.setsCache[code] = await res.json();
-  }
-  state.cards = DATA.setsCache[code];
+  state.cards = DATA.setsCache[code] || [];
   const setMeta = DATA.index.find(s => s.set_code === code);
   document.getElementById('cards-title').textContent = code + ' — ' + (setMeta ? setMeta.set_name : '');
   setCrumb(' / <span class="live" onclick="renderSets()">One Piece</span> / ' + code);
