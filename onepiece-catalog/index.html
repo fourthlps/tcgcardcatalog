@@ -511,7 +511,7 @@ function jumpToCard(code, cardId) {
   state.setCode = code;
   state.cards = DATA.setsCache[code] || [];
   state.displayed = state.cards;
-  const idx = state.cards.findIndex(c => c.id === cardId);
+  const idx = state.cards.findIndex(c => String(c.id) === String(cardId));
   if (idx >= 0) openCard(idx); else openSet(code);
 }
 
