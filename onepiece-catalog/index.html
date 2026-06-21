@@ -3,181 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voyage Log — One Piece TCG Catalog</title>
+<title>Voyage Log — TCG Set Database</title>
 <style>
   :root {
-    --ink: #16263e;
-    --parchment: #f6efe2;
-    --parchment-deep: #ece1cc;
-    --gold: #c99a3b;
-    --teal: #2b6e68;
-    --rust: #b5552e;
-    --charcoal: #2a2620;
-    --charcoal-soft: #5c564a;
-    --border: rgba(42,38,32,0.18);
+    --bg: #0a0a0f;
+    --bg-section: #0d0d13;
+    --bg-card: #15151d;
+    --bg-card-2: #1b1b25;
+    --border: rgba(255,255,255,0.08);
+    --border-2: rgba(255,255,255,0.14);
+    --gold: #f2b705;
+    --gold-soft: rgba(242,183,5,0.14);
+    --text: #f3f3f0;
+    --text-soft: #9a9aa8;
+    --text-faint: #6a6a76;
+    --green: #4ade80;
+    --teal: #2dd4bf;
+    --teal-soft: rgba(45,212,191,0.14);
+    --blue: #38bdf8;
+    --blue-soft: rgba(56,189,248,0.14);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--parchment);
-    color: var(--charcoal);
+    background: var(--bg);
+    color: var(--text);
     font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
     line-height: 1.5;
   }
   .display { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; }
-  header {
-    background: var(--ink);
-    color: var(--parchment);
-    padding: 22px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  header .wordmark { font-family: Georgia, serif; font-size: 22px; letter-spacing: 0.02em; }
-  header .tag { font-size: 12px; color: #9fb0c9; letter-spacing: 0.08em; text-transform: uppercase; }
-  .currency-btn {
-    margin-left: auto; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-    color: var(--parchment); padding: 6px 14px; border-radius: 999px; font-size: 12px; cursor: pointer;
-    white-space: nowrap;
-  }
-  .currency-btn:hover { background: rgba(255,255,255,0.2); }
-  main { max-width: 820px; margin: 0 auto; padding: 28px 20px 60px; }
-  .crumb { font-size: 13px; color: var(--charcoal-soft); margin-bottom: 18px; }
-  .crumb span.live { color: var(--teal); cursor: pointer; text-decoration: underline; }
-  .crumb span.live:hover { color: var(--rust); }
-  h1.page-title { font-size: 26px; margin: 0 0 22px; }
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 14px;
-  }
-  .tile {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 20px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.15s, transform 0.1s;
-  }
-  .tile:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .tile.disabled { opacity: 0.5; cursor: default; }
-  .tile.disabled:hover { transform: none; border-color: var(--border); }
-  .tile .name { font-weight: 600; margin: 8px 0 2px; }
-  .tile .meta { font-size: 12px; color: var(--charcoal-soft); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-  .sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; }
-  .set-card {
-    background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
-    cursor: pointer; transition: border-color 0.15s, transform 0.1s;
+  /* header */
+  .site-header { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,15,0.9); backdrop-filter: blur(8px); z-index: 10; }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; gap: 28px; }
+  .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .brand-mark { font-size: 22px; color: var(--gold); }
+  .brand-name { font-family: Georgia, serif; font-size: 18px; font-weight: 700; }
+  .brand-tag { display: block; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; }
+  .main-nav { display: flex; gap: 22px; flex: 1; }
+  .main-nav a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .main-nav a:hover { color: var(--gold); }
+  .main-nav a.nav-disabled { color: var(--text-faint); cursor: default; pointer-events: none; }
+  .lang-toggle {
+    background: var(--bg-card); border: 1px solid var(--border-2); color: var(--text);
+    padding: 6px 14px; border-radius: 999px; font-size: 12px; cursor: pointer; font-weight: 600;
   }
-  .set-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .set-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--parchment-deep); display: block; }
+  .lang-toggle:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* hero */
+  .hero { background: radial-gradient(ellipse at top right, rgba(242,183,5,0.08), transparent 60%); padding: 56px 0 40px; }
+  .hero-inner { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+  .hero-copy { flex: 1; min-width: 320px; }
+  .hero-copy h1 { font-size: 40px; line-height: 1.15; margin: 0 0 14px; font-weight: 800; }
+  .hero-copy h1 .gold { color: var(--gold); }
+  .hero-copy > p { color: var(--text-soft); font-size: 15px; margin: 0 0 24px; max-width: 440px; }
+  .search-box { display: flex; gap: 8px; margin-bottom: 12px; }
+  .search-box input {
+    flex: 1; padding: 13px 16px; border-radius: 8px; border: 1px solid var(--border-2);
+    background: var(--bg-card); color: var(--text); font-size: 14px;
+  }
+  .search-box input::placeholder { color: var(--text-faint); }
+  .search-box button {
+    background: var(--gold); border: none; color: #1a1404; padding: 0 18px; border-radius: 8px;
+    cursor: pointer; font-size: 16px; font-weight: 700;
+  }
+  .popular-chips { font-size: 12px; color: var(--text-faint); margin-bottom: 28px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .chips-label { margin-right: 2px; }
+  .pop-chip {
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--text-soft);
+    padding: 4px 11px; border-radius: 999px; font-size: 12px; cursor: pointer;
+  }
+  .pop-chip:hover { border-color: var(--gold); color: var(--gold); }
+  .stat-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stat-pill { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+  .stat-icon { font-size: 18px; }
+  .stat-val { font-weight: 700; font-size: 15px; }
+  .stat-label { font-size: 11px; color: var(--text-faint); }
+
+  /* hero showcase card */
+  .hero-showcase { flex: 0 0 260px; display: flex; justify-content: center; }
+  .stand-frame {
+    width: 200px; aspect-ratio: 5/7; border-radius: 10px; overflow: hidden;
+    transform: rotate(-4deg); box-shadow: 0 20px 60px rgba(242,183,5,0.18), 0 8px 24px rgba(0,0,0,0.5);
+    border: 2px solid var(--border-2); background: var(--bg-card);
+  }
+  .stand-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .stand-plate { text-align: center; margin-top: 18px; transform: rotate(-4deg); }
+  .stand-name { font-size: 12px; color: var(--text-soft); max-width: 200px; margin: 0 auto; }
+  .stand-price { font-family: Georgia, serif; font-size: 20px; color: var(--gold); font-weight: 700; }
+
+  /* sections */
+  .section { padding: 36px 0; border-top: 1px solid var(--border); }
+  .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 18px; margin: 0; }
+  .ad-badge { font-size: 10px; background: var(--gold-soft); color: var(--gold); padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+  .note { font-size: 12px; color: var(--text-faint); }
+
+  /* sponsor row */
+  .sponsor-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; }
+  .sponsor-card { background: var(--bg-card); border: 1px dashed var(--border-2); border-radius: 10px; padding: 18px; text-align: center; }
+  .sponsor-mark { width: 36px; height: 36px; margin: 0 auto 10px; border-radius: 50%; background: var(--bg-card-2); display: flex; align-items: center; justify-content: center; color: var(--text-faint); font-weight: 700; }
+  .sponsor-label { font-size: 12px; color: var(--text-soft); margin-bottom: 8px; }
+  .sponsor-cta { font-size: 11px; color: var(--gold); }
+
+  /* games */
+  .games-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+  .game-card { border-radius: 14px; padding: 26px 22px; cursor: pointer; position: relative; overflow: hidden; border: 1px solid var(--border); }
+  .game-card.op { background: linear-gradient(135deg, #3a0d0d, #120303); }
+  .game-card.pkm { background: linear-gradient(135deg, #4a3a05, #161002); cursor: default; }
+  .game-card.nrt { background: linear-gradient(135deg, #4a2505, #160e02); cursor: default; }
+  .game-card:not(.disabled):hover { border-color: var(--gold); transform: translateY(-3px); transition: transform .15s, border-color .15s; }
+  .game-icon { font-size: 30px; margin-bottom: 10px; }
+  .game-name { font-family: Georgia, serif; font-size: 22px; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 4px; }
+  .game-meta { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
+  .game-btn { background: var(--gold); border: none; color: #1a1404; padding: 8px 16px; border-radius: 7px; font-weight: 700; font-size: 13px; cursor: pointer; }
+  .game-btn.ghost { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); cursor: default; }
+
+  /* trending */
+  .trend-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; }
+  .trend-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; }
+  .trend-card:hover { border-color: var(--gold); }
+  .trend-code { color: var(--gold); font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .trend-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .trend-price { font-size: 12px; color: var(--text-soft); }
+
+  /* cta banner */
+  .cta-banner { background: linear-gradient(135deg, var(--bg-card-2), var(--bg-card)); border: 1px solid var(--border-2); border-radius: 14px; padding: 28px 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .cta-banner h3 { margin: 0 0 6px; font-size: 18px; color: var(--gold); }
+  .cta-banner p { margin: 0; color: var(--text-soft); font-size: 13px; }
+  .cta-banner button { background: var(--gold); border: none; color: #1a1404; padding: 12px 22px; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+
+  /* footer */
+  .site-footer { border-top: 1px solid var(--border); padding: 26px 0; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-inner .brand-name { font-size: 14px; }
+  .footer-links { display: flex; gap: 18px; font-size: 12px; color: var(--text-faint); }
+
+  /* shared app screens */
+  main.app { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+  .crumb { font-size: 13px; color: var(--text-faint); margin-bottom: 18px; }
+  .crumb span.live { color: var(--gold); cursor: pointer; }
+  .page-title { font-size: 24px; margin: 0 0 20px; }
+  .back-btn { background: var(--bg-card); border: 1px solid var(--border-2); border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; margin-bottom: 16px; color: var(--text); }
+  .back-btn:hover { border-color: var(--gold); }
+  .currency-btn.small { background: var(--bg-card); border: 1px solid var(--border-2); color: var(--text); padding: 6px 14px; border-radius: 999px; font-size: 12px; cursor: pointer; }
+  .currency-btn.small:hover { border-color: var(--gold); }
+
+  .sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); gap: 16px; }
+  .set-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; }
+  .set-card:hover { border-color: var(--gold); }
+  .set-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-card-2); display: block; }
   .set-card-body { padding: 10px 12px 14px; }
-
   .log-num { font-family: Georgia, serif; font-size: 13px; color: var(--gold); margin-bottom: 2px; }
   .log-row-name { font-weight: 600; }
-  .log-row-meta { font-size: 12px; color: var(--charcoal-soft); margin-top: 2px; }
+  .log-row-meta { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
 
-  .search-bar {
-    width: 100%; padding: 10px 12px; margin-bottom: 14px;
-    border: 1px solid var(--border); border-radius: 6px;
-    background: #fff; font-size: 14px; color: var(--charcoal);
-  }
+  .search-bar { width: 100%; padding: 10px 12px; margin-bottom: 14px; border: 1px solid var(--border-2); border-radius: 6px; background: var(--bg-card); color: var(--text); font-size: 14px; }
   .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
   .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip {
-    font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
-    background: #fff; cursor: pointer; color: var(--charcoal-soft);
-  }
+  .chip { font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--bg-card); cursor: pointer; color: var(--text-soft); }
   .chip:hover { border-color: var(--gold); }
-  .chip.active { background: var(--ink); border-color: var(--ink); color: var(--parchment); }
-  .sort-select {
-    margin-left: auto; font-size: 13px; padding: 7px 10px; border-radius: 6px;
-    border: 1px solid var(--border); background: #fff; color: var(--charcoal);
-  }
+  .chip.active { background: var(--gold); border-color: var(--gold); color: #1a1404; }
+  .sort-select { margin-left: auto; font-size: 13px; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border-2); background: var(--bg-card); color: var(--text); }
 
   .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
-  .card-tile {
-    background: #fff; border: 1px solid var(--border); border-radius: 6px;
-    padding: 12px; cursor: pointer; display: flex; gap: 10px; align-items: center;
-  }
+  .card-tile { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; display: flex; gap: 10px; align-items: center; }
   .card-tile:hover { border-color: var(--gold); }
-  .card-tile img { width: 56px; height: 78px; object-fit: cover; border-radius: 3px; background: var(--parchment-deep); flex-shrink: 0; }
-  .card-tile .ct-name { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
-  .card-tile .ct-price { font-size: 13px; color: var(--charcoal-soft); margin-top: 2px; }
-  .rarity-tag {
-    display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px;
-    background: var(--parchment-deep); color: var(--charcoal-soft);
-  }
-  .rarity-SEC, .rarity-SR { background: #f1e0c2; color: var(--rust); }
-  .rarity-L { background: #dde7e5; color: var(--teal); }
+  .card-tile img { width: 56px; height: 78px; object-fit: cover; border-radius: 4px; background: var(--bg-card-2); flex-shrink: 0; }
+  .ct-icon { width: 56px; height: 78px; border-radius: 4px; background: var(--bg-card-2); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .ct-name { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
+  .ct-price { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+  .rarity-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--bg-card-2); color: var(--text-soft); }
+  .rarity-SEC, .rarity-SR { background: var(--gold-soft); color: var(--gold); }
+  .rarity-L { background: var(--teal-soft); color: var(--teal); }
+  .rarity-R, .rarity-UC { background: var(--blue-soft); color: var(--blue); }
 
-  .detail-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 22px; }
+  .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 22px; }
   .detail-top { display: flex; gap: 24px; flex-wrap: wrap; }
-  .detail-top img { width: 220px; border-radius: 8px; background: var(--parchment-deep); }
+  .detail-top img { width: 220px; border-radius: 10px; background: var(--bg-card-2); }
   .detail-name { font-size: 22px; margin: 0 0 8px; }
-  .detail-ability { font-size: 14px; color: var(--charcoal-soft); margin-top: 14px; white-space: pre-line; }
-  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-  .price-box { background: var(--parchment); border-radius: 6px; padding: 12px 14px; }
-  .price-box .pl { font-size: 12px; color: var(--charcoal-soft); margin-bottom: 4px; }
+  .detail-ability { font-size: 14px; color: var(--text-soft); margin-top: 14px; white-space: pre-line; }
+  .price-row-head { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+  .price-box { background: var(--bg-card-2); border-radius: 8px; padding: 12px 14px; }
+  .price-box .pl { font-size: 12px; color: var(--text-faint); margin-bottom: 4px; }
   .price-box .pv { font-size: 22px; font-weight: 700; color: var(--gold); font-family: Georgia, serif; }
-  .stats-row { display: flex; gap: 16px; margin-top: 10px; font-size: 13px; color: var(--charcoal-soft); flex-wrap: wrap; }
-  .footnote { font-size: 11px; color: var(--charcoal-soft); margin-top: 18px; }
-  .back-btn {
-    background: none; border: 1px solid var(--border); border-radius: 6px;
-    padding: 7px 14px; font-size: 13px; cursor: pointer; margin-bottom: 16px; color: var(--charcoal);
-  }
-  .back-btn:hover { border-color: var(--gold); }
-  .empty-state { color: var(--charcoal-soft); font-size: 14px; padding: 30px 0; text-align: center; }
+  .stats-row { display: flex; gap: 16px; margin-top: 10px; font-size: 13px; color: var(--text-soft); flex-wrap: wrap; }
+  .footnote { font-size: 11px; color: var(--text-faint); margin-top: 18px; }
+  .empty-state { color: var(--text-faint); font-size: 14px; padding: 30px 0; text-align: center; }
 </style>
 </head>
 <body>
 
-<header>
-  <span class="wordmark">⚓ Voyage Log</span>
-  <span class="tag">TCG price &amp; set catalog</span>
-  <button class="currency-btn" id="currency-toggle" onclick="toggleCurrency()">🇺🇸 USD</button>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand" onclick="goHome()">
+      <span class="brand-mark">⚓</span>
+      <div>
+        <span class="brand-name display">Voyage Log</span>
+        <span class="brand-tag t" data-th="ฐานข้อมูล TCG" data-en="TCG SET DATABASE">ฐานข้อมูล TCG</span>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a onclick="openOnePiece()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
+      <a onclick="openOnePiece()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
+      <a class="nav-disabled t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
+      <a class="nav-disabled t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</a>
+    </nav>
+    <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
+  </div>
 </header>
 
-<main>
-  <div class="crumb" id="crumb"><span class="live" onclick="goHome()">หน้าแรก</span></div>
-
-  <div id="view-home">
-    <h1 class="page-title display">เลือกเกมการ์ด</h1>
-    <div class="game-grid" id="game-grid"></div>
-  </div>
-
-  <div id="view-sets" style="display:none;">
-    <button class="back-btn" onclick="goHome()">← กลับหน้าแรก</button>
-    <h1 class="page-title display">One Piece — รายชื่อชุด</h1>
-    <div class="sets-grid" id="sets-list"></div>
-  </div>
-
-  <div id="view-cards" style="display:none;">
-    <button class="back-btn" onclick="renderSets()">← กลับไปเลือกชุด</button>
-    <h1 class="page-title display" id="cards-title"></h1>
-    <input class="search-bar" id="card-search" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
-    <div class="filter-row">
-      <div class="chip-group" id="rarity-chips"></div>
-      <select class="sort-select" id="sort-select" onchange="applyFilters()">
-        <option value="default">เรียงตามเลขการ์ด</option>
-        <option value="price-desc">ราคา: สูง → ต่ำ</option>
-        <option value="price-asc">ราคา: ต่ำ → สูง</option>
-      </select>
+<div id="view-home">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <h1>
+          <span class="t" data-th="พรีเมียมดาต้า" data-en="Premium Data.">พรีเมียมดาต้า</span><br>
+          <span class="gold t" data-th="สำหรับนักสะสมตัวจริง" data-en="Serious Collectors.">สำหรับนักสะสมตัวจริง</span>
+        </h1>
+        <p class="t" data-th="ราคา TCG และข้อมูลตลาดแบบเรียลไทม์ สำหรับนักสะสมและนักลงทุนที่จริงจัง" data-en="Real-time TCG prices and market insights for smart collectors and investors.">ราคา TCG และข้อมูลตลาดแบบเรียลไทม์ สำหรับนักสะสมและนักลงทุนที่จริงจัง</p>
+        <div class="search-box">
+          <input id="global-search" class="t" data-th-ph="ค้นหาชุด การ์ด หรือคอลเลกชัน..." data-en-ph="Search sets, cards or collections..." placeholder="ค้นหาชุด การ์ด หรือคอลเลกชัน..." onkeydown="if(event.key==='Enter')runGlobalSearch()">
+          <button onclick="runGlobalSearch()">🔍</button>
+        </div>
+        <div class="popular-chips" id="popular-chips"></div>
+        <div class="stat-row" id="stat-row"></div>
+      </div>
+      <div class="hero-showcase">
+        <div id="hero-card-stand"></div>
+      </div>
     </div>
-    <div class="card-grid" id="card-grid"></div>
-  </div>
+  </section>
 
-  <div id="view-detail" style="display:none;">
-    <button class="back-btn" id="back-to-cards">← กลับไปดูการ์ดทั้งหมด</button>
-    <div class="detail-card" id="detail-card"></div>
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="t" data-th="ร้านค้าสปอนเซอร์" data-en="Sponsored Shops">ร้านค้าสปอนเซอร์</h2>
+        <span class="ad-badge">AD</span>
+      </div>
+      <div class="sponsor-row" id="sponsor-row"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2 class="t" data-th="เลือกเกมการ์ด" data-en="Browse Games">เลือกเกมการ์ด</h2></div>
+      <div class="games-row" id="games-row"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="t" data-th="ชุดยอดนิยม" data-en="Popular Sets">ชุดยอดนิยม</h2>
+        <span class="note t" data-th="% การเปลี่ยนแปลงราคาจะเริ่มแสดงหลังเก็บข้อมูลหลายสัปดาห์ (อัปเดตอัตโนมัติทุกสัปดาห์แล้ว)" data-en="Price change % will appear once we've collected a few weeks of data (auto-updates weekly already).">% การเปลี่ยนแปลงราคาจะเริ่มแสดงหลังเก็บข้อมูลหลายสัปดาห์ (อัปเดตอัตโนมัติทุกสัปดาห์แล้ว)</span>
+      </div>
+      <div class="trend-row" id="trend-row"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h3 class="t" data-th="ติดตามตลาดล่วงหน้า" data-en="Stay ahead of the market.">ติดตามตลาดล่วงหน้า</h3>
+          <p class="t" data-th="ติดตามเทรนด์ เฝ้าราคา และค้นหาของหายากก่อนใคร" data-en="Track trends, monitor prices, and discover hidden gems before anyone else.">ติดตามเทรนด์ เฝ้าราคา และค้นหาของหายากก่อนใคร</p>
+        </div>
+        <button onclick="openOnePiece()" class="t" data-th="สำรวจทุกชุด →" data-en="Explore All Sets →">สำรวจทุกชุด →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div><span class="brand-mark">⚓</span> <span class="brand-name display">Voyage Log</span></div>
+      <div class="footer-links">
+        <span class="t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</span>
+        <span class="t" data-th="ติดต่อ" data-en="Contact">ติดต่อ</span>
+        <span class="t" data-th="นโยบายความเป็นส่วนตัว" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<main class="app" id="view-sets" style="display:none;">
+  <div class="crumb" id="crumb-sets"></div>
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back home">กลับหน้าแรก</span></button>
+  <h1 class="page-title display t" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
+  <div class="sets-grid" id="sets-list"></div>
+</main>
+
+<main class="app" id="view-cards" style="display:none;">
+  <div class="crumb" id="crumb-cards"></div>
+  <button class="back-btn" onclick="renderSets()">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to sets">กลับไปเลือกชุด</span></button>
+  <h1 class="page-title display" id="cards-title"></h1>
+  <input class="search-bar" id="card-search" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
+  <div class="filter-row">
+    <div class="chip-group" id="rarity-chips"></div>
+    <button class="currency-btn small" id="currency-toggle-cards" onclick="toggleCurrency()">🇺🇸 USD</button>
+    <select class="sort-select" id="sort-select" onchange="applyFilters()">
+      <option value="default">เรียงตามเลขการ์ด</option>
+      <option value="price-desc">ราคา: สูง → ต่ำ</option>
+      <option value="price-asc">ราคา: ต่ำ → สูง</option>
+    </select>
   </div>
+  <div class="card-grid" id="card-grid"></div>
+</main>
+
+<main class="app" id="view-detail" style="display:none;">
+  <div class="crumb" id="crumb-detail"></div>
+  <button class="back-btn" id="back-to-cards">← กลับไปดูการ์ดทั้งหมด</button>
+  <div class="detail-card" id="detail-card"></div>
+</main>
+
+<main class="app" id="view-search" style="display:none;">
+  <div class="crumb" id="crumb-search"></div>
+  <button class="back-btn" onclick="goHome()">← กลับหน้าแรก</button>
+  <h1 class="page-title display" id="search-title"></h1>
+  <div class="card-grid" id="search-results"></div>
 </main>
 
 <script>
 let DATA = { index: [], setsCache: {} };
-let state = { setCode: null, cards: [], displayed: [], activeRarities: new Set(), currency: 'USD', fxRate: 32.9, lastCardIdx: null };
+let state = { setCode: null, cards: [], displayed: [], activeRarities: new Set(), currency: 'USD', fxRate: 32.9, lastCardIdx: null, lang: 'th' };
 
 async function loadIndex() {
   try {
@@ -189,10 +339,8 @@ async function loadIndex() {
       set_name: raw[code].length ? raw[code][0].set_name : '',
       card_count: raw[code].length
     }));
-  } catch (e) {
-    DATA.index = [];
-  }
-  renderHome();
+  } catch (e) { DATA.index = []; }
+  renderHomeDynamic();
   loadFxRate();
 }
 
@@ -201,74 +349,187 @@ async function loadFxRate() {
     const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');
     const data = await res.json();
     if (data.rates && data.rates.THB) state.fxRate = data.rates.THB;
-  } catch (e) { /* keep fallback rate */ }
+  } catch (e) {}
 }
 
 function formatPrice(usd) {
   const v = usd ?? 0;
-  if (state.currency === 'THB') {
-    return '฿' + (v * state.fxRate).toLocaleString('th-TH', { maximumFractionDigits: 0 });
-  }
+  if (state.currency === 'THB') return '฿' + (v * state.fxRate).toLocaleString('th-TH', { maximumFractionDigits: 0 });
   return '$' + v.toFixed(2);
 }
 
 function toggleCurrency() {
   state.currency = state.currency === 'USD' ? 'THB' : 'USD';
-  document.getElementById('currency-toggle').textContent = state.currency === 'USD' ? '🇺🇸 USD' : '🇹🇭 THB';
-  if (document.getElementById('view-cards').style.display !== 'none') {
-    paintCards(state.displayed);
-  } else if (document.getElementById('view-detail').style.display !== 'none' && state.lastCardIdx != null) {
-    openCard(state.lastCardIdx);
-  } else if (document.getElementById('view-sets').style.display !== 'none') {
-    renderSets();
-  }
+  const label = state.currency === 'USD' ? '🇺🇸 USD' : '🇹🇭 THB';
+  ['currency-toggle-cards'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = label; });
+  if (document.getElementById('view-cards').style.display !== 'none') paintCards(state.displayed);
+  else if (document.getElementById('view-detail').style.display !== 'none' && state.lastCardIdx != null) openCard(state.lastCardIdx);
 }
 
-function totalCards() {
-  return DATA.index.reduce((s, x) => s + x.card_count, 0);
+function toggleLang() {
+  state.lang = state.lang === 'th' ? 'en' : 'th';
+  document.querySelectorAll('.t').forEach(el => {
+    const val = el.dataset[state.lang];
+    if (val) el.textContent = val;
+    const ph = el.dataset[state.lang + 'Ph'];
+    if (ph) el.placeholder = ph;
+  });
+  document.getElementById('lang-toggle').textContent = state.lang === 'th' ? 'EN' : 'ไทย';
+  renderHomeDynamic();
 }
 
-function renderHome() {
-  const grid = document.getElementById('game-grid');
-  const hasData = DATA.index.length > 0;
-  grid.innerHTML = `
-    <div class="tile" onclick="openOnePiece()">
-      <div style="font-size:26px;">⚓</div>
-      <div class="name">One Piece</div>
-      <div class="meta">${hasData ? DATA.index.length + ' ชุด · ' + totalCards().toLocaleString() + ' ใบ' : 'ไม่พบข้อมูล'}</div>
+function allCardsFlat() { return Object.values(DATA.setsCache).flat(); }
+function totalCards() { return DATA.index.reduce((s, x) => s + x.card_count, 0); }
+
+function renderHomeDynamic() {
+  renderStats(); renderHeroCard(); renderPopularChips(); renderSponsors(); renderGames(); renderTrending();
+}
+
+function renderStats() {
+  const cards = allCardsFlat();
+  const totalMarket = cards.reduce((s, c) => s + (c.market_price || 0), 0);
+  const highest = cards.reduce((m, c) => Math.max(m, c.market_price || 0), 0);
+  const L = state.lang;
+  const stats = [
+    { icon: '⚓', val: DATA.index.length, th: 'ชุด One Piece', en: 'One Piece Sets' },
+    { icon: '🗂️', val: totalCards().toLocaleString(), th: 'การ์ดที่เก็บไว้', en: 'Cards Indexed' },
+    { icon: '💰', val: '$' + totalMarket.toLocaleString(undefined, { maximumFractionDigits: 0 }), th: 'มูลค่าตลาดรวม', en: 'Total Market Value' },
+    { icon: '⭐', val: '$' + highest.toLocaleString(undefined, { maximumFractionDigits: 2 }), th: 'ราคาสูงสุดต่อใบ', en: 'Highest Single Card' },
+  ];
+  document.getElementById('stat-row').innerHTML = stats.map(s =>
+    `<div class="stat-pill"><span class="stat-icon">${s.icon}</span><div><div class="stat-val">${s.val}</div><div class="stat-label">${L === 'th' ? s.th : s.en}</div></div></div>`
+  ).join('');
+}
+
+function renderHeroCard() {
+  const cards = allCardsFlat();
+  if (!cards.length) return;
+  const top = cards.reduce((m, c) => (c.market_price || 0) > (m.market_price || 0) ? c : m, cards[0]);
+  document.getElementById('hero-card-stand').innerHTML = `
+    <div class="stand-frame"><img src="${top.card_image || ''}" onerror="this.style.visibility='hidden'"></div>
+    <div class="stand-plate">
+      <div class="stand-name">${top.card_name}</div>
+      <div class="stand-price">$${(top.market_price || 0).toFixed(2)}</div>
+    </div>`;
+}
+
+function renderPopularChips() {
+  const chips = ['OP-13', 'OP-16', 'Trafalgar Law', 'Yamato'];
+  const label = state.lang === 'th' ? 'ค้นหายอดนิยม:' : 'Popular:';
+  document.getElementById('popular-chips').innerHTML =
+    `<span class="chips-label">${label}</span>` +
+    chips.map(c => `<button class="pop-chip" onclick="quickSearch('${c}')">${c}</button>`).join('');
+}
+
+function renderSponsors() {
+  const label = state.lang === 'th' ? 'พื้นที่โฆษณา' : 'Ad space available';
+  const cta = state.lang === 'th' ? 'ติดต่อลงโฆษณา' : 'Contact to advertise';
+  document.getElementById('sponsor-row').innerHTML = [1, 2, 3, 4].map(n => `
+    <div class="sponsor-card">
+      <div class="sponsor-mark">${n}</div>
+      <div class="sponsor-label">${label}</div>
+      <div class="sponsor-cta">${cta}</div>
+    </div>`).join('');
+}
+
+function renderGames() {
+  const L = state.lang;
+  const soon = L === 'th' ? 'เร็วๆ นี้' : 'Coming soon';
+  document.getElementById('games-row').innerHTML = `
+    <div class="game-card op" onclick="openOnePiece()">
+      <div class="game-icon">⚓</div>
+      <div class="game-name">ONE PIECE</div>
+      <div class="game-meta">${DATA.index.length} ${L === 'th' ? 'ชุด' : 'Sets'} · ${totalCards().toLocaleString()} ${L === 'th' ? 'ใบ' : 'Cards'}</div>
+      <button class="game-btn">${L === 'th' ? 'สำรวจ →' : 'Explore →'}</button>
     </div>
-    <div class="tile disabled"><div style="font-size:26px;">✦</div><div class="name">Pokémon</div><div class="meta">เร็วๆ นี้</div></div>
-    <div class="tile disabled"><div style="font-size:26px;">🔥</div><div class="name">Naruto</div><div class="meta">เร็วๆ นี้</div></div>
-    <div class="tile disabled"><div style="font-size:26px;">📦</div><div class="name">กล่องสะสม</div><div class="meta">เร็วๆ นี้</div></div>
-  `;
+    <div class="game-card pkm disabled">
+      <div class="game-icon">✦</div>
+      <div class="game-name">POKÉMON</div>
+      <div class="game-meta">${soon}</div>
+      <button class="game-btn ghost" disabled>${soon}</button>
+    </div>
+    <div class="game-card nrt disabled">
+      <div class="game-icon">🔥</div>
+      <div class="game-name">NARUTO</div>
+      <div class="game-meta">${soon}</div>
+      <button class="game-btn ghost" disabled>${soon}</button>
+    </div>`;
+}
+
+function renderTrending() {
+ const L = state.lang;
+  const rows = DATA.index.map(s => {
+    const cards = DATA.setsCache[s.set_code] || [];
+    const prices = cards.map(c => c.market_price).filter(p => typeof p === 'number');
+    const avg = prices.length ? prices.reduce((a, b) => a + b, 0) / prices.length : 0;
+    return { ...s, avg };
+  }).sort((a, b) => b.avg - a.avg).slice(0, 5);
+  document.getElementById('trend-row').innerHTML = rows.map(s => `
+    <div class="trend-card" onclick="openSet('${s.set_code}')">
+      <div class="trend-code">${s.set_code}</div>
+      <div class="trend-name">${s.set_name}</div>
+      <div class="trend-price">${L === 'th' ? 'ราคาเฉลี่ย' : 'Avg.'} $${s.avg.toFixed(2)}</div>
+    </div>`).join('');
+}
+
+function quickSearch(q) { document.getElementById('global-search').value = q; runGlobalSearch(); }
+
+function runGlobalSearch() {
+  const q = document.getElementById('global-search').value.trim().toLowerCase();
+  if (!q) return;
+  const results = [];
+  DATA.index.forEach(s => {
+    if (s.set_code.toLowerCase().includes(q) || s.set_name.toLowerCase().includes(q)) {
+      results.push({ type: 'set', set_code: s.set_code, set_name: s.set_name });
+    }
+  });
+  Object.entries(DATA.setsCache).forEach(([code, cards]) => {
+    cards.forEach(c => { if (c.card_name.toLowerCase().includes(q)) results.push({ type: 'card', set_code: code, card: c }); });
+  });
+  paintSearchResults(results, q);
+}
+
+function paintSearchResults(results, q) {
+  show('view-search');
+  document.getElementById('crumb-search').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / ผลการค้นหา';
+  document.getElementById('search-title').textContent = (state.lang === 'th' ? 'ผลการค้นหา: ' : 'Results for: ') + q;
+  const box = document.getElementById('search-results');
+  if (!results.length) { box.innerHTML = '<div class="empty-state">' + (state.lang === 'th' ? 'ไม่พบผลลัพธ์' : 'No results') + '</div>'; return; }
+  box.innerHTML = results.slice(0, 40).map(r => {
+    if (r.type === 'set') {
+      return `<div class="card-tile" onclick="openSet('${r.set_code}')"><div class="ct-icon">⚓</div><div><p class="ct-name">${r.set_code} — ${r.set_name}</p><span class="rarity-tag">SET</span></div></div>`;
+    }
+    const c = r.card;
+    return `<div class="card-tile" onclick="jumpToCard('${r.set_code}','${c.id}')">
+      <img src="${c.card_image || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div><p class="ct-name">${c.card_name}</p><span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span><p class="ct-price">${formatPrice(c.market_price)}</p></div>
+    </div>`;
+  }).join('');
+}
+
+function jumpToCard(code, cardId) {
+  state.setCode = code;
+  state.cards = DATA.setsCache[code] || [];
+  state.displayed = state.cards;
+  const idx = state.cards.findIndex(c => c.id === cardId);
+  if (idx >= 0) openCard(idx); else openSet(code);
 }
 
 function show(id) {
-  ['view-home','view-sets','view-cards','view-detail'].forEach(v => {
-    document.getElementById(v).style.display = (v === id) ? 'block' : 'none';
+  ['view-home', 'view-sets', 'view-cards', 'view-detail', 'view-search'].forEach(v => {
+    document.getElementById(v).style.display = (v === id) ? (v === 'view-home' ? 'block' : 'block') : 'none';
   });
 }
 
-function setCrumb(html) {
-  document.getElementById('crumb').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span>' + html;
-}
+function goHome() { show('view-home'); }
 
-function goHome() { show('view-home'); setCrumb(''); renderHome(); }
-
-function openOnePiece() {
-  show('view-sets');
-  setCrumb(' / One Piece');
-  renderSets();
-}
+function openOnePiece() { show('view-sets'); document.getElementById('crumb-sets').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / One Piece'; renderSets(); }
 
 function renderSets() {
   show('view-sets');
-  setCrumb(' / One Piece');
+  document.getElementById('crumb-sets').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / One Piece';
   const list = document.getElementById('sets-list');
-  if (!DATA.index.length) {
-    list.innerHTML = '<div class="empty-state">ยังไม่พบไฟล์ one_piece_OP01-OP16_with_prices.json</div>';
-    return;
-  }
+  if (!DATA.index.length) { list.innerHTML = '<div class="empty-state">ยังไม่พบไฟล์ one_piece_OP01-OP16_with_prices.json</div>'; return; }
   list.innerHTML = DATA.index.map(s => {
     const cards = DATA.setsCache[s.set_code] || [];
     const prices = cards.map(c => c.market_price).filter(p => typeof p === 'number');
@@ -276,16 +537,13 @@ function renderSets() {
     const max = prices.length ? Math.max(...prices) : null;
     const rep = cards.find(c => c.rarity === 'L') || cards[0];
     const img = rep ? rep.card_image : '';
-    return `
-      <div class="set-card" onclick="openSet('${s.set_code}')">
-        <img src="${img || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
-        <div class="set-card-body">
-          <div class="log-num">${s.set_code}</div>
-          <div class="log-row-name display">${s.set_name}</div>
-          <div class="log-row-meta">${s.card_count} ใบ${min != null ? ' · ' + formatPrice(min) + '–' + formatPrice(max) : ''}</div>
-        </div>
-      </div>
-    `;
+    return `<div class="set-card" onclick="openSet('${s.set_code}')">
+      <img src="${img || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div class="set-card-body">
+        <div class="log-num">${s.set_code}</div>
+        <div class="log-row-name display">${s.set_name}</div>
+        <div class="log-row-meta">${s.card_count} ใบ${min != null ? ' · ' + formatPrice(min) + '–' + formatPrice(max) : ''}</div>
+      </div></div>`;
   }).join('');
 }
 
@@ -297,29 +555,23 @@ async function openSet(code) {
   state.cards = DATA.setsCache[code] || [];
   const setMeta = DATA.index.find(s => s.set_code === code);
   document.getElementById('cards-title').textContent = code + ' — ' + (setMeta ? setMeta.set_name : '');
-  setCrumb(' / <span class="live" onclick="renderSets()">One Piece</span> / ' + code);
+  document.getElementById('crumb-cards').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / <span class="live" onclick="renderSets()">One Piece</span> / ' + code;
   show('view-cards');
   renderRarityChips();
   applyFilters();
 }
 
 function renderRarityChips() {
-  const order = ['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const order = ['L', 'C', 'UC', 'R', 'SR', 'SEC', 'SP', 'TR', 'P'];
   const rarities = Array.from(new Set(state.cards.map(c => c.rarity).filter(Boolean)));
-  rarities.sort((a, b) => {
-    const ai = order.indexOf(a), bi = order.indexOf(b);
-    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-  });
+  rarities.sort((a, b) => { const ai = order.indexOf(a), bi = order.indexOf(b); return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi); });
   document.getElementById('rarity-chips').innerHTML = rarities.map(r =>
-    `<button class="chip" data-rarity="${r}" onclick="toggleRarityChip('${r}')">${r}</button>`
-  ).join('');
+    `<button class="chip" data-rarity="${r}" onclick="toggleRarityChip('${r}')">${r}</button>`).join('');
 }
 
 function toggleRarityChip(r) {
   if (state.activeRarities.has(r)) state.activeRarities.delete(r); else state.activeRarities.add(r);
-  document.querySelectorAll('.chip').forEach(c => {
-    c.classList.toggle('active', state.activeRarities.has(c.dataset.rarity));
-  });
+  document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', state.activeRarities.has(c.dataset.rarity)));
   applyFilters();
 }
 
@@ -334,28 +586,17 @@ function applyFilters() {
   paintCards(list);
 }
 
-function rarityClass(r) {
-  if (!r) return '';
-  return 'rarity-' + r.replace(/[^A-Z]/g, '');
-}
+function rarityClass(r) { return r ? 'rarity-' + r.replace(/[^A-Z]/g, '') : ''; }
 
 function paintCards(cards) {
   state.displayed = cards;
   const grid = document.getElementById('card-grid');
-  if (!cards.length) {
-    grid.innerHTML = '<div class="empty-state">ไม่พบการ์ด</div>';
-    return;
-  }
+  if (!cards.length) { grid.innerHTML = '<div class="empty-state">ไม่พบการ์ด</div>'; return; }
   grid.innerHTML = cards.map((c, i) => `
     <div class="card-tile" onclick="openCard(${i})">
       <img src="${c.card_image || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div>
-        <p class="ct-name">${c.card_name}</p>
-        <span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span>
-        <p class="ct-price">${formatPrice(c.market_price)}</p>
-      </div>
-    </div>
-  `).join('');
+      <div><p class="ct-name">${c.card_name}</p><span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span><p class="ct-price">${formatPrice(c.market_price)}</p></div>
+    </div>`).join('');
 }
 
 function openCard(idx) {
@@ -368,7 +609,6 @@ function openCard(idx) {
   if (c.life) stats.push('Life ' + c.life);
   if (c.card_color) stats.push(c.card_color);
   if (c.card_type) stats.push(c.card_type);
-
   document.getElementById('detail-card').innerHTML = `
     <div class="detail-top">
       <img src="${c.card_image || ''}" onerror="this.style.visibility='hidden'">
@@ -379,13 +619,13 @@ function openCard(idx) {
       </div>
     </div>
     <p class="detail-ability">${c.card_text || ''}</p>
+    <div class="price-row-head"><span class="note">ราคา</span><button class="currency-btn small" id="currency-toggle-detail" onclick="toggleCurrency()">${state.currency === 'USD' ? '🇺🇸 USD' : '🇹🇭 THB'}</button></div>
     <div class="price-grid">
       <div class="price-box"><div class="pl">ราคาตลาด (market)</div><div class="pv">${formatPrice(c.market_price)}</div></div>
       <div class="price-box"><div class="pl">ราคาอ้างอิง (inventory)</div><div class="pv">${formatPrice(c.inventory_price)}</div></div>
     </div>
-    <p class="footnote">ที่มา: optcgapi.com · ข้อมูล ณ วันที่ ${c.date_scraped || '—'} · ${c.card_set_id || ''}</p>
-  `;
-  setCrumb(' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\'' + state.setCode + '\')">' + state.setCode + '</span> / ' + c.card_name);
+    <p class="footnote">ที่มา: optcgapi.com · ข้อมูล ณ วันที่ ${c.date_scraped || '—'} · ${c.card_set_id || ''}</p>`;
+  document.getElementById('crumb-detail').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\'' + state.setCode + '\')">' + state.setCode + '</span> / ' + c.card_name;
   show('view-detail');
 }
 
