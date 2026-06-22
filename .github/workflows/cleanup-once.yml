@@ -1,0 +1,20 @@
+name: One-time repo cleanup
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove stray files
+        run: |
+          git rm -f OP-01.json OP-02.json OP-03.json OP-04.json OP-05.json OP-06.json OP-07.json OP-08.json OP-09.json OP-10.json OP-11.json OP-12.json OP-13.json OP-16.json 2>/dev/null || true
+          git rm -f "onepiece-catalog/index (1).json" 2>/dev/null || true
+          git rm -f "onepiece-catalog/update-prices.yml" 2>/dev/null || true
+          git rm -f "onepiece-catalog/update_prices.py" 2>/dev/null || true
+          git config user.name "cleanup-bot"
+          git config user.email "actions@github.com"
+          git diff --staged --quiet && echo "Nothing to remove" || git commit -m "Clean up stray files - tidy repo structure"
+          git push
