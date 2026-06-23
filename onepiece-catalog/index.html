@@ -3,269 +3,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voyage Log — TCG Set Database</title>
+<title>Voyage Log — TCG Database</title>
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --bg-section: #0d0d13;
-    --bg-card: #15151d;
-    --bg-card-2: #1b1b25;
-    --border: rgba(255,255,255,0.08);
-    --border-2: rgba(255,255,255,0.14);
-    --gold: #f2b705;
-    --gold-soft: rgba(242,183,5,0.14);
-    --text: #f3f3f0;
-    --text-soft: #9a9aa8;
-    --text-faint: #6a6a76;
-    --green: #4ade80;
-    --teal: #2dd4bf;
-    --teal-soft: rgba(45,212,191,0.14);
-    --blue: #38bdf8;
-    --blue-soft: rgba(56,189,248,0.14);
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-  }
-  .display { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+:root{--bg:#0a0a0f;--bg2:#13131b;--bg3:#1b1b27;--border:rgba(255,255,255,.07);--bord2:rgba(255,255,255,.13);--gold:#f2b705;--golds:rgba(242,183,5,.13);--text:#f0f0ed;--soft:#94949f;--faint:#5f5f6a;--teal:#2dd4bf;--teals:rgba(45,212,191,.13);--blue:#38bdf8;--blues:rgba(56,189,248,.13);--green:#4ade80}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.55}
+.serif{font-family:Georgia,'Iowan Old Style',serif}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
-  /* header */
-  .site-header { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,15,0.9); backdrop-filter: blur(8px); z-index: 10; }
-  .header-inner { max-width: 1100px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; gap: 28px; }
-  .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-  .brand-mark { font-size: 22px; color: var(--gold); }
-  .brand-name { font-family: Georgia, serif; font-size: 18px; font-weight: 700; }
-  .brand-tag { display: block; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; }
-  .main-nav { display: flex; gap: 22px; flex: 1; }
-  .main-nav a { color: var(--text-soft); text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; }
-  .main-nav a:hover { color: var(--gold); }
-  .main-nav a.nav-disabled { color: var(--text-faint); cursor: default; pointer-events: none; }
-  .lang-toggle {
-    background: var(--bg-card); border: 1px solid var(--border-2); color: var(--text);
-    padding: 6px 14px; border-radius: 999px; font-size: 12px; cursor: pointer; font-weight: 600;
-  }
-  .lang-toggle:hover { border-color: var(--gold); color: var(--gold); }
+/* HEADER */
+.hdr{border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,10,15,.92);backdrop-filter:blur(10px);z-index:20}
+.hdr-in{max-width:1140px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.brand-icon{font-size:22px;color:var(--gold)}
+.brand-name{font-family:Georgia,serif;font-size:17px;font-weight:700}
+.brand-sub{font-size:9px;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;display:block;margin-top:-2px}
+.nav{display:flex;gap:20px;flex:1}
+.nav a{color:var(--soft);text-decoration:none;font-size:13.5px;font-weight:500;cursor:pointer;transition:color .15s}
+.nav a:hover{color:var(--gold)}
+.nav a.dim{color:var(--faint);pointer-events:none}
+.lang-btn{background:var(--bg3);border:1px solid var(--bord2);color:var(--text);padding:5px 13px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:border-color .15s}
+.lang-btn:hover{border-color:var(--gold)}
 
-  /* hero */
-  .hero { background: radial-gradient(ellipse at top right, rgba(242,183,5,0.08), transparent 60%); padding: 56px 0 40px; }
-  .hero-inner { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
-  .hero-copy { flex: 1; min-width: 320px; }
-  .hero-copy h1 { font-size: 40px; line-height: 1.15; margin: 0 0 14px; font-weight: 800; }
-  .hero-copy h1 .gold { color: var(--gold); }
-  .hero-copy > p { color: var(--text-soft); font-size: 15px; margin: 0 0 24px; max-width: 440px; }
-  .search-box { display: flex; gap: 8px; margin-bottom: 12px; }
-  .search-box input {
-    flex: 1; padding: 13px 16px; border-radius: 8px; border: 1px solid var(--border-2);
-    background: var(--bg-card); color: var(--text); font-size: 14px;
-  }
-  .search-box input::placeholder { color: var(--text-faint); }
-  .search-box button {
-    background: var(--gold); border: none; color: #1a1404; padding: 0 18px; border-radius: 8px;
-    cursor: pointer; font-size: 16px; font-weight: 700;
-  }
-  .popular-chips { font-size: 12px; color: var(--text-faint); margin-bottom: 28px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-  .chips-label { margin-right: 2px; }
-  .pop-chip {
-    background: var(--bg-card); border: 1px solid var(--border); color: var(--text-soft);
-    padding: 4px 11px; border-radius: 999px; font-size: 12px; cursor: pointer;
-  }
-  .pop-chip:hover { border-color: var(--gold); color: var(--gold); }
-  .stat-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .stat-pill { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
-  .stat-icon { font-size: 18px; }
-  .stat-val { font-weight: 700; font-size: 15px; }
-  .stat-label { font-size: 11px; color: var(--text-faint); }
+/* HERO */
+.hero{background:radial-gradient(ellipse 60% 60% at 80% 20%,rgba(242,183,5,.07),transparent);padding:52px 0 40px}
+.hero-in{display:flex;gap:36px;align-items:center;flex-wrap:wrap}
+.hero-copy{flex:1;min-width:300px}
+.hero-copy h1{font-size:38px;font-weight:800;line-height:1.12;margin-bottom:12px}
+.hero-copy h1 .gold{color:var(--gold)}
+.hero-copy .sub{color:var(--soft);font-size:14.5px;margin-bottom:22px;max-width:420px}
+.search-box{display:flex;gap:8px;margin-bottom:10px}
+.search-box input{flex:1;padding:12px 16px;border-radius:8px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .15s}
+.search-box input:focus{border-color:var(--gold)}
+.search-box input::placeholder{color:var(--faint)}
+.search-box button{background:var(--gold);border:none;color:#160d00;padding:0 18px;border-radius:8px;cursor:pointer;font-size:16px;font-weight:800;transition:opacity .15s}
+.search-box button:hover{opacity:.85}
+.pop-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:26px;font-size:12px;color:var(--faint)}
+.pop-chip{background:var(--bg2);border:1px solid var(--border);color:var(--soft);padding:3px 10px;border-radius:999px;font-size:11.5px;cursor:pointer;transition:border-color .15s,color .15s}
+.pop-chip:hover{border-color:var(--gold);color:var(--gold)}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat-p{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;min-width:110px}
+.stat-ic{font-size:18px}
+.stat-v{font-weight:700;font-size:15px}
+.stat-l{font-size:10.5px;color:var(--faint)}
 
-  /* hero showcase card */
-  .hero-showcase { flex: 0 0 260px; display: flex; justify-content: center; }
-  .stand-frame {
-    width: 200px; aspect-ratio: 5/7; border-radius: 10px; overflow: hidden;
-    transform: rotate(-4deg); box-shadow: 0 20px 60px rgba(242,183,5,0.18), 0 8px 24px rgba(0,0,0,0.5);
-    border: 2px solid var(--border-2); background: var(--bg-card);
-  }
-  .stand-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .stand-plate { text-align: center; margin-top: 18px; transform: rotate(-4deg); }
-  .stand-name { font-size: 12px; color: var(--text-soft); max-width: 200px; margin: 0 auto; }
-  .stand-price { font-family: Georgia, serif; font-size: 20px; color: var(--gold); font-weight: 700; }
+/* FEATURED CARD PANEL */
+.fc-wrap{flex:0 0 auto;width:340px}
+.fc-panel{background:var(--bg2);border:1px solid var(--bord2);border-radius:14px;padding:16px;position:relative;overflow:hidden}
+.fc-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 110% -20%,rgba(242,183,5,.08),transparent);pointer-events:none}
+.fc-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.05em;margin-bottom:14px}
+.fc-body{display:flex;gap:14px}
+.fc-img{width:110px;height:154px;object-fit:cover;border-radius:8px;background:var(--bg3);flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.fc-details{flex:1;display:flex;flex-direction:column;gap:8px}
+.fc-name{font-family:Georgia,serif;font-size:17px;font-weight:700;line-height:1.2}
+.fc-variant{font-size:12px;color:var(--soft)}
+.fc-set-badge{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;color:var(--soft);align-self:flex-start}
+.fc-price-label{font-size:11px;color:var(--faint);margin-top:4px}
+.fc-price{font-family:Georgia,serif;font-size:26px;font-weight:800;color:var(--gold);line-height:1}
+.fc-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:9px 14px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:700;width:100%;transition:background .15s,color .15s;margin-top:4px}
+.fc-btn:hover{background:var(--gold);color:#160d00}
 
-  /* sections */
-  .section { padding: 36px 0; border-top: 1px solid var(--border); }
-  .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
-  .section-head h2 { font-size: 18px; margin: 0; }
-  .ad-badge { font-size: 10px; background: var(--gold-soft); color: var(--gold); padding: 2px 8px; border-radius: 4px; font-weight: 700; }
-  .note { font-size: 12px; color: var(--text-faint); }
+/* SECTIONS */
+.section{padding:34px 0;border-top:1px solid var(--border)}
+.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.sec-head h2{font-size:17px;font-weight:700}
+.sec-note{font-size:11.5px;color:var(--faint)}
+.ad-badge{font-size:10px;background:var(--golds);color:var(--gold);padding:2px 7px;border-radius:4px;font-weight:700}
 
-  /* sponsor row */
-  .sponsor-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 12px; }
-  .sponsor-card { background: var(--bg-card); border: 1px dashed var(--border-2); border-radius: 10px; padding: 18px; text-align: center; }
-  .sponsor-mark { width: 36px; height: 36px; margin: 0 auto 10px; border-radius: 50%; background: var(--bg-card-2); display: flex; align-items: center; justify-content: center; color: var(--text-faint); font-weight: 700; }
-  .sponsor-label { font-size: 12px; color: var(--text-soft); margin-bottom: 8px; }
-  .sponsor-cta { font-size: 11px; color: var(--gold); }
+/* SPONSOR ROW */
+.spon-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}
+.spon-card{background:var(--bg2);border:1px dashed var(--bord2);border-radius:10px;padding:16px;text-align:center;transition:border-color .15s;cursor:pointer}
+.spon-card:hover{border-color:var(--gold)}
+.spon-icon{width:38px;height:38px;margin:0 auto 10px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px}
+.spon-name{font-size:12px;font-weight:600;margin-bottom:4px}
+.spon-desc{font-size:11px;color:var(--soft);margin-bottom:8px}
+.spon-link{font-size:11px;color:var(--gold)}
 
-  /* games */
-  .games-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
-  .game-card { border-radius: 14px; padding: 26px 22px; cursor: pointer; position: relative; overflow: hidden; border: 1px solid var(--border); }
-  .game-card.op { background: linear-gradient(135deg, #3a0d0d, #120303); }
-  .game-card.pkm { background: linear-gradient(135deg, #4a3a05, #161002); cursor: default; }
-  .game-card.nrt { background: linear-gradient(135deg, #4a2505, #160e02); cursor: default; }
-  .game-card:not(.disabled):hover { border-color: var(--gold); transform: translateY(-3px); transition: transform .15s, border-color .15s; }
-  .game-icon { font-size: 30px; margin-bottom: 10px; }
-  .game-name { font-family: Georgia, serif; font-size: 22px; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 4px; }
-  .game-meta { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
-  .game-btn { background: var(--gold); border: none; color: #1a1404; padding: 8px 16px; border-radius: 7px; font-weight: 700; font-size: 13px; cursor: pointer; }
-  .game-btn.ghost { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); cursor: default; }
+/* BROWSE GAMES */
+.games-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.game-tile{border-radius:14px;padding:28px 24px;cursor:pointer;position:relative;overflow:hidden;border:1px solid var(--border);transition:transform .15s,border-color .15s}
+.game-tile:hover:not(.disabled){transform:translateY(-3px);border-color:var(--gold)}
+.game-tile.op{background:linear-gradient(140deg,#1a0505,#0d0d18)}
+.game-tile.pkm{background:linear-gradient(140deg,#1a1200,#0d0d18);cursor:default}
+.game-tile.nrt{background:linear-gradient(140deg,#1a0800,#0d0d18);cursor:default}
+.tile-svg{position:absolute;right:-10px;top:50%;transform:translateY(-50%);opacity:.18;pointer-events:none}
+.tile-icon{font-size:28px;margin-bottom:10px;position:relative}
+.tile-name{font-family:Georgia,serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:2px;position:relative}
+.tile-sub{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;position:relative}
+.tile-meta{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:16px;position:relative}
+.tile-btn{border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:12.5px;cursor:pointer;position:relative}
+.tile-btn.active{background:var(--gold);color:#160d00}
+.tile-btn.soon{background:rgba(255,255,255,.12);color:rgba(255,255,255,.5);cursor:default}
 
-  /* trending */
-  .trend-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; }
-  .trend-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; }
-  .trend-card:hover { border-color: var(--gold); }
-  .trend-code { color: var(--gold); font-size: 12px; font-weight: 700; margin-bottom: 4px; }
-  .trend-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-  .trend-price { font-size: 12px; color: var(--text-soft); }
+/* HIGHLIGHTS */
+.hl-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:6px}
+.hl-card{display:flex;align-items:flex-start;gap:14px}
+.hl-ic{font-size:24px;flex-shrink:0;margin-top:2px}
+.hl-title{font-size:13.5px;font-weight:700;margin-bottom:3px}
+.hl-desc{font-size:12px;color:var(--soft)}
 
-  /* cta banner */
-  .cta-banner { background: linear-gradient(135deg, var(--bg-card-2), var(--bg-card)); border: 1px solid var(--border-2); border-radius: 14px; padding: 28px 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-  .cta-banner h3 { margin: 0 0 6px; font-size: 18px; color: var(--gold); }
-  .cta-banner p { margin: 0; color: var(--text-soft); font-size: 13px; }
-  .cta-banner button { background: var(--gold); border: none; color: #1a1404; padding: 12px 22px; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+/* TRENDING */
+.trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
+.trend-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
+.trend-card:hover{border-color:var(--gold)}
+.trend-code{color:var(--gold);font-size:12px;font-weight:700;margin-bottom:3px}
+.trend-name{font-size:13px;font-weight:600;margin-bottom:7px}
+.trend-price{font-size:12px;color:var(--soft)}
 
-  /* footer */
-  .site-footer { border-top: 1px solid var(--border); padding: 26px 0; }
-  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-  .footer-inner .brand-name { font-size: 14px; }
-  .footer-links { display: flex; gap: 18px; font-size: 12px; color: var(--text-faint); }
+/* CTA BANNER */
+.cta-banner{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--bord2);border-radius:14px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.cta-banner h3{font-size:18px;color:var(--gold);margin-bottom:5px}
+.cta-banner p{font-size:13px;color:var(--soft)}
+.cta-banner button{background:var(--gold);border:none;color:#160d00;padding:12px 22px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.cta-banner button:hover{opacity:.85}
 
-  /* shared app screens */
-  main.app { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
-  .crumb { font-size: 13px; color: var(--text-faint); margin-bottom: 18px; }
-  .crumb span.live { color: var(--gold); cursor: pointer; }
-  .page-title { font-size: 24px; margin: 0 0 20px; }
-  .back-btn { background: var(--bg-card); border: 1px solid var(--border-2); border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; margin-bottom: 16px; color: var(--text); }
-  .back-btn:hover { border-color: var(--gold); }
-  .currency-btn.small { background: var(--bg-card); border: 1px solid var(--border-2); color: var(--text); padding: 6px 14px; border-radius: 999px; font-size: 12px; cursor: pointer; }
-  .currency-btn.small:hover { border-color: var(--gold); }
+/* FOOTER */
+.footer{border-top:1px solid var(--border);padding:24px 0}
+.footer-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-links{display:flex;gap:18px;font-size:12px;color:var(--faint)}
 
-  .sets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); gap: 16px; }
-  .set-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; }
-  .set-card:hover { border-color: var(--gold); }
-  .set-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--bg-card-2); display: block; }
-  .set-card-body { padding: 10px 12px 14px; }
-  .log-num { font-family: Georgia, serif; font-size: 13px; color: var(--gold); margin-bottom: 2px; }
-  .log-row-name { font-weight: 600; }
-  .log-row-meta { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
+/* APP SCREENS */
+main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
+.crumb{font-size:13px;color:var(--faint);margin-bottom:16px}
+.crumb span.live{color:var(--gold);cursor:pointer}
+.crumb span.live:hover{text-decoration:underline}
+.page-ttl{font-size:24px;font-weight:700;margin-bottom:20px}
+.back-btn{background:var(--bg2);border:1px solid var(--bord2);border-radius:7px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--text);margin-bottom:16px;transition:border-color .15s}
+.back-btn:hover{border-color:var(--gold)}
+.cur-btn{background:var(--bg2);border:1px solid var(--bord2);color:var(--text);padding:6px 13px;border-radius:999px;font-size:12px;cursor:pointer;transition:border-color .15s}
+.cur-btn:hover{border-color:var(--gold)}
 
-  .search-bar { width: 100%; padding: 10px 12px; margin-bottom: 14px; border: 1px solid var(--border-2); border-radius: 6px; background: var(--bg-card); color: var(--text); font-size: 14px; }
-  .filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
-  .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip { font-size: 12px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--bg-card); cursor: pointer; color: var(--text-soft); }
-  .chip:hover { border-color: var(--gold); }
-  .chip.active { background: var(--gold); border-color: var(--gold); color: #1a1404; }
-  .sort-select { margin-left: auto; font-size: 13px; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border-2); background: var(--bg-card); color: var(--text); }
+/* SETS GRID */
+.sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:14px}
+.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s}
+.set-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.set-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg3)}
+.set-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.set-price-badge{position:absolute;bottom:6px;left:6px;background:rgba(10,10,15,.85);border:1px solid var(--gold);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:700;color:var(--gold)}
+.set-hot{position:absolute;top:6px;right:6px;font-size:13px}
+.set-body{padding:10px 12px 13px}
+.set-code{font-family:Georgia,serif;font-size:13px;color:var(--gold);margin-bottom:1px}
+.set-name{font-weight:600;font-size:13px;margin-bottom:3px}
+.set-meta{font-size:11.5px;color:var(--faint)}
 
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
-  .card-tile { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; display: flex; gap: 10px; align-items: center; }
-  .card-tile:hover { border-color: var(--gold); }
-  .card-tile img { width: 56px; height: 78px; object-fit: cover; border-radius: 4px; background: var(--bg-card-2); flex-shrink: 0; }
-  .ct-icon { width: 56px; height: 78px; border-radius: 4px; background: var(--bg-card-2); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .ct-name { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
-  .ct-price { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
-  .rarity-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--bg-card-2); color: var(--text-soft); }
-  .rarity-SEC, .rarity-SR { background: var(--gold-soft); color: var(--gold); }
-  .rarity-L { background: var(--teal-soft); color: var(--teal); }
-  .rarity-R, .rarity-UC { background: var(--blue-soft); color: var(--blue); }
+/* FILTER ROW */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.chip-group{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid var(--bord2);background:var(--bg2);cursor:pointer;color:var(--soft);transition:all .12s}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#160d00}
+.sort-sel{margin-left:auto;font-size:13px;padding:7px 10px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
 
-  .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 22px; }
-  .detail-top { display: flex; gap: 24px; flex-wrap: wrap; }
-  .detail-top img { width: 220px; border-radius: 10px; background: var(--bg-card-2); }
-  .detail-name { font-size: 22px; margin: 0 0 8px; }
-  .detail-ability { font-size: 14px; color: var(--text-soft); margin-top: 14px; white-space: pre-line; }
-  .price-row-head { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
-  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-  .price-box { background: var(--bg-card-2); border-radius: 8px; padding: 12px 14px; }
-  .price-box .pl { font-size: 12px; color: var(--text-faint); margin-bottom: 4px; }
-  .price-box .pv { font-size: 22px; font-weight: 700; color: var(--gold); font-family: Georgia, serif; }
-  .stats-row { display: flex; gap: 16px; margin-top: 10px; font-size: 13px; color: var(--text-soft); flex-wrap: wrap; }
-  .footnote { font-size: 11px; color: var(--text-faint); margin-top: 18px; }
-  .empty-state { color: var(--text-faint); font-size: 14px; padding: 30px 0; text-align: center; }
+/* CARDS GRID */
+.search-bar{width:100%;padding:10px 14px;margin-bottom:12px;border:1px solid var(--bord2);border-radius:7px;background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .15s}
+.search-bar:focus{border-color:var(--gold)}
+.search-bar::placeholder{color:var(--faint)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:11px}
+.card-tile{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:11px;cursor:pointer;display:flex;gap:10px;align-items:center;transition:border-color .12s}
+.card-tile:hover{border-color:var(--gold)}
+.card-tile img,.ct-ico{width:52px;height:73px;object-fit:cover;border-radius:4px;background:var(--bg3);flex-shrink:0}
+.ct-ico{display:flex;align-items:center;justify-content:center;font-size:20px}
+.ct-name{font-weight:600;font-size:13.5px;margin:0 0 4px}
+.ct-price{font-size:12.5px;color:var(--soft);margin-top:2px}
+.rtag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;background:var(--bg3);color:var(--soft)}
+.rtag.SEC,.rtag.SR{background:var(--golds);color:var(--gold)}
+.rtag.L{background:var(--teals);color:var(--teal)}
+.rtag.R,.rtag.UC{background:var(--blues);color:var(--blue)}
+
+/* DETAIL */
+.detail-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px}
+.det-top{display:flex;gap:22px;flex-wrap:wrap}
+.det-top img{width:210px;border-radius:10px;background:var(--bg3)}
+.det-name{font-family:Georgia,serif;font-size:22px;font-weight:700;margin-bottom:7px}
+.det-stats{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--soft);margin-top:10px}
+.det-text{font-size:13.5px;color:var(--soft);margin-top:14px;white-space:pre-line;line-height:1.6}
+.price-hd{display:flex;align-items:center;gap:12px;margin-top:20px;margin-bottom:10px}
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.price-box{background:var(--bg3);border-radius:8px;padding:12px 14px}
+.price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
+.price-box .pv{font-size:22px;font-weight:800;color:var(--gold);font-family:Georgia,serif}
+.footnote{font-size:11px;color:var(--faint);margin-top:16px}
+
+/* EMPTY + RESULTS */
+.empty{color:var(--faint);padding:30px 0;text-align:center;font-size:14px}
+.results-count{font-size:12px;color:var(--faint);margin-bottom:14px}
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
+<header class="hdr">
+  <div class="hdr-in">
     <div class="brand" onclick="goHome()">
-      <span class="brand-mark">⚓</span>
-      <div>
-        <span class="brand-name display">Voyage Log</span>
-        <span class="brand-tag t" data-th="ฐานข้อมูล TCG" data-en="TCG SET DATABASE">ฐานข้อมูล TCG</span>
-      </div>
+      <span class="brand-icon">⚓</span>
+      <div><span class="brand-name serif">Voyage Log</span><span class="brand-sub t" data-th="ฐานข้อมูล TCG" data-en="TCG DATABASE">ฐานข้อมูล TCG</span></div>
     </div>
-    <nav class="main-nav">
+    <nav class="nav">
       <a onclick="openOnePiece()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
       <a onclick="openOnePiece()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
-      <a class="nav-disabled t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
-      <a class="nav-disabled t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</a>
+      <a class="dim t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
+      <a class="dim t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</a>
     </nav>
-    <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
   </div>
 </header>
 
+<!-- HOME -->
 <div id="view-home">
   <section class="hero">
-    <div class="container hero-inner">
+    <div class="wrap hero-in">
       <div class="hero-copy">
         <h1>
-          <span class="t" data-th="พรีเมียมดาต้า" data-en="Premium Data.">พรีเมียมดาต้า</span><br>
+          <span class="t" data-th="ฐานข้อมูลการ์ดสะสม" data-en="Premium Data.">ฐานข้อมูลการ์ดสะสม</span><br>
           <span class="gold t" data-th="สำหรับนักสะสมตัวจริง" data-en="Serious Collectors.">สำหรับนักสะสมตัวจริง</span>
         </h1>
-        <p class="t" data-th="ราคา TCG และข้อมูลตลาดแบบเรียลไทม์ สำหรับนักสะสมและนักลงทุนที่จริงจัง" data-en="Real-time TCG prices and market insights for smart collectors and investors.">ราคา TCG และข้อมูลตลาดแบบเรียลไทม์ สำหรับนักสะสมและนักลงทุนที่จริงจัง</p>
+        <p class="sub t" data-th="รวมข้อมูลการ์ด TCG และราคาจากทั่วโลก ค้นหา เช็คราคา และติดตามการ์ดที่คุณชอบได้ง่าย ๆ ในที่เดียว" data-en="Real-time TCG prices and market insights for smart collectors and investors.">รวมข้อมูลการ์ด TCG และราคาจากทั่วโลก ค้นหา เช็คราคา และติดตามการ์ดที่คุณชอบได้ง่าย ๆ ในที่เดียว</p>
         <div class="search-box">
-          <input id="global-search" class="t" data-th-ph="ค้นหาชุด การ์ด หรือคอลเลกชัน..." data-en-ph="Search sets, cards or collections..." placeholder="ค้นหาชุด การ์ด หรือคอลเลกชัน..." onkeydown="if(event.key==='Enter')runGlobalSearch()">
-          <button onclick="runGlobalSearch()">🔍</button>
+          <input id="gsearch" class="t" data-th-ph="ค้นหาการ์ด, ชุด, ชื่อตัวละคร, รหัสการ์ด..." data-en-ph="Search cards, sets, characters, card codes..." placeholder="ค้นหาการ์ด, ชุด, ชื่อตัวละคร, รหัสการ์ด..." onkeydown="if(event.key==='Enter')doSearch()">
+          <button onclick="doSearch()">🔍</button>
         </div>
-        <div class="popular-chips" id="popular-chips"></div>
-        <div class="stat-row" id="stat-row"></div>
+        <div class="pop-chips" id="pop-chips"></div>
+        <div class="stats" id="stats"></div>
       </div>
-      <div class="hero-showcase">
-        <div id="hero-card-stand"></div>
+      <div class="fc-wrap">
+        <div class="fc-panel" id="fc-panel"></div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <h2 class="t" data-th="ร้านค้าสปอนเซอร์" data-en="Sponsored Shops">ร้านค้าสปอนเซอร์</h2>
-        <span class="ad-badge">AD</span>
-      </div>
-      <div class="sponsor-row" id="sponsor-row"></div>
+    <div class="wrap">
+      <div class="sec-head"><h2 class="t" data-th="ร้านค้าสปอนเซอร์" data-en="Sponsored Shops">ร้านค้าสปอนเซอร์</h2><span class="ad-badge">AD</span></div>
+      <div class="spon-row" id="spon-row"></div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container">
-      <div class="section-head"><h2 class="t" data-th="เลือกเกมการ์ด" data-en="Browse Games">เลือกเกมการ์ด</h2></div>
+    <div class="wrap">
+      <div class="sec-head"><h2 class="t" data-th="เลือกเกมการ์ด" data-en="Browse Games">เลือกเกมการ์ด</h2></div>
       <div class="games-row" id="games-row"></div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container">
-      <div class="section-head">
+    <div class="wrap">
+      <div class="sec-head">
         <h2 class="t" data-th="ชุดยอดนิยม" data-en="Popular Sets">ชุดยอดนิยม</h2>
-        <span class="note t" data-th="% การเปลี่ยนแปลงราคาจะเริ่มแสดงหลังเก็บข้อมูลหลายสัปดาห์ (อัปเดตอัตโนมัติทุกสัปดาห์แล้ว)" data-en="Price change % will appear once we've collected a few weeks of data (auto-updates weekly already).">% การเปลี่ยนแปลงราคาจะเริ่มแสดงหลังเก็บข้อมูลหลายสัปดาห์ (อัปเดตอัตโนมัติทุกสัปดาห์แล้ว)</span>
+        <span class="sec-note t" data-th="เรียงตามราคาเฉลี่ยต่อใบ" data-en="Sorted by avg. card price">เรียงตามราคาเฉลี่ยต่อใบ</span>
       </div>
       <div class="trend-row" id="trend-row"></div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container">
+    <div class="wrap">
+      <div class="hl-row" id="hl-row"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
       <div class="cta-banner">
         <div>
           <h3 class="t" data-th="ติดตามตลาดล่วงหน้า" data-en="Stay ahead of the market.">ติดตามตลาดล่วงหน้า</h3>
@@ -276,34 +272,37 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div><span class="brand-mark">⚓</span> <span class="brand-name display">Voyage Log</span></div>
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="brand" onclick="goHome()"><span class="brand-icon" style="font-size:18px">⚓</span><span class="brand-name serif" style="font-size:15px">Voyage Log</span></div>
       <div class="footer-links">
         <span class="t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</span>
         <span class="t" data-th="ติดต่อ" data-en="Contact">ติดต่อ</span>
         <span class="t" data-th="นโยบายความเป็นส่วนตัว" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</span>
+        <span style="color:var(--faint)">© 2026 Voyage Log</span>
       </div>
     </div>
   </footer>
 </div>
 
-<main class="app" id="view-sets" style="display:none;">
+<!-- SETS -->
+<main class="app" id="view-sets" style="display:none">
   <div class="crumb" id="crumb-sets"></div>
-  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back home">กลับหน้าแรก</span></button>
-  <h1 class="page-title display t" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
+  <h1 class="page-ttl serif t" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
   <div class="sets-grid" id="sets-list"></div>
 </main>
 
-<main class="app" id="view-cards" style="display:none;">
+<!-- CARDS -->
+<main class="app" id="view-cards" style="display:none">
   <div class="crumb" id="crumb-cards"></div>
   <button class="back-btn" onclick="renderSets()">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to sets">กลับไปเลือกชุด</span></button>
-  <h1 class="page-title display" id="cards-title"></h1>
-  <input class="search-bar" id="card-search" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
+  <h1 class="page-ttl serif" id="cards-ttl"></h1>
+  <input class="search-bar" id="card-srch" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
   <div class="filter-row">
     <div class="chip-group" id="rarity-chips"></div>
-    <button class="currency-btn small" id="currency-toggle-cards" onclick="toggleCurrency()">🇺🇸 USD</button>
-    <select class="sort-select" id="sort-select" onchange="applyFilters()">
+    <button class="cur-btn" id="cur-btn-cards" onclick="toggleCur()">🇺🇸 USD</button>
+    <select class="sort-sel" id="sort-sel" onchange="applyFilters()">
       <option value="default">เรียงตามเลขการ์ด</option>
       <option value="price-desc">ราคา: สูง → ต่ำ</option>
       <option value="price-asc">ราคา: ต่ำ → สูง</option>
@@ -312,325 +311,369 @@
   <div class="card-grid" id="card-grid"></div>
 </main>
 
-<main class="app" id="view-detail" style="display:none;">
+<!-- DETAIL -->
+<main class="app" id="view-detail" style="display:none">
   <div class="crumb" id="crumb-detail"></div>
-  <button class="back-btn" id="back-to-cards">← กลับไปดูการ์ดทั้งหมด</button>
+  <button class="back-btn" id="back-cards">← <span class="t" data-th="กลับไปดูการ์ดทั้งหมด" data-en="Back to cards">กลับไปดูการ์ดทั้งหมด</span></button>
   <div class="detail-card" id="detail-card"></div>
 </main>
 
-<main class="app" id="view-search" style="display:none;">
-  <div class="crumb" id="crumb-search"></div>
-  <button class="back-btn" onclick="goHome()">← กลับหน้าแรก</button>
-  <h1 class="page-title display" id="search-title"></h1>
-  <div class="card-grid" id="search-results"></div>
+<!-- SEARCH RESULTS -->
+<main class="app" id="view-search" style="display:none">
+  <div class="crumb" id="crumb-srch"></div>
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
+  <h1 class="page-ttl serif" id="srch-ttl"></h1>
+  <div class="filter-row" id="srch-filters" style="display:none">
+    <div class="chip-group" id="srch-rarity-chips"></div>
+    <select class="sort-sel" id="srch-sort" onchange="applySrchFilters()">
+      <option value="default">เรียงตามชุด</option>
+      <option value="price-desc">ราคา: สูง → ต่ำ</option>
+      <option value="price-asc">ราคา: ต่ำ → สูง</option>
+    </select>
+  </div>
+  <div class="results-count" id="srch-count"></div>
+  <div class="card-grid" id="srch-results"></div>
 </main>
 
 <script>
-let DATA = { index: [], setsCache: {} };
-let state = { setCode: null, cards: [], displayed: [], activeRarities: new Set(), currency: 'USD', fxRate: 32.9, lastCardIdx: null, lang: 'th' };
+const D={index:[],cache:{}};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:'th',srchCards:[],srchShown:[]};
 
-async function loadIndex() {
-  try {
-    const res = await fetch('one_piece_OP01-OP16_with_prices.json');
-    const raw = await res.json();
-    DATA.setsCache = raw;
-    DATA.index = Object.keys(raw).map(code => ({
-      set_code: code,
-      set_name: raw[code].length ? raw[code][0].set_name : '',
-      card_count: raw[code].length
-    }));
-  } catch (e) { DATA.index = []; }
-  renderHomeDynamic();
-  loadFxRate();
+const BOX={
+  'OP-01':{usd:145,thb:4800,hot:false},
+  'OP-02':{usd:105,thb:3500,hot:false},
+  'OP-03':{usd:85,thb:2800,hot:false},
+  'OP-04':{usd:88,thb:2900,hot:false},
+  'OP-05':{usd:490,thb:16500,hot:true},
+  'OP-06':{usd:85,thb:2800,hot:false},
+  'OP-07':{usd:95,thb:3200,hot:false},
+  'OP-08':{usd:110,thb:3700,hot:false},
+  'OP-09':{usd:135,thb:4500,hot:true},
+  'OP-10':{usd:92,thb:3100,hot:false},
+  'OP-11':{usd:90,thb:3000,hot:false},
+  'OP-12':{usd:100,thb:3400,hot:false},
+  'OP-13':{usd:195,thb:6500,hot:true},
+  'OP-16':{usd:88,thb:2950,hot:false}
+};
+
+async function init(){
+  try{
+    const r=await fetch('one_piece_OP01-OP16_with_prices.json');
+    const raw=await r.json();
+    D.cache=raw;
+    D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length}));
+  }catch(e){D.index=[];}
+  renderHome();
+  try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');const d=await r.json();if(d.rates?.THB)S.fx=d.rates.THB;}catch(e){}
 }
 
-async function loadFxRate() {
-  try {
-    const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');
-    const data = await res.json();
-    if (data.rates && data.rates.THB) state.fxRate = data.rates.THB;
-  } catch (e) {}
-}
+function flat(){return Object.values(D.cache).flat();}
+function ttl(){return D.index.reduce((s,x)=>s+x.count,0);}
+function fp(v){const n=v??0;return S.cur==='THB'?'฿'+(n*S.fx).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
+function rc(r){return r?'rtag '+r.replace(/[^A-Z]/g,''):'rtag';}
 
-function formatPrice(usd) {
-  const v = usd ?? 0;
-  if (state.currency === 'THB') return '฿' + (v * state.fxRate).toLocaleString('th-TH', { maximumFractionDigits: 0 });
-  return '$' + v.toFixed(2);
-}
-
-function toggleCurrency() {
-  state.currency = state.currency === 'USD' ? 'THB' : 'USD';
-  const label = state.currency === 'USD' ? '🇺🇸 USD' : '🇹🇭 THB';
-  ['currency-toggle-cards'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = label; });
-  if (document.getElementById('view-cards').style.display !== 'none') paintCards(state.displayed);
-  else if (document.getElementById('view-detail').style.display !== 'none' && state.lastCardIdx != null) openCard(state.lastCardIdx);
-}
-
-function toggleLang() {
-  state.lang = state.lang === 'th' ? 'en' : 'th';
-  document.querySelectorAll('.t').forEach(el => {
-    const val = el.dataset[state.lang];
-    if (val) el.textContent = val;
-    const ph = el.dataset[state.lang + 'Ph'];
-    if (ph) el.placeholder = ph;
+function toggleLang(){
+  S.lang=S.lang==='th'?'en':'th';
+  document.querySelectorAll('.t').forEach(el=>{
+    const v=el.dataset[S.lang];if(v)el.textContent=v;
+    const p=el.dataset[S.lang+'Ph'];if(p)el.placeholder=p;
   });
-  document.getElementById('lang-toggle').textContent = state.lang === 'th' ? 'EN' : 'ไทย';
-  renderHomeDynamic();
+  document.getElementById('lang-btn').textContent=S.lang==='th'?'EN':'ไทย';
+  renderHome();
 }
 
-function allCardsFlat() { return Object.values(DATA.setsCache).flat(); }
-function totalCards() { return DATA.index.reduce((s, x) => s + x.card_count, 0); }
-
-function renderHomeDynamic() {
-  renderStats(); renderHeroCard(); renderPopularChips(); renderSponsors(); renderGames(); renderTrending();
+function toggleCur(){
+  S.cur=S.cur==='USD'?'THB':'USD';
+  const lbl=S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB';
+  const b=document.getElementById('cur-btn-cards');if(b)b.textContent=lbl;
+  if(document.getElementById('view-cards').style.display!=='none')paintCards(S.shown);
+  else if(document.getElementById('view-detail').style.display!=='none'&&S.lastIdx!=null)openCard(S.lastIdx);
+  else if(document.getElementById('view-sets').style.display!=='none')renderSets();
 }
 
-function renderStats() {
-  const cards = allCardsFlat();
-  const totalMarket = cards.reduce((s, c) => s + (c.market_price || 0), 0);
-  const highest = cards.reduce((m, c) => Math.max(m, c.market_price || 0), 0);
-  const L = state.lang;
-  const stats = [
-    { icon: '⚓', val: DATA.index.length, th: 'ชุด One Piece', en: 'One Piece Sets' },
-    { icon: '🗂️', val: totalCards().toLocaleString(), th: 'การ์ดที่เก็บไว้', en: 'Cards Indexed' },
-    { icon: '💰', val: '$' + totalMarket.toLocaleString(undefined, { maximumFractionDigits: 0 }), th: 'มูลค่าตลาดรวม', en: 'Total Market Value' },
-    { icon: '⭐', val: '$' + highest.toLocaleString(undefined, { maximumFractionDigits: 2 }), th: 'ราคาสูงสุดต่อใบ', en: 'Highest Single Card' },
+function show(id){
+  ['view-home','view-sets','view-cards','view-detail','view-search'].forEach(v=>{
+    document.getElementById(v).style.display=v===id?'block':'none';
+  });
+}
+function goHome(){show('view-home');}
+function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span class="live" onclick="goHome()">'+( S.lang==='th'?'หน้าแรก':'Home')+'</span>'+html;}
+
+function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();}
+
+function renderStats(){
+  const cards=flat();
+  const tot=cards.reduce((s,c)=>s+(c.market_price||0),0);
+  const hi=cards.reduce((m,c)=>Math.max(m,c.market_price||0),0);
+  const L=S.lang;
+  const st=[
+    {ic:'⚓',v:D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
+    {ic:'🗂️',v:ttl().toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
+    {ic:'💰',v:'$'+Math.round(tot).toLocaleString(),th:'มูลค่าตลาดรวม',en:'Market Value'},
+    {ic:'⭐',v:'$'+hi.toLocaleString(undefined,{maximumFractionDigits:2}),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
   ];
-  document.getElementById('stat-row').innerHTML = stats.map(s =>
-    `<div class="stat-pill"><span class="stat-icon">${s.icon}</span><div><div class="stat-val">${s.val}</div><div class="stat-label">${L === 'th' ? s.th : s.en}</div></div></div>`
-  ).join('');
+  document.getElementById('stats').innerHTML=st.map(s=>`<div class="stat-p"><span class="stat-ic">${s.ic}</span><div><div class="stat-v">${s.v}</div><div class="stat-l">${L==='th'?s.th:s.en}</div></div></div>`).join('');
 }
 
-function renderHeroCard() {
-  const cards = allCardsFlat();
-  if (!cards.length) return;
-  const top = cards.reduce((m, c) => (c.market_price || 0) > (m.market_price || 0) ? c : m, cards[0]);
-  document.getElementById('hero-card-stand').innerHTML = `
-    <div class="stand-frame"><img src="${top.card_image || ''}" onerror="this.style.visibility='hidden'"></div>
-    <div class="stand-plate">
-      <div class="stand-name">${top.card_name}</div>
-      <div class="stand-price">$${(top.market_price || 0).toFixed(2)}</div>
+function renderFC(){
+  const cards=flat();if(!cards.length)return;
+  const top=cards.reduce((m,c)=>(c.market_price||0)>(m.market_price||0)?c:m,cards[0]);
+  const L=S.lang;
+  const setCode=Object.entries(D.cache).find(([,v])=>v.some(c=>c.card_image_id===top.card_image_id))?.[0]||'';
+  const setName=D.index.find(s=>s.code===setCode)?.name||'';
+  document.getElementById('fc-panel').innerHTML=`
+    <div class="fc-badge">⭐ ${L==='th'?'การ์ดแนะนำ':'Featured Card'}</div>
+    <div class="fc-body">
+      <img class="fc-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
+      <div class="fc-details">
+        <div class="fc-name">${top.card_name.replace(/\s*\(.*\)$/,'').trim()}</div>
+        <div class="fc-variant">${top.card_name.match(/\(.*\)/)?.[0]||''}</div>
+        <div class="fc-set-badge">${top.card_set_id||''} · ${setName}</div>
+        <div class="fc-price-label">${L==='th'?'ราคาสูงสุด':'Highest Price'}</div>
+        <div class="fc-price">$${(top.market_price||0).toFixed(2)}</div>
+        <button class="fc-btn" onclick="jumpFC('${setCode}','${top.card_image_id}')">${L==='th'?'ดูรายละเอียดการ์ด →':'View Card Details →'}</button>
+      </div>
     </div>`;
 }
 
-function renderPopularChips() {
-  const chips = ['OP-13', 'OP-16', 'Trafalgar Law', 'Yamato'];
-  const label = state.lang === 'th' ? 'ค้นหายอดนิยม:' : 'Popular:';
-  document.getElementById('popular-chips').innerHTML =
-    `<span class="chips-label">${label}</span>` +
-    chips.map(c => `<button class="pop-chip" onclick="quickSearch('${c}')">${c}</button>`).join('');
+function jumpFC(code,imgId){
+  S.setCode=code;S.cards=D.cache[code]||[];S.shown=S.cards;
+  const idx=S.cards.findIndex(c=>String(c.card_image_id)===String(imgId));
+  if(idx>=0)openCard(idx);else openSet(code);
 }
 
-function renderSponsors() {
-  const label = state.lang === 'th' ? 'พื้นที่โฆษณา' : 'Ad space available';
-  const cta = state.lang === 'th' ? 'ติดต่อลงโฆษณา' : 'Contact to advertise';
-  document.getElementById('sponsor-row').innerHTML = [1, 2, 3, 4].map(n => `
-    <div class="sponsor-card">
-      <div class="sponsor-mark">${n}</div>
-      <div class="sponsor-label">${label}</div>
-      <div class="sponsor-cta">${cta}</div>
-    </div>`).join('');
+function renderPops(){
+  const L=S.lang;const chips=['OP-13','OP-16','Trafalgar Law','Yamato'];
+  document.getElementById('pop-chips').innerHTML=`<span>${L==='th'?'ค้นหายอดนิยม:':'Popular:'}</span>`+chips.map(c=>`<button class="pop-chip" onclick="quickSearch('${c}')">${c}</button>`).join('');
 }
 
-function renderGames() {
-  const L = state.lang;
-  const soon = L === 'th' ? 'เร็วๆ นี้' : 'Coming soon';
-  document.getElementById('games-row').innerHTML = `
-    <div class="game-card op" onclick="openOnePiece()">
-      <div class="game-icon">⚓</div>
-      <div class="game-name">ONE PIECE</div>
-      <div class="game-meta">${DATA.index.length} ${L === 'th' ? 'ชุด' : 'Sets'} · ${totalCards().toLocaleString()} ${L === 'th' ? 'ใบ' : 'Cards'}</div>
-      <button class="game-btn">${L === 'th' ? 'สำรวจ →' : 'Explore →'}</button>
+function renderSpons(){
+  const L=S.lang;
+  const shops=[
+    {ic:'🏪',name:L==='th'?'ร้านค้าของคุณ':'Your Shop',desc:L==='th'?'ลงโฆษณาที่นี่':'Advertise here'},
+    {ic:'🃏',name:L==='th'?'ร้านการ์ด':'Card Shop',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
+    {ic:'📦',name:L==='th'?'พื้นที่โฆษณา':'Ad Space',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
+    {ic:'💎',name:L==='th'?'สปอนเซอร์':'Sponsor',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
+  ];
+  document.getElementById('spon-row').innerHTML=shops.map(s=>`<div class="spon-card"><div class="spon-icon">${s.ic}</div><div class="spon-name">${s.name}</div><div class="spon-desc">${s.desc}</div><div class="spon-link">${L==='th'?'ติดต่อสปอนเซอร์ →':'Contact →'}</div></div>`).join('');
+}
+
+function renderGames(){
+  const L=S.lang;const soon=L==='th'?'เร็วๆ นี้':'Coming Soon';
+  const opSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="55" stroke="#f2b705" stroke-width="1"/><line x1="60" y1="5" x2="60" y2="115" stroke="#f2b705" stroke-width="0.8"/><line x1="5" y1="60" x2="115" y2="60" stroke="#f2b705" stroke-width="0.8"/><line x1="21" y1="21" x2="99" y2="99" stroke="#f2b705" stroke-width="0.8"/><line x1="99" y1="21" x2="21" y2="99" stroke="#f2b705" stroke-width="0.8"/><polygon points="60,10 65,55 60,50 55,55" fill="#f2b705" opacity="0.7"/><polygon points="60,110 55,65 60,70 65,65" fill="#f2b705" opacity="0.5"/><polygon points="10,60 55,55 50,60 55,65" fill="#f2b705" opacity="0.5"/><polygon points="110,60 65,65 70,60 65,55" fill="#f2b705" opacity="0.7"/><circle cx="60" cy="60" r="8" stroke="#f2b705" stroke-width="1.5" fill="none"/></svg>`;
+  const pkmSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="50" stroke="#f2b705" stroke-width="1.5" opacity="0.6"/><path d="M30 55 L55 55 L60 40 L65 55 L90 55 L70 70 L78 95 L60 80 L42 95 L50 70 Z" fill="#f2b705" opacity="0.5"/><circle cx="60" cy="60" r="10" stroke="#f2b705" stroke-width="1.5" fill="none" opacity="0.8"/></svg>`;
+  const nrtSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M60 15 Q95 60 60 105 Q25 60 60 15Z" stroke="#f87171" stroke-width="1.5" fill="none" opacity="0.5"/><path d="M60 25 Q88 60 60 95 Q32 60 60 25Z" stroke="#f87171" stroke-width="1" fill="#f87171" opacity="0.07"/><circle cx="60" cy="60" r="12" stroke="#f87171" stroke-width="1.5" fill="none" opacity="0.6"/><path d="M60 48 Q68 60 60 72 Q52 60 60 48Z" fill="#f87171" opacity="0.4"/></svg>`;
+  document.getElementById('games-row').innerHTML=`
+    <div class="game-tile op" onclick="openOnePiece()">${opSVG}
+      <div class="tile-icon">⚓</div><div class="tile-name">ONE PIECE</div><div class="tile-sub">CARD GAME</div>
+      <div class="tile-meta">${D.index.length} ${L==='th'?'ชุด':'Sets'} · ${ttl().toLocaleString()} ${L==='th'?'ใบ':'Cards'}</div>
+      <button class="tile-btn active">${L==='th'?'สำรวจตอนนี้ →':'Explore →'}</button>
     </div>
-    <div class="game-card pkm disabled">
-      <div class="game-icon">✦</div>
-      <div class="game-name">POKÉMON</div>
-      <div class="game-meta">${soon}</div>
-      <button class="game-btn ghost" disabled>${soon}</button>
+    <div class="game-tile pkm disabled">${pkmSVG}
+      <div class="tile-icon">✦</div><div class="tile-name">POKÉMON</div><div class="tile-sub">CARD GAME</div>
+      <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
     </div>
-    <div class="game-card nrt disabled">
-      <div class="game-icon">🔥</div>
-      <div class="game-name">NARUTO</div>
-      <div class="game-meta">${soon}</div>
-      <button class="game-btn ghost" disabled>${soon}</button>
+    <div class="game-tile nrt disabled">${nrtSVG}
+      <div class="tile-icon">🔥</div><div class="tile-name">NARUTO</div><div class="tile-sub">CARD GAME</div>
+      <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
     </div>`;
 }
 
-function renderTrending() {
- const L = state.lang;
-  const rows = DATA.index.map(s => {
-    const cards = DATA.setsCache[s.set_code] || [];
-    const prices = cards.map(c => c.market_price).filter(p => typeof p === 'number');
-    const avg = prices.length ? prices.reduce((a, b) => a + b, 0) / prices.length : 0;
-    return { ...s, avg };
-  }).sort((a, b) => b.avg - a.avg).slice(0, 5);
-  document.getElementById('trend-row').innerHTML = rows.map(s => `
-    <div class="trend-card" onclick="openSet('${s.set_code}')">
-      <div class="trend-code">${s.set_code}</div>
-      <div class="trend-name">${s.set_name}</div>
-      <div class="trend-price">${L === 'th' ? 'ราคาเฉลี่ย' : 'Avg.'} $${s.avg.toFixed(2)}</div>
-    </div>`).join('');
+function renderHL(){
+  const L=S.lang;
+  const items=[
+    {ic:'📈',th:'อัปเดตราคาแบบเรียลไทม์',en:'Real-time Price Updates',dth:'ข้อมูลราคาจากหลายแหล่งทั่วโลก',den:'Price data from multiple global sources'},
+    {ic:'🔍',th:'ค้นหาไว แม่นยำ',en:'Fast & Accurate Search',dth:'หาการ์ดที่ต้องการในไม่กี่วินาที',den:'Find any card in seconds'},
+    {ic:'🛡️',th:'ข้อมูลแม่นยำ เชื่อถือได้',en:'Reliable Data',dth:'จากแหล่งข้อมูลที่เชื่อถือได้',den:'From verified data sources'},
+    {ic:'❤️',th:'สำหรับนักสะสม โดยนักสะสม',en:'By Collectors, For Collectors',dth:'สร้างคอลเลกชันของคุณได้ง่ายขึ้น',den:'Build your collection with ease'},
+  ];
+  document.getElementById('hl-row').innerHTML=items.map(i=>`<div class="hl-card"><div class="hl-ic">${i.ic}</div><div><div class="hl-title">${L==='th'?i.th:i.en}</div><div class="hl-desc">${L==='th'?i.dth:i.den}</div></div></div>`).join('');
 }
 
-function quickSearch(q) { document.getElementById('global-search').value = q; runGlobalSearch(); }
-
-function runGlobalSearch() {
-  const q = document.getElementById('global-search').value.trim().toLowerCase();
-  if (!q) return;
-  const results = [];
-  DATA.index.forEach(s => {
-    if (s.set_code.toLowerCase().includes(q) || s.set_name.toLowerCase().includes(q)) {
-      results.push({ type: 'set', set_code: s.set_code, set_name: s.set_name });
-    }
-  });
-  Object.entries(DATA.setsCache).forEach(([code, cards]) => {
-    cards.forEach(c => { if (c.card_name.toLowerCase().includes(q)) results.push({ type: 'card', set_code: code, card: c }); });
-  });
-  paintSearchResults(results, q);
+function renderTrend(){
+  const L=S.lang;
+  const rows=D.index.map(s=>{
+    const cards=D.cache[s.code]||[];
+    const prices=cards.map(c=>c.market_price).filter(p=>typeof p==='number');
+    const avg=prices.length?prices.reduce((a,b)=>a+b,0)/prices.length:0;
+    return{...s,avg};
+  }).sort((a,b)=>b.avg-a.avg).slice(0,5);
+  document.getElementById('trend-row').innerHTML=rows.map(s=>`<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div>`).join('');
 }
 
-function paintSearchResults(results, q) {
+function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
+
+function doSearch(){
+  const q=document.getElementById('gsearch').value.trim().toLowerCase();
+  if(!q)return;
+  const res=[];const seenSets=new Set();
+  D.index.forEach(s=>{if(s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q)){res.push({type:'set',code:s.code,name:s.name});}});
+  Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{if(c.card_name.toLowerCase().includes(q))res.push({type:'card',code,card:c});});});
+  const cardResults=res.filter(r=>r.type==='card');
+  const rarities=[...new Set(cardResults.map(r=>r.card.rarity).filter(Boolean))];
+  S.srchCards=cardResults;S.srchShown=cardResults;
+  paintSearch(res,q,rarities);
+}
+
+function applySrchFilters(){
+  const sort=document.getElementById('srch-sort').value;
+  const chips=[...document.querySelectorAll('#srch-rarity-chips .chip.on')].map(c=>c.dataset.r);
+  let list=S.srchCards.slice();
+  if(chips.length)list=list.filter(r=>chips.includes(r.card.rarity));
+  if(sort==='price-desc')list.sort((a,b)=>(b.card.market_price||0)-(a.card.market_price||0));
+  else if(sort==='price-asc')list.sort((a,b)=>(a.card.market_price||0)-(b.card.market_price||0));
+  S.srchShown=list;
+  const setRes=S.srchCards.length!==list.length?[]:document.querySelectorAll('#srch-results .card-tile[data-type="set"]');
+  const full=[...document.querySelectorAll('#srch-results .card-tile[data-type="set"]').values()].map(el=>({type:'set',_el:el}));
+  renderSrchCards(list);
+}
+
+function paintSearch(results,q,rarities){
   show('view-search');
-  document.getElementById('crumb-search').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / ผลการค้นหา';
-  document.getElementById('search-title').textContent = (state.lang === 'th' ? 'ผลการค้นหา: ' : 'Results for: ') + q;
-  const box = document.getElementById('search-results');
-  if (!results.length) { box.innerHTML = '<div class="empty-state">' + (state.lang === 'th' ? 'ไม่พบผลลัพธ์' : 'No results') + '</div>'; return; }
-  box.innerHTML = results.slice(0, 40).map(r => {
-    if (r.type === 'set') {
-      return `<div class="card-tile" onclick="openSet('${r.set_code}')"><div class="ct-icon">⚓</div><div><p class="ct-name">${r.set_code} — ${r.set_name}</p><span class="rarity-tag">SET</span></div></div>`;
-    }
-    const c = r.card;
-    return `<div class="card-tile" onclick="jumpToCard('${r.set_code}','${c.card_image_id}')">
-      <img src="${c.card_image || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><p class="ct-name">${c.card_name}</p><span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span><p class="ct-price">${formatPrice(c.market_price)}</p></div>
+  const L=S.lang;
+  setCrumb('crumb-srch',' / '+(L==='th'?'ผลการค้นหา':'Results'));
+  document.getElementById('srch-ttl').textContent=(L==='th'?'ผลการค้นหา: ':'Results for: ')+q;
+  const setRes=results.filter(r=>r.type==='set');
+  const cardRes=results.filter(r=>r.type==='card');
+  document.getElementById('srch-count').textContent=(L==='th'?`พบ ${cardRes.length} การ์ด, ${setRes.length} ชุด`:`Found ${cardRes.length} cards, ${setRes.length} sets`);
+  const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
+  if(rarities.length>0){
+    document.getElementById('srch-filters').style.display='flex';
+    document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
+  } else {document.getElementById('srch-filters').style.display='none';}
+  const box=document.getElementById('srch-results');
+  const setHtml=setRes.map(r=>`<div class="card-tile" data-type="set" onclick="openSet('${r.code}')"><div class="ct-ico">⚓</div><div><p class="ct-name">${r.code} — ${r.name}</p><span class="rtag">SET</span></div></div>`).join('');
+  box.innerHTML=setHtml;
+  renderSrchCards(cardRes);
+}
+
+function toggleSrchChip(el,r){
+  el.classList.toggle('on');applySrchFilters();
+}
+
+function renderSrchCards(cards){
+  const box=document.getElementById('srch-results');
+  const setItems=box.querySelectorAll('[data-type="set"]');
+  const setHtml=[...setItems].map(el=>el.outerHTML).join('');
+  box.innerHTML=setHtml+(cards.length?cards.map((r,i)=>{
+    const c=r.card;
+    return `<div class="card-tile" onclick="jumpCard('${r.code}','${c.card_image_id}')">
+      <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(c.market_price)}</p></div>
+    </div>`;
+  }).join(''):'<div class="empty">ไม่พบการ์ดตาม filter นี้</div>');
+}
+
+function jumpCard(code,imgId){
+  S.setCode=code;S.cards=D.cache[code]||[];S.shown=S.cards;
+  const idx=S.cards.findIndex(c=>String(c.card_image_id)===String(imgId));
+  if(idx>=0)openCard(idx);else openSet(code);
+}
+
+function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
+
+function renderSets(){
+  show('view-sets');setCrumb('crumb-sets',' / One Piece');
+  const L=S.lang;
+  if(!D.index.length){document.getElementById('sets-list').innerHTML='<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';return;}
+  document.getElementById('sets-list').innerHTML=D.index.map(s=>{
+    const cards=D.cache[s.code]||[];
+    const rep=cards.find(c=>c.rarity==='L')||cards[0];
+    const img=rep?rep.card_image:'';
+    const box=BOX[s.code];
+    const price=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
+    return `<div class="set-card" onclick="openSet('${s.code}')">
+      <div class="set-img-wrap">
+        <img src="${img||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
+        ${box?.hot?'<div class="set-hot">🔥</div>':''}
+      </div>
+      <div class="set-body">
+        <div class="set-code">${s.code}</div>
+        <div class="set-name">${s.name}</div>
+        <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · <span style="color:var(--faint);font-size:10.5px">${L==='th'?'ราคาโดยประมาณ':'est. price'}</span></div>
+      </div>
     </div>`;
   }).join('');
 }
 
-function jumpToCard(code, cardId) {
-  state.setCode = code;
-  state.cards = DATA.setsCache[code] || [];
-  state.displayed = state.cards;
-  const idx = state.cards.findIndex(c => String(c.card_image_id) === String(cardId));
-  if (idx >= 0) openCard(idx); else openSet(code);
+function openSet(code){
+  S.setCode=code;
+  document.getElementById('card-srch').value='';
+  document.getElementById('sort-sel').value='default';
+  S.rarities=new Set();
+  S.cards=D.cache[code]||[];
+  const m=D.index.find(s=>s.code===code);
+  document.getElementById('cards-ttl').textContent=code+' — '+(m?m.name:'');
+  setCrumb('crumb-cards',' / <span class="live" onclick="renderSets()">One Piece</span> / '+code);
+  show('view-cards');buildRarityChips();applyFilters();
 }
 
-function show(id) {
-  ['view-home', 'view-sets', 'view-cards', 'view-detail', 'view-search'].forEach(v => {
-    document.getElementById(v).style.display = (v === id) ? (v === 'view-home' ? 'block' : 'block') : 'none';
-  });
+function buildRarityChips(){
+  const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const rars=[...new Set(S.cards.map(c=>c.rarity).filter(Boolean))];
+  rars.sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
+  document.getElementById('rarity-chips').innerHTML=rars.map(r=>`<button class="chip" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
 }
 
-function goHome() { show('view-home'); }
-
-function openOnePiece() { show('view-sets'); document.getElementById('crumb-sets').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / One Piece'; renderSets(); }
-
-function renderSets() {
-  show('view-sets');
-  document.getElementById('crumb-sets').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / One Piece';
-  const list = document.getElementById('sets-list');
-  if (!DATA.index.length) { list.innerHTML = '<div class="empty-state">ยังไม่พบไฟล์ one_piece_OP01-OP16_with_prices.json</div>'; return; }
-  list.innerHTML = DATA.index.map(s => {
-    const cards = DATA.setsCache[s.set_code] || [];
-    const prices = cards.map(c => c.market_price).filter(p => typeof p === 'number');
-    const min = prices.length ? Math.min(...prices) : null;
-    const max = prices.length ? Math.max(...prices) : null;
-    const rep = cards.find(c => c.rarity === 'L') || cards[0];
-    const img = rep ? rep.card_image : '';
-    return `<div class="set-card" onclick="openSet('${s.set_code}')">
-      <img src="${img || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div class="set-card-body">
-        <div class="log-num">${s.set_code}</div>
-        <div class="log-row-name display">${s.set_name}</div>
-        <div class="log-row-meta">${s.card_count} ใบ${min != null ? ' · ' + formatPrice(min) + '–' + formatPrice(max) : ''}</div>
-      </div></div>`;
-  }).join('');
+function toggleChip(el,r){
+  if(S.rarities.has(r))S.rarities.delete(r);else S.rarities.add(r);
+  el.classList.toggle('on',S.rarities.has(r));applyFilters();
 }
 
-async function openSet(code) {
-  state.setCode = code;
-  document.getElementById('card-search').value = '';
-  document.getElementById('sort-select').value = 'default';
-  state.activeRarities = new Set();
-  state.cards = DATA.setsCache[code] || [];
-  const setMeta = DATA.index.find(s => s.set_code === code);
-  document.getElementById('cards-title').textContent = code + ' — ' + (setMeta ? setMeta.set_name : '');
-  document.getElementById('crumb-cards').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / <span class="live" onclick="renderSets()">One Piece</span> / ' + code;
-  show('view-cards');
-  renderRarityChips();
-  applyFilters();
-}
-
-function renderRarityChips() {
-  const order = ['L', 'C', 'UC', 'R', 'SR', 'SEC', 'SP', 'TR', 'P'];
-  const rarities = Array.from(new Set(state.cards.map(c => c.rarity).filter(Boolean)));
-  rarities.sort((a, b) => { const ai = order.indexOf(a), bi = order.indexOf(b); return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi); });
-  document.getElementById('rarity-chips').innerHTML = rarities.map(r =>
-    `<button class="chip" data-rarity="${r}" onclick="toggleRarityChip('${r}')">${r}</button>`).join('');
-}
-
-function toggleRarityChip(r) {
-  if (state.activeRarities.has(r)) state.activeRarities.delete(r); else state.activeRarities.add(r);
-  document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', state.activeRarities.has(c.dataset.rarity)));
-  applyFilters();
-}
-
-function applyFilters() {
-  let list = state.cards.slice();
-  const q = document.getElementById('card-search').value.trim().toLowerCase();
-  if (q) list = list.filter(c => c.card_name.toLowerCase().includes(q));
-  if (state.activeRarities.size) list = list.filter(c => state.activeRarities.has(c.rarity));
-  const sortMode = document.getElementById('sort-select').value;
-  if (sortMode === 'price-desc') list.sort((a, b) => (b.market_price ?? 0) - (a.market_price ?? 0));
-  else if (sortMode === 'price-asc') list.sort((a, b) => (a.market_price ?? 0) - (b.market_price ?? 0));
+function applyFilters(){
+  let list=S.cards.slice();
+  const q=document.getElementById('card-srch').value.trim().toLowerCase();
+  if(q)list=list.filter(c=>c.card_name.toLowerCase().includes(q));
+  if(S.rarities.size)list=list.filter(c=>S.rarities.has(c.rarity));
+  const sort=document.getElementById('sort-sel').value;
+  if(sort==='price-desc')list.sort((a,b)=>(b.market_price||0)-(a.market_price||0));
+  else if(sort==='price-asc')list.sort((a,b)=>(a.market_price||0)-(b.market_price||0));
   paintCards(list);
 }
 
-function rarityClass(r) { return r ? 'rarity-' + r.replace(/[^A-Z]/g, '') : ''; }
-
-function paintCards(cards) {
-  state.displayed = cards;
-  const grid = document.getElementById('card-grid');
-  if (!cards.length) { grid.innerHTML = '<div class="empty-state">ไม่พบการ์ด</div>'; return; }
-  grid.innerHTML = cards.map((c, i) => `
-    <div class="card-tile" onclick="openCard(${i})">
-      <img src="${c.card_image || ''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><p class="ct-name">${c.card_name}</p><span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span><p class="ct-price">${formatPrice(c.market_price)}</p></div>
-    </div>`).join('');
+function paintCards(cards){
+  S.shown=cards;
+  const grid=document.getElementById('card-grid');
+  if(!cards.length){grid.innerHTML='<div class="empty">ไม่พบการ์ด</div>';return;}
+  grid.innerHTML=cards.map((c,i)=>`<div class="card-tile" onclick="openCard(${i})">
+    <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+    <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(c.market_price)}</p></div>
+  </div>`).join('');
 }
 
-function openCard(idx) {
-  const c = state.displayed[idx];
-  state.lastCardIdx = idx;
-  document.getElementById('back-to-cards').onclick = () => openSet(state.setCode);
-  const stats = [];
-  if (c.card_cost !== null && c.card_cost !== undefined) stats.push('Cost ' + c.card_cost);
-  if (c.card_power) stats.push('Power ' + c.card_power);
-  if (c.life) stats.push('Life ' + c.life);
-  if (c.card_color) stats.push(c.card_color);
-  if (c.card_type) stats.push(c.card_type);
-  document.getElementById('detail-card').innerHTML = `
-    <div class="detail-top">
-      <img src="${c.card_image || ''}" onerror="this.style.visibility='hidden'">
+function openCard(idx){
+  const c=S.shown[idx];S.lastIdx=idx;
+  const L=S.lang;
+  document.getElementById('back-cards').onclick=()=>openSet(S.setCode);
+  const stats=[];
+  if(c.card_cost!=null)stats.push('Cost '+c.card_cost);
+  if(c.card_power)stats.push('Power '+c.card_power);
+  if(c.life)stats.push('Life '+c.life);
+  if(c.card_color)stats.push(c.card_color);
+  if(c.card_type)stats.push(c.card_type);
+  document.getElementById('detail-card').innerHTML=`
+    <div class="det-top">
+      <img src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
-        <p class="detail-name display">${c.card_name}</p>
-        <span class="rarity-tag ${rarityClass(c.rarity)}">${c.rarity || '—'}</span>
-        <div class="stats-row">${stats.map(s => '<span>' + s + '</span>').join('')}</div>
+        <p class="det-name">${c.card_name}</p>
+        <span class="${rc(c.rarity)}">${c.rarity||'—'}</span>
+        <div class="det-stats">${stats.map(s=>'<span>'+s+'</span>').join('')}</div>
       </div>
     </div>
-    <p class="detail-ability">${c.card_text || ''}</p>
-    <div class="price-row-head"><span class="note">ราคา</span><button class="currency-btn small" id="currency-toggle-detail" onclick="toggleCurrency()">${state.currency === 'USD' ? '🇺🇸 USD' : '🇹🇭 THB'}</button></div>
+    <p class="det-text">${c.card_text||''}</p>
+    <div class="price-hd"><span style="font-size:14px;font-weight:600">${L==='th'?'ราคา':'Price'}</span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     <div class="price-grid">
-      <div class="price-box"><div class="pl">ราคาตลาด (market)</div><div class="pv">${formatPrice(c.market_price)}</div></div>
-      <div class="price-box"><div class="pl">ราคาอ้างอิง (inventory)</div><div class="pv">${formatPrice(c.inventory_price)}</div></div>
+      <div class="price-box"><div class="pl">${L==='th'?'ราคาตลาด (market)':'Market Price'}</div><div class="pv">${fp(c.market_price)}</div></div>
+      <div class="price-box"><div class="pl">${L==='th'?'ราคาอ้างอิง (inventory)':'Inventory Price'}</div><div class="pv">${fp(c.inventory_price)}</div></div>
     </div>
-    <p class="footnote">ที่มา: optcgapi.com · ข้อมูล ณ วันที่ ${c.date_scraped || '—'} · ${c.card_set_id || ''}</p>`;
-  document.getElementById('crumb-detail').innerHTML = '<span class="live" onclick="goHome()">หน้าแรก</span> / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\'' + state.setCode + '\')">' + state.setCode + '</span> / ' + c.card_name;
+    <div class="price-box" style="margin-top:10px"><div class="pl">${L==='th'?'⚠️ ราคาการ์ดดิบ (ยังไม่ได้ส่งเกรด PSA)':'⚠️ Raw card price (ungraded, not PSA)'}</div></div>
+    <p class="footnote">${L==='th'?'ที่มา':'Source'}: optcgapi.com · ${L==='th'?'ข้อมูล ณ':'Data as of'} ${c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
+  setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
   show('view-detail');
 }
-
-loadIndex();
+init();
 </script>
-
 </body>
 </html>
