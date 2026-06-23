@@ -290,6 +290,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="crumb" id="crumb-sets"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
   <h1 class="page-ttl serif t" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
+  <div class="filter-row" id="sets-filter"></div>
   <div class="sets-grid" id="sets-list"></div>
 </main>
 
@@ -337,7 +338,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 
 <script>
 const D={index:[],cache:{}};
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:'th',srchCards:[],srchShown:[]};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:'th',srchCards:[],srchShown:[],setFilter:'all'};
 
 const BOX={
   'OP-01':{usd:145,thb:4800,hot:false},
@@ -356,12 +357,25 @@ const BOX={
   'OP-16':{usd:88,thb:2950,hot:false}
 };
 
+// Set/deck "type" -- derived from the code itself so any new code the data
+// pipeline adds (more Extra Boosters, Starter Decks, etc.) is classified
+// automatically without another code change.
+function classifyType(code){
+  const u=code.toUpperCase();
+  if(u.startsWith('PRB'))return 'premium';
+  if(u.includes('EB'))return 'extra';
+  if(u.startsWith('ST'))return 'starter';
+  return 'booster';
+}
+const TYPE_LABEL_TH={booster:'บูสเตอร์หลัก',extra:'เอ็กซ์ตร้าบูสเตอร์',premium:'พรีเมียมบูสเตอร์',starter:'สตาร์ทเตอร์เด็ค'};
+const TYPE_LABEL_EN={booster:'Main Booster',extra:'Extra Booster',premium:'Premium Booster',starter:'Starter Deck'};
+
 async function init(){
   try{
     const r=await fetch('one_piece_OP01-OP16_with_prices.json');
     const raw=await r.json();
     D.cache=raw;
-    D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length}));
+    D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length,type:classifyType(c)}));
   }catch(e){D.index=[];}
   renderHome();
   try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');const d=await r.json();if(d.rates?.THB)S.fx=d.rates.THB;}catch(e){}
@@ -380,6 +394,7 @@ function toggleLang(){
   });
   document.getElementById('lang-btn').textContent=S.lang==='th'?'EN':'ไทย';
   renderHome();
+  if(document.getElementById('view-sets').style.display!=='none')renderSets();
 }
 
 function toggleCur(){
@@ -523,8 +538,6 @@ function applySrchFilters(){
   if(sort==='price-desc')list.sort((a,b)=>(b.card.market_price||0)-(a.card.market_price||0));
   else if(sort==='price-asc')list.sort((a,b)=>(a.card.market_price||0)-(b.card.market_price||0));
   S.srchShown=list;
-  const setRes=S.srchCards.length!==list.length?[]:document.querySelectorAll('#srch-results .card-tile[data-type="set"]');
-  const full=[...document.querySelectorAll('#srch-results .card-tile[data-type="set"]').values()].map(el=>({type:'set',_el:el}));
   renderSrchCards(list);
 }
 
@@ -573,16 +586,32 @@ function jumpCard(code,imgId){
 
 function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
 
+function setTypeFilter(t){S.setFilter=t;renderSets();}
+
 function renderSets(){
   show('view-sets');setCrumb('crumb-sets',' / One Piece');
   const L=S.lang;
-  if(!D.index.length){document.getElementById('sets-list').innerHTML='<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';return;}
-  document.getElementById('sets-list').innerHTML=D.index.map(s=>{
+  if(!D.index.length){
+    document.getElementById('sets-filter').innerHTML='';
+    document.getElementById('sets-list').innerHTML='<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';
+    return;
+  }
+  const order=['all','booster','extra','premium','starter'];
+  const present=order.filter(t=>t==='all'||D.index.some(s=>s.type===t));
+  document.getElementById('sets-filter').innerHTML=present.map(t=>{
+    const lbl=t==='all'?(L==='th'?'ทั้งหมด':'All'):(L==='th'?TYPE_LABEL_TH[t]:TYPE_LABEL_EN[t]);
+    const cnt=t==='all'?D.index.length:D.index.filter(s=>s.type===t).length;
+    return `<button class="chip${S.setFilter===t?' on':''}" onclick="setTypeFilter('${t}')">${lbl} (${cnt})</button>`;
+  }).join('');
+  const list=S.setFilter==='all'?D.index:D.index.filter(s=>s.type===S.setFilter);
+  if(!list.length){document.getElementById('sets-list').innerHTML='<div class="empty">ไม่พบชุดในหมวดนี้</div>';return;}
+  document.getElementById('sets-list').innerHTML=list.map(s=>{
     const cards=D.cache[s.code]||[];
     const rep=cards.find(c=>c.rarity==='L')||cards[0];
     const img=rep?rep.card_image:'';
     const box=BOX[s.code];
     const price=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
+    const typeLbl=L==='th'?TYPE_LABEL_TH[s.type]:TYPE_LABEL_EN[s.type];
     return `<div class="set-card" onclick="openSet('${s.code}')">
       <div class="set-img-wrap">
         <img src="${img||''}" loading="lazy" onerror="this.style.visibility='hidden'">
@@ -592,7 +621,7 @@ function renderSets(){
       <div class="set-body">
         <div class="set-code">${s.code}</div>
         <div class="set-name">${s.name}</div>
-        <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · <span style="color:var(--faint);font-size:10.5px">${L==='th'?'ราคาโดยประมาณ':'est. price'}</span></div>
+        <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · ${typeLbl}</div>
       </div>
     </div>`;
   }).join('');
