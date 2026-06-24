@@ -656,7 +656,7 @@ function chaseScroll(dir){
   const row=document.getElementById('chase-row');
   const card=row.querySelector('.chase-card');
   const step=card?(card.offsetWidth+14)*5:760;
-  row.scrollBy({left:dir*step,behavior:'smooth'});
+  row.scrollBy({left:dir*step,behavior:'auto'});
 }
 function chaseScrollState(){
   const row=document.getElementById('chase-row');
