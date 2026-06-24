@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voyage Log — TCG Database</title>
 <style>
-:root{--bg:#0a0a0f;--bg2:#13131b;--bg3:#1b1b27;--border:rgba(255,255,255,.07);--bord2:rgba(255,255,255,.13);--gold:#f2b705;--golds:rgba(242,183,5,.13);--text:#f0f0ed;--soft:#94949f;--faint:#5f5f6a;--teal:#2dd4bf;--teals:rgba(45,212,191,.13);--blue:#38bdf8;--blues:rgba(56,189,248,.13);--green:#4ade80}
+:root{--bg:#0a0a0f;--bg2:#13131b;--bg3:#1b1b27;--border:rgba(255,255,255,.07);--bord2:rgba(255,255,255,.13);--gold:#f2b705;--golds:rgba(242,183,5,.13);--text:#f0f0ed;--soft:#94949f;--faint:#5f5f6a;--teal:#2dd4bf;--teals:rgba(45,212,191,.13);--blue:#38bdf8;--blues:rgba(56,189,248,.13);--green:#4ade80;--purple:#c084fc;--purples:rgba(192,132,252,.13)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.55}
 .serif{font-family:Georgia,'Iowan Old Style',serif}
@@ -104,8 +104,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 
 /* TRENDING */
 .trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
-.trend-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
+.trend-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s;display:flex;gap:11px;align-items:flex-start}
 .trend-card:hover{border-color:var(--gold)}
+.trend-ic{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.trend-ic.cat-booster{background:var(--golds);color:var(--gold)}
+.trend-ic.cat-extra{background:var(--blues);color:var(--blue)}
+.trend-ic.cat-premium{background:var(--purples);color:var(--purple)}
+.trend-ic.cat-deck{background:var(--teals);color:var(--teal)}
 .trend-code{color:var(--gold);font-size:12px;font-weight:700;margin-bottom:3px}
 .trend-name{font-size:13px;font-weight:600;margin-bottom:7px}
 .trend-price{font-size:12px;color:var(--soft)}
@@ -138,8 +143,18 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
 .set-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s}
 .set-card:hover{border-color:var(--gold);transform:translateY(-3px)}
-.set-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg3);display:flex;align-items:center;justify-content:center}
-.set-img-wrap img{width:100%;height:100%;object-fit:contain;display:block;padding:6px;box-sizing:border-box}
+.set-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.set-tile-pattern{position:absolute;inset:0;opacity:.6;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 2px,transparent 2px 14px)}
+.set-tile-icon{position:relative;font-size:30px;opacity:.55;margin-bottom:8px}
+.set-tile-code{position:relative;font-family:Georgia,serif;font-weight:800;font-size:24px;letter-spacing:.01em;color:var(--text);text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.set-img-wrap.cat-booster{background:linear-gradient(150deg,rgba(242,183,5,.20),var(--bg3) 72%)}
+.set-img-wrap.cat-booster .set-cat-badge{color:var(--gold);border-color:rgba(242,183,5,.35)}
+.set-img-wrap.cat-extra{background:linear-gradient(150deg,rgba(56,189,248,.20),var(--bg3) 72%)}
+.set-img-wrap.cat-extra .set-cat-badge{color:var(--blue);border-color:rgba(56,189,248,.35)}
+.set-img-wrap.cat-premium{background:linear-gradient(150deg,rgba(192,132,252,.20),var(--bg3) 72%)}
+.set-img-wrap.cat-premium .set-cat-badge{color:var(--purple);border-color:rgba(192,132,252,.35)}
+.set-img-wrap.cat-deck{background:linear-gradient(150deg,rgba(45,212,191,.20),var(--bg3) 72%)}
+.set-img-wrap.cat-deck .set-cat-badge{color:var(--teal);border-color:rgba(45,212,191,.35)}
 .set-cat-badge{position:absolute;top:9px;left:9px;background:rgba(10,10,15,.82);border:1px solid var(--bord2);border-radius:5px;padding:3px 8px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--gold);text-transform:uppercase}
 .set-price-badge{position:absolute;bottom:9px;left:9px;background:rgba(10,10,15,.85);border:1px solid var(--gold);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;color:var(--gold)}
 .set-hot{position:absolute;top:9px;right:9px;font-size:14px}
@@ -149,8 +164,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-meta{font-size:11.5px;color:var(--faint)}
 .set-card.soon{cursor:default;opacity:.72}
 .set-card.soon:hover{border-color:var(--border);transform:none}
-.set-card.soon .set-img-wrap{display:flex;align-items:center;justify-content:center}
-.soon-ph{font-size:34px;opacity:.35}
+.set-card.soon .set-img-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.soon-ph{position:relative;font-size:34px;opacity:.4}
 .soon-tag{position:absolute;bottom:9px;left:9px;background:rgba(10,10,15,.85);border:1px solid var(--bord2);border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;color:var(--soft)}
 
 /* FILTER ROW */
@@ -377,6 +392,9 @@ function setCatLabel(code,lang){
   const map={booster:{th:'บูสเตอร์หลัก',en:'Booster'},extra:{th:'เอ็กซ์ตร้า บูสเตอร์',en:'Extra Booster'},premium:{th:'พรีเมียม บูสเตอร์',en:'Premium Booster'},deck:{th:'สตาร์ทเตอร์เด็ค',en:'Starter Deck'}};
   return lang==='th'?map[c].th:map[c].en;
 }
+// Tile art is an original, in-house icon design (not Bandai/Shueisha product
+// photography) so we never reproduce official box art on this fan site.
+const CAT_ICON={booster:'⚓',extra:'✨',premium:'👑',deck:'🗡️'};
 
 // Announced products with no card data yet (optcgapi hasn't added them).
 // Shown as "coming soon" tiles so the catalog matches the official site's
@@ -534,7 +552,10 @@ function renderTrend(){
     const avg=prices.length?prices.reduce((a,b)=>a+b,0)/prices.length:0;
     return{...s,avg};
   }).sort((a,b)=>b.avg-a.avg).slice(0,5);
-  document.getElementById('trend-row').innerHTML=rows.map(s=>`<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div>`).join('');
+  document.getElementById('trend-row').innerHTML=rows.map(s=>{
+    const cat=setCat(s.code);
+    return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
+  }).join('');
 }
 
 function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
@@ -627,15 +648,14 @@ function renderSets(){
   const liveTiles=D.index.map(s=>{
     const cat=setCat(s.code);
     if(S.setCat!=='all'&&S.setCat!==cat)return null;
-    const cards=D.cache[s.code]||[];
-    const rep=cards.find(c=>c.rarity==='L')||cards[0];
-    const img=rep?rep.card_image:'';
     const box=BOX[s.code];
     const price=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
     return `<div class="set-card" onclick="openSet('${s.code}')">
-      <div class="set-img-wrap">
+      <div class="set-img-wrap cat-${cat}">
+        <div class="set-tile-pattern"></div>
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
-        <img src="${img||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="set-tile-icon">${CAT_ICON[cat]}</div>
+        <div class="set-tile-code">${s.code}</div>
         <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
         ${box?.hot?'<div class="set-hot">🔥</div>':''}
       </div>
@@ -648,7 +668,8 @@ function renderSets(){
   }).filter(Boolean);
   const soonTiles=COMING_SOON.filter(s=>S.setCat==='all'||S.setCat===s.cat).map(s=>`
     <div class="set-card soon">
-      <div class="set-img-wrap">
+      <div class="set-img-wrap cat-${s.cat}">
+        <div class="set-tile-pattern"></div>
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <span class="soon-ph">📦</span>
         <div class="soon-tag">${L==='th'?'เร็วๆ นี้':'Coming Soon'}</div>
