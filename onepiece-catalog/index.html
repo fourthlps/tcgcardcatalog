@@ -340,21 +340,61 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 const D={index:[],cache:{}};
 const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:'th',srchCards:[],srchShown:[],setFilter:'all'};
 
+// image: real box/pack photo from official Bandai product pages (asia-th / en.onepiece-cardgame.com).
+// usd/thb for OP-01..OP-13, OP-16: researched real/secondary-market box prices (kept as-is).
+// usd/thb for all other codes: estimated from official MSRP (24 packs/box for boosters, 1 deck
+// for starters) x live USD->THB FX, scaled by the ~0.85x market multiplier observed across the
+// researched main-booster set -- a documented estimate, not a scraped real price.
 const BOX={
-  'OP-01':{usd:145,thb:4800,hot:false},
-  'OP-02':{usd:105,thb:3500,hot:false},
-  'OP-03':{usd:85,thb:2800,hot:false},
-  'OP-04':{usd:88,thb:2900,hot:false},
-  'OP-05':{usd:490,thb:16500,hot:true},
-  'OP-06':{usd:85,thb:2800,hot:false},
-  'OP-07':{usd:95,thb:3200,hot:false},
-  'OP-08':{usd:110,thb:3700,hot:false},
-  'OP-09':{usd:135,thb:4500,hot:true},
-  'OP-10':{usd:92,thb:3100,hot:false},
-  'OP-11':{usd:90,thb:3000,hot:false},
-  'OP-12':{usd:100,thb:3400,hot:false},
-  'OP-13':{usd:195,thb:6500,hot:true},
-  'OP-16':{usd:88,thb:2950,hot:false}
+  'OP-01':{usd:145,thb:4800,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op01/mv_01.jpg?v3'},
+  'OP-02':{usd:105,thb:3500,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op02/mv_01.jpg?v3'},
+  'OP-03':{usd:85,thb:2800,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op03/mv_01.jpg?v3'},
+  'OP-04':{usd:88,thb:2900,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op04/mv_01.jpg?v3'},
+  'OP-05':{usd:490,thb:16500,hot:true,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op05/mv_01.jpg?v3'},
+  'OP-06':{usd:85,thb:2800,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op06/mv_01.jpg?v3'},
+  'OP-07':{usd:95,thb:3200,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op07/mv_01.jpg?v3'},
+  'OP-08':{usd:110,thb:3700,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op08/mv_01.jpg?v3'},
+  'OP-09':{usd:135,thb:4500,hot:true,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op09/mv_01.jpg?v3'},
+  'OP-10':{usd:92,thb:3100,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op10/mv_01.jpg?v3'},
+  'OP-11':{usd:90,thb:3000,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op11/mv_01.jpg?v3'},
+  'OP-12':{usd:100,thb:3400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op12/mv_01.jpg?v3'},
+  'OP-13':{usd:195,thb:6500,hot:true,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/op13/mv_01.jpg?v3'},
+  'OP-16':{usd:88,thb:2950,hot:false,image:'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/03/19/QRbilYFyY46pR9VQ/img_item01.webp'},
+  'EB-01':{usd:90,thb:3000,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/eb01/mv_01.jpg?v3'},
+  'EB-02':{usd:120,thb:4000,hot:true,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/eb02/mv_01.jpg?v1'},
+  'EB-03':{usd:102,thb:3400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/boosters/eb03/img_item01.webp'},
+  'OP14-EB04':{usd:102,thb:3400,hot:false,image:'https://en.onepiece-cardgame.com/renewal/images/products/boosters/op14/img_item01.webp'},
+  'OP15-EB04':{usd:102,thb:3400,hot:false,image:'https://en.onepiece-cardgame.com/renewal/images/products/boosters/op15-eb04/img_item01.webp'},
+  'PRB-01':{usd:132,thb:4400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/boosters/prb01/mv_01.jpg?v=240726'},
+  'PRB-02':{usd:132,thb:4400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/boosters/prb02/img_item01.webp'},
+  'ST-01':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st01-04/mv_01.jpg'},
+  'ST-02':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st01-04/mv_01.jpg'},
+  'ST-03':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st01-04/mv_01.jpg'},
+  'ST-04':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st01-04/mv_01.jpg'},
+  'ST-05':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st05/mv_01.jpg'},
+  'ST-06':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st06/mv_01.jpg'},
+  'ST-07':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st07/mv_01.jpg'},
+  'ST-08':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st08/mv_01.jpg'},
+  'ST-09':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st09/mv_01.jpg'},
+  'ST-10':{usd:30,thb:1000,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st10/mv_01.jpg'},
+  'ST-11':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st11/mv_01.jpg'},
+  'ST-12':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st12/mv_01.jpg'},
+  'ST-13':{usd:35,thb:1150,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st13/mv_01.jpg'},
+  'ST-14':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st14/mv_01.jpg'},
+  'ST-15':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st15-20/mv_01.jpg'},
+  'ST-16':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st15-20/mv_01.jpg'},
+  'ST-17':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st15-20/mv_01.jpg'},
+  'ST-18':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st15-20/mv_01.jpg'},
+  'ST-19':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st15-20/mv_01.jpg'},
+  'ST-20':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/images/products/decks/st15-20/mv_01.jpg'},
+  'ST-21':{usd:35,thb:1150,hot:true,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st21/img_item01.webp'},
+  'ST-22':{usd:17,thb:550,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st22/img_item01.webp'},
+  'ST-23':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st23/img_item01.webp'},
+  'ST-24':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st24/img_item01.webp'},
+  'ST-25':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st25/img_item01.webp'},
+  'ST-26':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st26/img_item01.webp'},
+  'ST-27':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st27/img_item01.webp'},
+  'ST-28':{usd:12,thb:400,hot:false,image:'https://asia-th.onepiece-cardgame.com/renewal/images/products/decks/st28/img_item01.webp'}
 };
 
 // Set/deck "type" -- derived from the code itself so any new code the data
@@ -606,10 +646,8 @@ function renderSets(){
   const list=S.setFilter==='all'?D.index:D.index.filter(s=>s.type===S.setFilter);
   if(!list.length){document.getElementById('sets-list').innerHTML='<div class="empty">ไม่พบชุดในหมวดนี้</div>';return;}
   document.getElementById('sets-list').innerHTML=list.map(s=>{
-    const cards=D.cache[s.code]||[];
-    const rep=cards.find(c=>c.rarity==='L')||cards[0];
-    const img=rep?rep.card_image:'';
     const box=BOX[s.code];
+    const img=box?.image||'';
     const price=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
     const typeLbl=L==='th'?TYPE_LABEL_TH[s.type]:TYPE_LABEL_EN[s.type];
     return `<div class="set-card" onclick="openSet('${s.code}')">
