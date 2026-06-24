@@ -398,28 +398,17 @@ function setCatLabel(code,lang){
 // product photo isn't available or fails to load.
 const CAT_ICON={booster:'⚓',extra:'✨',premium:'👑',deck:'🗡️'};
 
-// Real box-art photos, hotlinked directly from Bandai's official regional
-// site (asia-th.onepiece-cardgame.com). This is their copyrighted product
-// photography being reproduced on an unofficial fan site -- a real legal /
-// takedown-risk tradeoff the project owner has explicitly chosen to accept
-// in place of the original icon-tile design. If a link ever breaks or gets
-// blocked, the tile quietly falls back to the icon design via onerror.
-const SET_IMG_SPECIAL={
-  'EB-05':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/06/17/3bvtf9OBglsmqaxB/img_item01.webp',
-  'ST-31':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/product/2026/06/01/yvlQOGQN87hClKlB/img_item01.webp',
-  'ST-32':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/06/01/b42jY1zyAMuNXKBa/img_item01.webp',
-  'ST-33':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/06/01/weP4WcvMyAX5VOR7/img_item01.webp',
-  'ST-34':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/06/01/t5LIBWX0muRucLKS/img_item01.webp',
-  'ST-35':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/06/01/XrIHnR2RnQclTTEn/img_item01.webp',
-  'ST-36':'https://asia-th.onepiece-cardgame.com/onepiececg/bccard/jp/products/2026/06/01/sjtHEth2Ti1WlWrg/img_item01.webp',
-};
+// Tile art: the highest-market-price ("chase") card pulled from that set,
+// using the same sample card scans (optcgapi.com) already used elsewhere on
+// the site. Bandai's own box-art photos were tried first (hotlinked from
+// asia-th.onepiece-cardgame.com) but their CDN blocks cross-site image
+// embeds at the network level (Sec-Fetch-Site), so every visitor would have
+// only ever seen the icon fallback -- this approach actually renders.
 function setImgUrl(code){
-  if(SET_IMG_SPECIAL[code])return SET_IMG_SPECIAL[code];
-  const m=code.match(/^(OP|EB|PRB|ST)-(\d+)$/);
-  if(!m)return null;
-  const [,prefix,num]=m;
-  const folder=prefix==='ST'?'decks':'boosters';
-  return `https://asia-th.onepiece-cardgame.com/renewal/images/products/${folder}/${prefix.toLowerCase()}${num.padStart(2,'0')}/img_item01.webp`;
+  const cards=D.cache[code];
+  if(!cards||!cards.length)return null;
+  const top=cards.reduce((m,c)=>(c.market_price||0)>(m.market_price||0)?c:m,cards[0]);
+  return top.card_image||null;
 }
 
 // Announced products with no card data yet (optcgapi hasn't added them).
@@ -581,7 +570,7 @@ function renderTrend(){
   document.getElementById('trend-row').innerHTML=rows.map(s=>{
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
-    return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}${imgUrl?`<img class="trend-real-img" src="${imgUrl}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
+    return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}${imgUrl?`<img class="trend-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
   }).join('');
 }
 
@@ -683,7 +672,7 @@ function renderSets(){
         <div class="set-tile-pattern"></div>
         <div class="set-tile-icon">${CAT_ICON[cat]}</div>
         <div class="set-tile-code">${s.code}</div>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
         ${box?.hot?'<div class="set-hot">🔥</div>':''}
@@ -702,7 +691,7 @@ function renderSets(){
       <div class="set-img-wrap cat-${s.cat}">
         <div class="set-tile-pattern"></div>
         <span class="soon-ph">📦</span>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="soon-tag">${L==='th'?'เร็วๆ นี้':'Coming Soon'}</div>
       </div>
