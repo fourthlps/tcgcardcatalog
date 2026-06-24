@@ -115,6 +115,20 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .trend-code{color:var(--gold);font-size:12px;font-weight:700;margin-bottom:3px}
 .trend-name{font-size:13px;font-weight:600;margin-bottom:7px}
 .trend-price{font-size:12px;color:var(--soft)}
+.sec-link{margin-left:auto;cursor:pointer;color:var(--gold);font-size:12.5px;font-weight:600}
+.sec-link:hover{text-decoration:underline}
+.chase-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.chase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s;position:relative}
+.chase-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.chase-rank{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#160d00;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;z-index:2;font-family:Georgia,serif}
+.chase-img-wrap{position:relative;aspect-ratio:3/4;background:var(--bg3);overflow:hidden}
+.chase-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.chase-body{padding:11px 12px 13px}
+.chase-name{font-size:13px;font-weight:700;line-height:1.25;margin-bottom:2px}
+.chase-variant{font-size:10.5px;color:var(--faint);margin-bottom:6px;font-style:italic}
+.chase-set{font-size:11px;color:var(--soft);margin-bottom:6px}
+.chase-price{font-size:13.5px;font-weight:700;color:var(--gold);font-family:Georgia,serif}
+.chase-price-range{font-size:10.5px;color:var(--faint);margin-top:1px}
 
 /* CTA BANNER */
 .cta-banner{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--bord2);border-radius:14px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -275,6 +289,16 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
         <span class="sec-note t" data-th="เรียงตามราคาเฉลี่ยต่อใบ" data-en="Sorted by avg. card price">เรียงตามราคาเฉลี่ยต่อใบ</span>
       </div>
       <div class="trend-row" id="trend-row"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="t" data-th="การ์ดที่น่าสะสมมากที่สุด" data-en="Top Chase Cards">การ์ดที่น่าสะสมมากที่สุด</h2>
+        <span class="sec-link t" data-th="ดูทั้งหมด →" data-en="View All →" onclick="openOnePiece()">ดูทั้งหมด →</span>
+      </div>
+      <div class="chase-row" id="chase-row"></div>
     </div>
   </section>
 
@@ -468,7 +492,7 @@ function show(id){
 function goHome(){show('view-home');}
 function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span class="live" onclick="goHome()">'+( S.lang==='th'?'หน้าแรก':'Home')+'</span>'+html;}
 
-function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();}
+function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();renderChase();}
 
 function renderStats(){
   const cards=flat();
@@ -571,6 +595,38 @@ function renderTrend(){
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
     return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}${imgUrl?`<img class="trend-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
+  }).join('');
+}
+
+function chaseBase(n){return (n||'').split('(')[0].trim();}
+function chaseVariant(n){
+  const parts=(n||'').match(/\(([^)]+)\)/g);
+  if(!parts)return '';
+  return parts.map(s=>s.slice(1,-1)).filter(s=>!/^\d+$/.test(s)&&!/^OP\d+-\d+$/i.test(s)).join(', ');
+}
+function renderChase(){
+  const cards=flat();
+  const seen=new Set();
+  const picks=cards.slice().sort((a,b)=>(b.market_price||0)-(a.market_price||0)).filter(c=>{
+    const bn=chaseBase(c.card_name);
+    if(!bn||seen.has(bn))return false;
+    seen.add(bn);return true;
+  }).slice(0,5);
+  document.getElementById('chase-row').innerHTML=picks.map((c,i)=>{
+    const lo=Math.min(c.market_price||0,c.inventory_price||0);
+    const hi=Math.max(c.market_price||0,c.inventory_price||0);
+    const variant=chaseVariant(c.card_name);
+    return `<div class="chase-card" onclick="jumpFC('${c.set_id||''}','${c.card_image_id}')">
+      <div class="chase-rank">${i+1}</div>
+      <div class="chase-img-wrap"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
+      <div class="chase-body">
+        <div class="chase-name">${chaseBase(c.card_name)}</div>
+        ${variant?`<div class="chase-variant">(${variant})</div>`:''}
+        <div class="chase-set">${c.card_set_id||''}${c.rarity?' · '+c.rarity:''}</div>
+        <div class="chase-price">${fp(hi)}</div>
+        ${lo!==hi?`<div class="chase-price-range">${fp(lo)} – ${fp(hi)}</div>`:''}
+      </div>
+    </div>`;
   }).join('');
 }
 
