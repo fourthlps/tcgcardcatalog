@@ -71,14 +71,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .ad-badge{font-size:10px;background:var(--golds);color:var(--gold);padding:2px 7px;border-radius:4px;font-weight:700}
 
 /* SPONSOR ROW */
-.spon-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.spon-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 14px;text-align:center;transition:border-color .15s,transform .12s;cursor:default;position:relative;overflow:hidden}
-.spon-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.spon-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent,var(--gold)),transparent)}
-.spon-icon{width:42px;height:42px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;background:var(--accents,rgba(242,183,5,.13))}
-.spon-name{font-size:12.5px;font-weight:700;margin-bottom:3px}
-.spon-desc{font-size:11px;color:var(--soft);margin-bottom:9px}
-.spon-link{font-size:11px;color:var(--gold);font-weight:600}
+.spon-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}
+.spon-card{background:var(--bg2);border:1px dashed var(--bord2);border-radius:10px;padding:16px;text-align:center;transition:border-color .15s;cursor:pointer}
+.spon-card:hover{border-color:var(--gold)}
+.spon-icon{width:38px;height:38px;margin:0 auto 10px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px}
+.spon-name{font-size:12px;font-weight:600;margin-bottom:4px}
+.spon-desc{font-size:11px;color:var(--soft);margin-bottom:8px}
+.spon-link{font-size:11px;color:var(--gold)}
 
 /* BROWSE GAMES */
 .games-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
@@ -103,40 +102,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .hl-title{font-size:13.5px;font-weight:700;margin-bottom:3px}
 .hl-desc{font-size:12px;color:var(--soft)}
 
-/* WORTH OPENING (rich set cards) */
-.trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.trend-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s;position:relative}
-.trend-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.wo-rank{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:rgba(10,10,15,.85);border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:2}
-.wo-imgwrap{position:relative;aspect-ratio:16/10;background:var(--bg3);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.wo-imgwrap img{width:100%;height:100%;object-fit:contain;padding:10px;box-sizing:border-box}
-.wo-tag{position:absolute;top:8px;right:8px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--golds);color:var(--gold)}
-.wo-body{padding:12px 14px 14px}
-.trend-code{font-family:Georgia,serif;color:var(--gold);font-size:12px;font-weight:700;margin-bottom:1px}
-.trend-name{font-size:13.5px;font-weight:600;margin-bottom:7px}
-.trend-price{font-size:12px;color:var(--soft);margin-bottom:7px}
-.wo-chase{font-size:11.5px;color:var(--faint);border-top:1px solid var(--border);padding-top:8px;display:flex;justify-content:space-between;gap:6px}
-.wo-chase b{color:var(--soft);font-weight:600}
-
-/* TOP CHASE CARDS RAIL */
-.chase-row{display:flex;flex-direction:column}
-.chase-card{display:flex;align-items:center;gap:14px;padding:11px 6px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;border-radius:6px}
-.chase-card:last-child{border-bottom:none}
-.chase-card:hover{background:var(--bg2)}
-.chase-rank{width:22px;font-family:Georgia,serif;font-weight:800;color:var(--faint);font-size:15px;flex-shrink:0;text-align:center}
-.chase-rank.top{color:var(--gold)}
-.chase-card img{width:42px;height:58px;object-fit:cover;border-radius:5px;background:var(--bg3);flex-shrink:0}
-.chase-info{flex:1;min-width:0}
-.chase-name{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chase-meta{font-size:11.5px;color:var(--faint)}
-.chase-price{font-family:Georgia,serif;font-weight:800;color:var(--gold);font-size:14px;flex-shrink:0}
-
-/* TRUST STRIP */
-.trust-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;text-align:center}
-.trust-card{display:flex;flex-direction:column;align-items:center;gap:8px}
-.trust-ic{width:46px;height:46px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px}
-.trust-title{font-size:13.5px;font-weight:700}
-.trust-desc{font-size:12px;color:var(--soft);max-width:200px}
+/* TRENDING */
+.trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
+.trend-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
+.trend-card:hover{border-color:var(--gold)}
+.trend-code{color:var(--gold);font-size:12px;font-weight:700;margin-bottom:3px}
+.trend-name{font-size:13px;font-weight:600;margin-bottom:7px}
+.trend-price{font-size:12px;color:var(--soft)}
 
 /* CTA BANNER */
 .cta-banner{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--bord2);border-radius:14px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -161,18 +133,25 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .cur-btn{background:var(--bg2);border:1px solid var(--bord2);color:var(--text);padding:6px 13px;border-radius:999px;font-size:12px;cursor:pointer;transition:border-color .15s}
 .cur-btn:hover{border-color:var(--gold)}
 
-/* SETS GRID */
-.sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:14px}
-.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s}
-.set-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+/* SETS GRID -- large, clear, near-full-size set art (matches official
+   product-grid look: big image first, code/name/price as a caption) */
+.sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s}
+.set-card:hover{border-color:var(--gold);transform:translateY(-3px)}
 .set-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg3);display:flex;align-items:center;justify-content:center}
-.set-img-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;padding:8px;box-sizing:border-box}
-.set-price-badge{position:absolute;bottom:6px;left:6px;background:rgba(10,10,15,.85);border:1px solid var(--gold);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:700;color:var(--gold)}
-.set-hot{position:absolute;top:6px;right:6px;font-size:13px}
-.set-body{padding:10px 12px 13px}
-.set-code{font-family:Georgia,serif;font-size:13px;color:var(--gold);margin-bottom:1px}
-.set-name{font-weight:600;font-size:13px;margin-bottom:3px}
+.set-img-wrap img{width:100%;height:100%;object-fit:contain;display:block;padding:6px;box-sizing:border-box}
+.set-cat-badge{position:absolute;top:9px;left:9px;background:rgba(10,10,15,.82);border:1px solid var(--bord2);border-radius:5px;padding:3px 8px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--gold);text-transform:uppercase}
+.set-price-badge{position:absolute;bottom:9px;left:9px;background:rgba(10,10,15,.85);border:1px solid var(--gold);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;color:var(--gold)}
+.set-hot{position:absolute;top:9px;right:9px;font-size:14px}
+.set-body{padding:13px 14px 15px}
+.set-code{font-family:Georgia,serif;font-size:13.5px;color:var(--gold);margin-bottom:2px}
+.set-name{font-weight:600;font-size:14px;margin-bottom:4px;line-height:1.3}
 .set-meta{font-size:11.5px;color:var(--faint)}
+.set-card.soon{cursor:default;opacity:.72}
+.set-card.soon:hover{border-color:var(--border);transform:none}
+.set-card.soon .set-img-wrap{display:flex;align-items:center;justify-content:center}
+.soon-ph{font-size:34px;opacity:.35}
+.soon-tag{position:absolute;bottom:9px;left:9px;background:rgba(10,10,15,.85);border:1px solid var(--bord2);border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;color:var(--soft)}
 
 /* FILTER ROW */
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
@@ -260,10 +239,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 
   <section class="section">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 class="t" data-th="ร้านค้าพันธมิตรของเรา" data-en="Our Partner Shops">ร้านค้าพันธมิตรของเรา</h2>
-        <span class="ad-badge t" data-th="เปิดรับสมัคร" data-en="Now Accepting">เปิดรับสมัคร</span>
-      </div>
+      <div class="sec-head"><h2 class="t" data-th="ร้านค้าสปอนเซอร์" data-en="Sponsored Shops">ร้านค้าสปอนเซอร์</h2><span class="ad-badge">AD</span></div>
       <div class="spon-row" id="spon-row"></div>
     </div>
   </section>
@@ -278,8 +254,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <section class="section">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="t" data-th="🔥 ชุดที่น่าเปิดตอนนี้" data-en="🔥 Worth Opening Now">🔥 ชุดที่น่าเปิดตอนนี้</h2>
-        <span class="sec-note t" data-th="คัดจากความนิยมและราคาเฉลี่ยต่อใบ" data-en="Picked by popularity and avg. card price">คัดจากความนิยมและราคาเฉลี่ยต่อใบ</span>
+        <h2 class="t" data-th="ชุดยอดนิยม" data-en="Popular Sets">ชุดยอดนิยม</h2>
+        <span class="sec-note t" data-th="เรียงตามราคาเฉลี่ยต่อใบ" data-en="Sorted by avg. card price">เรียงตามราคาเฉลี่ยต่อใบ</span>
       </div>
       <div class="trend-row" id="trend-row"></div>
     </div>
@@ -287,17 +263,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 
   <section class="section">
     <div class="wrap">
-      <div class="sec-head">
-        <h2 class="t" data-th="👑 การ์ดที่นักสะสมตามหามากที่สุด" data-en="👑 Top Chase Cards">👑 การ์ดที่นักสะสมตามหามากที่สุด</h2>
-        <span class="sec-note t" data-th="เรียงตามราคาตลาดสูงสุด" data-en="Ranked by highest market price">เรียงตามราคาตลาดสูงสุด</span>
-      </div>
-      <div class="chase-row" id="chase-row"></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="trust-row" id="hl-row"></div>
+      <div class="hl-row" id="hl-row"></div>
     </div>
   </section>
 
@@ -331,7 +297,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="crumb" id="crumb-sets"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
   <h1 class="page-ttl serif t" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
-  <div class="filter-row" id="sets-filter"></div>
+  <div class="filter-row" id="sets-filter-row"></div>
   <div class="sets-grid" id="sets-list"></div>
 </main>
 
@@ -379,87 +345,58 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 
 <script>
 const D={index:[],cache:{}};
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:'th',srchCards:[],srchShown:[],setFilter:'all'};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:'th',srchCards:[],srchShown:[],setCat:'all'};
 
-// image: real box/pack photo from official Bandai product pages (asia-th / en.onepiece-cardgame.com),
-// routed through the wsrv.nl image proxy because Bandai's CDN blocks cross-site <img> embeds
-// (hotlink protection keyed off browser Sec-Fetch-Site headers) -- direct URLs 404/timeout when
-// embedded from this site, but load fine through a server-side proxy fetch.
-// usd/thb for OP-01..OP-13, OP-16: researched real/secondary-market box prices (kept as-is).
-// usd/thb for all other codes: estimated from official MSRP (24 packs/box for boosters, 1 deck
-// for starters) x live USD->THB FX, scaled by the ~0.85x market multiplier observed across the
-// researched main-booster set -- a documented estimate, not a scraped real price.
 const BOX={
-  'OP-01':{usd:145,thb:4800,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop01%2Fmv_01.jpg%3Fv3'},
-  'OP-02':{usd:105,thb:3500,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop02%2Fmv_01.jpg%3Fv3'},
-  'OP-03':{usd:85,thb:2800,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop03%2Fmv_01.jpg%3Fv3'},
-  'OP-04':{usd:88,thb:2900,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop04%2Fmv_01.jpg%3Fv3'},
-  'OP-05':{usd:490,thb:16500,hot:true,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop05%2Fmv_01.jpg%3Fv3'},
-  'OP-06':{usd:85,thb:2800,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop06%2Fmv_01.jpg%3Fv3'},
-  'OP-07':{usd:95,thb:3200,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop07%2Fmv_01.jpg%3Fv3'},
-  'OP-08':{usd:110,thb:3700,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop08%2Fmv_01.jpg%3Fv3'},
-  'OP-09':{usd:135,thb:4500,hot:true,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop09%2Fmv_01.jpg%3Fv3'},
-  'OP-10':{usd:92,thb:3100,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop10%2Fmv_01.jpg%3Fv3'},
-  'OP-11':{usd:90,thb:3000,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop11%2Fmv_01.jpg%3Fv3'},
-  'OP-12':{usd:100,thb:3400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop12%2Fmv_01.jpg%3Fv3'},
-  'OP-13':{usd:195,thb:6500,hot:true,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fop13%2Fmv_01.jpg%3Fv3'},
-  'OP-16':{usd:88,thb:2950,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fonepiececg%2Fbccard%2Fjp%2Fproducts%2F2026%2F03%2F19%2FQRbilYFyY46pR9VQ%2Fimg_item01.webp'},
-  'EB-01':{usd:90,thb:3000,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Feb01%2Fmv_01.jpg%3Fv3'},
-  'EB-02':{usd:120,thb:4000,hot:true,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Feb02%2Fmv_01.jpg%3Fv1'},
-  'EB-03':{usd:102,thb:3400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fboosters%2Feb03%2Fimg_item01.webp'},
-  'OP14-EB04':{usd:102,thb:3400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fen.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fboosters%2Fop14%2Fimg_item01.webp'},
-  'OP15-EB04':{usd:102,thb:3400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fen.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fboosters%2Fop15-eb04%2Fimg_item01.webp'},
-  'PRB-01':{usd:132,thb:4400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fboosters%2Fprb01%2Fmv_01.jpg%3Fv%3D240726'},
-  'PRB-02':{usd:132,thb:4400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fboosters%2Fprb02%2Fimg_item01.webp'},
-  'ST-01':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst01-04%2Fmv_01.jpg'},
-  'ST-02':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst01-04%2Fmv_01.jpg'},
-  'ST-03':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst01-04%2Fmv_01.jpg'},
-  'ST-04':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst01-04%2Fmv_01.jpg'},
-  'ST-05':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst05%2Fmv_01.jpg'},
-  'ST-06':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst06%2Fmv_01.jpg'},
-  'ST-07':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst07%2Fmv_01.jpg'},
-  'ST-08':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst08%2Fmv_01.jpg'},
-  'ST-09':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst09%2Fmv_01.jpg'},
-  'ST-10':{usd:30,thb:1000,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst10%2Fmv_01.jpg'},
-  'ST-11':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst11%2Fmv_01.jpg'},
-  'ST-12':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst12%2Fmv_01.jpg'},
-  'ST-13':{usd:35,thb:1150,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst13%2Fmv_01.jpg'},
-  'ST-14':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst14%2Fmv_01.jpg'},
-  'ST-15':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst15-20%2Fmv_01.jpg'},
-  'ST-16':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst15-20%2Fmv_01.jpg'},
-  'ST-17':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst15-20%2Fmv_01.jpg'},
-  'ST-18':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst15-20%2Fmv_01.jpg'},
-  'ST-19':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst15-20%2Fmv_01.jpg'},
-  'ST-20':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Fimages%2Fproducts%2Fdecks%2Fst15-20%2Fmv_01.jpg'},
-  'ST-21':{usd:35,thb:1150,hot:true,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst21%2Fimg_item01.webp'},
-  'ST-22':{usd:17,thb:550,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst22%2Fimg_item01.webp'},
-  'ST-23':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst23%2Fimg_item01.webp'},
-  'ST-24':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst24%2Fimg_item01.webp'},
-  'ST-25':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst25%2Fimg_item01.webp'},
-  'ST-26':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst26%2Fimg_item01.webp'},
-  'ST-27':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst27%2Fimg_item01.webp'},
-  'ST-28':{usd:12,thb:400,hot:false,image:'https://wsrv.nl/?url=https%3A%2F%2Fasia-th.onepiece-cardgame.com%2Frenewal%2Fimages%2Fproducts%2Fdecks%2Fst28%2Fimg_item01.webp'}
+  'OP-01':{usd:145,thb:4800,hot:false},
+  'OP-02':{usd:105,thb:3500,hot:false},
+  'OP-03':{usd:85,thb:2800,hot:false},
+  'OP-04':{usd:88,thb:2900,hot:false},
+  'OP-05':{usd:490,thb:16500,hot:true},
+  'OP-06':{usd:85,thb:2800,hot:false},
+  'OP-07':{usd:95,thb:3200,hot:false},
+  'OP-08':{usd:110,thb:3700,hot:false},
+  'OP-09':{usd:135,thb:4500,hot:true},
+  'OP-10':{usd:92,thb:3100,hot:false},
+  'OP-11':{usd:90,thb:3000,hot:false},
+  'OP-12':{usd:100,thb:3400,hot:false},
+  'OP-13':{usd:195,thb:6500,hot:true},
+  'OP-16':{usd:88,thb:2950,hot:false}
 };
 
-// Set/deck "type" -- derived from the code itself so any new code the data
-// pipeline adds (more Extra Boosters, Starter Decks, etc.) is classified
-// automatically without another code change.
-function classifyType(code){
-  const u=code.toUpperCase();
-  if(u.startsWith('PRB'))return 'premium';
-  if(u.includes('EB'))return 'extra';
-  if(u.startsWith('ST'))return 'starter';
-  return 'booster';
+// Set classification, for filter chips + the official-site-style category
+// badge shown on every set tile. Anything not listed here falls back to
+// 'booster' (main numbered booster) since that's the common case.
+const SET_CAT={};
+['EB-01','EB-02','EB-03','OP14-EB04','OP15-EB04'].forEach(c=>SET_CAT[c]='extra');
+['PRB-01','PRB-02'].forEach(c=>SET_CAT[c]='premium');
+for(let i=1;i<=30;i++)SET_CAT[`ST-${String(i).padStart(2,'0')}`]='deck';
+function setCat(code){return SET_CAT[code]||'booster';}
+function setCatLabel(code,lang){
+  const c=setCat(code);
+  const map={booster:{th:'บูสเตอร์หลัก',en:'Booster'},extra:{th:'เอ็กซ์ตร้า บูสเตอร์',en:'Extra Booster'},premium:{th:'พรีเมียม บูสเตอร์',en:'Premium Booster'},deck:{th:'สตาร์ทเตอร์เด็ค',en:'Starter Deck'}};
+  return lang==='th'?map[c].th:map[c].en;
 }
-const TYPE_LABEL_TH={booster:'บูสเตอร์หลัก',extra:'เอ็กซ์ตร้าบูสเตอร์',premium:'พรีเมียมบูสเตอร์',starter:'สตาร์ทเตอร์เด็ค'};
-const TYPE_LABEL_EN={booster:'Main Booster',extra:'Extra Booster',premium:'Premium Booster',starter:'Starter Deck'};
+
+// Announced products with no card data yet (optcgapi hasn't added them).
+// Shown as "coming soon" tiles so the catalog matches the official site's
+// product list instead of silently omitting known, announced sets.
+const COMING_SOON=[
+  {code:'ST-31',nameTh:'สตาร์ทเตอร์เด็ค -แดง มังกี้.ดี.ลูฟี่-',nameEn:'Starter Deck -Red Monkey.D.Luffy-',date:'2026-07-11',cat:'deck'},
+  {code:'ST-32',nameTh:'สตาร์ทเตอร์เด็ค -เขียว โรโรโนอา โซโร-',nameEn:'Starter Deck -Green Roronoa Zoro-',date:'2026-07-11',cat:'deck'},
+  {code:'ST-33',nameTh:'สตาร์ทเตอร์เด็ค -ฟ้า คุซัง-',nameEn:'Starter Deck -Blue Kuzan-',date:'2026-07-11',cat:'deck'},
+  {code:'ST-34',nameTh:'สตาร์ทเตอร์เด็ค -ม่วง ชาร์ลอตต์ คาตาคุริ-',nameEn:'Starter Deck -Purple Charlotte Katakuri-',date:'2026-07-11',cat:'deck'},
+  {code:'ST-35',nameTh:'สตาร์ทเตอร์เด็ค -แดง/ดำ ซาโบ-',nameEn:'Starter Deck -Red/Black Sabo-',date:'2026-07-11',cat:'deck'},
+  {code:'ST-36',nameTh:'สตาร์ทเตอร์เด็ค -เหลือง ยูสตัส "กัปตัน" คิด-',nameEn:'Starter Deck -Yellow Eustass "Captain" Kid-',date:'2026-07-11',cat:'deck'},
+  {code:'EB-05',nameTh:'เอ็กซ์ตร้า บูสเตอร์ -One Piece Heroines Edition vol.2-',nameEn:'Extra Booster -ONE PIECE Heroines Edition vol.2-',date:'2026-10-01',cat:'extra'},
+];
 
 async function init(){
   try{
     const r=await fetch('one_piece_OP01-OP16_with_prices.json');
     const raw=await r.json();
     D.cache=raw;
-    D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length,type:classifyType(c)}));
+    D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length}));
   }catch(e){D.index=[];}
   renderHome();
   try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');const d=await r.json();if(d.rates?.THB)S.fx=d.rates.THB;}catch(e){}
@@ -498,13 +435,7 @@ function show(id){
 function goHome(){show('view-home');}
 function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span class="live" onclick="goHome()">'+( S.lang==='th'?'หน้าแรก':'Home')+'</span>'+html;}
 
-function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderTrend();renderChaseTop();renderHL();}
-
-function topCardOf(code){
-  const cards=D.cache[code]||[];
-  if(!cards.length)return null;
-  return cards.reduce((m,c)=>(c.market_price||0)>(m.market_price||0)?c:m,cards[0]);
-}
+function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();}
 
 function renderStats(){
   const cards=flat();
@@ -554,19 +485,13 @@ function renderPops(){
 
 function renderSpons(){
   const L=S.lang;
-  const palette=[['#f2b705','rgba(242,183,5,.13)'],['#2dd4bf','rgba(45,212,191,.13)'],['#38bdf8','rgba(56,189,248,.13)'],['#4ade80','rgba(74,222,128,.13)'],['#f87171','rgba(248,113,113,.13)'],['#c084fc','rgba(192,132,252,.13)']];
   const shops=[
-    {ic:'🏪',th:'พื้นที่ร้านค้า',en:'Shop Space'},
-    {ic:'🃏',th:'พื้นที่ร้านค้า',en:'Shop Space'},
-    {ic:'📦',th:'พื้นที่ร้านค้า',en:'Shop Space'},
-    {ic:'💎',th:'พื้นที่ร้านค้า',en:'Shop Space'},
-    {ic:'🛡️',th:'พื้นที่ร้านค้า',en:'Shop Space'},
-    {ic:'⭐',th:'พื้นที่ร้านค้า',en:'Shop Space'},
+    {ic:'🏪',name:L==='th'?'ร้านค้าของคุณ':'Your Shop',desc:L==='th'?'ลงโฆษณาที่นี่':'Advertise here'},
+    {ic:'🃏',name:L==='th'?'ร้านการ์ด':'Card Shop',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
+    {ic:'📦',name:L==='th'?'พื้นที่โฆษณา':'Ad Space',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
+    {ic:'💎',name:L==='th'?'สปอนเซอร์':'Sponsor',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
   ];
-  document.getElementById('spon-row').innerHTML=shops.map((s,i)=>{
-    const[accent,accents]=palette[i%palette.length];
-    return `<div class="spon-card" style="--accent:${accent};--accents:${accents}"><div class="spon-icon">${s.ic}</div><div class="spon-name">${L==='th'?s.th:s.en}</div><div class="spon-desc t" data-th="ยังไม่เปิดให้บริการ" data-en="Not yet open">ยังไม่เปิดให้บริการ</div><div class="spon-link">${L==='th'?'สนใจลงโฆษณา →':'Inquire →'}</div></div>`;
-  }).join('');
+  document.getElementById('spon-row').innerHTML=shops.map(s=>`<div class="spon-card"><div class="spon-icon">${s.ic}</div><div class="spon-name">${s.name}</div><div class="spon-desc">${s.desc}</div><div class="spon-link">${L==='th'?'ติดต่อสปอนเซอร์ →':'Contact →'}</div></div>`).join('');
 }
 
 function renderGames(){
@@ -593,12 +518,12 @@ function renderGames(){
 function renderHL(){
   const L=S.lang;
   const items=[
-    {ic:'🗂️',th:'ข้อมูลครบถ้วน',en:'Complete Data',dth:'ครอบคลุมทุกชุดการ์ด One Piece',den:'Covers every One Piece set'},
-    {ic:'🛡️',th:'เชื่อถือได้',en:'Trustworthy',dth:'ราคาจากแหล่งข้อมูลที่ตรวจสอบได้',den:'Prices from verifiable sources'},
-    {ic:'🔍',th:'ใช้งานง่าย',en:'Easy to Use',dth:'ค้นหาการ์ดที่ต้องการในไม่กี่วินาที',den:'Find any card in seconds'},
-    {ic:'🎁',th:'ฟรี! ไม่มีค่าใช้จ่าย',en:'Free, No Cost',dth:'เพื่อชุมชนนักสะสมการ์ดเกม',den:'Built for the TCG collector community'},
+    {ic:'📈',th:'อัปเดตราคาแบบเรียลไทม์',en:'Real-time Price Updates',dth:'ข้อมูลราคาจากหลายแหล่งทั่วโลก',den:'Price data from multiple global sources'},
+    {ic:'🔍',th:'ค้นหาไว แม่นยำ',en:'Fast & Accurate Search',dth:'หาการ์ดที่ต้องการในไม่กี่วินาที',den:'Find any card in seconds'},
+    {ic:'🛡️',th:'ข้อมูลแม่นยำ เชื่อถือได้',en:'Reliable Data',dth:'จากแหล่งข้อมูลที่เชื่อถือได้',den:'From verified data sources'},
+    {ic:'❤️',th:'สำหรับนักสะสม โดยนักสะสม',en:'By Collectors, For Collectors',dth:'สร้างคอลเลกชันของคุณได้ง่ายขึ้น',den:'Build your collection with ease'},
   ];
-  document.getElementById('hl-row').innerHTML=items.map(i=>`<div class="trust-card"><div class="trust-ic">${i.ic}</div><div class="trust-title">${L==='th'?i.th:i.en}</div><div class="trust-desc">${L==='th'?i.dth:i.den}</div></div>`).join('');
+  document.getElementById('hl-row').innerHTML=items.map(i=>`<div class="hl-card"><div class="hl-ic">${i.ic}</div><div><div class="hl-title">${L==='th'?i.th:i.en}</div><div class="hl-desc">${L==='th'?i.dth:i.den}</div></div></div>`).join('');
 }
 
 function renderTrend(){
@@ -607,38 +532,9 @@ function renderTrend(){
     const cards=D.cache[s.code]||[];
     const prices=cards.map(c=>c.market_price).filter(p=>typeof p==='number');
     const avg=prices.length?prices.reduce((a,b)=>a+b,0)/prices.length:0;
-    return{...s,avg,box:BOX[s.code]};
-  }).sort((a,b)=>(b.box?.hot?1:0)-(a.box?.hot?1:0)||b.avg-a.avg).slice(0,4);
-  document.getElementById('trend-row').innerHTML=rows.map((s,i)=>{
-    const box=s.box;
-    const img=box?.image||'';
-    const priceStr=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
-    const top=topCardOf(s.code);
-    const chaseHtml=top?`<span>${L==='th'?'การ์ดยอดนิยม':'Top chase'}</span><b>${top.card_name.replace(/\s*\(.*\)$/,'').trim()} · ${fp(top.market_price)}</b>`:`<span>${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</span>`;
-    return `<div class="trend-card" onclick="openSet('${s.code}')">
-      <div class="wo-rank">${i+1}</div>
-      <div class="wo-imgwrap"><img src="${img}" loading="lazy" onerror="this.style.visibility='hidden'">${box?.hot?`<span class="wo-tag">🔥 ${L==='th'?'ยอดนิยม':'Hot'}</span>`:''}</div>
-      <div class="wo-body">
-        <div class="trend-code">${s.code}</div>
-        <div class="trend-name">${s.name}</div>
-        <div class="trend-price">${L==='th'?'ราคากล่อง':'Box'} ${priceStr}</div>
-        <div class="wo-chase">${chaseHtml}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function renderChaseTop(){
-  const L=S.lang;
-  const all=[];
-  Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>all.push({code,c}));});
-  const top5=all.sort((a,b)=>(b.c.market_price||0)-(a.c.market_price||0)).slice(0,5);
-  document.getElementById('chase-row').innerHTML=top5.length?top5.map((r,i)=>`<div class="chase-card" onclick="jumpCard('${r.code}','${r.c.card_image_id}')">
-    <div class="chase-rank${i===0?' top':''}">${i+1}</div>
-    <img src="${r.c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-    <div class="chase-info"><div class="chase-name">${r.c.card_name}</div><div class="chase-meta">${r.code}${r.c.rarity?' · '+r.c.rarity:''}</div></div>
-    <div class="chase-price">${fp(r.c.market_price)}</div>
-  </div>`).join(''):`<div class="empty t" data-th="ยังไม่พบข้อมูลการ์ด" data-en="No card data yet">ยังไม่พบข้อมูลการ์ด</div>`;
+    return{...s,avg};
+  }).sort((a,b)=>b.avg-a.avg).slice(0,5);
+  document.getElementById('trend-row').innerHTML=rows.map(s=>`<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div>`).join('');
 }
 
 function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
@@ -711,32 +607,34 @@ function jumpCard(code,imgId){
 
 function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
 
-function setTypeFilter(t){S.setFilter=t;renderSets();}
+function setCatChips(){
+  const L=S.lang;
+  const cats=[
+    {k:'all',th:'ทั้งหมด',en:'All'},
+    {k:'booster',th:'Main Booster',en:'Main Booster'},
+    {k:'extra',th:'Extra Booster',en:'Extra Booster'},
+    {k:'premium',th:'Premium Booster',en:'Premium Booster'},
+    {k:'deck',th:'Starter Deck',en:'Starter Deck'},
+  ];
+  document.getElementById('sets-filter-row').innerHTML=`<div class="chip-group">`+cats.map(c=>`<button class="chip${S.setCat===c.k?' on':''}" onclick="setSetCat('${c.k}')">${L==='th'?c.th:c.en}</button>`).join('')+`</div>`;
+}
+function setSetCat(k){S.setCat=k;renderSets();}
 
 function renderSets(){
   show('view-sets');setCrumb('crumb-sets',' / One Piece');
   const L=S.lang;
-  if(!D.index.length){
-    document.getElementById('sets-filter').innerHTML='';
-    document.getElementById('sets-list').innerHTML='<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';
-    return;
-  }
-  const order=['all','booster','extra','premium','starter'];
-  const present=order.filter(t=>t==='all'||D.index.some(s=>s.type===t));
-  document.getElementById('sets-filter').innerHTML=present.map(t=>{
-    const lbl=t==='all'?(L==='th'?'ทั้งหมด':'All'):(L==='th'?TYPE_LABEL_TH[t]:TYPE_LABEL_EN[t]);
-    const cnt=t==='all'?D.index.length:D.index.filter(s=>s.type===t).length;
-    return `<button class="chip${S.setFilter===t?' on':''}" onclick="setTypeFilter('${t}')">${lbl} (${cnt})</button>`;
-  }).join('');
-  const list=S.setFilter==='all'?D.index:D.index.filter(s=>s.type===S.setFilter);
-  if(!list.length){document.getElementById('sets-list').innerHTML='<div class="empty">ไม่พบชุดในหมวดนี้</div>';return;}
-  document.getElementById('sets-list').innerHTML=list.map(s=>{
+  setCatChips();
+  const liveTiles=D.index.map(s=>{
+    const cat=setCat(s.code);
+    if(S.setCat!=='all'&&S.setCat!==cat)return null;
+    const cards=D.cache[s.code]||[];
+    const rep=cards.find(c=>c.rarity==='L')||cards[0];
+    const img=rep?rep.card_image:'';
     const box=BOX[s.code];
-    const img=box?.image||'';
     const price=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
-    const typeLbl=L==='th'?TYPE_LABEL_TH[s.type]:TYPE_LABEL_EN[s.type];
     return `<div class="set-card" onclick="openSet('${s.code}')">
       <div class="set-img-wrap">
+        <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <img src="${img||''}" loading="lazy" onerror="this.style.visibility='hidden'">
         <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
         ${box?.hot?'<div class="set-hot">🔥</div>':''}
@@ -744,10 +642,25 @@ function renderSets(){
       <div class="set-body">
         <div class="set-code">${s.code}</div>
         <div class="set-name">${s.name}</div>
-        <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · ${typeLbl}</div>
+        <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · <span style="color:var(--faint);font-size:10.5px">${L==='th'?'ราคาโดยประมาณ':'est. price'}</span></div>
       </div>
     </div>`;
-  }).join('');
+  }).filter(Boolean);
+  const soonTiles=COMING_SOON.filter(s=>S.setCat==='all'||S.setCat===s.cat).map(s=>`
+    <div class="set-card soon">
+      <div class="set-img-wrap">
+        <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
+        <span class="soon-ph">📦</span>
+        <div class="soon-tag">${L==='th'?'เร็วๆ นี้':'Coming Soon'}</div>
+      </div>
+      <div class="set-body">
+        <div class="set-code">${s.code}</div>
+        <div class="set-name">${L==='th'?s.nameTh:s.nameEn}</div>
+        <div class="set-meta">${L==='th'?'วางจำหน่าย':'Release'} ${s.date}</div>
+      </div>
+    </div>`);
+  const all=liveTiles.concat(soonTiles);
+  document.getElementById('sets-list').innerHTML=all.length?all.join(''):'<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';
 }
 
 function openSet(code){
