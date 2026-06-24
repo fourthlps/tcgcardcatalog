@@ -102,25 +102,22 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .hl-title{font-size:13.5px;font-weight:700;margin-bottom:3px}
 .hl-desc{font-size:12px;color:var(--soft)}
 
-/* TRENDING */
-.trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}
-.trend-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s;display:flex;gap:11px;align-items:flex-start}
-.trend-card:hover{border-color:var(--gold)}
-.trend-ic{position:relative;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden}
-.trend-real-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.trend-ic.cat-booster{background:var(--golds);color:var(--gold)}
-.trend-ic.cat-extra{background:var(--blues);color:var(--blue)}
-.trend-ic.cat-premium{background:var(--purples);color:var(--purple)}
-.trend-ic.cat-deck{background:var(--teals);color:var(--teal)}
-.trend-code{color:var(--gold);font-size:12px;font-weight:700;margin-bottom:3px}
-.trend-name{font-size:13px;font-weight:600;margin-bottom:7px}
-.trend-price{font-size:12px;color:var(--soft)}
+/* POPULAR SETS -- reuses the same big-image/category-badge/price-badge
+   visual language as the main Sets grid (.set-card) so the homepage row
+   reads as rich product art instead of a plain text-and-icon list */
+.trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
 .sec-link{margin-left:auto;cursor:pointer;color:var(--gold);font-size:12.5px;font-weight:600}
 .sec-link:hover{text-decoration:underline}
-.chase-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-.chase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s;position:relative}
+
+/* TOP CHASE CARDS -- horizontal sliding carousel */
+.chase-row-wrap{position:relative}
+.chase-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:2px;-ms-overflow-style:none;scrollbar-width:none}
+.chase-row::-webkit-scrollbar{display:none}
+.chase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s;position:relative;flex:0 0 152px;scroll-snap-align:start}
 .chase-card:hover{border-color:var(--gold);transform:translateY(-3px)}
 .chase-rank{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#160d00;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;z-index:2;font-family:Georgia,serif}
+.chase-rank.top3{background:linear-gradient(135deg,#ffd866,var(--gold));box-shadow:0 0 0 2px rgba(242,183,5,.3)}
+.chase-rank.rest{background:rgba(10,10,15,.82);border:1px solid var(--bord2);color:var(--gold)}
 .chase-img-wrap{position:relative;aspect-ratio:3/4;background:var(--bg3);overflow:hidden}
 .chase-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .chase-body{padding:11px 12px 13px}
@@ -129,6 +126,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .chase-set{font-size:11px;color:var(--soft);margin-bottom:6px}
 .chase-price{font-size:13.5px;font-weight:700;color:var(--gold);font-family:Georgia,serif}
 .chase-price-range{font-size:10.5px;color:var(--faint);margin-top:1px}
+.chase-arrow{position:absolute;top:38%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(10,10,15,.88);border:1px solid var(--bord2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:16px;transition:background .15s,border-color .15s,opacity .15s;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.chase-arrow:hover{border-color:var(--gold);color:var(--gold)}
+.chase-arrow.prev{left:-6px}
+.chase-arrow.next{right:-6px}
+.chase-arrow.hide{opacity:0;pointer-events:none}
+@media (max-width:680px){.chase-arrow{display:none}}
 
 /* CTA BANNER */
 .cta-banner{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--bord2);border-radius:14px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -298,7 +301,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
         <h2 class="t" data-th="การ์ดที่น่าสะสมมากที่สุด" data-en="Top Chase Cards">การ์ดที่น่าสะสมมากที่สุด</h2>
         <span class="sec-link t" data-th="ดูทั้งหมด →" data-en="View All →" onclick="openOnePiece()">ดูทั้งหมด →</span>
       </div>
-      <div class="chase-row" id="chase-row"></div>
+      <div class="chase-row-wrap">
+        <div class="chase-row" id="chase-row" onscroll="chaseScrollState()"></div>
+        <button class="chase-arrow prev hide" id="chase-prev" onclick="chaseScroll(-1)" aria-label="Previous">‹</button>
+        <button class="chase-arrow next" id="chase-next" onclick="chaseScroll(1)" aria-label="Next">›</button>
+      </div>
     </div>
   </section>
 
@@ -594,7 +601,20 @@ function renderTrend(){
   document.getElementById('trend-row').innerHTML=rows.map(s=>{
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
-    return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}${imgUrl?`<img class="trend-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
+    return `<div class="set-card" onclick="openSet('${s.code}')">
+      <div class="set-img-wrap cat-${cat}">
+        <div class="set-tile-pattern"></div>
+        <div class="set-tile-icon">${CAT_ICON[cat]}</div>
+        <div class="set-tile-code">${s.code}</div>
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
+        <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
+        <div class="set-price-badge">${L==='th'?'เฉลี่ย':'Avg'} $${s.avg.toFixed(2)}</div>
+      </div>
+      <div class="set-body">
+        <div class="set-code">${s.code}</div>
+        <div class="set-name">${s.name}</div>
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -611,13 +631,14 @@ function renderChase(){
     const bn=chaseBase(c.card_name);
     if(!bn||seen.has(bn))return false;
     seen.add(bn);return true;
-  }).slice(0,5);
+  }).slice(0,15);
   document.getElementById('chase-row').innerHTML=picks.map((c,i)=>{
     const lo=Math.min(c.market_price||0,c.inventory_price||0);
     const hi=Math.max(c.market_price||0,c.inventory_price||0);
     const variant=chaseVariant(c.card_name);
+    const rankCls=i<3?'top3':'rest';
     return `<div class="chase-card" onclick="jumpFC('${c.set_id||''}','${c.card_image_id}')">
-      <div class="chase-rank">${i+1}</div>
+      <div class="chase-rank ${rankCls}">${i+1}</div>
       <div class="chase-img-wrap"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
       <div class="chase-body">
         <div class="chase-name">${chaseBase(c.card_name)}</div>
@@ -628,6 +649,21 @@ function renderChase(){
       </div>
     </div>`;
   }).join('');
+  chaseScrollState();
+}
+
+function chaseScroll(dir){
+  const row=document.getElementById('chase-row');
+  const card=row.querySelector('.chase-card');
+  const step=card?(card.offsetWidth+14)*5:760;
+  row.scrollBy({left:dir*step,behavior:'smooth'});
+}
+function chaseScrollState(){
+  const row=document.getElementById('chase-row');
+  const prev=document.getElementById('chase-prev'),next=document.getElementById('chase-next');
+  if(!row||!prev||!next)return;
+  prev.classList.toggle('hide',row.scrollLeft<=4);
+  next.classList.toggle('hide',row.scrollLeft+row.clientWidth>=row.scrollWidth-4);
 }
 
 function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
