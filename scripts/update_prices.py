@@ -22,19 +22,35 @@ SET_CODES = [
 ]
 
 # Extra Boosters + Premium Boosters -- same /sets/{id}/ endpoint as above.
+#
+# KNOWN GAP (2026-06-24): optcgapi.com has no data under EB-04 / EB04 / EB-4
+# for "Extra Booster -EGGHEAD CRISIS-" (officially released 2026-01-31). It's
+# also absent from /api/allSets/. This is a hobbyist API that simply hasn't
+# added that set yet -- not something we can fix on our end without a second
+# data source (apitcg.com has a One Piece endpoint but requires a free API
+# key signup -- worth doing if this gap still matters once the rest of the
+# catalog is fixed). Until then, EB-04 cards/prices will be genuinely missing
+# from the site, same as any future not-yet-supported set.
 EXTRA_SET_CODES = [
     "EB-01",        # Extra Booster: Memorial Collection
     "EB-02",        # Extra Booster: Anime 25th Collection
     "EB-03",        # Extra Booster: One Piece Heroines Edition
-    "OP14-EB04",    # The Azure Sea's Seven (released in the OP-14 slot)
-    "OP15-EB04",    # Adventure on Kami's Island (released in the OP-15 slot)
+    "OP14-EB04",    # The Azure Sea's Seven -- a real main BOOSTER PACK (OP-14)
+                     # on the official site; optcgapi just files it under this
+                     # internal code. Confirmed against asia-th.onepiece-cardgame.com.
+    "OP15-EB04",    # Adventure on Kami's Island -- real main BOOSTER PACK (OP-15),
+                     # same optcgapi naming quirk as above.
     "PRB-01",       # Premium Booster - The Best
     "PRB-02",       # Premium Booster - The Best - Vol. 2
 ]
 
-# Starter Decks -- separate /decks/{id}/ endpoint. ST-01 through ST-28 cover
-# every deck released as of 2026-06 (confirmed against /api/allDecks/).
-DECK_CODES = [f"ST-{i:02d}" for i in range(1, 29)]
+# Starter Decks -- separate /decks/{id}/ endpoint. ST-01 through ST-30 cover
+# every deck released as of 2026-06-24 (ST-29 "Egghead" and ST-30 EX "Luffy &
+# Ace" confirmed live on both optcgapi and the official site). ST-31 through
+# ST-36 exist as announced products (release 2026-07-11) but optcgapi has no
+# card data for them yet -- they're listed as "coming soon" in index.html
+# instead of being fetched here.
+DECK_CODES = [f"ST-{i:02d}" for i in range(1, 31)]
 
 REQUEST_DELAY_SECONDS = 1.5  # be polite to a free hobbyist-run API
 
