@@ -581,7 +581,7 @@ function renderTrend(){
   document.getElementById('trend-row').innerHTML=rows.map(s=>{
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
-    return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}${imgUrl?`<img class="trend-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
+    return `<div class="trend-card" onclick="openSet('${s.code}')"><div class="trend-ic cat-${cat}">${CAT_ICON[cat]}${imgUrl?`<img class="trend-real-img" src="${imgUrl}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}</div><div><div class="trend-code">${s.code}</div><div class="trend-name">${s.name}</div><div class="trend-price">${L==='th'?'ราคาเฉลี่ย':'Avg.'} $${s.avg.toFixed(2)}</div></div></div>`;
   }).join('');
 }
 
@@ -683,7 +683,7 @@ function renderSets(){
         <div class="set-tile-pattern"></div>
         <div class="set-tile-icon">${CAT_ICON[cat]}</div>
         <div class="set-tile-code">${s.code}</div>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
         ${box?.hot?'<div class="set-hot">🔥</div>':''}
@@ -702,7 +702,7 @@ function renderSets(){
       <div class="set-img-wrap cat-${s.cat}">
         <div class="set-tile-pattern"></div>
         <span class="soon-ph">📦</span>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="soon-tag">${L==='th'?'เร็วๆ นี้':'Coming Soon'}</div>
       </div>
