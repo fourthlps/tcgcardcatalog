@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: '0 18 * * 0'   # ทุกวันอาทิตย์ 18:00 UTC = ตี 1 วันจันทร์ เวลาไทย
   workflow_dispatch:        # ปุ่มกดรันเองได้ทันทีจากแท็บ Actions ด้วย
+    inputs:
+      dry_run:
+        description: 'Dry-run price history ingest (true = validate only, do not append rows)'
+        type: boolean
+        default: true
+        required: false
 
 permissions:
   contents: write
@@ -22,6 +28,14 @@ jobs:
         run: pip install requests
 
       - name: Fetch latest prices
+        env:
+          APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
+          APPS_SCRIPT_SECRET: ${{ secrets.APPS_SCRIPT_SECRET }}
+          # Manual runs respect the dry_run input. Scheduled runs always stay
+          # dry-run until the Price History Raw pipeline has been manually
+          # verified for a few days (see PRICE-TRACKING-ARCHITECTURE.md Phase 2)
+          # -- a bad scheduled run must not silently corrupt the ledger.
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'true' }}
         run: python scripts/update_prices.py
 
       - name: Commit and push if changed
