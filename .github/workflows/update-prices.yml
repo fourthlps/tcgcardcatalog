@@ -35,7 +35,16 @@ jobs:
           # dry-run until the Price History Raw pipeline has been manually
           # verified for a few days (see PRICE-TRACKING-ARCHITECTURE.md Phase 2)
           # -- a bad scheduled run must not silently corrupt the ledger.
-          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'true' }}
+          #
+          # NOTE (2026-06-25): the previous version of this line used
+          # `github.event_name == 'workflow_dispatch' && inputs.dry_run || 'true'`.
+          # That's the classic &&/|| "ternary" pitfall: when inputs.dry_run is
+          # the boolean false (box unchecked), `true && false` short-circuits to
+          # false, and `false || 'true'` then falls through to 'true' -- so an
+          # unchecked dry-run box silently produced DRY_RUN=true anyway (caught
+          # when run #8 still logged "would append" with the box unchecked).
+          # Rewritten below to avoid evaluating the falsy middle operand.
+          DRY_RUN: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
         run: python scripts/update_prices.py
 
       - name: Commit and push if changed
