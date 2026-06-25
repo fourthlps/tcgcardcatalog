@@ -8,11 +8,34 @@ the single combined JSON file that index.html reads.
 import json
 import os
 import time
+from datetime import datetime, timezone
 
 import requests
 
 BASE_URL = "https://optcgapi.com/api"
 OUTPUT_PATH = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
+
+# --- Phase 2: Price History Raw ingest (see PRICE-TRACKING-ARCHITECTURE.md) ---
+#
+# Posts one append-only row per card per run to the "Price History Raw" sheet
+# via an Apps Script Web App endpoint, using market_price (falling back to
+# inventory_price) as the real price. Cards with no resolvable real price are
+# skipped, never faked. Source currency is USD -- that's what optcgapi.com
+# actually returns; THB is only ever a client-side display conversion in
+# index.html, never something to invent here.
+#
+# Configured via repo secrets APPS_SCRIPT_URL / APPS_SCRIPT_SECRET. DRY_RUN
+# defaults to true so this can be wired up and exercised via manual
+# workflow_dispatch runs without writing anything to the history ledger until
+# it's been verified for a few days -- per the Phase 2 plan in the
+# architecture doc ("a bad run shouldn't silently corrupt the history
+# ledger"). Set DRY_RUN=false (as a workflow env/input) once that's done.
+APPS_SCRIPT_URL = os.environ.get("APPS_SCRIPT_URL", "")
+APPS_SCRIPT_SECRET = os.environ.get("APPS_SCRIPT_SECRET", "")
+DRY_RUN = os.environ.get("DRY_RUN", "true").strip().lower() != "false"
+HISTORY_BATCH_SIZE = 200
+HISTORY_CURRENCY = "USD"
+HISTORY_SOURCE = "optcgapi.com"
 
 # Main numbered booster sets (OP-01 .. OP-16, skipping OP-14/OP-15 which were
 # never released as standalone boosters -- see EXTRA_SET_CODES below).
@@ -81,6 +104,83 @@ def fetch_deck_cards(deck_id: str):
     return resp.json()
 
 
+def build_history_rows(combined: dict, run_date: str, timestamp: str):
+    """One row per card with a resolvable real price. No row for cards with
+    no real price -- that's the explicit skip-dont-fake rule from
+    PRICE-TRACKING-ARCHITECTURE.md section 4/5."""
+    rows = []
+    skipped = 0
+
+    for set_code, cards in combined.items():
+        for card in cards:
+            card_id = card.get("card_set_id")
+            if not card_id:
+                skipped += 1
+                continue
+
+            price = card.get("market_price")
+            if price is None:
+                price = card.get("inventory_price")
+            if price is None:
+                skipped += 1
+                continue
+            try:
+                price = float(price)
+            except (TypeError, ValueError):
+                skipped += 1
+                continue
+
+            rows.append({
+                "date": run_date,
+                "card_id": card_id,
+                "card_name": card.get("card_name") or "",
+                "set_code": set_code,
+                "market_price": price,
+                "currency": HISTORY_CURRENCY,
+                "source": HISTORY_SOURCE,
+                "source_url": f"{BASE_URL}/sets/{set_code}/",
+                "confidence": "auto",
+                "timestamp": timestamp,
+            })
+
+    return rows, skipped
+
+
+def post_history_rows(rows):
+    """Batch-POST rows to the Apps Script ingest endpoint. Returns True if
+    every batch succeeded (or DRY_RUN reported success), False otherwise --
+    callers should never treat a failure here as fatal for the main JSON
+    pipeline, which already succeeded by the time this runs."""
+    if not rows:
+        print("Price history: nothing to send (no cards had a real price)")
+        return True
+
+    if not APPS_SCRIPT_URL or not APPS_SCRIPT_SECRET:
+        print("Price history: APPS_SCRIPT_URL/APPS_SCRIPT_SECRET not configured, skipping ingest")
+        return True
+
+    ok = True
+    for i in range(0, len(rows), HISTORY_BATCH_SIZE):
+        batch = rows[i:i + HISTORY_BATCH_SIZE]
+        payload = {"secret": APPS_SCRIPT_SECRET, "dryRun": DRY_RUN, "rows": batch}
+        try:
+            resp = requests.post(APPS_SCRIPT_URL, json=payload, timeout=30)
+            resp.raise_for_status()
+            body = resp.json()
+            if not body.get("ok"):
+                print(f"Price history: batch {i}-{i+len(batch)} rejected: {body.get('error')}")
+                ok = False
+            elif DRY_RUN:
+                print(f"Price history: batch {i}-{i+len(batch)} dry-run OK, would append {body.get('wouldAppend')}")
+            else:
+                print(f"Price history: batch {i}-{i+len(batch)} appended at row {body.get('startRow')}")
+        except requests.RequestException as exc:
+            print(f"Price history: batch {i}-{i+len(batch)} failed to send ({exc})")
+            ok = False
+
+    return ok
+
+
 def main():
     combined = {}
 
@@ -116,6 +216,17 @@ def main():
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(combined)} sets/decks -> {OUTPUT_PATH}")
+
+    # Phase 2: append today's real prices to Price History Raw. This never
+    # touches/overwrites the JSON file above and never blocks on failure --
+    # the live site's data pipeline (this script's original job) must keep
+    # working even if the history ledger endpoint is down or misconfigured.
+    now = datetime.now(timezone.utc)
+    run_date = now.strftime("%Y-%m-%d")
+    timestamp = now.isoformat()
+    history_rows, skipped = build_history_rows(combined, run_date, timestamp)
+    print(f"Price history: {len(history_rows)} cards with a real price, {skipped} skipped (no real price)")
+    post_history_rows(history_rows)
 
 
 if __name__ == "__main__":
