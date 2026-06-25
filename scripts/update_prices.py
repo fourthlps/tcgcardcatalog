@@ -18,9 +18,13 @@ OUTPUT_PATH = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 # --- Phase 2: Price History Raw ingest (see PRICE-TRACKING-ARCHITECTURE.md) ---
 #
 # Posts one append-only row per card per run to the "Price History Raw" sheet
-# via an Apps Script Web App endpoint, using market_price (falling back to
-# inventory_price) as the real price. Cards with no resolvable real price are
-# skipped, never faked. Source currency is USD -- that's what optcgapi.com
+# via an Apps Script Web App endpoint, using market_price ONLY as the real
+# price. inventory_price is intentionally NOT used as a fallback -- per the
+# official-ledger sourcing decision made 2026-06-25, only optcgapi.com's own
+# market_price field is trusted for this ledger. Cards with a null/missing
+# market_price are skipped entirely for that day -- counted in the
+# "missing market_price" stat, never faked, never backfilled from
+# inventory_price. Source currency is USD -- that's what optcgapi.com
 # actually returns; THB is only ever a client-side display conversion in
 # index.html, never something to invent here.
 #
@@ -112,29 +116,33 @@ def fetch_deck_cards(deck_id: str):
 
 
 def build_history_rows(combined: dict, run_date: str, timestamp: str):
-    """One row per card with a resolvable real price. No row for cards with
-    no real price -- that's the explicit skip-dont-fake rule from
-    PRICE-TRACKING-ARCHITECTURE.md section 4/5."""
+    """One row per card with a real, non-null market_price. market_price is
+    the ONLY field trusted for this ledger -- inventory_price is never used
+    as a fallback (official-ledger sourcing decision, 2026-06-25). A card
+    with no market_price that day is skipped entirely: no row is written for
+    it, and it is counted under stats['skipped_no_price'] so the gap is
+    visible in the logs rather than silently invented or backfilled."""
     rows = []
-    skipped = 0
+    scanned = 0
+    skipped_no_id = 0
+    skipped_no_price = 0
 
     for set_code, cards in combined.items():
         for card in cards:
+            scanned += 1
             card_id = card.get("card_set_id")
             if not card_id:
-                skipped += 1
+                skipped_no_id += 1
                 continue
 
             price = card.get("market_price")
             if price is None:
-                price = card.get("inventory_price")
-            if price is None:
-                skipped += 1
+                skipped_no_price += 1
                 continue
             try:
                 price = float(price)
             except (TypeError, ValueError):
-                skipped += 1
+                skipped_no_price += 1
                 continue
 
             rows.append({
@@ -150,7 +158,14 @@ def build_history_rows(combined: dict, run_date: str, timestamp: str):
                 "timestamp": timestamp,
             })
 
-    return rows, skipped
+    stats = {
+        "scanned": scanned,
+        "with_market_price": len(rows),
+        "skipped_no_id": skipped_no_id,
+        "skipped_no_price": skipped_no_price,
+        "skipped_total": skipped_no_id + skipped_no_price,
+    }
+    return rows, stats
 
 
 def post_history_rows(rows):
@@ -249,8 +264,28 @@ def main():
     now = datetime.now(timezone.utc)
     run_date = now.strftime("%Y-%m-%d")
     timestamp = now.isoformat()
-    history_rows, skipped = build_history_rows(combined, run_date, timestamp)
-    print(f"Price history: {len(history_rows)} cards with a real price, {skipped} skipped (no real price)")
+    history_rows, stats = build_history_rows(combined, run_date, timestamp)
+    print(
+        f"Price history: {stats['scanned']} cards scanned, "
+        f"{stats['with_market_price']} with market_price, "
+        f"{stats['skipped_total']} skipped total "
+        f"({stats['skipped_no_price']} missing market_price, "
+        f"{stats['skipped_no_id']} missing card_set_id)"
+    )
+
+    # Verification-run diagnostics: only printed during DRY_RUN, since these
+    # are for human review before flipping to a real write, not something we
+    # need cluttering the daily production log once the ledger is live.
+    if DRY_RUN and history_rows:
+        print("Price history: sample rows (first 10) --")
+        for r in history_rows[:10]:
+            print(f"  {r['card_id']:<14} {r['card_name']:<40} {r['market_price']:>8.2f} {r['currency']}")
+
+        top20 = sorted(history_rows, key=lambda r: r["market_price"], reverse=True)[:20]
+        print("Price history: top 20 highest market_price --")
+        for rank, r in enumerate(top20, start=1):
+            print(f"  {rank:>2}. {r['card_id']:<14} {r['card_name']:<40} {r['market_price']:>8.2f} {r['currency']}")
+
     post_history_rows(history_rows)
 
 
