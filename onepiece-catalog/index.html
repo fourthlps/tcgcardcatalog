@@ -548,8 +548,8 @@ async function init(){
     D.cache=raw;
     D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length}));
   }catch(e){D.index=[];}
-  applyLangUI();
   renderHome();
+  applyLangUI();
   try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');const d=await r.json();if(d.rates?.THB)S.fx=d.rates.THB;}catch(e){}
 }
 
@@ -581,9 +581,9 @@ function applyLangUI(){
 function toggleLang(){
   S.lang=S.lang==='th'?'en':'th';
   localStorage.setItem('voyage_lang',S.lang);
-  applyLangUI();
   renderHome();
   if(document.getElementById('view-sets').style.display!=='none')renderSets();
+  applyLangUI();
 }
 
 function toggleCur(){
