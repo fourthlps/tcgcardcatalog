@@ -7,7 +7,15 @@
 <style>
 :root{--bg:#f6f8fc;--bg2:#ffffff;--bg3:#eef2fb;--border:rgba(15,23,42,.08);--bord2:rgba(15,23,42,.15);--gold:#3b6fe0;--golds:rgba(59,111,224,.10);--text:#101728;--soft:#5b6478;--faint:#94a0b8;--teal:#0d9488;--teals:rgba(13,148,136,.12);--blue:#2563eb;--blues:rgba(37,99,235,.12);--green:#16a34a;--purple:#8b5cf6;--purples:rgba(139,92,246,.12);--shadow:0 1px 2px rgba(16,23,42,.04),0 6px 18px rgba(16,23,42,.06);--shadow-hover:0 12px 28px rgba(59,111,224,.16)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.55}
+body{position:relative;background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.55}
+/* Ambient site-wide glow -- soft, low-opacity color pools that keep the
+   whole page feeling like one continuous premium canvas instead of plain
+   flat-grey section blocks. Fixed so it stays consistent while scrolling. */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(ellipse 50% 32% at 6% 0%,rgba(37,99,235,.07),transparent 60%),
+  radial-gradient(ellipse 42% 28% at 96% 6%,rgba(139,92,246,.06),transparent 60%),
+  radial-gradient(ellipse 38% 26% at 50% 100%,rgba(13,148,136,.05),transparent 60%)}
+.hdr,#view-home,main.app{position:relative;z-index:1}
 .serif{font-family:Georgia,'Iowan Old Style',serif}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
@@ -32,10 +40,21 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .login-btn:hover{opacity:.88}
 .login-btn[disabled]{opacity:.55;cursor:not-allowed}
 @media (max-width:920px){.hdr-search{display:none}}
+@media (max-width:760px){.nav a.dim{display:none}}
+@media (max-width:540px){.hero-copy h1{font-size:28px}.nav{gap:12px}.nav a{font-size:12.5px}}
 
 /* HERO */
-.hero{background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.08),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.08),transparent 60%),#ffffff;padding:52px 0 40px}
-.hero-in{display:flex;gap:36px;align-items:center;flex-wrap:wrap}
+.hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.10),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.10),transparent 60%),#ffffff;padding:56px 0 64px}
+/* Abstract soft-glow orbs -- an ocean/aurora feel without copying any
+   specific reference image; pure CSS blur, no external assets. */
+.hero-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0}
+.hero-orb.a{width:440px;height:440px;background:radial-gradient(circle,rgba(37,99,235,.32),transparent 70%);top:-180px;right:-100px}
+.hero-orb.b{width:380px;height:380px;background:radial-gradient(circle,rgba(139,92,246,.28),transparent 70%);bottom:-220px;left:-120px}
+.hero-orb.c{width:260px;height:260px;background:radial-gradient(circle,rgba(45,212,191,.20),transparent 70%);top:30%;left:42%}
+@media (max-width:680px){.hero-orb{display:none}}
+/* Soft wave divider into the next section, in lieu of a hard edge */
+.hero-wave{position:absolute;left:0;bottom:-1px;width:100%;height:46px;z-index:1;display:block}
+.hero-in{position:relative;z-index:2;display:flex;gap:36px;align-items:center;flex-wrap:wrap}
 .hero-copy{flex:1;min-width:300px}
 .hero-copy h1{font-size:38px;font-weight:800;line-height:1.12;margin-bottom:12px}
 .hero-copy h1 .gold{color:var(--gold)}
@@ -55,37 +74,46 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .stat-v{font-weight:700;font-size:15px}
 .stat-l{font-size:10.5px;color:var(--faint)}
 
-/* FEATURED CARD PANEL */
-.fc-wrap{flex:0 0 auto;width:340px}
-.fc-panel{background:var(--bg2);border:1px solid var(--bord2);border-radius:14px;padding:16px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.fc-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 110% -20%,rgba(124,58,237,.08),transparent);pointer-events:none}
-.fc-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.05em;margin-bottom:14px}
-.fc-body{display:flex;gap:14px}
-.fc-img{width:110px;height:154px;object-fit:cover;border-radius:8px;background:var(--bg3);flex-shrink:0;box-shadow:0 8px 24px rgba(0,0,0,.4)}
-.fc-details{flex:1;display:flex;flex-direction:column;gap:8px}
-.fc-name{font-family:Georgia,serif;font-size:17px;font-weight:700;line-height:1.2}
-.fc-variant{font-size:12px;color:var(--soft)}
-.fc-set-badge{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;color:var(--soft);align-self:flex-start}
-.fc-price-label{font-size:11px;color:var(--faint);margin-top:4px}
-.fc-price{font-family:Georgia,serif;font-size:26px;font-weight:800;color:var(--gold);line-height:1}
-.fc-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:9px 14px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:700;width:100%;transition:background .15s,color .15s;margin-top:4px}
-.fc-btn:hover{background:var(--gold);color:#ffffff}
+/* FEATURED CARD PANEL -- the hero's key highlight, not a side widget:
+   bigger image, bigger price, a glowing gradient-rimmed container so it
+   visually anchors the hero the way the reference's hero highlight does. */
+.fc-wrap{flex:0 0 auto;width:400px}
+.fc-panel{background:linear-gradient(165deg,#ffffff,var(--bg3) 130%);border:1px solid var(--bord2);border-radius:20px;padding:24px;position:relative;overflow:hidden;box-shadow:0 24px 56px rgba(37,99,235,.18),0 6px 18px rgba(16,23,42,.07)}
+.fc-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 85% 65% at 112% -25%,rgba(124,58,237,.14),transparent);pointer-events:none}
+.fc-panel::after{content:'';position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.20),transparent 70%);top:-70px;right:-70px;filter:blur(6px);pointer-events:none}
+.fc-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#fff;font-weight:800;letter-spacing:.05em;margin-bottom:16px;background:linear-gradient(135deg,#2563eb,#7c3aed);padding:6px 13px;border-radius:999px;box-shadow:0 8px 18px rgba(37,99,235,.32);position:relative}
+.fc-body{display:flex;gap:18px;position:relative}
+.fc-img{width:150px;height:210px;object-fit:cover;border-radius:12px;background:var(--bg3);flex-shrink:0;box-shadow:0 16px 34px rgba(16,23,42,.28)}
+.fc-details{flex:1;display:flex;flex-direction:column;gap:9px;min-width:0}
+.fc-name{font-family:Georgia,serif;font-size:20px;font-weight:700;line-height:1.2}
+.fc-variant{font-size:12.5px;color:var(--soft)}
+.fc-set-badge{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--soft);align-self:flex-start}
+.fc-price-label{font-size:11px;color:var(--faint);margin-top:6px}
+.fc-price{font-family:Georgia,serif;font-size:36px;font-weight:800;color:var(--gold);line-height:1}
+.fc-btn{background:linear-gradient(135deg,#2563eb,#7c3aed);border:none;color:#fff;padding:11px 16px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;width:100%;transition:opacity .15s,transform .12s;margin-top:6px;box-shadow:0 10px 22px rgba(37,99,235,.28)}
+.fc-btn:hover{opacity:.9;transform:translateY(-1px)}
+@media (max-width:680px){.fc-wrap{width:100%}.fc-img{width:130px;height:182px}}
 
 /* SECTIONS */
-.section{padding:34px 0;border-top:1px solid var(--border)}
+.section{padding:34px 0;border-top:1px solid var(--border);position:relative}
 .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;flex-wrap:wrap}
 .sec-head h2{font-size:17px;font-weight:700}
 .sec-note{font-size:11.5px;color:var(--faint)}
 .ad-badge{font-size:10px;background:var(--golds);color:var(--gold);padding:2px 7px;border-radius:4px;font-weight:700}
+/* Soft full-bleed tinted "zones" so sections read as polished color
+   regions instead of identical plain-grey blocks repeated down the page. */
+.section.zone-a{border-top:none;background:linear-gradient(180deg,rgba(37,99,235,.045),rgba(124,58,237,.03))}
+.section.zone-b{border-top:none;background:linear-gradient(180deg,rgba(124,58,237,.04),rgba(13,148,136,.03))}
 
 /* SPONSOR ROW */
-.spon-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}
-.spon-card{background:var(--bg2);border:1px dashed var(--bord2);border-radius:10px;padding:16px;text-align:center;transition:border-color .15s,box-shadow .15s;cursor:pointer;box-shadow:var(--shadow)}
-.spon-card:hover{border-color:var(--gold);box-shadow:var(--shadow-hover)}
-.spon-icon{width:38px;height:38px;margin:0 auto 10px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px}
-.spon-name{font-size:12px;font-weight:600;margin-bottom:4px}
-.spon-desc{font-size:11px;color:var(--soft);margin-bottom:8px}
-.spon-link{font-size:11px;color:var(--gold)}
+.spon-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px}
+.spon-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 16px;text-align:center;transition:border-color .15s,box-shadow .15s,transform .15s;cursor:pointer;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.spon-card::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(37,99,235,.05),transparent 60%);pointer-events:none}
+.spon-card:hover{border-color:var(--gold);box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.spon-icon{width:40px;height:40px;margin:0 auto 10px;border-radius:12px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative}
+.spon-name{font-size:12.5px;font-weight:700;margin-bottom:4px;position:relative}
+.spon-desc{font-size:11px;color:var(--soft);margin-bottom:8px;position:relative}
+.spon-link{font-size:11px;color:var(--gold);font-weight:600;position:relative}
 
 /* BROWSE GAMES */
 .games-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
@@ -117,6 +145,32 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .trend-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px}
 .sec-link{margin-left:auto;cursor:pointer;color:var(--gold);font-size:12.5px;font-weight:600}
 .sec-link:hover{text-decoration:underline}
+
+/* WEEKLY BOXES -- a dedicated card style (not reusing .set-card) because
+   the brief specifically asks for a bigger image with NO text overlay on
+   top of it, plus a clear score + label readout below the image. */
+.box-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:18px}
+.boxcard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s,border-color .15s;display:flex;flex-direction:column}
+.boxcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--gold)}
+.boxcard-img-wrap{position:relative;aspect-ratio:4/3;background:linear-gradient(150deg,var(--bg3),#ffffff);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.boxcard-img-wrap img{width:100%;height:100%;object-fit:cover}
+.boxcard-rank{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:8px;padding:4px 9px;font-size:11px;font-weight:800;color:var(--gold);box-shadow:0 4px 10px rgba(16,23,42,.12)}
+.boxcard-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:7px;flex:1}
+.boxcard-code{font-family:Georgia,serif;color:var(--gold);font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.boxcard-name{font-weight:700;font-size:15px;line-height:1.32;min-height:38px}
+.boxcard-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:1px}
+.boxcard-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.01em;color:#fff}
+.boxcard-badge.best{background:#16a34a}
+.boxcard-badge.high{background:#2563eb}
+.boxcard-badge.moderate{background:#d97706}
+.boxcard-badge.collect{background:#7c3aed}
+.boxcard-meta-row{display:flex;align-items:center;justify-content:space-between;margin-top:5px;gap:8px}
+.boxcard-price{font-family:Georgia,serif;font-weight:800;font-size:18px;color:var(--text)}
+.boxcard-score{font-size:11.5px;font-weight:700;color:var(--soft);text-align:right;white-space:nowrap}
+.boxcard-score b{color:var(--gold);font-size:14px}
+.boxcard-cta{margin-top:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;padding:10px 12px;border-radius:9px;font-weight:700;font-size:12.5px;cursor:pointer;width:100%;transition:opacity .15s}
+.boxcard-cta:hover{opacity:.88}
+@media (max-width:560px){.box-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.boxcard-name{min-height:0}}
 
 /* MARKET TRENDS -- 3 wide info cards (rising / falling / popular chase) */
 .mtrend-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
@@ -155,7 +209,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 .chase-arrow.prev{left:-6px}
 .chase-arrow.next{right:-6px}
 .chase-arrow.hide{opacity:0;pointer-events:none}
-@media (max-width:680px){.chase-arrow{display:none}}
+/* Arrows stay available on mobile too (not just touch-swipe) -- just a
+   little smaller so they don't crowd the cards on a narrow screen. */
+@media (max-width:680px){.chase-arrow{width:30px;height:30px;font-size:14px;top:34%}}
 
 /* CTA BANNER */
 .cta-banner{background:linear-gradient(135deg,#2563eb,#7c3aed);border:none;border-radius:14px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;box-shadow:var(--shadow-hover)}
@@ -297,6 +353,12 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 <!-- HOME -->
 <div id="view-home">
   <section class="hero">
+    <div class="hero-orb a" aria-hidden="true"></div>
+    <div class="hero-orb b" aria-hidden="true"></div>
+    <div class="hero-orb c" aria-hidden="true"></div>
+    <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,30 C240,58 480,2 720,22 C960,42 1200,8 1440,28 L1440,60 L0,60 Z" style="fill:var(--bg)"></path>
+    </svg>
     <div class="wrap hero-in">
       <div class="hero-copy">
         <h1>
@@ -324,7 +386,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </div>
   </section>
 
-  <section class="section">
+  <section class="section zone-a">
     <div class="wrap">
       <div class="sec-head">
         <h2 class="t" data-th="เทรนด์ตลาดการ์ด" data-en="Card Market Trends">เทรนด์ตลาดการ์ด</h2>
@@ -333,11 +395,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </div>
   </section>
 
-  <section class="section">
+  <section class="section zone-a">
     <div class="wrap">
       <div class="sec-head">
         <h2 class="t" data-th="การ์ดที่น่าสะสมมากที่สุด" data-en="Top Chase Cards">การ์ดที่น่าสะสมมากที่สุด</h2>
-        <span class="sec-link t" data-th="ดูทั้งหมด →" data-en="View All →" onclick="openOnePiece()">ดูทั้งหมด →</span>
+        <span class="sec-link t" data-th="ดูทั้งหมด →" data-en="View All →" onclick="openChaseAll()">ดูทั้งหมด →</span>
       </div>
       <div class="chase-row-wrap" id="chase-row-wrap">
         <div class="chase-row" id="chase-row" onscroll="chaseScrollState()"></div>
@@ -347,13 +409,14 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </div>
   </section>
 
-  <section class="section">
+  <section class="section zone-b">
     <div class="wrap">
       <div class="sec-head">
         <h2 class="t" data-th="กล่องน่าเปิดประจำสัปดาห์" data-en="This Week's Boxes Worth Opening">กล่องน่าเปิดประจำสัปดาห์</h2>
         <span class="sec-note t" data-th="One Piece Card Game" data-en="One Piece Card Game">One Piece Card Game</span>
+        <span class="sec-link t" data-th="ดูทุกชุด →" data-en="View All Sets →" onclick="openOnePiece()">ดูทุกชุด →</span>
       </div>
-      <div class="trend-row" id="box-row"></div>
+      <div class="box-grid" id="box-row"></div>
     </div>
   </section>
 
@@ -524,7 +587,7 @@ const CAT_ICON={booster:'⚓',extra:'✨',premium:'👑',deck:'🗡️'};
 function setImgUrl(code){
   const cards=D.cache[code];
   if(!cards||!cards.length)return null;
-  const top=cards.reduce((m,c)=>(c.market_price||0)>(m.market_price||0)?c:m,cards[0]);
+  const top=cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]);
   return top.card_image||null;
 }
 
@@ -570,6 +633,20 @@ function fpL(usd,thbReal){
 }
 function rc(r){return r?'rtag '+r.replace(/[^A-Z]/g,''):'rtag';}
 
+// Single source of truth for "the real price" of a card: prefer the live
+// market price; only fall back to the inventory/listing price when no
+// market price exists yet. Every ranking/sorting/"highest price" spot on
+// the site (stats, Featured Card, set tile art, trends, Top Chase Cards,
+// search sort) calls this so the number used to pick/rank a card always
+// matches the number shown on screen for it.
+function realPrice(c){
+  if(!c)return 0;
+  const m=Number(c.market_price);
+  if(!isNaN(m)&&m>0)return m;
+  const i=Number(c.inventory_price);
+  return (!isNaN(i)&&i>0)?i:0;
+}
+
 function applyLangUI(){
   document.querySelectorAll('.t').forEach(el=>{
     const v=el.dataset[S.lang];if(v)el.textContent=v;
@@ -611,7 +688,7 @@ function renderHome(){renderStats();renderFC();renderPops();renderSpons();render
 
 function renderStats(){
   const cards=flat();
-  const hi=cards.reduce((m,c)=>Math.max(m,c.market_price||0),0);
+  const hi=cards.reduce((m,c)=>Math.max(m,realPrice(c)),0);
   const L=S.lang;
   const st=[
     {ic:'⚓',v:D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
@@ -623,7 +700,7 @@ function renderStats(){
 
 function renderFC(){
   const cards=flat();if(!cards.length)return;
-  const top=cards.reduce((m,c)=>(c.market_price||0)>(m.market_price||0)?c:m,cards[0]);
+  const top=cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]);
   const L=S.lang;
   const setCode=Object.entries(D.cache).find(([,v])=>v.some(c=>c.card_image_id===top.card_image_id))?.[0]||'';
   const setName=D.index.find(s=>s.code===setCode)?.name||'';
@@ -636,7 +713,7 @@ function renderFC(){
         <div class="fc-variant">${top.card_name.match(/\(.*\)/)?.[0]||''}</div>
         <div class="fc-set-badge">${top.card_set_id||''} · ${setName}</div>
         <div class="fc-price-label">${L==='th'?'ราคาสูงสุด':'Highest Price'}</div>
-        <div class="fc-price">${fpL(top.market_price||0)}</div>
+        <div class="fc-price">${fpL(realPrice(top))}</div>
         <button class="fc-btn" onclick="jumpFC('${setCode}','${top.card_image_id}')">${L==='th'?'ดูรายละเอียดการ์ด →':'View Card Details →'}</button>
       </div>
     </div>`;
@@ -706,7 +783,7 @@ function renderTrend(){
   const L=S.lang;
   const cards=flat();
   const seen=new Set();
-  const top=cards.slice().sort((a,b)=>(b.market_price||0)-(a.market_price||0)).find(c=>{
+  const top=cards.slice().sort((a,b)=>realPrice(b)-realPrice(a)).find(c=>{
     const bn=chaseBase(c.card_name);if(!bn||seen.has(bn))return false;seen.add(bn);return true;
   });
   const soonTxt=L==='th'?'เร็ว ๆ นี้':'Coming Soon';
@@ -717,7 +794,7 @@ function renderTrend(){
         <img class="mtrend-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
         <div>
           <div class="mtrend-name">${chaseBase(top.card_name)}</div>
-          <div class="mtrend-price">${fpL(top.market_price||0)}</div>
+          <div class="mtrend-price">${fpL(realPrice(top))}</div>
         </div>
       </div>`:`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
   document.getElementById('trend-row').innerHTML=`
@@ -735,27 +812,53 @@ function renderTrend(){
     </div>`;
 }
 
+// "Opening value" score (0-10): data-driven from the set's own card prices
+// rather than a static/placeholder number -- it grows with how much the
+// single best chase card in the box is worth relative to the box's own
+// price (a box with a $300 chase card and a $90 price is a much better
+// "open" than one whose best card barely covers the box cost).
+function boxScore(code){
+  const cards=D.cache[code]||[];
+  const box=BOX[code];
+  if(!box)return null;
+  const topPrice=cards.reduce((m,c)=>Math.max(m,realPrice(c)),0);
+  const boxUsd=box.usd>0?box.usd:1;
+  const ratio=topPrice/boxUsd;
+  let score=4+Math.log2(1+ratio)*2.15;
+  score=Math.max(2,Math.min(9.8,score));
+  return Math.round(score*10)/10;
+}
+function boxLabel(score,L){
+  if(score>=8.3)return{cls:'best',txt:L==='th'?'ตัวเลือกที่ดีที่สุด':'Best Pick'};
+  if(score>=6.8)return{cls:'high',txt:L==='th'?'มูลค่า Chase สูง':'High Chase Value'};
+  if(score>=5.2)return{cls:'moderate',txt:L==='th'?'ความเสี่ยงปานกลาง':'Moderate Risk'};
+  return{cls:'collect',txt:L==='th'?'สำหรับนักสะสม':'For Collectors'};
+}
 function renderBoxes(){
   const L=S.lang;
-  const rows=D.index.filter(s=>BOX[s.code]).map(s=>({...s,box:BOX[s.code]}));
-  document.getElementById('box-row').innerHTML=rows.map(s=>{
+  const rows=D.index.filter(s=>BOX[s.code]).map(s=>{
+    const score=boxScore(s.code)??5;
+    return{...s,box:BOX[s.code],score};
+  }).sort((a,b)=>b.score-a.score).slice(0,5);
+  document.getElementById('box-row').innerHTML=rows.map((s,i)=>{
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
     const price=fpL(s.box.usd,s.box.thb);
-    const rating=s.box.hot?(L==='th'?'🔥 น่าเปิดสูง':'🔥 High Open Value'):(L==='th'?'⭐ น่าเปิดปานกลาง':'⭐ Moderate Open Value');
-    return `<div class="set-card" onclick="openSet('${s.code}')">
-      <div class="set-img-wrap cat-${cat}">
-        <div class="set-tile-pattern"></div>
-        <div class="set-tile-icon">${CAT_ICON[cat]}</div>
-        <div class="set-tile-code">${s.code}</div>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
-        <div class="set-cat-badge">${rating}</div>
-        <div class="set-price-badge">${price}</div>
+    const lbl=boxLabel(s.score,L);
+    return `<div class="boxcard" onclick="openSet('${s.code}')">
+      <div class="boxcard-img-wrap">
+        ${imgUrl?`<img src="${imgUrl}" loading="lazy" onerror="this.remove()">`:`<div style="font-size:36px;opacity:.35">${CAT_ICON[cat]}</div>`}
+        <div class="boxcard-rank">#${i+1}</div>
       </div>
-      <div class="set-body">
-        <div class="set-code">${s.code}</div>
-        <div class="set-name">${s.name}</div>
-        <button class="fc-btn" style="margin-top:8px" onclick="event.stopPropagation();openSet('${s.code}')">${L==='th'?'ดูรายละเอียด →':'View Details →'}</button>
+      <div class="boxcard-body">
+        <div class="boxcard-code">${s.code}</div>
+        <div class="boxcard-name">${s.name}</div>
+        <div class="boxcard-badges"><span class="boxcard-badge ${lbl.cls}">${lbl.txt}</span></div>
+        <div class="boxcard-meta-row">
+          <div class="boxcard-price">${price}</div>
+          <div class="boxcard-score">${L==='th'?'คะแนนความน่าเปิด':'Open Value'}<br><b>${s.score.toFixed(1)}</b>/10</div>
+        </div>
+        <button class="boxcard-cta" onclick="event.stopPropagation();openSet('${s.code}')">${L==='th'?'ดูรายละเอียด →':'View Details →'}</button>
       </div>
     </div>`;
   }).join('');
@@ -767,17 +870,27 @@ function chaseVariant(n){
   if(!parts)return '';
   return parts.map(s=>s.slice(1,-1)).filter(s=>!/^\d+$/.test(s)&&!/^OP\d+-\d+$/i.test(s)).join(', ');
 }
-function renderChase(){
+// Top Chase Cards: ranked strictly by realPrice() (real market price,
+// falling back to inventory price only when a card has no market price at
+// all). The displayed price is the exact same number used to sort/rank, so
+// rank 2 is guaranteed to be the 2nd-highest *displayed* price, rank 3 the
+// 3rd, etc. -- no more mixing in inventory_price for display while sorting
+// by market_price, which is what made the old ranking look wrong.
+function chasePicks(limit){
   const cards=flat();
   const seen=new Set();
-  const picks=cards.slice().sort((a,b)=>(b.market_price||0)-(a.market_price||0)).filter(c=>{
+  return cards.slice().sort((a,b)=>realPrice(b)-realPrice(a)).filter(c=>{
     const bn=chaseBase(c.card_name);
     if(!bn||seen.has(bn))return false;
     seen.add(bn);return true;
-  }).slice(0,15);
+  }).slice(0,limit);
+}
+function renderChase(){
+  const L=S.lang;
+  const picks=chasePicks(15);
   document.getElementById('chase-row').innerHTML=picks.map((c,i)=>{
-    const lo=Math.min(c.market_price||0,c.inventory_price||0);
-    const hi=Math.max(c.market_price||0,c.inventory_price||0);
+    const price=realPrice(c);
+    const showInv=c.inventory_price>0&&Math.abs(c.inventory_price-price)>0.009;
     const variant=chaseVariant(c.card_name);
     const rankCls=i<3?'top3':'rest';
     return `<div class="chase-card" onclick="jumpFC('${c.set_id||''}','${c.card_image_id}')">
@@ -787,19 +900,60 @@ function renderChase(){
         <div class="chase-name">${chaseBase(c.card_name)}</div>
         ${variant?`<div class="chase-variant">(${variant})</div>`:''}
         <div class="chase-set">${c.card_set_id||''}${c.rarity?' · '+c.rarity:''}</div>
-        <div class="chase-price">${fpL(hi)}</div>
-        ${lo!==hi?`<div class="chase-price-range">${fpL(lo)} – ${fpL(hi)}</div>`:''}
+        <div class="chase-price">${fpL(price)}</div>
+        ${showInv?`<div class="chase-price-range">${L==='th'?'ราคาสต็อก':'Inventory'}: ${fpL(c.inventory_price)}</div>`:''}
       </div>
     </div>`;
   }).join('');
   chaseScrollState();
+  initChaseWheel();
+}
+
+// "View All" for Top Chase Cards -- reuses the existing search-results view
+// (no new page/route needed) to list a much longer realPrice-ranked,
+// de-duplicated set of chase cards with the same rarity-chip + sort
+// controls already built for search.
+function openChaseAll(){
+  const L=S.lang;
+  const picks=chasePicks(60).map(c=>{
+    const code=Object.entries(D.cache).find(([,v])=>v.some(x=>x.card_image_id===c.card_image_id))?.[0]||c.set_id||'';
+    return {type:'card',code,card:c};
+  });
+  show('view-search');
+  setCrumb('crumb-srch',' / '+(L==='th'?'Chase Cards ทั้งหมด':'All Chase Cards'));
+  document.getElementById('srch-ttl').textContent=L==='th'?'การ์ดที่น่าสะสมมากที่สุด':'Top Chase Cards';
+  document.getElementById('srch-count').textContent=L==='th'?`พบ ${picks.length} การ์ด`:`${picks.length} cards`;
+  const rarities=[...new Set(picks.map(r=>r.card.rarity).filter(Boolean))];
+  const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
+  document.getElementById('srch-filters').style.display='flex';
+  document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
+  document.getElementById('srch-sort').value='price-desc';
+  S.srchCards=picks;S.srchShown=picks;
+  document.getElementById('srch-results').innerHTML='';
+  renderSrchCards(picks);
 }
 
 function chaseScroll(dir){
   const row=document.getElementById('chase-row');
   const card=row.querySelector('.chase-card');
   const step=card?(card.offsetWidth+14)*5:760;
-  row.scrollBy({left:dir*step,behavior:'auto'});
+  row.scrollBy({left:dir*step,behavior:'smooth'});
+}
+// Lets a regular mouse wheel / trackpad vertical scroll move the chase
+// carousel horizontally too (not just the arrow buttons / touch swipe),
+// since most desktop input devices don't generate native horizontal
+// scroll events over a row like this.
+function initChaseWheel(){
+  const row=document.getElementById('chase-row');
+  if(!row||row._wheelBound)return;
+  row._wheelBound=true;
+  row.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){
+      e.preventDefault();
+      row.scrollLeft+=e.deltaY;
+    }
+  },{passive:false});
 }
 function chaseScrollState(){
   const row=document.getElementById('chase-row');
@@ -828,8 +982,8 @@ function applySrchFilters(){
   const chips=[...document.querySelectorAll('#srch-rarity-chips .chip.on')].map(c=>c.dataset.r);
   let list=S.srchCards.slice();
   if(chips.length)list=list.filter(r=>chips.includes(r.card.rarity));
-  if(sort==='price-desc')list.sort((a,b)=>(b.card.market_price||0)-(a.card.market_price||0));
-  else if(sort==='price-asc')list.sort((a,b)=>(a.card.market_price||0)-(b.card.market_price||0));
+  if(sort==='price-desc')list.sort((a,b)=>realPrice(b.card)-realPrice(a.card));
+  else if(sort==='price-asc')list.sort((a,b)=>realPrice(a.card)-realPrice(b.card));
   S.srchShown=list;
   renderSrchCards(list);
 }
@@ -866,7 +1020,7 @@ function renderSrchCards(cards){
     const c=r.card;
     return `<div class="card-tile" onclick="jumpCard('${r.code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(c.market_price)}</p></div>
+      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
     </div>`;
   }).join(''):'<div class="empty">ไม่พบการ์ดตาม filter นี้</div>');
 }
@@ -971,8 +1125,8 @@ function applyFilters(){
   if(q)list=list.filter(c=>c.card_name.toLowerCase().includes(q));
   if(S.rarities.size)list=list.filter(c=>S.rarities.has(c.rarity));
   const sort=document.getElementById('sort-sel').value;
-  if(sort==='price-desc')list.sort((a,b)=>(b.market_price||0)-(a.market_price||0));
-  else if(sort==='price-asc')list.sort((a,b)=>(a.market_price||0)-(b.market_price||0));
+  if(sort==='price-desc')list.sort((a,b)=>realPrice(b)-realPrice(a));
+  else if(sort==='price-asc')list.sort((a,b)=>realPrice(a)-realPrice(b));
   paintCards(list);
 }
 
@@ -982,7 +1136,7 @@ function paintCards(cards){
   if(!cards.length){grid.innerHTML='<div class="empty">ไม่พบการ์ด</div>';return;}
   grid.innerHTML=cards.map((c,i)=>`<div class="card-tile" onclick="openCard(${i})">
     <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-    <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(c.market_price)}</p></div>
+    <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
   </div>`).join('');
 }
 
