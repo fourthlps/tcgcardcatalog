@@ -36,6 +36,13 @@ DRY_RUN = os.environ.get("DRY_RUN", "true").strip().lower() != "false"
 HISTORY_BATCH_SIZE = 200
 HISTORY_CURRENCY = "USD"
 HISTORY_SOURCE = "optcgapi.com"
+# Apps Script Web Apps occasionally return a transient 500 under back-to-back
+# doPost calls (e.g. brief Sheets-service contention) -- seen once in 21
+# batches during manual dry-run testing on 2026-06-25. Retrying a couple of
+# times with a short delay lets a single blip self-heal instead of silently
+# dropping that batch's rows for the day.
+HISTORY_MAX_ATTEMPTS = 3
+HISTORY_RETRY_DELAY_SECONDS = 2
 
 # Main numbered booster sets (OP-01 .. OP-16, skipping OP-14/OP-15 which were
 # never released as standalone boosters -- see EXTRA_SET_CODES below).
@@ -150,7 +157,11 @@ def post_history_rows(rows):
     """Batch-POST rows to the Apps Script ingest endpoint. Returns True if
     every batch succeeded (or DRY_RUN reported success), False otherwise --
     callers should never treat a failure here as fatal for the main JSON
-    pipeline, which already succeeded by the time this runs."""
+    pipeline, which already succeeded by the time this runs.
+
+    Each batch gets up to HISTORY_MAX_ATTEMPTS tries with a short delay
+    between them, so a single transient 500 from the Apps Script Web App
+    doesn't drop that batch's rows for the day -- it just retries."""
     if not rows:
         print("Price history: nothing to send (no cards had a real price)")
         return True
@@ -163,19 +174,33 @@ def post_history_rows(rows):
     for i in range(0, len(rows), HISTORY_BATCH_SIZE):
         batch = rows[i:i + HISTORY_BATCH_SIZE]
         payload = {"secret": APPS_SCRIPT_SECRET, "dryRun": DRY_RUN, "rows": batch}
-        try:
-            resp = requests.post(APPS_SCRIPT_URL, json=payload, timeout=30)
-            resp.raise_for_status()
-            body = resp.json()
-            if not body.get("ok"):
-                print(f"Price history: batch {i}-{i+len(batch)} rejected: {body.get('error')}")
-                ok = False
-            elif DRY_RUN:
-                print(f"Price history: batch {i}-{i+len(batch)} dry-run OK, would append {body.get('wouldAppend')}")
-            else:
-                print(f"Price history: batch {i}-{i+len(batch)} appended at row {body.get('startRow')}")
-        except requests.RequestException as exc:
-            print(f"Price history: batch {i}-{i+len(batch)} failed to send ({exc})")
+        batch_ok = False
+        last_error = None
+
+        for attempt in range(1, HISTORY_MAX_ATTEMPTS + 1):
+            try:
+                resp = requests.post(APPS_SCRIPT_URL, json=payload, timeout=30)
+                resp.raise_for_status()
+                body = resp.json()
+                if not body.get("ok"):
+                    # Rejected by the script itself (e.g. bad secret/payload)
+                    # -- retrying won't change that, so stop immediately.
+                    last_error = body.get("error")
+                    break
+                if DRY_RUN:
+                    print(f"Price history: batch {i}-{i+len(batch)} dry-run OK, would append {body.get('wouldAppend')}")
+                else:
+                    print(f"Price history: batch {i}-{i+len(batch)} appended at row {body.get('startRow')}")
+                batch_ok = True
+                break
+            except requests.RequestException as exc:
+                last_error = exc
+                if attempt < HISTORY_MAX_ATTEMPTS:
+                    print(f"Price history: batch {i}-{i+len(batch)} attempt {attempt}/{HISTORY_MAX_ATTEMPTS} failed ({exc}), retrying...")
+                    time.sleep(HISTORY_RETRY_DELAY_SECONDS)
+
+        if not batch_ok:
+            print(f"Price history: batch {i}-{i+len(batch)} failed after {HISTORY_MAX_ATTEMPTS} attempt(s) ({last_error})")
             ok = False
 
     return ok
