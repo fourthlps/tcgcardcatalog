@@ -37,6 +37,7 @@ jobs:
           # The boolean false / 'false' edge-case is handled via != 'workflow_dispatch'
           # to avoid the classic &&/|| ternary pitfall (see previous comment history).
           DRY_RUN: ${{ github.event_name != 'workflow_dispatch' && 'false' || inputs.dry_run }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
         run: python scripts/update_prices.py
 
       - name: Commit and push if changed
