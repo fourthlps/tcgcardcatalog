@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voyage Log — TCG Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f8fc;--bg2:#ffffff;--bg3:#eef2fb;--border:rgba(15,23,42,.08);--bord2:rgba(15,23,42,.15);--gold:#3b6fe0;--golds:rgba(59,111,224,.10);--text:#101728;--soft:#5b6478;--faint:#94a0b8;--teal:#0d9488;--teals:rgba(13,148,136,.12);--blue:#2563eb;--blues:rgba(37,99,235,.12);--green:#16a34a;--purple:#8b5cf6;--purples:rgba(139,92,246,.12);--shadow:0 1px 2px rgba(16,23,42,.04),0 6px 18px rgba(16,23,42,.06);--shadow-hover:0 12px 28px rgba(59,111,224,.16);
+:root{--bg:#f6f8fc;--bg2:#ffffff;--bg3:#eef2fb;--border:rgba(15,23,42,.08);--bord2:rgba(15,23,42,.15);--gold:#3b6fe0;--golds:rgba(59,111,224,.10);--text:#101728;--soft:#5b6478;--faint:#94a0b8;--teal:#0d9488;--teals:rgba(13,148,136,.12);--blue:#2563eb;--blues:rgba(37,99,235,.12);--green:#16a34a;--purple:#8b5cf6;--purples:rgba(139,92,246,.12);--shadow:0 1px 2px rgba(16,23,42,.04),0 6px 18px rgba(16,23,42,.06);--shadow-hover:0 12px 28px rgba(59,111,224,.16);--font-display:'Outfit',system-ui,sans-serif;--ease-out:cubic-bezier(0.25,0.46,0.45,0.94);
 /* Chase/manga highlight tokens reuse the existing chase-rank gold accent
    (#ffd866 / rgba(242,183,5,*)) and the site's own hue set for a
    "rainbow" gradient, instead of introducing any brand-new colors. */
@@ -26,6 +29,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   radial-gradient(ellipse 46% 30% at 98% 2%,rgba(139,92,246,.07),transparent 62%),
   radial-gradient(ellipse 40% 30% at 50% 102%,rgba(205,168,103,.05),transparent 62%),
   radial-gradient(ellipse 70% 50% at 50% 38%,rgba(245,241,252,.55),transparent 70%)}
+body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:url('assets/55e6d703-fc33-41ae-9af6-a5107b573747.png');
+  background-size:cover;background-position:center top;
+  opacity:.045;filter:saturate(.5)}
 .hdr,#view-home,main.app{position:relative;z-index:1}
 
 /* ============================================================
@@ -83,7 +90,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   .home-art::after{background:
     linear-gradient(180deg,rgba(255,255,255,.4) 0%,rgba(255,255,255,.05) 26%,rgba(255,255,255,.05) 74%,rgba(255,255,255,.32) 100%),
     radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,255,255,.24),transparent 70%)}}
-.serif{font-family:Georgia,'Iowan Old Style',serif}
+.serif{font-family:var(--font-display);font-weight:700}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
 /* HEADER */
@@ -91,7 +98,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .hdr-in{max-width:1280px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:20px}
 .brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
 .brand-icon{font-size:22px;color:var(--gold)}
-.brand-name{font-family:Georgia,serif;font-size:17px;font-weight:700}
+.brand-name{font-family:var(--font-display);font-size:17px;font-weight:700}
 .brand-sub{font-size:9px;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;display:block;margin-top:-2px}
 .nav{display:flex;gap:18px;flex:1}
 .nav a{color:var(--soft);text-decoration:none;font-size:13.5px;font-weight:600;cursor:pointer;transition:color .15s;white-space:nowrap}
@@ -142,7 +149,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .hero-wave{position:absolute;left:0;bottom:-1px;width:100%;height:46px;z-index:1;display:block}
 .hero-in{position:relative;z-index:2;display:flex;gap:36px;align-items:center;flex-wrap:wrap}
 .hero-copy{flex:1;min-width:300px}
-.hero-copy h1{font-size:38px;font-weight:800;line-height:1.12;margin-bottom:12px}
+.hero-copy h1{font-family:var(--font-display);font-size:42px;font-weight:800;line-height:1.08;margin-bottom:12px;letter-spacing:-.02em}
 .hero-copy h1 .gold{color:var(--gold)}
 .hero-copy .sub{color:var(--soft);font-size:14.5px;margin-bottom:22px;max-width:420px}
 .search-box{display:flex;gap:8px;margin-bottom:10px}
@@ -171,19 +178,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .fc-body{display:flex;gap:18px;position:relative}
 .fc-img{width:150px;height:210px;object-fit:cover;border-radius:12px;background:var(--bg3);flex-shrink:0;box-shadow:0 16px 34px rgba(16,23,42,.28)}
 .fc-details{flex:1;display:flex;flex-direction:column;gap:9px;min-width:0}
-.fc-name{font-family:Georgia,serif;font-size:20px;font-weight:700;line-height:1.2}
+.fc-name{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1.2}
 .fc-variant{font-size:12.5px;color:var(--soft)}
 .fc-set-badge{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--soft);align-self:flex-start}
 .fc-price-label{font-size:11px;color:var(--faint);margin-top:6px}
-.fc-price{font-family:Georgia,serif;font-size:36px;font-weight:800;color:var(--gold);line-height:1}
+.fc-price{font-family:var(--font-display);font-size:40px;font-weight:800;color:var(--gold);line-height:1;letter-spacing:-.02em}
 .fc-btn{background:linear-gradient(135deg,#2563eb,#7c3aed);border:none;color:#fff;padding:11px 16px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;width:100%;transition:opacity .15s,transform .12s;margin-top:6px;box-shadow:0 10px 22px rgba(37,99,235,.28)}
 .fc-btn:hover{opacity:.9;transform:translateY(-1px)}
+.fc-btn:active{transform:scale(0.97) translateY(0)}
 @media (max-width:680px){.fc-wrap{width:100%}.fc-img{width:130px;height:182px}}
 
 /* SECTIONS */
 .section{padding:34px 0;border-top:1px solid var(--border);position:relative}
 .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;flex-wrap:wrap}
-.sec-head h2{font-size:17px;font-weight:700}
+.sec-head h2{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.01em}
 .sec-note{font-size:11.5px;color:var(--faint)}
 .ad-badge{font-size:10px;background:var(--golds);color:var(--gold);padding:2px 7px;border-radius:4px;font-weight:700}
 /* Soft full-bleed tinted "zones" so sections read as polished color
@@ -203,13 +211,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 
 /* BROWSE GAMES */
 .games-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.game-tile{border-radius:14px;padding:28px 24px;cursor:pointer;position:relative;overflow:hidden;border:1px solid var(--border);transition:transform .15s,border-color .15s,box-shadow .15s;box-shadow:var(--shadow)}
+.game-tile{border-radius:14px;padding:28px 24px;cursor:pointer;position:relative;overflow:hidden;border:1px solid var(--border);transition:transform .22s var(--ease-out),border-color .22s var(--ease-out),box-shadow .22s var(--ease-out);box-shadow:var(--shadow)}
 .game-tile:hover:not(.disabled){transform:translateY(-3px);border-color:var(--gold);box-shadow:var(--shadow-hover)}
 .game-tile.op{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-color:transparent}
-.game-tile.disabled{background:linear-gradient(135deg,#eef2fb,#e2e8f0);cursor:default;color:var(--text)}
+.game-tile.disabled{cursor:default;color:var(--text)}
+.game-tile.pkm{background:linear-gradient(135deg,#fefce8,#fef3c7,#fde8ff)}
+.game-tile.nrt{background:linear-gradient(135deg,#fff7ed,#ffedd5,#fce7f3)}
+.game-tile.lrc{background:linear-gradient(135deg,#f0fdf4,#dcfce7,#e0f2fe)}
 .tile-svg{position:absolute;right:-10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
 .tile-icon{font-size:28px;margin-bottom:10px;position:relative}
-.tile-name{font-family:Georgia,serif;font-size:22px;font-weight:700;letter-spacing:.02em;margin-bottom:2px;position:relative}
+.tile-name{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:2px;position:relative}
 .tile-sub{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;position:relative}
 .tile-meta{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:16px;position:relative}
 .game-tile.disabled .tile-sub{color:rgba(16,23,40,.45)}
@@ -236,13 +247,14 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
    the brief specifically asks for a bigger image with NO text overlay on
    top of it, plus a clear score + label readout below the image. */
 .box-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:18px}
-.boxcard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s,border-color .15s;display:flex;flex-direction:column}
+.boxcard{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:transform .22s var(--ease-out),box-shadow .22s var(--ease-out),border-color .22s var(--ease-out);display:flex;flex-direction:column}
 .boxcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--gold)}
+.boxcard:active{transform:translateY(-1px) scale(0.99)}
 .boxcard-img-wrap{position:relative;aspect-ratio:4/3;background:linear-gradient(150deg,var(--bg3),#ffffff);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .boxcard-img-wrap img{width:100%;height:100%;object-fit:cover}
 .boxcard-rank{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:8px;padding:4px 9px;font-size:11px;font-weight:800;color:var(--gold);box-shadow:0 4px 10px rgba(16,23,42,.12)}
 .boxcard-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:7px;flex:1}
-.boxcard-code{font-family:Georgia,serif;color:var(--gold);font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.boxcard-code{font-family:var(--font-display);color:var(--gold);font-size:12.5px;font-weight:700;letter-spacing:.02em}
 .boxcard-name{font-weight:700;font-size:15px;line-height:1.32;min-height:38px}
 .boxcard-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:1px}
 .boxcard-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.01em;color:#fff}
@@ -251,7 +263,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .boxcard-badge.moderate{background:#d97706}
 .boxcard-badge.collect{background:#7c3aed}
 .boxcard-meta-row{display:flex;align-items:center;justify-content:space-between;margin-top:5px;gap:8px}
-.boxcard-price{font-family:Georgia,serif;font-weight:800;font-size:18px;color:var(--text)}
+.boxcard-price{font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--text)}
 .boxcard-score{font-size:11.5px;font-weight:700;color:var(--soft);text-align:right;white-space:nowrap}
 .boxcard-score b{color:var(--gold);font-size:14px}
 .boxcard-cta{margin-top:8px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:none;padding:10px 12px;border-radius:9px;font-weight:700;font-size:12.5px;cursor:pointer;width:100%;transition:opacity .15s}
@@ -270,8 +282,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .mtrend-body{display:flex;gap:12px;align-items:center}
 .mtrend-img{width:46px;height:64px;object-fit:cover;border-radius:6px;background:var(--bg3);flex-shrink:0}
 .mtrend-name{font-size:12.5px;font-weight:600;line-height:1.3;margin-bottom:3px}
-.mtrend-price{font-size:14px;font-weight:700;color:var(--gold);font-family:Georgia,serif}
-.mtrend-note{font-size:11.5px;color:var(--faint);line-height:1.5}
+.mtrend-price{font-size:14px;font-weight:700;color:var(--gold);font-family:var(--font-display)}
+.mtrend-note{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;text-align:center}
+.mtrend-note-ic{font-size:22px;opacity:.4}
+.mtrend-note-hd{font-size:12px;font-weight:600;color:var(--soft)}
+.mtrend-note-sub{font-size:11px;color:var(--faint);line-height:1.5;max-width:180px}
 .trend-pill{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle;white-space:nowrap}
 .trend-pill.up{color:#16a34a;background:rgba(22,163,74,.12)}
 .trend-pill.down{color:#dc2626;background:rgba(220,38,38,.12)}
@@ -280,9 +295,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .chase-row-wrap{position:relative}
 .chase-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:2px;-ms-overflow-style:none;scrollbar-width:none}
 .chase-row::-webkit-scrollbar{display:none}
-.chase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s,box-shadow .15s;position:relative;flex:0 0 152px;scroll-snap-align:start;box-shadow:var(--shadow)}
+.chase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .22s var(--ease-out),transform .22s var(--ease-out),box-shadow .22s var(--ease-out);position:relative;flex:0 0 152px;scroll-snap-align:start;box-shadow:var(--shadow)}
 .chase-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-hover)}
-.chase-rank{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#ffffff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;z-index:2;font-family:Georgia,serif}
+.chase-rank{position:absolute;top:8px;left:8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#ffffff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;z-index:2;font-family:var(--font-display)}
 .chase-rank.top3{background:linear-gradient(135deg,#ffd866,var(--gold));box-shadow:0 0 0 2px rgba(242,183,5,.3)}
 .chase-rank.rest{background:rgba(10,10,15,.82);border:1px solid var(--bord2);color:var(--gold)}
 .chase-img-wrap{position:relative;aspect-ratio:3/4;background:var(--bg3);overflow:hidden}
@@ -291,7 +306,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .chase-name{font-size:13px;font-weight:700;line-height:1.25;margin-bottom:2px}
 .chase-variant{font-size:10.5px;color:var(--faint);margin-bottom:6px;font-style:italic}
 .chase-set{font-size:11px;color:var(--soft);margin-bottom:6px}
-.chase-price{font-size:13.5px;font-weight:700;color:var(--gold);font-family:Georgia,serif}
+.chase-price{font-size:13.5px;font-weight:700;color:var(--gold);font-family:var(--font-display)}
 .chase-price-range{font-size:10.5px;color:var(--faint);margin-top:1px}
 .chase-arrow{position:absolute;top:38%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:rgba(10,10,15,.88);border:1px solid var(--bord2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:16px;transition:background .15s,border-color .15s,opacity .15s;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 .chase-arrow:hover{border-color:var(--gold);color:var(--gold)}
@@ -334,7 +349,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .crumb{font-size:13px;color:var(--faint);margin-bottom:16px}
 .crumb span.live{color:var(--gold);cursor:pointer}
 .crumb span.live:hover{text-decoration:underline}
-.page-ttl{font-size:24px;font-weight:700;margin-bottom:20px}
+.page-ttl{font-family:var(--font-display);font-size:26px;font-weight:800;margin-bottom:20px;letter-spacing:-.02em}
 .back-btn{background:var(--bg2);border:1px solid var(--bord2);border-radius:7px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--text);margin-bottom:16px;transition:border-color .15s}
 .back-btn:hover{border-color:var(--gold)}
 .cur-btn{background:var(--bg2);border:1px solid var(--bord2);color:var(--text);padding:6px 13px;border-radius:999px;font-size:12px;cursor:pointer;transition:border-color .15s}
@@ -343,13 +358,15 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 /* SETS GRID -- large, clear, near-full-size set art (matches official
    product-grid look: big image first, code/name/price as a caption) */
 .sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
-.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .12s,box-shadow .15s;box-shadow:var(--shadow)}
-.set-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .22s var(--ease-out),transform .22s var(--ease-out),box-shadow .22s var(--ease-out);box-shadow:var(--shadow)}
+.set-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.set-card:active{transform:translateY(-1px) scale(0.99)}
+.set-card:hover .set-real-img{transform:scale(1.04)}
 .set-img-wrap{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center}
-.set-real-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--bg3)}
+.set-real-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--bg3);transition:transform .35s var(--ease-out)}
 .set-tile-pattern{position:absolute;inset:0;opacity:.6;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 2px,transparent 2px 14px)}
 .set-tile-icon{position:relative;font-size:30px;opacity:.55;margin-bottom:8px}
-.set-tile-code{position:relative;font-family:Georgia,serif;font-weight:800;font-size:24px;letter-spacing:.01em;color:var(--text);text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.set-tile-code{position:relative;font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:.01em;color:var(--text);text-shadow:0 2px 12px rgba(0,0,0,.5)}
 .set-img-wrap.cat-booster{background:linear-gradient(150deg,rgba(242,183,5,.20),var(--bg3) 72%)}
 .set-img-wrap.cat-booster .set-cat-badge{color:var(--gold);border-color:rgba(242,183,5,.35)}
 .set-img-wrap.cat-extra{background:linear-gradient(150deg,rgba(56,189,248,.20),var(--bg3) 72%)}
@@ -362,7 +379,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-price-badge{position:absolute;bottom:9px;left:9px;background:rgba(10,10,15,.85);border:1px solid var(--gold);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;color:var(--gold)}
 .set-hot{position:absolute;top:9px;right:9px;font-size:14px}
 .set-body{padding:13px 14px 15px}
-.set-code{font-family:Georgia,serif;font-size:13.5px;color:var(--gold);margin-bottom:2px}
+.set-code{font-family:var(--font-display);font-size:13.5px;color:var(--gold);margin-bottom:2px}
 .set-name{font-weight:600;font-size:14px;margin-bottom:4px;line-height:1.3}
 .set-meta{font-size:11.5px;color:var(--faint)}
 .set-card.soon{cursor:default;opacity:.72}
@@ -396,7 +413,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 #view-cards .card-tile{position:relative;box-shadow:var(--shadow);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
 #view-cards .card-tile:hover{border-color:var(--gold);transform:translateY(-4px) scale(1.03);box-shadow:var(--shadow-hover)}
 #view-cards .card-tile:hover .ct-price{text-shadow:0 0 10px rgba(59,111,224,.55)}
-#view-cards .card-tile img,#view-cards .ct-ico{width:62px;height:87px}
+#view-cards .card-tile img,#view-cards .ct-ico{width:62px;height:87px;transition:transform .3s var(--ease-out);border-radius:4px}
+#view-cards .card-tile:hover img{transform:scale(1.06)}
 #view-cards .card-tile.is-chase{border-color:var(--chase-gold);box-shadow:var(--shadow),0 0 0 1px var(--chase-gold-soft),0 0 14px var(--chase-gold-glow)}
 #view-cards .card-tile.is-chase:hover{box-shadow:var(--shadow-hover),0 0 0 1px var(--chase-gold-soft),0 0 20px var(--chase-gold-glow)}
 #view-cards .card-tile.is-manga{border:1px solid transparent;background-image:linear-gradient(var(--bg2),var(--bg2)),var(--rainbow-grad);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:var(--shadow),0 0 14px rgba(139,92,246,.18)}
@@ -422,14 +440,14 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .detail-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px}
 .det-top{display:flex;gap:22px;flex-wrap:wrap}
 .det-top img{width:210px;border-radius:10px;background:var(--bg3)}
-.det-name{font-family:Georgia,serif;font-size:22px;font-weight:700;margin-bottom:7px}
+.det-name{font-family:var(--font-display);font-size:24px;font-weight:800;margin-bottom:7px;letter-spacing:-.01em;line-height:1.2}
 .det-stats{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--soft);margin-top:10px}
 .det-text{font-size:13.5px;color:var(--soft);margin-top:14px;white-space:pre-line;line-height:1.6}
 .price-hd{display:flex;align-items:center;gap:12px;margin-top:20px;margin-bottom:10px}
 .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .price-box{background:var(--bg3);border-radius:8px;padding:12px 14px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
-.price-box .pv{font-size:22px;font-weight:800;color:var(--gold);font-family:Georgia,serif}
+.price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11px;color:var(--faint);margin-top:16px}
 
 /* EMPTY + RESULTS */
@@ -995,15 +1013,15 @@ function renderGames(){
       <div class="tile-meta">${D.index.length} ${L==='th'?'ชุด':'Sets'} · ${ttl().toLocaleString()} ${L==='th'?'ใบ':'Cards'}</div>
       <button class="tile-btn active">${L==='th'?'สำรวจตอนนี้ →':'Explore →'}</button>
     </div>
-    <div class="game-tile disabled" onclick="">${pkmSVG}
+    <div class="game-tile disabled pkm" onclick="">${pkmSVG}
       <div class="tile-icon">✦</div><div class="tile-name">POKÉMON</div><div class="tile-sub">CARD GAME</div>
       <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
     </div>
-    <div class="game-tile disabled" onclick="">${nrtSVG}
+    <div class="game-tile disabled nrt" onclick="">${nrtSVG}
       <div class="tile-icon">🔥</div><div class="tile-name">NARUTO</div><div class="tile-sub">CARD GAME</div>
       <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
     </div>
-    <div class="game-tile disabled" onclick="">${lrcSVG}
+    <div class="game-tile disabled lrc" onclick="">${lrcSVG}
       <div class="tile-icon">🌊</div><div class="tile-name">LORCANA</div><div class="tile-sub">CARD GAME</div>
       <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
     </div>`;
@@ -1074,7 +1092,7 @@ function renderTrend(){
   const soonTxt=L==='th'?'เร็ว ๆ นี้':'Coming Soon';
   // Honest fallback: we don't have any previous_price data yet, so this note
   // explains why -- it is never replaced by a guessed/fake percentage.
-  const noHistNote=L==='th'?'ยังไม่มีข้อมูลราคาย้อนหลังเพียงพอสำหรับคำนวณเทรนด์ — ระบบพร้อมแสดงผลทันทีที่มีข้อมูลราคารายวัน':'Not enough price history yet to calculate a trend — ready to show real data as soon as daily prices are tracked';
+  const noHistHtml=`<div class="mtrend-note"><div class="mtrend-note-ic">📊</div><div class="mtrend-note-hd">${L==='th'?'รอข้อมูลราคา':'Price History Pending'}</div><div class="mtrend-note-sub">${L==='th'?'ระบบจะแสดงเทรนด์ทันทีที่มีข้อมูลรายวัน':'Will show real trends as soon as daily prices are tracked'}</div></div>`;
   const chaseCardHtml=top?`
       <div class="mtrend-body">
         <img class="mtrend-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
@@ -1086,11 +1104,11 @@ function renderTrend(){
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
       <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl t" data-th="ราคาขึ้นแรง" data-en="Trending Up">ราคาขึ้นแรง</span>${gainers.length?'':`<span class="mtrend-soon">${soonTxt}</span>`}</div>
-      ${gainers.length?trendEntryHtml(gainers[0]):`<div class="mtrend-note">${noHistNote}</div>`}
+      ${gainers.length?trendEntryHtml(gainers[0]):noHistHtml}
     </div>
     <div class="mtrend-card">
       <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl t" data-th="ราคาลงแรง" data-en="Trending Down">ราคาลงแรง</span>${losers.length?'':`<span class="mtrend-soon">${soonTxt}</span>`}</div>
-      ${losers.length?trendEntryHtml(losers[0]):`<div class="mtrend-note">${noHistNote}</div>`}
+      ${losers.length?trendEntryHtml(losers[0]):noHistHtml}
     </div>
     <div class="mtrend-card live" onclick="jumpChaseSection()">
       <div class="mtrend-head"><span class="mtrend-ic">🔥</span><span class="mtrend-ttl t" data-th="Chase Cards ยอดนิยม" data-en="Top Chase Card">Chase Cards ยอดนิยม</span></div>
