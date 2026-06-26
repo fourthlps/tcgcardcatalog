@@ -2,8 +2,8 @@ name: Update One Piece TCG prices
 
 on:
   schedule:
-    - cron: '0 18 * * 0'   # ทุกวันอาทิตย์ 18:00 UTC = ตี 1 วันจันทร์ เวลาไทย
-  workflow_dispatch:        # ปุ่มกดรันเองได้ทันทีจากแท็บ Actions ด้วย
+    - cron: '0 18 * * *'   # ทุกวัน 18:00 UTC = ตี 1 เวลาไทย (เที่ยงคืน + 1)
+  workflow_dispatch:        # ปุ่มกดรันเองได้ทันทีจากแท็บ Actions
     inputs:
       dry_run:
         description: 'Dry-run price history ingest (true = validate only, do not append rows)'
@@ -31,20 +31,12 @@ jobs:
         env:
           APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
           APPS_SCRIPT_SECRET: ${{ secrets.APPS_SCRIPT_SECRET }}
-          # Manual runs respect the dry_run input. Scheduled runs always stay
-          # dry-run until the Price History Raw pipeline has been manually
-          # verified for a few days (see PRICE-TRACKING-ARCHITECTURE.md Phase 2)
-          # -- a bad scheduled run must not silently corrupt the ledger.
-          #
-          # NOTE (2026-06-25): the previous version of this line used
-          # `github.event_name == 'workflow_dispatch' && inputs.dry_run || 'true'`.
-          # That's the classic &&/|| "ternary" pitfall: when inputs.dry_run is
-          # the boolean false (box unchecked), `true && false` short-circuits to
-          # false, and `false || 'true'` then falls through to 'true' -- so an
-          # unchecked dry-run box silently produced DRY_RUN=true anyway (caught
-          # when run #8 still logged "would append" with the box unchecked).
-          # Rewritten below to avoid evaluating the falsy middle operand.
-          DRY_RUN: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
+          # Manual runs respect the dry_run input checkbox.
+          # Scheduled runs default to DRY_RUN=false (real write) because
+          # the pipeline has been manually verified and is now in production.
+          # The boolean false / 'false' edge-case is handled via != 'workflow_dispatch'
+          # to avoid the classic &&/|| ternary pitfall (see previous comment history).
+          DRY_RUN: ${{ github.event_name != 'workflow_dispatch' && 'false' || inputs.dry_run }}
         run: python scripts/update_prices.py
 
       - name: Commit and push if changed
@@ -52,5 +44,11 @@ jobs:
           git config user.name "price-update-bot"
           git config user.email "actions@github.com"
           git add onepiece-catalog/one_piece_OP01-OP16_with_prices.json
+          git add onepiece-catalog/data/
           git diff --staged --quiet || git commit -m "Auto-update prices $(date +'%Y-%m-%d')"
           git push
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "::error title=Price Update Failed::Daily price update failed on $(date +'%Y-%m-%d'). Check the Fetch latest prices step for details. Price history may have a gap for today."
