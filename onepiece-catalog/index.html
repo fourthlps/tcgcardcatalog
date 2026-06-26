@@ -55,32 +55,47 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 @media (max-width:640px){.deco-grp{display:none}.bg-grid{display:none}}
 /* Hero-scoped corner motifs (compass / crystal+holo) -- sit above the
    hero's own background, below its content, same trick as .hero-orb. */
-.hero-deco{position:absolute;z-index:0;pointer-events:none;opacity:.4}
+.hero-deco{position:absolute;z-index:0;pointer-events:none;opacity:.22}
 .hero-deco-tl{top:4px;left:-6px;width:170px;height:170px}
 .hero-deco-tr{top:-4px;right:0;width:190px;height:165px}
 @media (max-width:680px){.hero-deco{display:none}}
 
 /* ============================================================
-   BOLD HOMEPAGE SKY -- a saturated indigo-to-white gradient behind
-   the hero + next two homepage sections, with blurred cloud blobs,
-   a star field, and a right-edge crystal/floating-card motif. Pure
-   CSS + inline SVG, no external images. Scoped to #view-home only,
-   so every other page keeps the calmer, low-opacity ambient system
-   defined above. z-index:-1 keeps it strictly behind all in-flow
-   homepage content while still showing through any transparent
-   gaps (panels/cards keep their own opaque backgrounds on top). */
-.brand-sky{position:absolute;top:0;left:0;width:100%;height:1380px;z-index:-1;pointer-events:none;overflow:hidden;
-  background:linear-gradient(180deg,#37296f 0%,#5d4fa0 7%,#9389c9 18%,#c7bfe2 30%,#ece8f6 46%,var(--bg) 64%)}
-.sky-cloud{position:absolute;border-radius:50%;filter:blur(28px);background:radial-gradient(ellipse,#fff,transparent 72%)}
-.sky-cloud.c1{width:560px;height:170px;top:50px;left:-100px;opacity:.5}
-.sky-cloud.c2{width:480px;height:150px;top:210px;left:300px;opacity:.38}
-.sky-cloud.c3{width:620px;height:180px;top:90px;right:-160px;opacity:.42}
-.sky-cloud.c4{width:440px;height:140px;top:430px;left:40px;opacity:.3}
-.sky-cloud.c5{width:520px;height:150px;top:330px;right:-40px;opacity:.28}
-.sky-stars{position:absolute;inset:0;width:100%;height:100%}
-.sky-right{position:absolute;top:0;right:0;width:440px;height:1140px;opacity:.55}
-@media (max-width:1023px){.brand-sky{height:820px}.sky-right{width:280px;opacity:.45}.sky-cloud.c5{display:none}}
-@media (max-width:640px){.brand-sky{height:600px}.sky-right{display:none}.sky-cloud.c3,.sky-cloud.c4{display:none}}
+   HOMEPAGE ATMOSPHERE -- "Collector's Light Table".
+   A bright, layered brand backdrop (NOT a flat color wash):
+     Layer 1  a barely-tinted ice/lavender/gold wash
+     Layer 2  the sitewide dot-grid texture (.bg-grid, beneath)
+     Layer 3  large original line-art illustrations in the page
+              margins -- compass + floating card frames on the
+              left, crystal facets + card stack + constellation
+              on the right -- representing "trading card
+              collecting" in general, no franchise references
+     Layer 4  soft color-glow blobs
+     Layer 5  a few light particles
+     Layer 6  the actual homepage content (untouched)
+   Stays ~90% white/ice/lavender on purpose: this sits behind the
+   hero + Browse Games only, at z-index:-1, so every card/button/
+   text keeps its existing look and full readability. Pure CSS +
+   inline SVG, no external images. */
+.home-art{position:absolute;top:0;left:0;width:100%;height:1280px;z-index:-1;pointer-events:none;overflow:hidden;
+  background:radial-gradient(ellipse 58% 42% at 8% 0%,var(--ice) 0%,transparent 62%),
+             radial-gradient(ellipse 52% 38% at 100% 4%,var(--lavender) 0%,transparent 62%),
+             radial-gradient(ellipse 48% 32% at 46% 100%,var(--ice) 0%,transparent 66%),
+             var(--bg)}
+.home-glow{position:absolute;border-radius:50%;filter:blur(80px)}
+.home-glow.g1{width:460px;height:460px;top:-170px;left:-150px;background:radial-gradient(circle,rgba(37,99,235,.15),transparent 70%)}
+.home-glow.g2{width:400px;height:400px;top:-110px;right:-130px;background:radial-gradient(circle,rgba(139,92,246,.13),transparent 70%)}
+.home-glow.g3{width:340px;height:340px;bottom:-120px;left:32%;background:radial-gradient(circle,rgba(205,168,103,.12),transparent 70%)}
+.home-spark{position:absolute;border-radius:50%;filter:blur(1px);background:radial-gradient(circle,rgba(205,168,103,.55),transparent 70%)}
+.home-spark.s1{width:6px;height:6px;top:14%;left:31%}
+.home-spark.s2{width:5px;height:5px;top:54%;left:6%;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 70%)}
+.home-spark.s3{width:5px;height:5px;top:36%;left:60%;background:radial-gradient(circle,rgba(37,99,235,.45),transparent 70%)}
+.home-edge{position:absolute;top:0}
+.home-edge.left{left:-50px;width:280px;height:900px}
+.home-edge.right{right:-70px;width:320px;height:1080px}
+@media (max-width:1240px){.home-edge{display:none}}
+@media (max-width:1023px){.home-art{height:760px}.home-glow{filter:blur(60px)}.home-glow.g2{width:300px;height:300px}.home-glow.g3{display:none}}
+@media (max-width:640px){.home-art{height:560px}.home-spark{display:none}}
 .serif{font-family:Georgia,'Iowan Old Style',serif}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
@@ -109,13 +124,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 @media (max-width:540px){.hero-copy h1{font-size:28px}.nav{gap:12px}.nav a{font-size:12.5px}}
 
 /* HERO */
-.hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.16),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.14),transparent 60%);padding:56px 0 64px}
+.hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.12),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.10),transparent 60%),#ffffff;padding:56px 0 64px}
 /* Abstract soft-glow orbs -- an ocean/aurora feel without copying any
    specific reference image; pure CSS blur, no external assets. */
 .hero-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0}
-.hero-orb.a{width:440px;height:440px;background:radial-gradient(circle,rgba(37,99,235,.4),transparent 70%);top:-180px;right:-100px}
-.hero-orb.b{width:380px;height:380px;background:radial-gradient(circle,rgba(139,92,246,.36),transparent 70%);bottom:-220px;left:-120px}
-.hero-orb.c{width:260px;height:260px;background:radial-gradient(circle,rgba(205,168,103,.26),transparent 70%);top:30%;left:42%}
+.hero-orb.a{width:440px;height:440px;background:radial-gradient(circle,rgba(37,99,235,.30),transparent 70%);top:-180px;right:-100px}
+.hero-orb.b{width:380px;height:380px;background:radial-gradient(circle,rgba(139,92,246,.26),transparent 70%);bottom:-220px;left:-120px}
+.hero-orb.c{width:260px;height:260px;background:radial-gradient(circle,rgba(205,168,103,.20),transparent 70%);top:30%;left:42%}
 @media (max-width:680px){.hero-orb{display:none}}
 /* Soft wave divider into the next section, in lieu of a hard edge */
 .hero-wave{position:absolute;left:0;bottom:-1px;width:100%;height:46px;z-index:1;display:block}
@@ -546,68 +561,52 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 <!-- HOME -->
 <div id="view-home">
   <!-- ============================================================
-       BOLD HOMEPAGE SKY -- see CSS above. Original SVG/CSS only:
-       gradient + blurred cloud shapes + star field + a right-edge
-       crystal cluster and floating card outline, echoing "the world
-       of trading card collecting" rather than any single game's art.
+       HOMEPAGE ATMOSPHERE -- see CSS above. Original SVG/CSS only:
+       a pale wash + soft glows + light particles, plus large
+       compass / crystal / floating-card-frame / constellation
+       line-art anchored in the page margins, echoing "the world of
+       trading card collecting" rather than any single game's art.
        ============================================================ -->
-  <div class="brand-sky" aria-hidden="true">
-    <div class="sky-cloud c1"></div>
-    <div class="sky-cloud c2"></div>
-    <div class="sky-cloud c3"></div>
-    <div class="sky-cloud c4"></div>
-    <div class="sky-cloud c5"></div>
+  <div class="home-art" aria-hidden="true">
+    <div class="home-glow g1"></div>
+    <div class="home-glow g2"></div>
+    <div class="home-glow g3"></div>
+    <div class="home-spark s1"></div>
+    <div class="home-spark s2"></div>
+    <div class="home-spark s3"></div>
 
-    <svg class="sky-stars" viewBox="0 0 1440 1380" preserveAspectRatio="none">
-      <g fill="#ffffff">
-        <circle cx="70" cy="50" r="2.2" opacity=".8"/><circle cx="180" cy="120" r="1.6" opacity=".6"/>
-        <circle cx="320" cy="40" r="2" opacity=".7"/><circle cx="460" cy="160" r="1.8" opacity=".55"/>
-        <circle cx="610" cy="70" r="2.4" opacity=".75"/><circle cx="760" cy="150" r="1.6" opacity=".5"/>
-        <circle cx="900" cy="60" r="2" opacity=".7"/><circle cx="1040" cy="180" r="1.8" opacity=".55"/>
-        <circle cx="1180" cy="90" r="2.2" opacity=".7"/><circle cx="1320" cy="200" r="1.6" opacity=".5"/>
-        <circle cx="120" cy="260" r="1.8" opacity=".5"/><circle cx="380" cy="290" r="1.6" opacity=".45"/>
-        <circle cx="560" cy="240" r="2" opacity=".55"/><circle cx="820" cy="300" r="1.6" opacity=".4"/>
-        <circle cx="1080" cy="280" r="1.8" opacity=".45"/><circle cx="1280" cy="330" r="1.6" opacity=".4"/>
-        <circle cx="200" cy="400" r="1.6" opacity=".35"/><circle cx="500" cy="430" r="1.4" opacity=".3"/>
-        <circle cx="900" cy="420" r="1.6" opacity=".3"/><circle cx="1200" cy="450" r="1.4" opacity=".28"/>
+    <!-- Left margin: compass rose + two floating card-frame outlines -->
+    <svg class="home-edge left" viewBox="0 0 280 900" preserveAspectRatio="xMaxYMin meet">
+      <g fill="none" stroke="#3b6fe0" stroke-opacity=".3" stroke-width="1.1">
+        <circle cx="190" cy="120" r="62"/><circle cx="190" cy="120" r="40"/>
+        <line x1="190" y1="46" x2="190" y2="64"/><line x1="190" y1="176" x2="190" y2="194"/>
+        <line x1="118" y1="120" x2="136" y2="120"/><line x1="244" y1="120" x2="262" y2="120"/>
       </g>
-      <g fill="#ffd866">
-        <path d="M150 90 L154 100 L164 100 L156 107 L159 118 L150 111 L141 118 L144 107 L136 100 L146 100 Z" opacity=".8"/>
-        <path d="M980 130 L983 138 L991 138 L985 144 L987 153 L980 147 L973 153 L975 144 L969 138 L977 138 Z" opacity=".7"/>
-        <path d="M450 60 L452 67 L459 67 L454 71 L456 79 L450 74 L444 79 L446 71 L441 67 L448 67 Z" opacity=".75"/>
+      <path d="M190 80 L210 120 L190 160 L170 120 Z" fill="none" stroke="#cda867" stroke-opacity=".4" stroke-width="1.2"/>
+      <rect x="70" y="330" width="120" height="168" rx="14" fill="none" stroke="#8b5cf6" stroke-opacity=".26" stroke-width="1.3" transform="rotate(-9 130 414)"/>
+      <rect x="40" y="420" width="120" height="168" rx="14" fill="none" stroke="#3b6fe0" stroke-opacity=".22" stroke-width="1.1" transform="rotate(11 100 504)"/>
+      <g stroke="#8b5cf6" stroke-opacity=".18" stroke-width=".8" stroke-dasharray="2 8">
+        <path d="M190 220 L160 310 M120 560 L90 660"/>
+      </g>
+      <g fill="#cda867" fill-opacity=".5">
+        <circle cx="160" cy="310" r="2.2"/><circle cx="90" cy="660" r="2.2"/><circle cx="60" cy="760" r="2"/>
       </g>
     </svg>
 
-    <!-- Right-edge: compass + crystal facets + a large floating card
-         outline -- the platform's signature "premium collecting" motif. -->
-    <svg class="sky-right" viewBox="0 0 440 1140" preserveAspectRatio="xMidYMin meet">
-      <defs>
-        <linearGradient id="skyRingR" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ffd866"/>
-        </linearGradient>
-        <linearGradient id="skyCrystalR" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cda867"/>
-        </linearGradient>
-      </defs>
-      <g fill="none" stroke="url(#skyRingR)" stroke-width="1.2" opacity=".6">
-        <circle cx="330" cy="90" r="48"/><circle cx="330" cy="90" r="32"/>
-        <line x1="330" y1="30" x2="330" y2="44"/><line x1="330" y1="136" x2="330" y2="150"/>
-        <line x1="270" y1="90" x2="284" y2="90"/><line x1="376" y1="90" x2="390" y2="90"/>
+    <!-- Right margin: crystal facets + floating card-frame stack + constellation -->
+    <svg class="home-edge right" viewBox="0 0 320 1080" preserveAspectRatio="xMinYMin meet">
+      <path d="M170 140 L206 172 L192 226 L148 216 L138 166 Z" fill="#8b5cf6" fill-opacity=".08" stroke="#8b5cf6" stroke-opacity=".3" stroke-width="1.3"/>
+      <path d="M230 230 L256 252 L246 290 L214 282 L208 246 Z" fill="#cda867" fill-opacity=".08" stroke="#cda867" stroke-opacity=".3" stroke-width="1.1"/>
+      <rect x="90" y="340" width="140" height="194" rx="15" fill="none" stroke="#3b6fe0" stroke-opacity=".24" stroke-width="1.3" transform="rotate(-12 160 437)"/>
+      <rect x="120" y="380" width="140" height="194" rx="15" fill="none" stroke="#cda867" stroke-opacity=".26" stroke-width="1.1" transform="rotate(9 190 477)"/>
+      <g stroke="#8b5cf6" stroke-opacity=".18" stroke-width=".8" stroke-dasharray="2 8">
+        <path d="M210 580 L180 670 M150 760 L190 850"/>
       </g>
-      <path d="M330 58 L342 90 L330 122 L318 90 Z" fill="none" stroke="url(#skyRingR)" stroke-width="1.3" opacity=".65"/>
-
-      <path d="M220 260 L262 296 L246 356 L196 344 L184 288 Z" fill="url(#skyCrystalR)" fill-opacity=".16" stroke="url(#skyCrystalR)" stroke-width="1.4" opacity=".75"/>
-      <path d="M310 360 L340 386 L328 430 L292 420 L284 380 Z" fill="url(#skyCrystalR)" fill-opacity=".14" stroke="#ffffff" stroke-width="1.1" opacity=".6"/>
-
-      <rect x="120" y="470" width="172" height="240" rx="16" fill="rgba(255,255,255,.07)" stroke="#ffffff" stroke-width="1.6" opacity=".75" transform="rotate(-13 206 590)"/>
-      <rect x="150" y="500" width="172" height="240" rx="16" fill="rgba(255,255,255,.05)" stroke="#ffd866" stroke-width="1.3" opacity=".55" transform="rotate(8 236 620)"/>
-
-      <g stroke="#ffffff" stroke-width=".8" stroke-dasharray="2 8" opacity=".4">
-        <path d="M330 150 L300 250 M260 360 L230 460 M210 720 L260 820"/>
+      <g fill="#3b6fe0" fill-opacity=".45">
+        <circle cx="180" cy="670" r="2.2"/><circle cx="190" cy="850" r="2.2"/><circle cx="230" cy="940" r="2"/>
       </g>
-      <g fill="#ffffff" opacity=".55">
-        <circle cx="300" cy="250" r="2.4"/><circle cx="230" cy="460" r="2.2"/><circle cx="260" cy="820" r="2.4"/>
-        <circle cx="120" cy="900" r="2"/><circle cx="340" cy="980" r="2.2"/><circle cx="200" cy="1040" r="2"/>
+      <g fill="#cda867" fill-opacity=".55">
+        <path d="M120 100 L123 109 L132 109 L125 115 L127 124 L120 118 L113 124 L115 115 L108 109 L117 109 Z"/>
       </g>
     </svg>
   </div>
@@ -617,27 +616,28 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     <div class="hero-orb c" aria-hidden="true"></div>
     <!-- Hero-scoped brand motifs: original compass line-art (top-left)
          and crystal-facet + holographic-particle line-art (top-right).
-         Represent collecting in general, not any single TCG. Recolored
-         white/gold here so they read clearly over the new bold sky. -->
+         Represent collecting in general, not any single TCG. In brand
+         blue/purple/soft-gold so they read as fine line-art on the
+         bright hero, never as a color wash. -->
     <svg class="hero-deco hero-deco-tl" viewBox="0 0 200 200" aria-hidden="true">
-      <g fill="none" stroke="#ffffff" stroke-width="1">
+      <g fill="none" stroke="#2563eb" stroke-width="1">
         <circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="34"/>
         <line x1="60" y1="2" x2="60" y2="16"/><line x1="60" y1="104" x2="60" y2="118"/>
         <line x1="2" y1="60" x2="16" y2="60"/><line x1="104" y1="60" x2="118" y2="60"/>
       </g>
-      <path d="M60 26 L70 60 L60 94 L50 60 Z" fill="none" stroke="#ffd866" stroke-width="1.1"/>
-      <rect x="120" y="120" width="56" height="78" rx="8" fill="none" stroke="#ffffff" stroke-width="1.2" transform="rotate(-10 148 159)" opacity=".7"/>
+      <path d="M60 26 L70 60 L60 94 L50 60 Z" fill="none" stroke="#cda867" stroke-width="1.1"/>
+      <rect x="120" y="120" width="56" height="78" rx="8" fill="none" stroke="#8b5cf6" stroke-width="1.2" transform="rotate(-10 148 159)" opacity=".7"/>
     </svg>
     <svg class="hero-deco hero-deco-tr" viewBox="0 0 220 190" aria-hidden="true">
       <path d="M150 20 L178 56 L160 100 L122 84 L118 38 Z" fill="none" stroke="#cda867" stroke-width="1.2"/>
-      <path d="M40 60 L62 84 L50 116 L20 106 L18 70 Z" fill="none" stroke="#ffffff" stroke-width="1" opacity=".55"/>
-      <g fill="#ffffff" opacity=".55">
+      <path d="M40 60 L62 84 L50 116 L20 106 L18 70 Z" fill="none" stroke="#8b5cf6" stroke-width="1" opacity=".55"/>
+      <g fill="#3b6fe0" opacity=".5">
         <circle cx="90" cy="40" r="2.4"/><circle cx="130" cy="130" r="2.8"/><circle cx="190" cy="60" r="2"/>
         <circle cx="60" cy="20" r="2"/><circle cx="200" cy="140" r="2.2"/>
       </g>
     </svg>
     <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,30 C240,58 480,2 720,22 C960,42 1200,8 1440,28 L1440,60 L0,60 Z" style="fill:transparent"></path>
+      <path d="M0,30 C240,58 480,2 720,22 C960,42 1200,8 1440,28 L1440,60 L0,60 Z" style="fill:var(--bg)"></path>
     </svg>
     <div class="wrap hero-in">
       <div class="hero-copy">
