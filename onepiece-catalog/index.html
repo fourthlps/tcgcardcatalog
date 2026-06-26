@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Voyage Log — TCG Database</title>
 <style>
-:root{--bg:#f6f8fc;--bg2:#ffffff;--bg3:#eef2fb;--border:rgba(15,23,42,.08);--bord2:rgba(15,23,42,.15);--gold:#3b6fe0;--golds:rgba(59,111,224,.10);--text:#101728;--soft:#5b6478;--faint:#94a0b8;--teal:#0d9488;--teals:rgba(13,148,136,.12);--blue:#2563eb;--blues:rgba(37,99,235,.12);--green:#16a34a;--purple:#8b5cf6;--purples:rgba(139,92,246,.12);--shadow:0 1px 2px rgba(16,23,42,.04),0 6px 18px rgba(16,23,42,.06);--shadow-hover:0 12px 28px rgba(59,111,224,.16)}
+:root{--bg:#f6f8fc;--bg2:#ffffff;--bg3:#eef2fb;--border:rgba(15,23,42,.08);--bord2:rgba(15,23,42,.15);--gold:#3b6fe0;--golds:rgba(59,111,224,.10);--text:#101728;--soft:#5b6478;--faint:#94a0b8;--teal:#0d9488;--teals:rgba(13,148,136,.12);--blue:#2563eb;--blues:rgba(37,99,235,.12);--green:#16a34a;--purple:#8b5cf6;--purples:rgba(139,92,246,.12);--shadow:0 1px 2px rgba(16,23,42,.04),0 6px 18px rgba(16,23,42,.06);--shadow-hover:0 12px 28px rgba(59,111,224,.16);
+/* Chase/manga highlight tokens reuse the existing chase-rank gold accent
+   (#ffd866 / rgba(242,183,5,*)) and the site's own hue set for a
+   "rainbow" gradient, instead of introducing any brand-new colors. */
+--chase-gold:#ffd866;--chase-gold-glow:rgba(242,183,5,.35);--chase-gold-soft:rgba(242,183,5,.22);
+--rainbow-grad:linear-gradient(90deg,var(--gold),var(--purple),#ffd866,var(--green),var(--teal),var(--gold))}
 *{box-sizing:border-box;margin:0;padding:0}
 body{position:relative;background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.55}
 /* Ambient site-wide glow -- soft, low-opacity color pools that keep the
@@ -302,6 +307,29 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .card-tile:hover{border-color:var(--gold)}
 .card-tile img,.ct-ico{width:52px;height:73px;object-fit:cover;border-radius:4px;background:var(--bg3);flex-shrink:0}
 .ct-ico{display:flex;align-items:center;justify-content:center;font-size:20px}
+
+/* --- Set Card List page (#view-cards) only: larger artwork, premium
+   hover, and special-card highlights. Scoped to this view so the
+   search-results page (which reuses .card-grid/.card-tile) is untouched. */
+#view-cards .card-grid{grid-template-columns:repeat(auto-fill,minmax(232px,1fr))}
+#view-cards .card-tile{position:relative;box-shadow:var(--shadow);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+#view-cards .card-tile:hover{border-color:var(--gold);transform:translateY(-4px) scale(1.03);box-shadow:var(--shadow-hover)}
+#view-cards .card-tile:hover .ct-price{text-shadow:0 0 10px rgba(59,111,224,.55)}
+#view-cards .card-tile img,#view-cards .ct-ico{width:62px;height:87px}
+#view-cards .card-tile.is-chase{border-color:var(--chase-gold);box-shadow:var(--shadow),0 0 0 1px var(--chase-gold-soft),0 0 14px var(--chase-gold-glow)}
+#view-cards .card-tile.is-chase:hover{box-shadow:var(--shadow-hover),0 0 0 1px var(--chase-gold-soft),0 0 20px var(--chase-gold-glow)}
+#view-cards .card-tile.is-manga{border:1px solid transparent;background-image:linear-gradient(var(--bg2),var(--bg2)),var(--rainbow-grad);background-origin:border-box;background-clip:padding-box,border-box;box-shadow:var(--shadow),0 0 14px rgba(139,92,246,.18)}
+#view-cards .card-tile.is-manga:hover{box-shadow:var(--shadow-hover),0 0 18px rgba(139,92,246,.25)}
+#view-cards .chase-star-badge{position:absolute;top:-7px;right:8px;background:linear-gradient(135deg,var(--chase-gold),var(--gold));color:#fff;font-size:7.5px;letter-spacing:.5px;padding:2px 6px;border-radius:999px;line-height:1;box-shadow:0 2px 6px var(--chase-gold-glow);z-index:2;white-space:nowrap}
+
+/* Tighten vertical rhythm above the card grid on this page only (~30%
+   less space between breadcrumb / back button / title / search / filters). */
+#view-cards{padding-top:20px}
+#view-cards .crumb{margin-bottom:11px}
+#view-cards .back-btn{margin-bottom:11px}
+#view-cards .page-ttl{margin-bottom:14px}
+#view-cards .search-bar{margin-bottom:8px}
+#view-cards .filter-row{margin-bottom:11px}
 .ct-name{font-weight:600;font-size:13.5px;margin:0 0 4px}
 .ct-price{font-size:12.5px;color:var(--soft);margin-top:2px}
 .rtag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;background:var(--bg3);color:var(--soft)}
@@ -1215,11 +1243,42 @@ function openSet(code){
   show('view-cards');buildRarityChips();applyFilters();
 }
 
+// Category pills layered on top of the existing rarity pills on the Set
+// Card List page. These read fields that already exist in the data
+// (card_name / card_type / rarity) rather than adding any new data
+// source. Only shown when at least one card in the current set actually
+// matches, same "don't show empty filters" behavior as the rarity chips.
+const CATEGORY_DEFS=[
+  {key:'Parallel',test:c=>/parallel/i.test(c.card_name||'')},
+  {key:'Manga',test:c=>/manga/i.test(c.card_name||'')},
+  {key:'Leader',test:c=>c.card_type==='Leader'},
+  {key:'Alt Art',test:c=>/alt(?:ernate)?\s*art/i.test(c.card_name||'')},
+  {key:'Promo',test:c=>c.rarity==='PR'},
+  {key:'Event',test:c=>c.card_type==='Event'},
+  {key:'Character',test:c=>c.card_type==='Character'},
+  {key:'Stage',test:c=>c.card_type==='Stage'},
+];
+function tagMatches(c,tag){
+  const cat=CATEGORY_DEFS.find(d=>d.key===tag);
+  return cat?cat.test(c):c.rarity===tag;
+}
+
+// Lazily-built lookup of "Top Chase" card_image_ids, reusing the same
+// global price-ranked list already powering the homepage Top Chase Cards
+// row, so a card flagged here is the same one flagged there.
+let _chaseIdSet=null;
+function chaseIdSet(){
+  if(!_chaseIdSet)_chaseIdSet=new Set(chasePicks(60).map(c=>c.card_image_id));
+  return _chaseIdSet;
+}
+
 function buildRarityChips(){
-  const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const order=['L','C','UC','R','SR','SEC','SP','TR','PR'];
   const rars=[...new Set(S.cards.map(c=>c.rarity).filter(Boolean))];
   rars.sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
-  document.getElementById('rarity-chips').innerHTML=rars.map(r=>`<button class="chip" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
+  const rarityHtml=rars.map(r=>`<button class="chip" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
+  const catHtml=CATEGORY_DEFS.filter(d=>S.cards.some(d.test)).map(d=>`<button class="chip" data-r="${d.key}" onclick="toggleChip(this,'${d.key}')">${d.key}</button>`).join('');
+  document.getElementById('rarity-chips').innerHTML=rarityHtml+catHtml;
 }
 
 function toggleChip(el,r){
@@ -1231,7 +1290,7 @@ function applyFilters(){
   let list=S.cards.slice();
   const q=document.getElementById('card-srch').value.trim().toLowerCase();
   if(q)list=list.filter(c=>c.card_name.toLowerCase().includes(q));
-  if(S.rarities.size)list=list.filter(c=>S.rarities.has(c.rarity));
+  if(S.rarities.size){const tags=[...S.rarities];list=list.filter(c=>tags.some(t=>tagMatches(c,t)));}
   const sort=document.getElementById('sort-sel').value;
   if(sort==='price-desc')list.sort((a,b)=>realPrice(b)-realPrice(a));
   else if(sort==='price-asc')list.sort((a,b)=>realPrice(a)-realPrice(b));
@@ -1242,10 +1301,17 @@ function paintCards(cards){
   S.shown=cards;
   const grid=document.getElementById('card-grid');
   if(!cards.length){grid.innerHTML='<div class="empty">ไม่พบการ์ด</div>';return;}
-  grid.innerHTML=cards.map((c,i)=>`<div class="card-tile" onclick="openCard(${i})">
+  const chaseSet=chaseIdSet();
+  grid.innerHTML=cards.map((c,i)=>{
+    const isChase=chaseSet.has(c.card_image_id);
+    const isManga=!isChase&&/manga/i.test(c.card_name||'');
+    const cls='card-tile'+(isChase?' is-chase':'')+(isManga?' is-manga':'');
+    return `<div class="${cls}" onclick="openCard(${i})">
     <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
     <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
-  </div>`).join('');
+    ${isChase?'<div class="chase-star-badge">★★★★★</div>':''}
+  </div>`;
+  }).join('');
 }
 
 function openCard(idx){
