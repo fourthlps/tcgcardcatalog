@@ -61,18 +61,28 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
    It already contains the compass, floating card-frame outlines,
    crystal facets, map pins, watercolor wave swirls and stars/
    constellation -- all in its margins, with a deliberately clean,
-   light center reserved for site content. Sits behind the hero +
-   Browse Games at z-index:-1; the UI (cards, buttons, type,
-   spacing) is completely untouched. A subtle top fade keeps the
-   search bar/title crisp and a bottom fade blends into the rest
-   of the page instead of a hard cut. */
-.home-art{position:absolute;top:0;left:0;width:100%;height:1040px;z-index:-1;pointer-events:none;overflow:hidden;
+   light center reserved for site content.
+   Fixed to the viewport (not scrolling with the page) so the same
+   backdrop stays visible behind every homepage section -- Hero,
+   Browse Games, Card Market Trends, Top Chase Cards, Boxes Worth
+   Opening, Sponsored Shops -- not just the top. Content scrolls
+   over it; z-index:-1, pointer-events:none, scoped to #view-home
+   only. The UI (cards, buttons, type, spacing) is completely
+   untouched -- a soft overlay keeps the center column readable
+   without ever hiding the artwork at the edges. */
+.home-art{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;overflow:hidden;
   background-image:url('assets/55e6d703-fc33-41ae-9af6-a5107b573747.png');
   background-size:cover;background-position:center top;background-repeat:no-repeat;background-color:var(--bg)}
 .home-art::after{content:'';position:absolute;inset:0;background:
-  linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 16%,rgba(255,255,255,0) 78%,var(--bg) 100%)}
-@media (max-width:1023px){.home-art{height:700px}}
-@media (max-width:640px){.home-art{height:560px;background-position:center 10%}}
+  linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 22%,rgba(255,255,255,0) 78%,rgba(255,255,255,.22) 100%),
+  radial-gradient(ellipse 58% 62% at 50% 42%,rgba(255,255,255,.16),transparent 70%)}
+@media (max-width:1023px){.home-art::after{background:
+  linear-gradient(180deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,0) 24%,rgba(255,255,255,0) 76%,rgba(255,255,255,.26) 100%),
+  radial-gradient(ellipse 64% 64% at 50% 42%,rgba(255,255,255,.2),transparent 70%)}}
+@media (max-width:640px){.home-art{background-position:center 14%}
+  .home-art::after{background:
+    linear-gradient(180deg,rgba(255,255,255,.4) 0%,rgba(255,255,255,.05) 26%,rgba(255,255,255,.05) 74%,rgba(255,255,255,.32) 100%),
+    radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,255,255,.24),transparent 70%)}}
 .serif{font-family:Georgia,'Iowan Old Style',serif}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
