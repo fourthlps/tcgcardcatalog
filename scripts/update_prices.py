@@ -168,6 +168,52 @@ def build_history_rows(combined: dict, run_date: str, timestamp: str):
     return rows, stats
 
 
+def check_date_exists(run_date: str) -> str:
+    """Read-only check against the Apps Script ingest endpoint: does Price
+    History Raw already have rows for run_date? Called once per run, before
+    building or posting anything, so a workflow triggered twice on the same
+    UTC day (e.g. a manual re-run after the scheduled one already ran)
+    appends nothing the second time instead of writing a duplicate ~4000-row
+    snapshot for a date that's already there.
+
+    Returns one of:
+      "not_exists" -- confirmed no rows for run_date yet, safe to proceed.
+      "exists"     -- confirmed rows for run_date are already present.
+      "unknown"    -- the check itself failed after retries (Apps Script
+                      unreachable/erroring). Treated as fail-closed by the
+                      caller: "couldn't confirm it's safe" must never be
+                      treated the same as "confirmed safe".
+
+    If the ingest endpoint isn't configured at all, this returns
+    "not_exists" so post_history_rows() -- which already has its own
+    graceful "not configured, skipping ingest" message -- is the one place
+    that reports that state. There is nothing to protect against duplicating
+    when nothing is being written in the first place.
+    """
+    if not APPS_SCRIPT_URL or not APPS_SCRIPT_SECRET:
+        return "not_exists"
+
+    payload = {"secret": APPS_SCRIPT_SECRET, "action": "checkDate", "date": run_date}
+    last_error = None
+    for attempt in range(1, HISTORY_MAX_ATTEMPTS + 1):
+        try:
+            resp = requests.post(APPS_SCRIPT_URL, json=payload, timeout=30)
+            resp.raise_for_status()
+            body = resp.json()
+            if not body.get("ok"):
+                last_error = body.get("error")
+                break
+            return "exists" if body.get("exists") else "not_exists"
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt < HISTORY_MAX_ATTEMPTS:
+                print(f"Price history: checkDate attempt {attempt}/{HISTORY_MAX_ATTEMPTS} failed ({exc}), retrying...")
+                time.sleep(HISTORY_RETRY_DELAY_SECONDS)
+
+    print(f"Price history: checkDate could not get a confirmed answer for {run_date} ({last_error})")
+    return "unknown"
+
+
 def post_history_rows(rows):
     """Batch-POST rows to the Apps Script ingest endpoint. Returns True if
     every batch succeeded (or DRY_RUN reported success), False otherwise --
@@ -264,6 +310,23 @@ def main():
     now = datetime.now(timezone.utc)
     run_date = now.strftime("%Y-%m-%d")
     timestamp = now.isoformat()
+
+    # Duplicate-date protection: ask the ledger whether today's snapshot is
+    # already there BEFORE building or sending a single row. This is what
+    # makes it safe to turn the daily cron on -- a workflow triggered twice
+    # on the same UTC day (cron + a manual re-run, or a re-triggered job)
+    # must not double up ~4000 rows for that date.
+    date_status = check_date_exists(run_date)
+    if date_status == "exists":
+        print(f"{run_date} snapshot already exists. No rows inserted.")
+        return
+    if date_status == "unknown":
+        print(
+            f"Price history: could not confirm whether {run_date} already "
+            f"has a snapshot -- skipping ingest for safety. No rows inserted."
+        )
+        return
+
     history_rows, stats = build_history_rows(combined, run_date, timestamp)
     print(
         f"Price history: {stats['scanned']} cards scanned, "
