@@ -279,6 +279,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .mtrend-ic{font-size:18px}
 .mtrend-ttl{font-size:13.5px;font-weight:700}
 .mtrend-soon{font-size:10px;background:var(--bg3);color:var(--faint);padding:2px 8px;border-radius:999px;margin-left:auto;font-weight:700;letter-spacing:.03em}
+.mtrend-age{font-size:10px;color:var(--faint);margin-left:auto;letter-spacing:.01em}
+.sample-note{font-size:10.5px;color:var(--faint);background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;margin-bottom:10px;line-height:1.5}
 .mtrend-body{display:flex;gap:12px;align-items:center}
 .mtrend-img{width:46px;height:64px;object-fit:cover;border-radius:6px;background:var(--bg3);flex-shrink:0}
 .mtrend-name{font-size:12.5px;font-weight:600;line-height:1.3;margin-bottom:3px}
@@ -747,7 +749,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <input class="search-bar" id="card-srch" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
   <div class="filter-row">
     <div class="chip-group" id="rarity-chips"></div>
-    <button class="cur-btn" id="cur-btn-cards" onclick="toggleCur()">🇺🇸 USD</button>
+    <button class="cur-btn" id="cur-btn-cards" onclick="toggleCur()">🇹🇭 THB</button>
     <select class="sort-sel" id="sort-sel" onchange="applyFilters()">
       <option value="default">เรียงตามเลขการ์ด</option>
       <option value="price-desc">ราคา: สูง → ต่ำ</option>
@@ -755,6 +757,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </select>
   </div>
   <div class="card-grid" id="card-grid"></div>
+  <p class="sample-note">📌 <b>หมายเหตุ:</b> ภาพการ์ดในเว็บไซต์นี้เป็น <b>ภาพตัวอย่าง (SAMPLE)</b> ที่ดึงมาจากฐานข้อมูลสาธารณะเพื่อวัตถุประสงค์ในการอ้างอิงข้อมูลราคาเท่านั้น ลิขสิทธิ์ภาพเป็นของผู้ผลิตการ์ดตามลำดับ · Card images shown are sample references for price lookup purposes only. All card artwork © respective rights holders.</p>
 </main>
 
 <!-- DETAIL -->
@@ -782,13 +785,13 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <script>
-const D={index:[],cache:{}};
+const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
 // the logging block in chasePicks) once the ranking has been verified.
 const DEBUG_CHASE=true;
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'USD',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all'};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all'};
 
 const BOX={
   'OP-01':{usd:145,thb:4800,hot:false},
@@ -859,7 +862,19 @@ async function init(){
   }catch(e){D.index=[];}
   renderHome();
   applyLangUI();
-  try{const r=await fetch('https://api.frankfurter.app/latest?from=USD&to=THB');const d=await r.json();if(d.rates?.THB)S.fx=d.rates.THB;}catch(e){}
+  // Non-blocking parallel fetches: FX rate + trend data + site status.
+  // None of these block the initial render -- they refresh the relevant
+  // UI sections as soon as their data arrives.
+  Promise.allSettled([
+    fetch('https://api.frankfurter.app/latest?from=USD&to=THB')
+      .then(r=>r.json()).then(d=>{if(d.rates?.THB){S.fx=d.rates.THB;renderHome();}}),
+    fetch('data/top-gainers.json').then(r=>r.ok?r.json():null)
+      .then(d=>{if(d){D.gainers=d;renderTrend();}}),
+    fetch('data/top-losers.json').then(r=>r.ok?r.json():null)
+      .then(d=>{if(d){D.losers=d;renderTrend();}}),
+    fetch('data/status.json').then(r=>r.ok?r.json():null)
+      .then(d=>{if(d)D.siteStatus=d;}),
+  ]);
 }
 
 function flat(){return Object.values(D.cache).flat();}
@@ -1084,15 +1099,63 @@ function trendEntryHtml(entry){
     </div>`;
 }
 
+// Build a single trend entry row from a raw card object in the trend JSON
+function trendEntryFromJson(card,L){
+  const sign=card.price_change_percent>=0?'+':'';
+  const pct=card.price_change_percent;
+  const up=pct>=0;
+  const pill=`<span class="trend-pill ${up?'up':'down'}">${up?'▲':'▼'} ${sign}${pct.toFixed(2)}%</span>`;
+  const priceDisplay=fpL(card.today_price_usd);
+  return `<div class="mtrend-body">
+      <img class="mtrend-img" src="${card.card_image||''}" onerror="this.style.visibility='hidden'">
+      <div>
+        <div class="mtrend-name">${chaseBase(card.card_name)}</div>
+        <div class="mtrend-price">${priceDisplay} ${pill}</div>
+      </div>
+    </div>`;
+}
+
+// Build the data-age label shown under each trend panel header.
+// Uses history metadata from the JSON to be honest about how much data exists.
+function trendAgeLabel(meta,L){
+  if(!meta||!meta.baseline_date)return'';
+  const days=meta.history_days_collected||0;
+  const between=meta.days_between_snapshots||1;
+  const conf=meta.confidence||'low';
+  // Show confidence only when it's not "low" -- low is the expected
+  // starting state and doesn't need to be highlighted.
+  const confTag=conf!=='low'?` · <span style="color:var(--green);font-size:10px">${conf==='high'?'✓ High confidence':'Medium confidence'}</span>`:'';
+  if(L==='th'){
+    return`<span class="mtrend-age">ข้อมูล ${days} วัน · เทียบ ${between} วันก่อน${confTag}</span>`;
+  }
+  return`<span class="mtrend-age">${days} day${days!==1?'s':''} of data · vs ${between} day${between!==1?'s':''} ago${confTag}</span>`;
+}
+
 function renderTrend(){
   const L=S.lang;
   const top=chasePicks(1)[0];
-  const gainers=topGainers(1);
-  const losers=topLosers(1);
-  const soonTxt=L==='th'?'เร็ว ๆ นี้':'Coming Soon';
-  // Honest fallback: we don't have any previous_price data yet, so this note
-  // explains why -- it is never replaced by a guessed/fake percentage.
-  const noHistHtml=`<div class="mtrend-note"><div class="mtrend-note-ic">📊</div><div class="mtrend-note-hd">${L==='th'?'รอข้อมูลราคา':'Price History Pending'}</div><div class="mtrend-note-sub">${L==='th'?'ระบบจะแสดงเทรนด์ทันทีที่มีข้อมูลรายวัน':'Will show real trends as soon as daily prices are tracked'}</div></div>`;
+
+  // Use the fetched trend JSONs when available (Phase 3 data).
+  // Falls back to the old computed approach if the files haven't been
+  // generated yet (first-run before workflow produces them).
+  const gainersData=D.gainers;
+  const losersData=D.losers;
+  const gainers=gainersData?.cards||[];
+  const losers=losersData?.cards||[];
+  const hasTrendData=!!(gainersData&&losersData);
+
+  // Pending state shown when the pipeline hasn't produced data yet,
+  // or when there's not yet enough history for a meaningful comparison.
+  const pendingHtml=`<div class="mtrend-note">
+    <div class="mtrend-note-ic">📊</div>
+    <div class="mtrend-note-hd">${L==='th'?'กำลังสะสมข้อมูลราคา':'Building Price History'}</div>
+    <div class="mtrend-note-sub">${L==='th'?'ระบบจะแสดงเทรนด์ทันทีที่มีข้อมูลรายวัน':'Trends will appear as daily price snapshots accumulate'}</div>
+  </div>`;
+
+  const gainerAgeLabel=trendAgeLabel(gainersData,L);
+  const loserAgeLabel=trendAgeLabel(losersData,L);
+
+  // Chase card panel — always live data (no history needed)
   const chaseCardHtml=top?`
       <div class="mtrend-body">
         <img class="mtrend-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
@@ -1101,14 +1164,23 @@ function renderTrend(){
           <div class="mtrend-price">${fpL(realPrice(top))}</div>
         </div>
       </div>`:`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
+
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
-      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl t" data-th="ราคาขึ้นแรง" data-en="Trending Up">ราคาขึ้นแรง</span>${gainers.length?'':`<span class="mtrend-soon">${soonTxt}</span>`}</div>
-      ${gainers.length?trendEntryHtml(gainers[0]):noHistHtml}
+      <div class="mtrend-head">
+        <span class="mtrend-ic">📈</span>
+        <span class="mtrend-ttl t" data-th="ราคาขึ้นแรง" data-en="Trending Up">ราคาขึ้นแรง</span>
+        ${gainerAgeLabel}
+      </div>
+      ${gainers.length?trendEntryFromJson(gainers[0],L):pendingHtml}
     </div>
     <div class="mtrend-card">
-      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl t" data-th="ราคาลงแรง" data-en="Trending Down">ราคาลงแรง</span>${losers.length?'':`<span class="mtrend-soon">${soonTxt}</span>`}</div>
-      ${losers.length?trendEntryHtml(losers[0]):noHistHtml}
+      <div class="mtrend-head">
+        <span class="mtrend-ic">📉</span>
+        <span class="mtrend-ttl t" data-th="ราคาลงแรง" data-en="Trending Down">ราคาลงแรง</span>
+        ${loserAgeLabel}
+      </div>
+      ${losers.length?trendEntryFromJson(losers[0],L):pendingHtml}
     </div>
     <div class="mtrend-card live" onclick="jumpChaseSection()">
       <div class="mtrend-head"><span class="mtrend-ic">🔥</span><span class="mtrend-ttl t" data-th="Chase Cards ยอดนิยม" data-en="Top Chase Card">Chase Cards ยอดนิยม</span></div>
