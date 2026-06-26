@@ -3,11 +3,19 @@ Runs inside GitHub Actions on a schedule (or via manual workflow_dispatch).
 Re-fetches all One Piece TCG data from optcgapi.com -- main numbered booster
 sets, Extra Boosters, Premium Boosters, and Starter Decks -- and overwrites
 the single combined JSON file that index.html reads.
+
+Phase 2: Also appends today's prices to Price History Raw (Google Sheets)
+via an Apps Script Web App endpoint.
+
+Phase 3: Computes day-over-day price trends by comparing today's prices
+against prices-snapshot.json (the last fully-successful run's prices).
+Writes top-gainers.json, top-losers.json, and status.json to data/.
 """
 
 import json
 import os
 import time
+from datetime import date as date_type
 from datetime import datetime, timezone
 
 import requests
@@ -15,36 +23,27 @@ import requests
 BASE_URL = "https://optcgapi.com/api"
 OUTPUT_PATH = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 
-# --- Phase 2: Price History Raw ingest (see PRICE-TRACKING-ARCHITECTURE.md) ---
-#
-# Posts one append-only row per card per run to the "Price History Raw" sheet
-# via an Apps Script Web App endpoint, using market_price ONLY as the real
-# price. inventory_price is intentionally NOT used as a fallback -- per the
-# official-ledger sourcing decision made 2026-06-25, only optcgapi.com's own
-# market_price field is trusted for this ledger. Cards with a null/missing
-# market_price are skipped entirely for that day -- counted in the
-# "missing market_price" stat, never faked, never backfilled from
-# inventory_price. Source currency is USD -- that's what optcgapi.com
-# actually returns; THB is only ever a client-side display conversion in
-# index.html, never something to invent here.
-#
-# Configured via repo secrets APPS_SCRIPT_URL / APPS_SCRIPT_SECRET. DRY_RUN
-# defaults to true so this can be wired up and exercised via manual
-# workflow_dispatch runs without writing anything to the history ledger until
-# it's been verified for a few days -- per the Phase 2 plan in the
-# architecture doc ("a bad run shouldn't silently corrupt the history
-# ledger"). Set DRY_RUN=false (as a workflow env/input) once that's done.
+# --- Phase 3: Trend + status output paths ---
+DATA_DIR = "onepiece-catalog/data"
+SNAPSHOT_PATH = f"{DATA_DIR}/prices-snapshot.json"
+GAINERS_PATH = f"{DATA_DIR}/top-gainers.json"
+LOSERS_PATH = f"{DATA_DIR}/top-losers.json"
+STATUS_PATH = f"{DATA_DIR}/status.json"
+
+# Dual-threshold filter: a price movement must clear BOTH bars to appear in
+# trends. This prevents noise on low-priced cards (big % / tiny $ change)
+# and ignores trivial moves on high-priced cards (large $ / tiny % change).
+TREND_MIN_ABS_USD = 0.50    # must move at least $0.50 in absolute dollar terms
+TREND_MIN_PCT = 2.0         # AND at least 2.0% relative to the baseline price
+TREND_TOP_N = 5             # top N cards shown per direction
+
+# --- Phase 2: Price History Raw ingest ---
 APPS_SCRIPT_URL = os.environ.get("APPS_SCRIPT_URL", "")
 APPS_SCRIPT_SECRET = os.environ.get("APPS_SCRIPT_SECRET", "")
 DRY_RUN = os.environ.get("DRY_RUN", "true").strip().lower() != "false"
 HISTORY_BATCH_SIZE = 200
 HISTORY_CURRENCY = "USD"
 HISTORY_SOURCE = "optcgapi.com"
-# Apps Script Web Apps occasionally return a transient 500 under back-to-back
-# doPost calls (e.g. brief Sheets-service contention) -- seen once in 21
-# batches during manual dry-run testing on 2026-06-25. Retrying a couple of
-# times with a short delay lets a single blip self-heal instead of silently
-# dropping that batch's rows for the day.
 HISTORY_MAX_ATTEMPTS = 3
 HISTORY_RETRY_DELAY_SECONDS = 2
 
@@ -61,36 +60,24 @@ SET_CODES = [
 # for "Extra Booster -EGGHEAD CRISIS-" (officially released 2026-01-31). It's
 # also absent from /api/allSets/. This is a hobbyist API that simply hasn't
 # added that set yet -- not something we can fix on our end without a second
-# data source (apitcg.com has a One Piece endpoint but requires a free API
-# key signup -- worth doing if this gap still matters once the rest of the
-# catalog is fixed). Until then, EB-04 cards/prices will be genuinely missing
-# from the site, same as any future not-yet-supported set.
+# data source. Until then, EB-04 cards/prices will be genuinely missing.
 EXTRA_SET_CODES = [
     "EB-01",        # Extra Booster: Memorial Collection
     "EB-02",        # Extra Booster: Anime 25th Collection
     "EB-03",        # Extra Booster: One Piece Heroines Edition
-    "OP14-EB04",    # The Azure Sea's Seven -- a real main BOOSTER PACK (OP-14)
-                     # on the official site; optcgapi just files it under this
-                     # internal code. Confirmed against asia-th.onepiece-cardgame.com.
-    "OP15-EB04",    # Adventure on Kami's Island -- real main BOOSTER PACK (OP-15),
-                     # same optcgapi naming quirk as above.
+    "OP14-EB04",    # The Azure Sea's Seven (real main booster OP-14)
+    "OP15-EB04",    # Adventure on Kami's Island (real main booster OP-15)
     "PRB-01",       # Premium Booster - The Best
     "PRB-02",       # Premium Booster - The Best - Vol. 2
 ]
 
-# Starter Decks -- separate /decks/{id}/ endpoint. ST-01 through ST-30 cover
-# every deck released as of 2026-06-24 (ST-29 "Egghead" and ST-30 EX "Luffy &
-# Ace" confirmed live on both optcgapi and the official site). ST-31 through
-# ST-36 exist as announced products (release 2026-07-11) but optcgapi has no
-# card data for them yet -- they're listed as "coming soon" in index.html
-# instead of being fetched here.
+# Starter Decks -- separate /decks/{id}/ endpoint.
 DECK_CODES = [f"ST-{i:02d}" for i in range(1, 31)]
 
 REQUEST_DELAY_SECONDS = 1.5  # be polite to a free hobbyist-run API
 
 # optcgapi returns the literal string "NULL" for empty fields instead of a
-# real JSON null. Left as-is, the site renders the text "NULL" on cards that
-# have no power/life/text/etc. Normalize it here so downstream data is clean.
+# real JSON null. Normalize it here so downstream data is always clean.
 NULL_LIKE = {"NULL", "null", ""}
 
 
@@ -115,17 +102,252 @@ def fetch_deck_cards(deck_id: str):
     return resp.json()
 
 
+# ---------------------------------------------------------------------------
+# Phase 3: Snapshot-based trend computation
+# ---------------------------------------------------------------------------
+
+def load_snapshot() -> dict:
+    """Load the last fully-successful prices-snapshot.json.
+    Returns {} if the file doesn't exist or can't be parsed -- first-run safe.
+    """
+    if not os.path.exists(SNAPSHOT_PATH):
+        print("Snapshot: no previous snapshot found -- trends will be skipped this run")
+        return {}
+    try:
+        with open(SNAPSHOT_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        snap_date = data.get("snapshot_date", "unknown")
+        total = data.get("total_cards", 0)
+        print(f"Snapshot: loaded {total} prices from {snap_date}")
+        return data
+    except Exception as e:
+        print(f"Snapshot: could not read {SNAPSHOT_PATH}: {e} -- trends skipped")
+        return {}
+
+
+def _confidence(history_days: int) -> str:
+    """Confidence tier based on how many days of history exist."""
+    if history_days < 7:
+        return "low"
+    elif history_days < 30:
+        return "medium"
+    return "high"
+
+
+def _days_between(date_a: str, date_b: str) -> int:
+    """Return (date_b - date_a) in whole days. Returns 0 on parse error."""
+    try:
+        return (date_type.fromisoformat(date_b) - date_type.fromisoformat(date_a)).days
+    except Exception:
+        return 0
+
+
+def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str) -> tuple[dict, dict]:
+    """Compare today's combined data against the last snapshot.
+
+    Uses dual-threshold filtering: a card only appears in trends if BOTH
+    |price_change_usd| >= TREND_MIN_ABS_USD AND |price_change_pct| >= TREND_MIN_PCT.
+    This prevents noise on cheap cards (big % / tiny $) and trivial moves on
+    expensive cards (tiny % / large $).
+
+    Returns (gainers_payload, losers_payload) -- dicts ready to write to disk.
+    Both always include full metadata even when cards list is empty, so the
+    frontend can read confidence/history info regardless of whether real trends exist.
+    """
+    snapshot_prices = snapshot.get("prices", {})
+    baseline_date = snapshot.get("snapshot_date", "")
+    prev_history_days = snapshot.get("history_days_collected", 0)
+    history_days = prev_history_days + 1
+
+    days_between = _days_between(baseline_date, run_date) if baseline_date else 0
+
+    meta = {
+        "generated_at": timestamp,
+        "snapshot_date": run_date,
+        "baseline_date": baseline_date or None,
+        "days_between_snapshots": days_between,
+        "history_days_collected": history_days,
+        "period": "day_over_day",
+        "confidence": _confidence(history_days),
+        "source": HISTORY_SOURCE,
+        "currency": HISTORY_CURRENCY,
+        "game": "onepiece",
+    }
+
+    if not snapshot_prices or not baseline_date:
+        print("Trends: no baseline available -- writing empty trend files")
+        empty = {**meta, "cards_evaluated": 0, "cards_with_trend": 0}
+        return ({**empty, "trend_type": "gainers", "cards": []},
+                {**empty, "trend_type": "losers",  "cards": []})
+
+    changes = []
+    cards_evaluated = 0
+
+    for set_code, cards in combined.items():
+        for card in cards:
+            card_id = card.get("card_set_id")
+            if not card_id:
+                continue
+
+            today_raw = card.get("market_price")
+            if today_raw is None:
+                continue
+            try:
+                today_price = float(today_raw)
+            except (TypeError, ValueError):
+                continue
+            if today_price <= 0:
+                continue
+
+            baseline_price = snapshot_prices.get(card_id)
+            if baseline_price is None or baseline_price <= 0:
+                continue  # card not in previous snapshot (new card) -- skip
+
+            cards_evaluated += 1
+            price_change = today_price - baseline_price
+            price_change_pct = (price_change / baseline_price) * 100
+
+            # Dual filter -- both thresholds must pass
+            if abs(price_change) < TREND_MIN_ABS_USD:
+                continue
+            if abs(price_change_pct) < TREND_MIN_PCT:
+                continue
+
+            changes.append({
+                "card_id": card_id,
+                "card_name": card.get("card_name") or "",
+                "set_code": set_code,
+                "rarity": card.get("rarity") or "",
+                "card_image": card.get("card_image") or "",
+                "today_price_usd": round(today_price, 4),
+                "baseline_price_usd": round(baseline_price, 4),
+                "price_change_usd": round(price_change, 4),
+                "price_change_percent": round(price_change_pct, 2),
+            })
+
+    gainers = sorted(
+        [c for c in changes if c["price_change_percent"] > 0],
+        key=lambda x: x["price_change_percent"], reverse=True
+    )[:TREND_TOP_N]
+
+    losers = sorted(
+        [c for c in changes if c["price_change_percent"] < 0],
+        key=lambda x: x["price_change_percent"]
+    )[:TREND_TOP_N]
+
+    full_meta = {**meta, "cards_evaluated": cards_evaluated, "cards_with_trend": len(changes)}
+    print(
+        f"Trends: {cards_evaluated} cards evaluated, {len(changes)} with qualifying movement "
+        f"({len(gainers)} gainers, {len(losers)} losers), "
+        f"baseline={baseline_date}, days_between={days_between}, confidence={meta['confidence']}"
+    )
+
+    return (
+        {**full_meta, "trend_type": "gainers", "cards": gainers},
+        {**full_meta, "trend_type": "losers",  "cards": losers},
+    )
+
+
+def write_json_file(path: str, data: dict, label: str = ""):
+    """Write a JSON file, creating parent directories as needed."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    n = len(data.get("cards", []))
+    print(f"{label or path}: written (cards={n})" if "cards" in data else f"{label or path}: written")
+
+
+def save_snapshot(combined: dict, run_date: str, timestamp: str,
+                  prev_history_days: int, failed_sets: int) -> bool:
+    """Write prices-snapshot.json with today's prices as the new trend baseline.
+
+    ONLY written when failed_sets == 0 (every set fetched successfully).
+    A partial snapshot would corrupt future trend calculations -- cards that
+    failed to fetch would appear to 'drop to zero', producing false losers.
+    If any set fails, the previous snapshot remains untouched and will be
+    used as the baseline for the next successful run.
+    """
+    if failed_sets > 0:
+        print(
+            f"Snapshot: skipping save -- {failed_sets} set(s) failed to fetch. "
+            f"Previous snapshot will be used as baseline for the next successful run."
+        )
+        return False
+
+    prices = {}
+    total_with_price = 0
+    for cards in combined.values():
+        for card in cards:
+            cid = card.get("card_set_id")
+            price = card.get("market_price")
+            if cid and price is not None:
+                try:
+                    prices[cid] = float(price)
+                    total_with_price += 1
+                except (TypeError, ValueError):
+                    pass
+
+    new_history_days = prev_history_days + 1
+    snapshot = {
+        "snapshot_date": run_date,
+        "generated_at": timestamp,
+        "source": HISTORY_SOURCE,
+        "total_cards": total_with_price,
+        "history_days_collected": new_history_days,
+        "prices": prices,
+    }
+    os.makedirs(os.path.dirname(SNAPSHOT_PATH), exist_ok=True)
+    with open(SNAPSHOT_PATH, "w", encoding="utf-8") as f:
+        # Compact (no indent): this file can be 300-500 KB and is machine-read only
+        json.dump(snapshot, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Snapshot: saved {total_with_price} prices for {run_date} (history_days={new_history_days})")
+    return True
+
+
+def write_status(run_date: str, timestamp: str,
+                 api_fetched: int, api_failed: int, total_cards: int, cards_with_price: int,
+                 history_status: str, history_days: int, last_snapshot_date: str, sheets_status: str,
+                 gainers_data: dict, losers_data: dict):
+    """Write a lightweight health/status JSON for monitoring and frontend display."""
+    trend_meta = gainers_data  # both share the same metadata
+    status = {
+        "last_updated": timestamp,
+        "run_date": run_date,
+        "status": "success" if api_failed == 0 else "partial",
+        "api": {
+            "source": "optcgapi.com",
+            "status": "ok" if api_failed == 0 else "partial",
+            "sets_fetched": api_fetched,
+            "sets_failed": api_failed,
+            "total_cards": total_cards,
+            "cards_with_price": cards_with_price,
+        },
+        "history": {
+            "status": history_status,
+            "days_collected": history_days,
+            "last_snapshot_date": last_snapshot_date or None,
+            "sheets_append": sheets_status,
+        },
+        "trends": {
+            "status": "ok" if trend_meta.get("baseline_date") else "no_baseline",
+            "gainers_count": len(gainers_data.get("cards", [])),
+            "losers_count": len(losers_data.get("cards", [])),
+            "confidence": trend_meta.get("confidence", "low"),
+            "baseline_date": trend_meta.get("baseline_date"),
+            "days_between_snapshots": trend_meta.get("days_between_snapshots", 0),
+            "history_days_collected": trend_meta.get("history_days_collected", 0),
+        },
+    }
+    write_json_file(STATUS_PATH, status, label="Status")
+
+
+# ---------------------------------------------------------------------------
+# Phase 2: Price History Raw ingest (Google Sheets via Apps Script)
+# ---------------------------------------------------------------------------
+
 def build_history_rows(combined: dict, run_date: str, timestamp: str):
-    """One row per card with a real, non-null market_price. market_price is
-    the ONLY field trusted for this ledger -- inventory_price is never used
-    as a fallback (official-ledger sourcing decision, 2026-06-25). A card
-    with no market_price that day is skipped entirely: no row is written for
-    it, and it is counted under stats['skipped_no_price'] so the gap is
-    visible in the logs rather than silently invented or backfilled."""
     rows = []
-    scanned = 0
-    skipped_no_id = 0
-    skipped_no_price = 0
+    scanned = skipped_no_id = skipped_no_price = 0
 
     for set_code, cards in combined.items():
         for card in cards:
@@ -134,7 +356,6 @@ def build_history_rows(combined: dict, run_date: str, timestamp: str):
             if not card_id:
                 skipped_no_id += 1
                 continue
-
             price = card.get("market_price")
             if price is None:
                 skipped_no_price += 1
@@ -144,7 +365,6 @@ def build_history_rows(combined: dict, run_date: str, timestamp: str):
             except (TypeError, ValueError):
                 skipped_no_price += 1
                 continue
-
             rows.append({
                 "date": run_date,
                 "card_id": card_id,
@@ -169,27 +389,8 @@ def build_history_rows(combined: dict, run_date: str, timestamp: str):
 
 
 def check_date_exists(run_date: str) -> str:
-    """Read-only check against the Apps Script ingest endpoint: does Price
-    History Raw already have rows for run_date? Called once per run, before
-    building or posting anything, so a workflow triggered twice on the same
-    UTC day (e.g. a manual re-run after the scheduled one already ran)
-    appends nothing the second time instead of writing a duplicate ~4000-row
-    snapshot for a date that's already there.
-
-    Returns one of:
-      "not_exists" -- confirmed no rows for run_date yet, safe to proceed.
-      "exists"     -- confirmed rows for run_date are already present.
-      "unknown"    -- the check itself failed after retries (Apps Script
-                      unreachable/erroring). Treated as fail-closed by the
-                      caller: "couldn't confirm it's safe" must never be
-                      treated the same as "confirmed safe".
-
-    If the ingest endpoint isn't configured at all, this returns
-    "not_exists" so post_history_rows() -- which already has its own
-    graceful "not configured, skipping ingest" message -- is the one place
-    that reports that state. There is nothing to protect against duplicating
-    when nothing is being written in the first place.
-    """
+    """Read-only check: does Price History Raw already have rows for run_date?
+    Returns 'not_exists', 'exists', or 'unknown' (fail-closed on error)."""
     if not APPS_SCRIPT_URL or not APPS_SCRIPT_SECRET:
         return "not_exists"
 
@@ -214,19 +415,10 @@ def check_date_exists(run_date: str) -> str:
     return "unknown"
 
 
-def post_history_rows(rows):
-    """Batch-POST rows to the Apps Script ingest endpoint. Returns True if
-    every batch succeeded (or DRY_RUN reported success), False otherwise --
-    callers should never treat a failure here as fatal for the main JSON
-    pipeline, which already succeeded by the time this runs.
-
-    Each batch gets up to HISTORY_MAX_ATTEMPTS tries with a short delay
-    between them, so a single transient 500 from the Apps Script Web App
-    doesn't drop that batch's rows for the day -- it just retries."""
+def post_history_rows(rows) -> bool:
     if not rows:
         print("Price history: nothing to send (no cards had a real price)")
         return True
-
     if not APPS_SCRIPT_URL or not APPS_SCRIPT_SECRET:
         print("Price history: APPS_SCRIPT_URL/APPS_SCRIPT_SECRET not configured, skipping ingest")
         return True
@@ -244,8 +436,6 @@ def post_history_rows(rows):
                 resp.raise_for_status()
                 body = resp.json()
                 if not body.get("ok"):
-                    # Rejected by the script itself (e.g. bad secret/payload)
-                    # -- retrying won't change that, so stop immediately.
                     last_error = body.get("error")
                     break
                 if DRY_RUN:
@@ -267,8 +457,22 @@ def post_history_rows(rows):
     return ok
 
 
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
 def main():
+    now = datetime.now(timezone.utc)
+    run_date = now.strftime("%Y-%m-%d")
+    timestamp = now.isoformat()
+
+    # --- Phase 3: Load previous snapshot BEFORE fetching new data ---
+    snapshot = load_snapshot()
+    prev_history_days = snapshot.get("history_days_collected", 0)
+
+    # --- Fetch all sets and decks ---
     combined = {}
+    failed_sets = 0
 
     for code in SET_CODES + EXTRA_SET_CODES:
         try:
@@ -278,8 +482,10 @@ def main():
                 print(f"{code}: {len(cards)} cards")
             else:
                 print(f"{code}: empty response, skipping")
+                failed_sets += 1
         except requests.RequestException as exc:
             print(f"{code}: failed ({exc}), keeping previous data for this set")
+            failed_sets += 1
         time.sleep(REQUEST_DELAY_SECONDS)
 
     for code in DECK_CODES:
@@ -290,66 +496,90 @@ def main():
                 print(f"{code}: {len(cards)} cards")
             else:
                 print(f"{code}: empty response, skipping")
+                failed_sets += 1
         except requests.RequestException as exc:
             print(f"{code}: failed ({exc}), keeping previous data for this deck")
+            failed_sets += 1
         time.sleep(REQUEST_DELAY_SECONDS)
 
     if not combined:
-        print("Nothing fetched successfully -- aborting without overwriting file")
+        print("Nothing fetched successfully -- aborting without overwriting any files")
+        # Write a failure status so the frontend knows something went wrong
+        write_status(
+            run_date, timestamp,
+            api_fetched=0, api_failed=len(SET_CODES) + len(EXTRA_SET_CODES) + len(DECK_CODES),
+            total_cards=0, cards_with_price=0,
+            history_status="skipped", history_days=prev_history_days,
+            last_snapshot_date=snapshot.get("snapshot_date", ""),
+            sheets_status="skipped",
+            gainers_data={"baseline_date": None, "confidence": "low", "history_days_collected": prev_history_days, "days_between_snapshots": 0, "cards": []},
+            losers_data={"baseline_date": None, "confidence": "low", "history_days_collected": prev_history_days, "days_between_snapshots": 0, "cards": []},
+        )
         return
 
+    total_cards = sum(len(v) for v in combined.values())
+    api_fetched = len(combined)
+    print(f"Fetched {api_fetched} sets/decks ({total_cards} cards total, {failed_sets} failed)")
+
+    # --- Phase 3: Compute trends against snapshot ---
+    gainers_data, losers_data = compute_trends(combined, snapshot, run_date, timestamp)
+    write_json_file(GAINERS_PATH, gainers_data, label="Top gainers")
+    write_json_file(LOSERS_PATH, losers_data, label="Top losers")
+
+    # --- Overwrite main catalog JSON ---
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(combined)} sets/decks -> {OUTPUT_PATH}")
 
-    # Phase 2: append today's real prices to Price History Raw. This never
-    # touches/overwrites the JSON file above and never blocks on failure --
-    # the live site's data pipeline (this script's original job) must keep
-    # working even if the history ledger endpoint is down or misconfigured.
-    now = datetime.now(timezone.utc)
-    run_date = now.strftime("%Y-%m-%d")
-    timestamp = now.isoformat()
+    # --- Phase 3: Save snapshot (only on full success) ---
+    snapshot_saved = save_snapshot(combined, run_date, timestamp, prev_history_days, failed_sets)
+    last_snapshot_date = run_date if snapshot_saved else snapshot.get("snapshot_date", "")
+    history_days_now = (prev_history_days + 1) if snapshot_saved else prev_history_days
 
-    # Duplicate-date protection: ask the ledger whether today's snapshot is
-    # already there BEFORE building or sending a single row. This is what
-    # makes it safe to turn the daily cron on -- a workflow triggered twice
-    # on the same UTC day (cron + a manual re-run, or a re-triggered job)
-    # must not double up ~4000 rows for that date.
+    # --- Phase 2: Append to Price History Raw (Google Sheets) ---
+    sheets_status = "skipped"
     date_status = check_date_exists(run_date)
     if date_status == "exists":
-        print(f"{run_date} snapshot already exists. No rows inserted.")
-        return
-    if date_status == "unknown":
+        print(f"Price history: {run_date} snapshot already exists in Sheets. No rows inserted.")
+        sheets_status = "already_exists"
+    elif date_status == "unknown":
         print(
-            f"Price history: could not confirm whether {run_date} already "
-            f"has a snapshot -- skipping ingest for safety. No rows inserted."
+            f"Price history: could not confirm whether {run_date} already has a snapshot -- "
+            f"skipping ingest for safety."
         )
-        return
+        sheets_status = "skipped_safety"
+    else:
+        history_rows, stats = build_history_rows(combined, run_date, timestamp)
+        print(
+            f"Price history: {stats['scanned']} cards scanned, "
+            f"{stats['with_market_price']} with market_price, "
+            f"{stats['skipped_total']} skipped"
+        )
+        if DRY_RUN and history_rows:
+            print("Price history: sample rows (first 5) --")
+            for r in history_rows[:5]:
+                print(f"  {r['card_id']:<16} {r['card_name']:<38} {r['market_price']:>8.2f} {r['currency']}")
 
-    history_rows, stats = build_history_rows(combined, run_date, timestamp)
-    print(
-        f"Price history: {stats['scanned']} cards scanned, "
-        f"{stats['with_market_price']} with market_price, "
-        f"{stats['skipped_total']} skipped total "
-        f"({stats['skipped_no_price']} missing market_price, "
-        f"{stats['skipped_no_id']} missing card_set_id)"
+        success = post_history_rows(history_rows)
+        sheets_status = "ok" if success else "partial_failure"
+
+    cards_with_price = sum(
+        1 for cards in combined.values()
+        for c in cards if c.get("market_price") is not None
     )
 
-    # Verification-run diagnostics: only printed during DRY_RUN, since these
-    # are for human review before flipping to a real write, not something we
-    # need cluttering the daily production log once the ledger is live.
-    if DRY_RUN and history_rows:
-        print("Price history: sample rows (first 10) --")
-        for r in history_rows[:10]:
-            print(f"  {r['card_id']:<14} {r['card_name']:<40} {r['market_price']:>8.2f} {r['currency']}")
-
-        top20 = sorted(history_rows, key=lambda r: r["market_price"], reverse=True)[:20]
-        print("Price history: top 20 highest market_price --")
-        for rank, r in enumerate(top20, start=1):
-            print(f"  {rank:>2}. {r['card_id']:<14} {r['card_name']:<40} {r['market_price']:>8.2f} {r['currency']}")
-
-    post_history_rows(history_rows)
+    # --- Phase 3: Write status.json ---
+    write_status(
+        run_date, timestamp,
+        api_fetched=api_fetched, api_failed=failed_sets,
+        total_cards=total_cards, cards_with_price=cards_with_price,
+        history_status="ok", history_days=history_days_now,
+        last_snapshot_date=last_snapshot_date,
+        sheets_status=sheets_status,
+        gainers_data=gainers_data,
+        losers_data=losers_data,
+    )
 
 
 if __name__ == "__main__":
