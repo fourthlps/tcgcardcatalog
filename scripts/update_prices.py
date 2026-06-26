@@ -415,6 +415,38 @@ def check_date_exists(run_date: str) -> str:
     return "unknown"
 
 
+def post_run_log(log_data: dict) -> None:
+    """Append one admin run-log row to the Run Log sheet via Apps Script.
+
+    Never raises -- a logging failure must never corrupt or abort the pipeline.
+    Respects DRY_RUN so test runs don't write phantom rows to the admin sheet.
+    """
+    if not APPS_SCRIPT_URL or not APPS_SCRIPT_SECRET:
+        print("Run log: APPS_SCRIPT_URL/APPS_SCRIPT_SECRET not configured, skipping")
+        return
+
+    payload = {
+        "secret": APPS_SCRIPT_SECRET,
+        "action": "runLog",
+        "dryRun": DRY_RUN,
+        "data": log_data,
+    }
+    try:
+        resp = requests.post(APPS_SCRIPT_URL, json=payload, timeout=30)
+        resp.raise_for_status()
+        body = resp.json()
+        if not body.get("ok"):
+            print(f"Run log: Apps Script returned error: {body.get('error')}")
+            return
+        if DRY_RUN:
+            print(f"Run log: dry-run OK (would append row for {log_data.get('run_date')})")
+        else:
+            print(f"Run log: appended at row {body.get('appendedRow')} in Run Log sheet")
+    except Exception as exc:
+        # Intentionally swallow -- run-log failure must never affect pipeline data
+        print(f"Run log: failed to write ({exc}) -- pipeline data is not affected")
+
+
 def post_history_rows(rows) -> bool:
     if not rows:
         print("Price history: nothing to send (no cards had a real price)")
@@ -462,9 +494,13 @@ def post_history_rows(rows) -> bool:
 # ---------------------------------------------------------------------------
 
 def main():
+    wall_start = time.monotonic()
     now = datetime.now(timezone.utc)
     run_date = now.strftime("%Y-%m-%d")
     timestamp = now.isoformat()
+    github_run_id = os.environ.get("GITHUB_RUN_ID", "")
+
+    total_expected = len(SET_CODES) + len(EXTRA_SET_CODES) + len(DECK_CODES)
 
     # --- Phase 3: Load previous snapshot BEFORE fetching new data ---
     snapshot = load_snapshot()
@@ -504,17 +540,39 @@ def main():
 
     if not combined:
         print("Nothing fetched successfully -- aborting without overwriting any files")
-        # Write a failure status so the frontend knows something went wrong
+        empty_trend = {"baseline_date": None, "confidence": "low",
+                       "history_days_collected": prev_history_days, "days_between_snapshots": 0, "cards": []}
         write_status(
             run_date, timestamp,
-            api_fetched=0, api_failed=len(SET_CODES) + len(EXTRA_SET_CODES) + len(DECK_CODES),
+            api_fetched=0, api_failed=total_expected,
             total_cards=0, cards_with_price=0,
             history_status="skipped", history_days=prev_history_days,
             last_snapshot_date=snapshot.get("snapshot_date", ""),
             sheets_status="skipped",
-            gainers_data={"baseline_date": None, "confidence": "low", "history_days_collected": prev_history_days, "days_between_snapshots": 0, "cards": []},
-            losers_data={"baseline_date": None, "confidence": "low", "history_days_collected": prev_history_days, "days_between_snapshots": 0, "cards": []},
+            gainers_data=empty_trend, losers_data=empty_trend,
         )
+        duration = round(time.monotonic() - wall_start, 1)
+        post_run_log({
+            "run_date": run_date,
+            "run_timestamp_utc": timestamp,
+            "status": "failed",
+            "source": HISTORY_SOURCE,
+            "total_sets": total_expected,
+            "successful_sets": 0,
+            "failed_sets": total_expected,
+            "total_cards": 0,
+            "cards_with_price": 0,
+            "cards_missing_price": 0,
+            "history_rows_written": 0,
+            "trend_gainers_count": 0,
+            "trend_losers_count": 0,
+            "snapshot_saved": False,
+            "json_updated": False,
+            "duration_seconds": duration,
+            "error_message": "All sets/decks failed to fetch -- no data written",
+            "github_run_id": github_run_id,
+            "notes": f"DRY_RUN={DRY_RUN}",
+        })
         return
 
     total_cards = sum(len(v) for v in combined.values())
@@ -539,6 +597,7 @@ def main():
 
     # --- Phase 2: Append to Price History Raw (Google Sheets) ---
     sheets_status = "skipped"
+    history_rows_written = 0
     date_status = check_date_exists(run_date)
     if date_status == "exists":
         print(f"Price history: {run_date} snapshot already exists in Sheets. No rows inserted.")
@@ -563,11 +622,14 @@ def main():
 
         success = post_history_rows(history_rows)
         sheets_status = "ok" if success else "partial_failure"
+        if success and not DRY_RUN:
+            history_rows_written = len(history_rows)
 
     cards_with_price = sum(
         1 for cards in combined.values()
         for c in cards if c.get("market_price") is not None
     )
+    cards_missing_price = total_cards - cards_with_price
 
     # --- Phase 3: Write status.json ---
     write_status(
@@ -580,6 +642,36 @@ def main():
         gainers_data=gainers_data,
         losers_data=losers_data,
     )
+
+    # --- Phase 4: Write admin run log to Google Sheets Run Log sheet ---
+    duration = round(time.monotonic() - wall_start, 1)
+    overall_status = "success" if failed_sets == 0 else "partial"
+    notes_parts = [f"DRY_RUN={DRY_RUN}"]
+    if failed_sets > 0:
+        notes_parts.append(f"{failed_sets} set(s) failed")
+    if not snapshot_saved:
+        notes_parts.append("snapshot NOT saved (see failed_sets)")
+    post_run_log({
+        "run_date": run_date,
+        "run_timestamp_utc": timestamp,
+        "status": overall_status,
+        "source": HISTORY_SOURCE,
+        "total_sets": total_expected,
+        "successful_sets": api_fetched,
+        "failed_sets": failed_sets,
+        "total_cards": total_cards,
+        "cards_with_price": cards_with_price,
+        "cards_missing_price": cards_missing_price,
+        "history_rows_written": history_rows_written,
+        "trend_gainers_count": len(gainers_data.get("cards", [])),
+        "trend_losers_count": len(losers_data.get("cards", [])),
+        "snapshot_saved": snapshot_saved,
+        "json_updated": True,
+        "duration_seconds": duration,
+        "error_message": "",
+        "github_run_id": github_run_id,
+        "notes": " | ".join(notes_parts),
+    })
 
 
 if __name__ == "__main__":
