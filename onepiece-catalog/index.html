@@ -53,49 +53,26 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .float-dot.d3{width:6px;height:6px;top:82%;left:30%;background:radial-gradient(circle,rgba(37,99,235,.45),transparent 70%)}
 @media (max-width:1023px){.deco-mid,.deco-bottom{display:none}.deco-tl svg,.deco-tr svg{width:340px;height:320px}}
 @media (max-width:640px){.deco-grp{display:none}.bg-grid{display:none}}
-/* Hero-scoped corner motifs (compass / crystal+holo) -- sit above the
-   hero's own background, below its content, same trick as .hero-orb. */
-.hero-deco{position:absolute;z-index:0;pointer-events:none;opacity:.22}
-.hero-deco-tl{top:4px;left:-6px;width:170px;height:170px}
-.hero-deco-tr{top:-4px;right:0;width:190px;height:165px}
-@media (max-width:680px){.hero-deco{display:none}}
 
 /* ============================================================
-   HOMEPAGE ATMOSPHERE -- "Collector's Light Table".
-   A bright, layered brand backdrop (NOT a flat color wash):
-     Layer 1  a barely-tinted ice/lavender/gold wash
-     Layer 2  the sitewide dot-grid texture (.bg-grid, beneath)
-     Layer 3  large original line-art illustrations in the page
-              margins -- compass + floating card frames on the
-              left, crystal facets + card stack + constellation
-              on the right -- representing "trading card
-              collecting" in general, no franchise references
-     Layer 4  soft color-glow blobs
-     Layer 5  a few light particles
-     Layer 6  the actual homepage content (untouched)
-   Stays ~90% white/ice/lavender on purpose: this sits behind the
-   hero + Browse Games only, at z-index:-1, so every card/button/
-   text keeps its existing look and full readability. Pure CSS +
-   inline SVG, no external images. */
-.home-art{position:absolute;top:0;left:0;width:100%;height:1280px;z-index:-1;pointer-events:none;overflow:hidden;
-  background:radial-gradient(ellipse 58% 42% at 8% 0%,var(--ice) 0%,transparent 62%),
-             radial-gradient(ellipse 52% 38% at 100% 4%,var(--lavender) 0%,transparent 62%),
-             radial-gradient(ellipse 48% 32% at 46% 100%,var(--ice) 0%,transparent 66%),
-             var(--bg)}
-.home-glow{position:absolute;border-radius:50%;filter:blur(80px)}
-.home-glow.g1{width:460px;height:460px;top:-170px;left:-150px;background:radial-gradient(circle,rgba(37,99,235,.15),transparent 70%)}
-.home-glow.g2{width:400px;height:400px;top:-110px;right:-130px;background:radial-gradient(circle,rgba(139,92,246,.13),transparent 70%)}
-.home-glow.g3{width:340px;height:340px;bottom:-120px;left:32%;background:radial-gradient(circle,rgba(205,168,103,.12),transparent 70%)}
-.home-spark{position:absolute;border-radius:50%;filter:blur(1px);background:radial-gradient(circle,rgba(205,168,103,.55),transparent 70%)}
-.home-spark.s1{width:6px;height:6px;top:14%;left:31%}
-.home-spark.s2{width:5px;height:5px;top:54%;left:6%;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 70%)}
-.home-spark.s3{width:5px;height:5px;top:36%;left:60%;background:radial-gradient(circle,rgba(37,99,235,.45),transparent 70%)}
-.home-edge{position:absolute;top:0}
-.home-edge.left{left:-50px;width:280px;height:900px}
-.home-edge.right{right:-70px;width:320px;height:1080px}
-@media (max-width:1240px){.home-edge{display:none}}
-@media (max-width:1023px){.home-art{height:760px}.home-glow{filter:blur(60px)}.home-glow.g2{width:300px;height:300px}.home-glow.g3{display:none}}
-@media (max-width:640px){.home-art{height:560px}.home-spark{display:none}}
+   HOMEPAGE BACKGROUND ARTWORK -- approved brand illustration.
+   This is the literal, pre-approved artwork asset used as a real
+   background-image (NOT recreated in CSS/SVG, not a gradient).
+   It already contains the compass, floating card-frame outlines,
+   crystal facets, map pins, watercolor wave swirls and stars/
+   constellation -- all in its margins, with a deliberately clean,
+   light center reserved for site content. Sits behind the hero +
+   Browse Games at z-index:-1; the UI (cards, buttons, type,
+   spacing) is completely untouched. A subtle top fade keeps the
+   search bar/title crisp and a bottom fade blends into the rest
+   of the page instead of a hard cut. */
+.home-art{position:absolute;top:0;left:0;width:100%;height:1040px;z-index:-1;pointer-events:none;overflow:hidden;
+  background-image:url('assets/55e6d703-fc33-41ae-9af6-a5107b573747.png');
+  background-size:cover;background-position:center top;background-repeat:no-repeat;background-color:var(--bg)}
+.home-art::after{content:'';position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 16%,rgba(255,255,255,0) 78%,var(--bg) 100%)}
+@media (max-width:1023px){.home-art{height:700px}}
+@media (max-width:640px){.home-art{height:560px;background-position:center 10%}}
 .serif{font-family:Georgia,'Iowan Old Style',serif}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
@@ -124,7 +101,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 @media (max-width:540px){.hero-copy h1{font-size:28px}.nav{gap:12px}.nav a{font-size:12.5px}}
 
 /* HERO */
-.hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.12),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.10),transparent 60%),#ffffff;padding:56px 0 64px}
+.hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.08),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.07),transparent 60%);padding:56px 0 64px}
 /* Abstract soft-glow orbs -- an ocean/aurora feel without copying any
    specific reference image; pure CSS blur, no external assets. */
 .hero-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0}
@@ -561,83 +538,20 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 <!-- HOME -->
 <div id="view-home">
   <!-- ============================================================
-       HOMEPAGE ATMOSPHERE -- see CSS above. Original SVG/CSS only:
-       a pale wash + soft glows + light particles, plus large
-       compass / crystal / floating-card-frame / constellation
-       line-art anchored in the page margins, echoing "the world of
-       trading card collecting" rather than any single game's art.
+       HOMEPAGE BACKGROUND ARTWORK -- see CSS above. The approved
+       illustration asset is applied as a real background-image on
+       .home-art; nothing here is generated artwork.
        ============================================================ -->
-  <div class="home-art" aria-hidden="true">
-    <div class="home-glow g1"></div>
-    <div class="home-glow g2"></div>
-    <div class="home-glow g3"></div>
-    <div class="home-spark s1"></div>
-    <div class="home-spark s2"></div>
-    <div class="home-spark s3"></div>
-
-    <!-- Left margin: compass rose + two floating card-frame outlines -->
-    <svg class="home-edge left" viewBox="0 0 280 900" preserveAspectRatio="xMaxYMin meet">
-      <g fill="none" stroke="#3b6fe0" stroke-opacity=".3" stroke-width="1.1">
-        <circle cx="190" cy="120" r="62"/><circle cx="190" cy="120" r="40"/>
-        <line x1="190" y1="46" x2="190" y2="64"/><line x1="190" y1="176" x2="190" y2="194"/>
-        <line x1="118" y1="120" x2="136" y2="120"/><line x1="244" y1="120" x2="262" y2="120"/>
-      </g>
-      <path d="M190 80 L210 120 L190 160 L170 120 Z" fill="none" stroke="#cda867" stroke-opacity=".4" stroke-width="1.2"/>
-      <rect x="70" y="330" width="120" height="168" rx="14" fill="none" stroke="#8b5cf6" stroke-opacity=".26" stroke-width="1.3" transform="rotate(-9 130 414)"/>
-      <rect x="40" y="420" width="120" height="168" rx="14" fill="none" stroke="#3b6fe0" stroke-opacity=".22" stroke-width="1.1" transform="rotate(11 100 504)"/>
-      <g stroke="#8b5cf6" stroke-opacity=".18" stroke-width=".8" stroke-dasharray="2 8">
-        <path d="M190 220 L160 310 M120 560 L90 660"/>
-      </g>
-      <g fill="#cda867" fill-opacity=".5">
-        <circle cx="160" cy="310" r="2.2"/><circle cx="90" cy="660" r="2.2"/><circle cx="60" cy="760" r="2"/>
-      </g>
-    </svg>
-
-    <!-- Right margin: crystal facets + floating card-frame stack + constellation -->
-    <svg class="home-edge right" viewBox="0 0 320 1080" preserveAspectRatio="xMinYMin meet">
-      <path d="M170 140 L206 172 L192 226 L148 216 L138 166 Z" fill="#8b5cf6" fill-opacity=".08" stroke="#8b5cf6" stroke-opacity=".3" stroke-width="1.3"/>
-      <path d="M230 230 L256 252 L246 290 L214 282 L208 246 Z" fill="#cda867" fill-opacity=".08" stroke="#cda867" stroke-opacity=".3" stroke-width="1.1"/>
-      <rect x="90" y="340" width="140" height="194" rx="15" fill="none" stroke="#3b6fe0" stroke-opacity=".24" stroke-width="1.3" transform="rotate(-12 160 437)"/>
-      <rect x="120" y="380" width="140" height="194" rx="15" fill="none" stroke="#cda867" stroke-opacity=".26" stroke-width="1.1" transform="rotate(9 190 477)"/>
-      <g stroke="#8b5cf6" stroke-opacity=".18" stroke-width=".8" stroke-dasharray="2 8">
-        <path d="M210 580 L180 670 M150 760 L190 850"/>
-      </g>
-      <g fill="#3b6fe0" fill-opacity=".45">
-        <circle cx="180" cy="670" r="2.2"/><circle cx="190" cy="850" r="2.2"/><circle cx="230" cy="940" r="2"/>
-      </g>
-      <g fill="#cda867" fill-opacity=".55">
-        <path d="M120 100 L123 109 L132 109 L125 115 L127 124 L120 118 L113 124 L115 115 L108 109 L117 109 Z"/>
-      </g>
-    </svg>
-  </div>
+  <div class="home-art" aria-hidden="true"></div>
   <section class="hero">
     <div class="hero-orb a" aria-hidden="true"></div>
     <div class="hero-orb b" aria-hidden="true"></div>
     <div class="hero-orb c" aria-hidden="true"></div>
-    <!-- Hero-scoped brand motifs: original compass line-art (top-left)
-         and crystal-facet + holographic-particle line-art (top-right).
-         Represent collecting in general, not any single TCG. In brand
-         blue/purple/soft-gold so they read as fine line-art on the
-         bright hero, never as a color wash. -->
-    <svg class="hero-deco hero-deco-tl" viewBox="0 0 200 200" aria-hidden="true">
-      <g fill="none" stroke="#2563eb" stroke-width="1">
-        <circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="34"/>
-        <line x1="60" y1="2" x2="60" y2="16"/><line x1="60" y1="104" x2="60" y2="118"/>
-        <line x1="2" y1="60" x2="16" y2="60"/><line x1="104" y1="60" x2="118" y2="60"/>
-      </g>
-      <path d="M60 26 L70 60 L60 94 L50 60 Z" fill="none" stroke="#cda867" stroke-width="1.1"/>
-      <rect x="120" y="120" width="56" height="78" rx="8" fill="none" stroke="#8b5cf6" stroke-width="1.2" transform="rotate(-10 148 159)" opacity=".7"/>
-    </svg>
-    <svg class="hero-deco hero-deco-tr" viewBox="0 0 220 190" aria-hidden="true">
-      <path d="M150 20 L178 56 L160 100 L122 84 L118 38 Z" fill="none" stroke="#cda867" stroke-width="1.2"/>
-      <path d="M40 60 L62 84 L50 116 L20 106 L18 70 Z" fill="none" stroke="#8b5cf6" stroke-width="1" opacity=".55"/>
-      <g fill="#3b6fe0" opacity=".5">
-        <circle cx="90" cy="40" r="2.4"/><circle cx="130" cy="130" r="2.8"/><circle cx="190" cy="60" r="2"/>
-        <circle cx="60" cy="20" r="2"/><circle cx="200" cy="140" r="2.2"/>
-      </g>
-    </svg>
+    <!-- hero-deco compass/crystal line-art removed: the approved
+         background artwork already has these motifs in its own
+         margins, so duplicating them here would compete visually. -->
     <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,30 C240,58 480,2 720,22 C960,42 1200,8 1440,28 L1440,60 L0,60 Z" style="fill:var(--bg)"></path>
+      <path d="M0,30 C240,58 480,2 720,22 C960,42 1200,8 1440,28 L1440,60 L0,60 Z" style="fill:transparent"></path>
     </svg>
     <div class="wrap hero-in">
       <div class="hero-copy">
