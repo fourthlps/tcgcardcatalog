@@ -1056,9 +1056,29 @@ function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
 function doSearch(){
   const q=document.getElementById('gsearch').value.trim().toLowerCase();
   if(!q)return;
-  const res=[];const seenSets=new Set();
+  const qNorm=q.replace(/[^a-z0-9]/g,''); // lets "OP13001" match "OP13-001"
+
+  // Direct card-code jump: if the query exactly matches one card's
+  // code (card_set_id), e.g. "OP13-001", skip the results list and
+  // go straight to that card's detail page.
+  if(qNorm.length>=4){
+    const exact=[];
+    Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{
+      const setIdNorm=(c.card_set_id||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+      if(setIdNorm&&setIdNorm===qNorm)exact.push({code,card:c});
+    });});
+    if(exact.length===1){jumpCard(exact[0].code,exact[0].card.card_image_id);return;}
+  }
+
+  const res=[];
   D.index.forEach(s=>{if(s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q)){res.push({type:'set',code:s.code,name:s.name});}});
-  Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{if(c.card_name.toLowerCase().includes(q))res.push({type:'card',code,card:c});});});
+  Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{
+    const setId=(c.card_set_id||'').toLowerCase();
+    const setIdNorm=setId.replace(/[^a-z0-9]/g,'');
+    const nameMatch=c.card_name.toLowerCase().includes(q);
+    const codeMatch=setId.includes(q)||(qNorm.length>=3&&setIdNorm.includes(qNorm));
+    if(nameMatch||codeMatch)res.push({type:'card',code,card:c});
+  });});
   const cardResults=res.filter(r=>r.type==='card');
   const rarities=[...new Set(cardResults.map(r=>r.card.rarity).filter(Boolean))];
   S.srchCards=cardResults;S.srchShown=cardResults;
