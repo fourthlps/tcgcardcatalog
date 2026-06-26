@@ -110,6 +110,25 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 @media (max-width:760px){.nav a.dim{display:none}}
 @media (max-width:540px){.hero-copy h1{font-size:28px}.nav{gap:12px}.nav a{font-size:12.5px}}
 
+/* MOBILE NAV -- on narrow screens the brand + 4 nav links + search +
+   lang + login button no longer fit in one row, which was forcing the
+   whole header (and page) to scroll horizontally. Below 700px collapse
+   everything but the brand into a hamburger-triggered dropdown so the
+   header always fits the viewport width; nothing above 700px changes. */
+.menu-btn{display:none;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text);font-size:17px;cursor:pointer;flex-shrink:0;margin-left:auto}
+.menu-btn:hover{border-color:var(--gold)}
+@media (max-width:700px){
+  .hdr-in{flex-wrap:wrap;height:auto;min-height:60px;padding:10px 16px}
+  .brand-sub{display:none}
+  .nav,.hdr-search,.lang-btn,.login-btn{display:none}
+  .menu-btn{display:flex}
+  .hdr-in.menu-open .nav{display:flex;flex-direction:column;gap:2px;width:100%;order:9;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+  .hdr-in.menu-open .nav a{padding:10px 6px;font-size:14.5px}
+  .hdr-in.menu-open .hdr-search{display:flex;width:100%;order:10;margin-top:4px}
+  .hdr-in.menu-open .lang-btn{display:flex;justify-content:center;width:100%;order:11;margin-top:8px}
+  .hdr-in.menu-open .login-btn{display:flex;justify-content:center;width:100%;order:12;margin-top:8px}
+}
+
 /* HERO */
 .hero{position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 70% 60% at 85% 10%,rgba(124,58,237,.08),transparent 60%),radial-gradient(ellipse 60% 50% at 5% 0%,rgba(37,99,235,.07),transparent 60%);padding:56px 0 64px}
 /* Abstract soft-glow orbs -- an ocean/aurora feel without copying any
@@ -529,19 +548,20 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <div><span class="brand-name serif">Voyage Log</span><span class="brand-sub t" data-th="TCG CARD CATALOG" data-en="TCG CARD CATALOG">TCG CARD CATALOG</span></div>
     </div>
     <nav class="nav">
-      <a onclick="goHome()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
-      <a onclick="openOnePiece()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
-      <a onclick="openOnePiece()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
-      <a onclick="jumpChaseSection()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
+      <a onclick="goHome();closeMobileMenu()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
+      <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
+      <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
+      <a onclick="jumpChaseSection();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
       <a class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
       <a class="dim t" data-th="ซื้อขายการ์ด" data-en="Marketplace">ซื้อขายการ์ด</a>
     </nav>
     <div class="hdr-search">
       <span style="font-size:12px">🔍</span>
-      <input id="hdr-search-input" class="t" data-th-ph="ค้นหาการ์ด, ชุด..." data-en-ph="Search cards, sets..." placeholder="ค้นหาการ์ด, ชุด..." onkeydown="if(event.key==='Enter'){document.getElementById('gsearch').value=this.value;doSearch();}">
+      <input id="hdr-search-input" class="t" data-th-ph="ค้นหาการ์ด, ชุด..." data-en-ph="Search cards, sets..." placeholder="ค้นหาการ์ด, ชุด..." onkeydown="if(event.key==='Enter'){document.getElementById('gsearch').value=this.value;doSearch();closeMobileMenu();}">
     </div>
     <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
-    <button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="alert(S.lang==='th'?'ระบบเข้าสู่ระบบกำลังจะมาเร็ว ๆ นี้':'Login is coming soon')">เข้าสู่ระบบ</button>
+    <button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="alert(S.lang==='th'?'ระบบเข้าสู่ระบบกำลังจะมาเร็ว ๆ นี้':'Login is coming soon');closeMobileMenu()">เข้าสู่ระบบ</button>
+    <button class="menu-btn" id="menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
   </div>
 </header>
 
@@ -826,7 +846,7 @@ async function init(){
 
 function flat(){return Object.values(D.cache).flat();}
 function ttl(){return D.index.reduce((s,x)=>s+x.count,0);}
-function fp(v){const n=v??0;return S.cur==='THB'?'฿'+(n*S.fx).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
+function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*S.fx).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
 // Homepage currency helper: TH UI -> THB, EN UI -> USD. Uses a real THB
 // price when one is supplied (e.g. BOX set prices), otherwise converts the
 // USD figure with the live FX rate (falls back to USD_TO_THB if that hasn't
@@ -835,7 +855,7 @@ function fpL(usd,thbReal){
   const n=usd??0;
   if(S.lang==='th'){
     const thb=(typeof thbReal==='number')?thbReal:n*(S.fx||USD_TO_THB);
-    return '฿'+Math.round(thb).toLocaleString('th-TH');
+    return '฿ '+Math.round(thb).toLocaleString('th-TH');
   }
   return '$'+n.toFixed(2);
 }
@@ -869,6 +889,19 @@ function toggleLang(){
   renderHome();
   if(document.getElementById('view-sets').style.display!=='none')renderSets();
   applyLangUI();
+}
+
+function toggleMobileMenu(){
+  const hdrIn=document.querySelector('.hdr-in');
+  const open=hdrIn.classList.toggle('menu-open');
+  const btn=document.getElementById('menu-btn');
+  if(btn)btn.textContent=open?'✕':'☰';
+}
+function closeMobileMenu(){
+  const hdrIn=document.querySelector('.hdr-in');
+  if(hdrIn)hdrIn.classList.remove('menu-open');
+  const btn=document.getElementById('menu-btn');
+  if(btn)btn.textContent='☰';
 }
 
 function toggleCur(){
@@ -1363,7 +1396,7 @@ function renderSets(){
     const cat=setCat(s.code);
     if(S.setCat!=='all'&&S.setCat!==cat)return null;
     const box=BOX[s.code];
-    const price=box?(S.cur==='THB'?'฿'+box.thb.toLocaleString():'$'+box.usd):'—';
+    const price=box?(S.cur==='THB'?'฿ '+box.thb.toLocaleString():'$'+box.usd):'—';
     const imgUrl=setImgUrl(s.code);
     return `<div class="set-card" onclick="openSet('${s.code}')">
       <div class="set-img-wrap cat-${cat}">
