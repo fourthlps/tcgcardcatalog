@@ -1,1 +1,28 @@
-{"last_updated":"2026-06-26T13:46:52Z","run_date":"2026-06-26","status":"pending","api":{"source":"optcgapi.com","status":"pending","sets_fetched":0,"sets_failed":0,"total_cards":0,"cards_with_price":0},"history":{"status":"pending","days_collected":0,"last_snapshot_date":null,"sheets_append":"pending"},"trends":{"status":"no_baseline","gainers_count":0,"losers_count":0,"confidence":"low","baseline_date":null,"days_between_snapshots":0,"history_days_collected":0}}
+{
+  "last_updated": "2026-06-26T14:02:05.993524+00:00",
+  "run_date": "2026-06-26",
+  "status": "success",
+  "api": {
+    "source": "optcgapi.com",
+    "status": "ok",
+    "sets_fetched": 51,
+    "sets_failed": 0,
+    "total_cards": 4023,
+    "cards_with_price": 4023
+  },
+  "history": {
+    "status": "ok",
+    "days_collected": 1,
+    "last_snapshot_date": "2026-06-26",
+    "sheets_append": "already_exists"
+  },
+  "trends": {
+    "status": "no_baseline",
+    "gainers_count": 0,
+    "losers_count": 0,
+    "confidence": "low",
+    "baseline_date": null,
+    "days_between_snapshots": 0,
+    "history_days_collected": 1
+  }
+}

@@ -1,1 +1,16 @@
-{"generated_at":"2026-06-26T13:46:52Z","snapshot_date":"2026-06-26","baseline_date":null,"days_between_snapshots":0,"history_days_collected":0,"period":"day_over_day","confidence":"low","source":"optcgapi.com","currency":"USD","game":"onepiece","cards_evaluated":0,"cards_with_trend":0,"trend_type":"placeholder","cards":[]}
+{
+  "generated_at": "2026-06-26T14:02:05.993524+00:00",
+  "snapshot_date": "2026-06-26",
+  "baseline_date": null,
+  "days_between_snapshots": 0,
+  "history_days_collected": 1,
+  "period": "day_over_day",
+  "confidence": "low",
+  "source": "optcgapi.com",
+  "currency": "USD",
+  "game": "onepiece",
+  "cards_evaluated": 0,
+  "cards_with_trend": 0,
+  "trend_type": "losers",
+  "cards": []
+}
