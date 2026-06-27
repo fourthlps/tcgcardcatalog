@@ -300,6 +300,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-02:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-02",
+    "set_name": "Paramount War",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-02 Paramount War Booster Box (EN)",
+    "release_date": "2023-04-21",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-03:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -416,6 +465,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-03:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-03",
+    "set_name": "Pillars of Strength",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-03 Pillars of Strength Booster Box (EN)",
+    "release_date": "2023-09-22",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-04:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -526,6 +624,55 @@
       ],
       "editorial": {
         "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
+    "product_id": "one-piece:OP-04:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-04",
+    "set_name": "Kingdoms of Intrigue",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-04 Kingdoms of Intrigue Booster Box (EN)",
+    "release_date": "2024-01-26",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -812,6 +959,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-06:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-06",
+    "set_name": "Wings of the Captain",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-06 Wings of the Captain Booster Box (EN)",
+    "release_date": "2024-07-26",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-07:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -928,6 +1124,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-07:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-07",
+    "set_name": "500 Years in the Future",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-07 500 Years in the Future Booster Box (EN)",
+    "release_date": "2024-10-25",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-08:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -1038,6 +1283,55 @@
       ],
       "editorial": {
         "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
+    "product_id": "one-piece:OP-08:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-08",
+    "set_name": "Two Legends",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-08 Two Legends Booster Box (EN)",
+    "release_date": "2025-01-24",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1324,6 +1618,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-10:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-10",
+    "set_name": "Royal Blood",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-10 Royal Blood Booster Box (EN)",
+    "release_date": "2025-07-25",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-11:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -1411,6 +1754,55 @@
       ],
       "editorial": {
         "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
+    "product_id": "one-piece:OP-11:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-11",
+    "set_name": "A Fist of Divine Speed",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-11 A Fist of Divine Speed Booster Box (EN)",
+    "release_date": "2025-10-24",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1516,6 +1908,55 @@
       ],
       "editorial": {
         "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
+    "product_id": "one-piece:OP-12:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-12",
+    "set_name": "Legacy of the Master",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-12 Legacy of the Master Booster Box (EN)",
+    "release_date": "2026-01-23",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
