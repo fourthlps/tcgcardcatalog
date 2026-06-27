@@ -1231,114 +1231,156 @@ function renderTrend(){
 // ─── BOX SCORE ENGINE ────────────────────────────────────────────────────────
 // Multi-factor ranking for "This Week's Boxes Worth Opening".
 //
-// Why multiple factors?  A set with one ฿500K card but 400 worthless commons
-// looks great on a single-card metric but is a terrible box to crack.
-// This formula rewards sets with broad, consistent value.
+// ROOT CAUSE OF PREVIOUS BUG: per-set absolute scoring (log/sqrt transforms)
+// saturated at the cap (10) for every mature set that has price data, leaving
+// all scores ~9.8 and the sort stable → release order. Fixed by switching to
+// cross-set min-max normalisation: the BEST set on each signal gets 10, the
+// WORST gets 0, and every other set lands between. This guarantees real spread
+// regardless of absolute card prices.
 //
-// Scoring components (weights must sum to 1.0):
+// How the score is calculated — five signals, each normalised 0-10 across all
+// eligible BOX sets, then weighted:
 //
-//   ev           0.30  — top-5 card value relative to box price (EV proxy)
-//                        Anchored so top5 = box price → evScore ≈ 5.0
+//   ev           0.30  — top-5 card EV relative to box price
+//                        Raw: top5sum / boxUsd
+//                        Best set among all 14 gets 10; worst gets 0.
+//                        Rewards boxes whose top pulls justify the price.
 //
-//   breadth      0.25  — count of cards worth ≥ BOX_SCORE_CFG.threshold of box price
-//                        Rewards sets with many "hits", not just one trophy card
-//                        sqrt-compressed so 4 hits → ~5.8, 12 hits → ~10
+//   breadth      0.25  — how many cards clear 5% of box price (# of "hits")
+//                        Raw: count of cards ≥ boxUsd×0.05
+//                        Punishes sets where only 1-2 cards have value.
 //
 //   distribution 0.20  — how evenly the top-10 value is spread
-//                        = 1 − (topPrice / top10Sum)
-//                        0 = all value in one card; 0.9 = perfectly spread
+//                        Raw: 1 − (topPrice / top10Sum)
+//                        0 = all value in one card; ~0.9 = spread across 10.
+//                        A set with one ฿500K card + all commons scores 0 here.
 //
-//   chase        0.10  — top card ceiling, log-compressed
-//                        Contributes positively but never dominates
+//   chase        0.10  — single-card ceiling relative to box price
+//                        Raw: topPrice / boxUsd
+//                        Positive signal but deliberately minor weight so one
+//                        trophy card alone cannot win the ranking.
 //
 //   confidence   0.15  — fraction of set cards that have a real price
-//                        Penalises newly-released or poorly-scraped sets
+//                        Raw: pricedCards / totalCards
+//                        Penalises newly-released or sparsely-scraped sets.
 //
 //   trend        0.00  — FUTURE HOOK: set weight > 0 when daily price history
-//                        is reliable; will use aggregated priceTrend() data
-//                        across a set's top cards to reward momentum
+//                        is reliable. Wire up by aggregating priceTrend() data
+//                        across the set's top cards. No UI changes needed.
+//
+// Normalisation: norm(raw, min, max) = (raw−min)/(max−min) × 10
+// If all sets tie on a signal, every set gets 5.0 for that signal (no penalty).
 //
 // Game-agnostic: all thresholds are relative to box price, not hardcoded USD.
-// Works identically for One Piece, Pokémon, Lorcana, Naruto, etc.
-//
-// computeBoxData() returns a rich object — callers can surface any signal
-// individually in a future transparency panel without touching this logic.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const BOX_SCORE_CFG={
   weights:{ev:.30,breadth:.25,distribution:.20,chase:.10,confidence:.15,trend:.00},
-  // Cards worth ≥ this fraction of box price count as "valuable pulls"
-  threshold:.05,
-  // Need at least this many priced cards before ranking a set
-  minPriced:3,
+  threshold:.05,   // cards worth ≥ this × boxUsd count as a "valuable pull"
+  minPriced:3,     // sets with fewer priced cards are excluded from ranking
+  debug:true,      // flip to false once rankings look correct
 };
 
-function computeBoxData(code){
+// Step 1: compute raw (un-normalised) signals for a single set.
+function _boxRawSignals(code){
   const cards=D.cache[code]||[];
   const box=BOX[code];
   if(!box||!cards.length)return null;
-
   const boxUsd=box.usd>0?box.usd:1;
   const pricedCards=cards.filter(c=>realPrice(c)>0);
   if(pricedCards.length<BOX_SCORE_CFG.minPriced)return null;
-
-  const confidence=pricedCards.length/cards.length;
   const byPrice=pricedCards.slice().sort((a,b)=>realPrice(b)-realPrice(a));
   const topPrice=realPrice(byPrice[0]);
   if(!topPrice)return null;
-
   const top5sum=byPrice.slice(0,5).reduce((s,c)=>s+realPrice(c),0);
   const top10sum=byPrice.slice(0,10).reduce((s,c)=>s+realPrice(c),0);
-
-  // 1. EV Ratio — how much do the best 5 cards return vs box cost?
-  const evScore=Math.min(10,Math.max(0,Math.log2(1+top5sum/boxUsd)*2.5));
-
-  // 2. Value Breadth — how many cards clear the hit threshold?
   const valuableCount=pricedCards.filter(c=>realPrice(c)>=boxUsd*BOX_SCORE_CFG.threshold).length;
-  const breadthScore=Math.min(10,Math.sqrt(valuableCount)*2.9);
-
-  // 3. Value Distribution — penalise sets where one card holds all the value
-  const dist=top10sum>0?1-topPrice/top10sum:0;
-  const distScore=Math.min(10,dist*10.5);
-
-  // 4. Chase Ceiling — high upside is good, but log-compressed so it can't
-  //    dominate and push a narrow set to the top alone
-  const chaseScore=Math.min(10,Math.log2(1+topPrice/boxUsd)*2.5);
-
-  // 5. Data Confidence — sparse data should lower a set's rank
-  const confScore=Math.min(10,confidence*10);
-
-  // 6. Trend Score — placeholder; wire up when daily history is reliable
-  //    Suggested implementation:
-  //      const trendScores = byPrice.slice(0,10).map(c=>priceTrend(c))
-  //        .filter(t=>t.hasData).map(t=>t.priceChangePercent);
-  //      trendScore = average(trendScores) mapped to 0-10
-  const trendScore=0;
-
-  const W=BOX_SCORE_CFG.weights;
-  const raw=
-    evScore    *W.ev+
-    breadthScore*W.breadth+
-    distScore  *W.distribution+
-    chaseScore *W.chase+
-    confScore  *W.confidence+
-    trendScore *W.trend;
-
   return{
-    score:Math.min(9.9,Math.max(1.0,Math.round(raw*10)/10)),
-    // Per-signal breakdown — available for a future transparency tooltip
-    signals:{evScore,breadthScore,distScore,chaseScore,confScore,trendScore},
-    // Rich data for future "decision panel" UI (user-requested data points)
+    code,
+    raw:{
+      ev:top5sum/boxUsd,
+      breadth:valuableCount,
+      distribution:top10sum>0?1-topPrice/top10sum:0,
+      chase:topPrice/boxUsd,
+      confidence:pricedCards.length/cards.length,
+      trend:0,  // future hook
+    },
+    // Rich data for future "decision panel" UI
     topChaseUsd:topPrice,
     top5Usd:top5sum,
     valuableCount,
-    evRatio:top5sum/boxUsd,
-    confidence,
+    confidence:pricedCards.length/cards.length,
     boxUsd,
   };
 }
 
-// Thin wrapper — keeps the existing call signature intact
+// Step 2: normalise across all ranked sets → final scored + sorted list.
+// Returns array sorted descending by score, or [] when no data is ready.
+function computeBoxRankings(){
+  const allRaw=Object.keys(BOX).map(_boxRawSignals).filter(Boolean);
+  if(!allRaw.length)return[];
+
+  // Min/max of each raw signal across all eligible sets
+  const fields=['ev','breadth','distribution','chase','confidence','trend'];
+  const range={};
+  fields.forEach(f=>{
+    const vals=allRaw.map(d=>d.raw[f]);
+    range[f]={min:Math.min(...vals),max:Math.max(...vals)};
+  });
+  function norm(val,f){
+    const{min,max}=range[f];
+    return max===min?5:((val-min)/(max-min))*10;
+  }
+
+  const W=BOX_SCORE_CFG.weights;
+  const scored=allRaw.map(d=>{
+    const ev=norm(d.raw.ev,'ev');
+    const breadth=norm(d.raw.breadth,'breadth');
+    const dist=norm(d.raw.distribution,'distribution');
+    const chase=norm(d.raw.chase,'chase');
+    const conf=norm(d.raw.confidence,'confidence');
+    const trend=0;
+    const score=Math.min(9.9,Math.max(1.0,
+      Math.round((ev*W.ev+breadth*W.breadth+dist*W.distribution+chase*W.chase+conf*W.confidence+trend*W.trend)*10)/10
+    ));
+    return{...d,score,signals:{ev,breadth,dist,chase,conf,trend}};
+  }).sort((a,b)=>b.score-a.score);
+
+  // Debug: log top-10 breakdown once per page-load
+  if(BOX_SCORE_CFG.debug&&!window._boxDebugLogged){
+    window._boxDebugLogged=true;
+    const setName=code=>D.index.find(s=>s.code===code)?.name??'';
+    console.group('[BoxScore DEBUG] Top-10 Boxes Worth Opening');
+    console.table(scored.slice(0,10).map((d,i)=>{
+      const s=d.signals;
+      return{
+        rank:`#${i+1}`,
+        set_code:d.code,
+        set_name:setName(d.code),
+        box_price_usd:`$${d.boxUsd}`,
+        top_chase_usd:`$${d.topChaseUsd.toFixed(2)}`,
+        top5_usd:`$${d.top5Usd.toFixed(2)}`,
+        valuable_cards:d.valuableCount,
+        ev_norm:s.ev.toFixed(1),
+        breadth_norm:s.breadth.toFixed(1),
+        dist_norm:s.dist.toFixed(1),
+        chase_norm:s.chase.toFixed(1),
+        conf_norm:s.conf.toFixed(1),
+        box_score:d.score,
+      };
+    }));
+    console.log('Raw ranges used for normalisation:',range);
+    console.groupEnd();
+  }
+
+  return scored;
+}
+
+// Legacy single-set wrapper (used by any callers outside renderBoxes)
+function computeBoxData(code){
+  const ranked=computeBoxRankings();
+  return ranked.find(d=>d.code===code)??null;
+}
 function boxScore(code){return computeBoxData(code)?.score??null;}
 function boxLabel(score,L){
   if(score>=8.3)return{cls:'best',txt:L==='th'?'ตัวเลือกที่ดีที่สุด':'Best Pick'};
@@ -1348,11 +1390,14 @@ function boxLabel(score,L){
 }
 function renderBoxes(){
   const L=S.lang;
-  const rows=D.index.filter(s=>BOX[s.code]).map(s=>{
-    const data=computeBoxData(s.code);
-    if(!data)return null;
-    return{...s,box:BOX[s.code],score:data.score,boxData:data};
-  }).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,5);
+  // computeBoxRankings() scores ALL BOX sets, normalises cross-set, and
+  // returns them pre-sorted descending. We take the top 5 AFTER sorting —
+  // never before — so release order cannot influence the result.
+  const ranked=computeBoxRankings();
+  const rows=ranked.slice(0,5).map(d=>{
+    const meta=D.index.find(s=>s.code===d.code)||{code:d.code,name:'',count:0};
+    return{...meta,box:BOX[d.code],score:d.score,boxData:d};
+  });
   document.getElementById('box-row').innerHTML=rows.map((s,i)=>{
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
