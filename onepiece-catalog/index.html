@@ -1905,7 +1905,7 @@ function openProduct(productId){
                  :`<div class="prod-hero-img-ph">${p.product_type==='Starter Deck'?'🗡️':p.product_type==='Extra Booster'?'✨':'⚓'}</div>`}
       </div>
       <div class="prod-hero-info">
-        <span class="prod-type-badge">${p.product_type}</span>
+        <span class="prod-type-badge">${p.product_type}${p.language?` · ${p.language}`:''}</span>
         <h1 class="prod-title">${p.product_name}</h1>
         <div class="prod-meta-row">
           <span class="prod-set-chip" onclick="openSet('${p.set_code}')">${p.set_code} ↗</span>
@@ -1996,7 +1996,10 @@ function renderSets(){
         <div class="set-code">${s.code}</div>
         <div class="set-name">${s.name}</div>
         <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · <span style="color:var(--faint);font-size:10.5px">${L==='th'?'ราคาโดยประมาณ':'est. price'}</span></div>
-        ${(()=>{const p=D.products.find(x=>x.set_code===s.code);return p?`<button class="set-guide-btn" onclick="event.stopPropagation();openProduct('${p.product_id}')">📖 ${L==='th'?'คู่มือการซื้อ →':'Buying Guide →'}</button>`:'';})()}
+        ${(()=>{
+          const vers=D.products.filter(x=>x.set_code===s.code);
+          return vers.map(p=>`<button class="set-guide-btn" onclick="event.stopPropagation();openProduct('${p.product_id}')">📖 ${p.language||'JP'} ${L==='th'?'คู่มือการซื้อ →':'Buying Guide →'}</button>`).join('');
+        })()}
       </div>
     </div>`;
   }).filter(Boolean);
