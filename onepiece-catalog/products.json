@@ -153,8 +153,8 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors",
-          "Investors"
+          "Marineford Arc Fans",
+          "Alt Art Collectors"
         ],
         "difficulty": "Beginner",
         "price_range": {
@@ -164,17 +164,87 @@
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Recommended",
+        "summary": {
+          "th": "OP-02 Paramount War เล่าเรื่อง Marineford — หนึ่งในอาร์คที่แฟนๆ รักที่สุด นำโดย Ace SR Manga Alt Art ที่ราคาเกิน $1,200 ราคากล่องอยู่ในระดับที่เข้าถึงได้ พร้อม Alt Art Leader 6 ใบในช่วง $38–$137 ชุดนี้ให้ความคุ้มค่าที่ดีกว่า OP-01 ในแง่ Alt Art density และมีโอกาส Reprint น้อยกว่า เหมาะสำหรับนักสะสมแฟน Marineford โดยเฉพาะ",
+          "en": "OP-02 Paramount War covers the beloved Marineford arc, headlined by the Ace SR Manga Alt Art at $1,200+. At an accessible box price with 6 Alt Art Leaders spread across $38–$137, it offers better Alt Art density than OP-01 with a lighter reprint history. A solid pick for Marineford fans and Alt Art collectors."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Stable",
+        "reason": {
+          "th": "ราคากล่อง OP-02 ค่อนข้างเสถียร Chase Card หลักอย่าง Ace Manga Alt Art ยังมีดีมานด์ต่อเนื่องจากแฟนซีรีส์ ไม่มีแรงกระตุ้นราคาใหม่ที่ชัดเจน แต่ก็ไม่มีแรงกดราคาจาก Reprint เหมือน OP-01",
+          "en": "OP-02 box prices are stable. The Ace Manga Alt Art maintains steady fan demand and the set hasn't faced significant reprint pressure. Predictable and consistent — not a momentum play, but a safe hold."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-05:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับนักลงทุน",
+            "en": "Better for Investors"
+          },
+          "context": {
+            "th": "OP-05 มีประวัติราคากล่องขึ้นต่อเนื่องและ Chase Card หนาแน่นกว่ามาก ถ้ามีงบเพิ่มขึ้นเล็กน้อย OP-05 ให้ผลตอบแทนที่ดีกว่าในระยะยาว",
+            "en": "OP-05 has a stronger sealed appreciation track record and denser chase distribution. Worth the extra budget if your goal is long-term investment."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ Manga Art",
+            "en": "Better for Manga Art Fans"
+          },
+          "context": {
+            "th": "OP-09 มี Manga Art ของ Roger, Luffy, Shanks — ที่ราคากล่องใกล้เคียงกันแต่มี Chase Card และ EV ดีกว่ามาก",
+            "en": "OP-09 has Manga Art cards of Roger, Luffy, and Shanks at a similar box price but with far superior EV and chase density."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Ace SR Manga Alt Art คือ Trophy Card ของชุด",
+            "en": "Ace SR Manga Alt Art Is the Set's Trophy Card"
+          },
+          "detail": {
+            "th": "OP02-013 Portgas.D.Ace SR (Manga)(Alt Art) ราคาสูงถึง $1,200+ เป็นการ์ดที่แฟน Ace ทุกคนต้องการ แต่อัตราดึงต่อกล่องต่ำมาก อย่าซื้อกล่องโดยหวังว่าจะได้ใบนี้",
+            "en": "OP02-013 Portgas.D.Ace SR Manga Alt Art trades above $1,200. The defining trophy card for Ace fans — pull rates are very low, so don't build EV expectations around it."
+          }
+        },
+        {
+          "topic": {
+            "th": "Alt Art Leaders กระจายมูลค่าได้ดี",
+            "en": "Alt Art Leaders Spread Value Broadly"
+          },
+          "detail": {
+            "th": "OP-02 มี Alt Art Leader ถึง 6 ใบ (Sanji $137, Garp $128, Newgate $123, Smoker $92, Magellan $44, Ivankov $38) ทำให้มีโอกาสดึงการ์ดมีมูลค่าได้กระจายกว่าชุดอื่นๆ ในยุคเดียวกัน",
+            "en": "OP-02 has 6 Alt Art Leaders (Sanji $137, Garp $128, Newgate $123, Smoker $92, Magellan $44, Ivankov $38) — broader value distribution than most early sets, meaning more ways to hit something meaningful per box."
+          }
+        },
+        {
+          "topic": {
+            "th": "เหมาะที่สุดสำหรับแฟน Marineford Arc",
+            "en": "Purpose-Built for Marineford Arc Fans"
+          },
+          "detail": {
+            "th": "OP-02 มีตัวละครหลักจาก Marineford — Whitebeard, Ace, Garp, Aokiji, Kizaru, Akainu ถ้าชื่นชอบอาร์คนี้เป็นพิเศษ ไม่มีชุดไหนที่จะตอบโจทย์ได้เหมือนชุดนี้",
+            "en": "Whitebeard, Ace, Garp, and the three Admirals are all here. If Marineford is your favorite arc, no other set captures it the same way."
+          }
+        },
+        {
+          "topic": {
+            "th": "Box Topper ของชุดคือ Boa Hancock UC พิเศษ",
+            "en": "The Box Topper Is a Special Boa Hancock UC"
+          },
+          "detail": {
+            "th": "OP-02 มี Box Topper เป็น Boa Hancock (UC) พิเศษ (OP02-059) ราคาประมาณ $49 ทุกกล่องมีหนึ่งใบ ช่วยหนุน EV ฐานของกล่องได้เล็กน้อย",
+            "en": "Every OP-02 box includes a special Boa Hancock UC box topper (OP02-059) worth ~$49. It's a guaranteed pull that provides a small floor to box EV."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -198,28 +268,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors",
-          "Players"
+          "Nami Fans",
+          "CP9 Arc Collectors",
+          "Wanted Poster Hunters"
         ],
         "difficulty": "Intermediate",
         "price_range": {
-          "low_thb": 2400,
-          "high_thb": 3500
+          "low_thb": 3500,
+          "high_thb": 5500
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Situational",
+        "summary": {
+          "th": "OP-03 Pillars of Strength เป็นชุดที่น่าสนใจสำหรับแฟน CP9 Arc และผู้ที่ต้องการการ์ด Wanted Poster (SR) ซึ่งเป็น Reprint ของการ์ดจากชุดก่อนหน้า Trophy Card คือ Sogeking SEC Manga Alt Art ที่ $782 และ Nami L Alt Art ที่ $236 แต่ความพิเศษคือ Wanted Poster SR หลายใบในชุดนี้ ซื้อถ้าคุณต้องการตัวละครเฉพาะ ไม่ใช่สำหรับ EV ทั่วไป",
+          "en": "OP-03 Pillars of Strength is the CP9/Water Seven arc set and home to several high-value Wanted Poster SR reprints. The trophy cards are the Sogeking SEC Manga Alt Art at $782 and Nami L Alt Art at $236. Buy this set if you're after specific characters or the Wanted Poster format — not as a general EV play."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Character-Driven",
+        "reason": {
+          "th": "ราคาในชุด OP-03 ขับเคลื่อนด้วยตัวละครมากกว่าภาพรวม Wanted Poster SR เช่น Luffy ST01, Doflamingo, Kaido มีราคาสูงแต่เป็น Reprint จากชุดอื่น ราคากล่องโดยรวมค่อนข้าง Stable",
+          "en": "OP-03 pricing is character-driven. The Wanted Poster SRs (Luffy, Doflamingo, Kid, Kaido) command premium prices as cross-set reprints. Box prices are stable overall but upside depends entirely on specific hits."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-05:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EV ทั่วไป",
+            "en": "Better for General EV"
+          },
+          "context": {
+            "th": "OP-05 มี EV ต่อกล่องที่สูงกว่าและโอกาสดึงการ์ดมูลค่าสูงกระจายกว่า เหมาะถ้าคุณไม่ได้มีตัวละครเป้าหมายเฉพาะใน OP-03",
+            "en": "OP-05 delivers higher average EV per box and more broadly distributed chase hits. Better if you don't have a specific OP-03 character target."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ Trophy Card",
+            "en": "Better Trophy Card Investment"
+          },
+          "context": {
+            "th": "OP-09 มี Trophy Card (Roger/Luffy Manga Alt Art) ที่คุ้มค่ากว่าในแง่ความน่าจะเป็นและมูลค่าตลาดระยะยาว",
+            "en": "OP-09's trophy cards (Roger/Luffy Manga Alt Art) offer better long-term market trajectory and comparable excitement."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Sogeking SEC Manga Alt Art คือ Trophy Card หลัก",
+            "en": "Sogeking SEC Manga Alt Art Is the Crown Jewel"
+          },
+          "detail": {
+            "th": "OP03-122 Sogeking (Manga)(Alt Art) SEC ราคาสูงถึง $782 เป็นการ์ดที่หายากมากและเป็น Fan Favorite อย่างแท้จริง อีกเวอร์ชัน Non-Manga ราคาประมาณ $30 ก็ถือว่าไม่เลว",
+            "en": "OP03-122 Sogeking Manga Alt Art SEC trades at $782. The non-manga version is ~$30 and still respectable. Both have dedicated fan demand."
+          }
+        },
+        {
+          "topic": {
+            "th": "Wanted Poster SR คือสิ่งที่ทำให้ OP-03 พิเศษ",
+            "en": "Wanted Poster SRs Are What Make OP-03 Unique"
+          },
+          "detail": {
+            "th": "OP-03 มี Wanted Poster SR ของตัวละครสำคัญ: Luffy (ST01) $342, Doflamingo $87, Kid (OP01) $85, Kaido $77 — เหล่านี้คือ Reprint ในรูปแบบ Wanted Poster ที่แฟนๆ ต้องการมาก",
+            "en": "OP-03 packs Wanted Poster SRs of key characters: Luffy ST01 ($342), Doflamingo ($87), Kid OP01 ($85), Kaido ($77). These are fan-favorite reprints in a unique aesthetic format."
+          }
+        },
+        {
+          "topic": {
+            "th": "Nami Alt Art Leader ที่ไม่ควรมองข้าม",
+            "en": "Don't Overlook the Nami Alt Art Leader"
+          },
+          "detail": {
+            "th": "OP03-040 Nami L Alt Art ราคา $236 เป็นการ์ด Nami ที่แพงที่สุดในเกม เหมาะสำหรับแฟน Nami โดยเฉพาะ",
+            "en": "OP03-040 Nami L Alt Art at $236 is the most valuable Nami card in the game. Purpose-built for Nami fans."
+          }
+        },
+        {
+          "topic": {
+            "th": "ชุดนี้มี EV กระจุกตัวมาก",
+            "en": "Value Is Heavily Concentrated"
+          },
+          "detail": {
+            "th": "ใน OP-03 มีการ์ดเพียง 8 ใบที่ราคาเกิน $50 และส่วนใหญ่เป็นการ์ดที่หายากมาก EV ต่อกล่องโดยเฉลี่ยจึงผันผวนสูง โชคดีได้มาก โชคร้ายได้น้อยมาก",
+            "en": "Only 8 cards are above $50 in OP-03, and most are extremely rare. Box EV is highly volatile — a lucky box is great; an average one feels thin."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -243,28 +384,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors",
-          "Players"
+          "Dressrosa Arc Fans",
+          "SP Card Collectors",
+          "Sabo Fans"
         ],
         "difficulty": "Intermediate",
         "price_range": {
-          "low_thb": 2500,
-          "high_thb": 3800
+          "low_thb": 4000,
+          "high_thb": 6000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Recommended for Fans",
+        "summary": {
+          "th": "OP-04 Kingdoms of Intrigue เป็นชุด Dressrosa Arc — Vivi, Doflamingo, Crocodile — และเป็นที่อยู่ของ SP Card ชุดแรกๆ ของเกม Trophy Card หลักคือ Sabo SR Manga Alt Art ที่ $943 และ Boa Hancock SP ที่ $826 ความพิเศษของชุดนี้คือ SP Card หลายใบที่ราคาสูงมาก แต่ EV ต่อกล่องผันผวน เหมาะสำหรับแฟน Dressrosa Arc และนักสะสม SP Card",
+          "en": "OP-04 Kingdoms of Intrigue covers the Dressrosa arc and introduced the SP card mechanic to the game. The headline cards are Sabo SR Manga Alt Art at $943 and Boa Hancock SP at $826. SP cards make box EV highly volatile — you either hit big or miss. Best for Dressrosa fans and SP card collectors."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "SP Card Driven",
+        "reason": {
+          "th": "ราคา OP-04 ขับเคลื่อนด้วย SP Card เป็นหลัก Boa Hancock SP ($826) และ Trafalgar Law SP ($164) มีดีมานด์สูงจากนักสะสม ราคากล่องมีความผันผวนตาม SP Card ที่ได้",
+          "en": "OP-04 pricing is dominated by SP cards. Boa Hancock SP ($826) and Trafalgar Law SP ($164) drive strong collector demand. Box EV swings dramatically depending on your SP pull — high variance product."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-05:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EV ที่สม่ำเสมอ",
+            "en": "Better for Consistent EV"
+          },
+          "context": {
+            "th": "OP-05 มี EV ต่อกล่องที่สม่ำเสมอกว่า ไม่ผันผวนเหมือน SP Card ของ OP-04 เหมาะสำหรับคนที่ต้องการความแน่นอน",
+            "en": "OP-05 delivers more consistent box EV without the SP card volatility of OP-04. Better if you prefer predictable returns."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-13:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับนักลงทุน",
+            "en": "Better for Investors"
+          },
+          "context": {
+            "th": "OP-13 มี Chase Card หนาแน่นกว่าและ EV ต่อกล่องสูงกว่า เหมาะถ้างบใกล้เคียงกันแต่ต้องการ ROI ที่ดีกว่า",
+            "en": "OP-13 packs more chase cards per box with higher average EV. Better ROI for investors at a similar budget."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "SP Card ทำให้ EV ผันผวนสูงมาก",
+            "en": "SP Cards Make EV Extremely Volatile"
+          },
+          "detail": {
+            "th": "OP-04 มี SP Card ของตัวละครจากชุดก่อนๆ (Boa Hancock $826, Law $164, Newgate $132, Sakazuki $58, Magellan $46) — ถ้าดึงได้ EV สูงมาก ถ้าไม่ได้ กล่องจะรู้สึกบางมาก นี่คือ Lottery product มากกว่าชุดอื่นๆ",
+            "en": "OP-04's SP cards (Boa Hancock $826, Law $164, Newgate $132, Sakazuki $58, Magellan $46) make this the highest-variance set in the early meta. Hit an SP and the box pays off massively; miss and it feels thin."
+          }
+        },
+        {
+          "topic": {
+            "th": "Sabo Manga Alt Art คือ Trophy Card สำหรับแฟน Sabo",
+            "en": "Sabo Manga Alt Art Is the Trophy for Sabo Fans"
+          },
+          "detail": {
+            "th": "OP04-083 Sabo SR (Manga)(Alt Art) ราคา $943 เป็นการ์ด Sabo ที่แพงที่สุดในเกม หายากมากและมีดีมานด์จากแฟน Sabo อย่างต่อเนื่อง",
+            "en": "OP04-083 Sabo SR Manga Alt Art at $943 is the most valuable Sabo card in the game. Rare and in constant demand from dedicated Sabo fans."
+          }
+        },
+        {
+          "topic": {
+            "th": "Nefeltari Vivi มีการ์ดมูลค่าสูงหลายใบ",
+            "en": "Nefeltari Vivi Has Multiple High-Value Cards"
+          },
+          "detail": {
+            "th": "OP-04 มีการ์ด Vivi สองใบที่น่าสนใจ: OP04-001 Vivi L Alt Art $100 และ OP04-118 Vivi SEC Alt Art $34 เหมาะมากสำหรับแฟน Vivi",
+            "en": "OP-04 has two notable Vivi cards: OP04-001 Vivi L Alt Art at $100 and OP04-118 Vivi SEC Alt Art at $34. Essential for Vivi fans."
+          }
+        },
+        {
+          "topic": {
+            "th": "การ์ดจาก Dressrosa หลายใบยังอยู่ในเมต้า",
+            "en": "Several Dressrosa Cards Still See Competitive Play"
+          },
+          "detail": {
+            "th": "ตัวละคร Dressrosa ยังคงมีการใช้ในเดคแข่งขันบางส่วน โดยเฉพาะ Doflamingo ซึ่งยังคงเป็น Leader ที่ถูกใช้งานอยู่ ทำให้มูลค่าไม่ตกลงเหมือนชุดยุคแรกๆ",
+            "en": "Key Dressrosa characters, especially Doflamingo, still see some competitive play. This provides a valuation floor that earlier sets lack."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -403,28 +615,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Beginners",
-          "Collectors"
+          "Zoro Fans",
+          "SP Card Collectors",
+          "Investors"
         ],
-        "difficulty": "Beginner",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2400,
-          "high_thb": 3500
+          "low_thb": 5000,
+          "high_thb": 7500
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-06 Wings of the Captain เป็นหนึ่งในชุดที่ดีที่สุดสำหรับนักลงทุน นำโดย Zoro SEC Manga Alt Art ที่ $1,875 — ราคาสูงที่สุดในเกมในขณะนี้ ชุดนี้ยังมี SP Card ชุดที่สองที่มีมูลค่าสูง ($69–$311) และ TR Card พิเศษ รวมมี 10 การ์ดเกิน $50 ต่อชุด EV ต่อกล่องสูงที่สุดในบรรดาชุด OP-01 ถึง OP-07",
+          "en": "OP-06 Wings of the Captain is one of the best sets for investors, headlined by the Zoro SEC Manga Alt Art at $1,875 — currently the highest-priced card in the game. With 10 cards above $50, multiple high-value SPs ($69–$311), and a special TR card, OP-06 delivers the highest average box EV of any set from OP-01 through OP-07."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Strong",
+        "reason": {
+          "th": "OP-06 มีราคาตลาดที่แข็งแกร่ง Zoro Manga Alt Art ยังคงเป็นการ์ดที่มีดีมานด์สูงสุดในเกม SP Card ชุดที่สองยังมีราคาดีอยู่ และยังไม่มีสัญญาณ Reprint ที่ชัดเจน",
+          "en": "OP-06 market is strong. The Zoro Manga Alt Art remains the most demanded card in the game. Second-wave SPs hold value well, and there are no clear reprint signals for key chase cards."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้างบจำกัดกว่า",
+            "en": "Better if Budget Is Tighter"
+          },
+          "context": {
+            "th": "OP-09 มี EV ต่อกล่องสูงใกล้เคียงกันในราคากล่องที่ต่ำกว่า ถ้างบไม่ถึง OP-06 ให้ลองดู OP-09",
+            "en": "OP-09 delivers comparable EV at a lower box price. If OP-06 is out of budget, OP-09 is the closest alternative."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-13:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับความผันผวนต่ำ",
+            "en": "Better for Lower Variance"
+          },
+          "context": {
+            "th": "OP-13 มี Chase Card หนาแน่นกว่าและ EV กระจายดีกว่า ถ้าไม่ต้องการพึ่งการ์ดใบเดียว (Zoro) เหมือน OP-06",
+            "en": "OP-13 has denser chase card distribution with less reliance on a single trophy card. Better for those who prefer more consistent hits over high ceiling."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Zoro SEC Manga Alt Art คือการ์ดที่แพงที่สุดในเกม",
+            "en": "Zoro SEC Manga Alt Art Is the Most Valuable Card in the Game"
+          },
+          "detail": {
+            "th": "OP06-118 Roronoa Zoro SEC (Manga)(Alt Art) ราคา $1,875 — สูงที่สุดในเกม ณ ปัจจุบัน เวอร์ชัน Non-Manga ก็ยังราคา $111 ถ้าดึงได้เวอร์ชันใดก็ตาม ถือว่าวันนั้นดีมาก",
+            "en": "OP06-118 Roronoa Zoro SEC Manga Alt Art at $1,875 is the single most valuable card in the One Piece TCG right now. Even the non-manga version is $111. Either pull is a box-saving hit."
+          }
+        },
+        {
+          "topic": {
+            "th": "SP Card Wave 2 มีมูลค่าสูงมาก",
+            "en": "SP Card Wave 2 — Massive Values"
+          },
+          "detail": {
+            "th": "OP-06 มี SP Card Wave 2: Ms. All Sunday SP $311, Nami TR $268, Buggy SP $143, Rebecca SP $129, Sugar SP $70, Charlotte Linlin SP $69 — รวมแล้วมีมูลค่า SP ต่อกล่องสูงกว่า OP-04 อย่างมาก",
+            "en": "OP-06's SP Wave 2 lineup: Ms. All Sunday SP $311, Nami TR $268, Buggy SP $143, Rebecca SP $129, Sugar SP $70, Linlin SP $69. Total SP value pool dramatically exceeds OP-04's first wave."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคากล่องสูงกว่าชุดก่อนๆ แต่ EV ก็สูงตาม",
+            "en": "Higher Box Price, but EV Scales With It"
+          },
+          "detail": {
+            "th": "OP-06 มีราคากล่องสูงกว่าชุด OP-01 ถึง OP-05 แต่มีการ์ดเกิน $50 ถึง 10 ใบ ซึ่งสูงที่สุดในบรรดาชุดยุคแรก EV ต่อกล่องสะท้อนราคาที่จ่ายไป",
+            "en": "OP-06 boxes cost more than early sets, but with 10 cards above $50, the EV scales accordingly. You're paying for quality, and the data supports it."
+          }
+        },
+        {
+          "topic": {
+            "th": "ชุดนี้เหมาะสำหรับนักลงทุนที่มีงบพอ",
+            "en": "The Investor Set If You Have the Budget"
+          },
+          "detail": {
+            "th": "ถ้ามีงบและต้องการชุดที่มี EV สูงและ Trophy Card ที่ไม่น่าจะ Reprint เร็วๆ นี้ OP-06 คือคำตอบสำหรับช่วง OP-01 ถึง OP-07",
+            "en": "For investors with the budget, OP-06 is the strongest EV play in the OP-01 through OP-07 range. The Zoro Manga Alt Art is unlikely to be reprinted in the near term, protecting chase card value."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
