@@ -1,72 +1,16 @@
 {
-  "generated_at": "2026-06-26T21:56:02.701847+00:00",
-  "snapshot_date": "2026-06-26",
-  "baseline_date": "2026-06-26",
+  "generated_at": "2026-06-27T02:02:25.425008+00:00",
+  "snapshot_date": "2026-06-27",
+  "baseline_date": null,
   "days_between_snapshots": 0,
-  "history_days_collected": 2,
+  "history_days_collected": 1,
   "period": "day_over_day",
   "confidence": "low",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 4023,
-  "cards_with_trend": 1066,
+  "cards_evaluated": 0,
+  "cards_with_trend": 0,
   "trend_type": "gainers",
-  "cards": [
-    {
-      "card_id": "OP09-051",
-      "card_name": "Buggy - OP09-051 (SP) (Gold)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p4.jpg",
-      "today_price_usd": 2124.73,
-      "baseline_price_usd": 0.11,
-      "price_change_usd": 2124.62,
-      "price_change_percent": 1931472.73
-    },
-    {
-      "card_id": "OP09-051",
-      "card_name": "Buggy - OP09-051 (SP)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p5.jpg",
-      "today_price_usd": 1083.86,
-      "baseline_price_usd": 0.11,
-      "price_change_usd": 1083.75,
-      "price_change_percent": 985227.27
-    },
-    {
-      "card_id": "OP05-067",
-      "card_name": "Buggy (051) (Manga)",
-      "set_code": "OP-09",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p2.jpg",
-      "today_price_usd": 1582.24,
-      "baseline_price_usd": 0.29,
-      "price_change_usd": 1581.95,
-      "price_change_percent": 545500.0
-    },
-    {
-      "card_id": "OP04-083",
-      "card_name": "Sabo (Alternate Art) (Manga)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-083_p2.jpg",
-      "today_price_usd": 943.3,
-      "baseline_price_usd": 0.42,
-      "price_change_usd": 942.88,
-      "price_change_percent": 224495.24
-    },
-    {
-      "card_id": "OP05-067",
-      "card_name": "Zoro-Juurou (SP)",
-      "set_code": "OP-09",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-067_p4.jpg",
-      "today_price_usd": 581.91,
-      "baseline_price_usd": 0.29,
-      "price_change_usd": 581.62,
-      "price_change_percent": 200558.62
-    }
-  ]
+  "cards": []
 }

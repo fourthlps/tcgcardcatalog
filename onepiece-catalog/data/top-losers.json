@@ -1,72 +1,16 @@
 {
-  "generated_at": "2026-06-26T21:56:02.701847+00:00",
-  "snapshot_date": "2026-06-26",
-  "baseline_date": "2026-06-26",
+  "generated_at": "2026-06-27T02:02:25.425008+00:00",
+  "snapshot_date": "2026-06-27",
+  "baseline_date": null,
   "days_between_snapshots": 0,
-  "history_days_collected": 2,
+  "history_days_collected": 1,
   "period": "day_over_day",
   "confidence": "low",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 4023,
-  "cards_with_trend": 1066,
+  "cards_evaluated": 0,
+  "cards_with_trend": 0,
   "trend_type": "losers",
-  "cards": [
-    {
-      "card_id": "OP16-063",
-      "card_name": "Kuzan",
-      "set_code": "OP-16",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-063_0lnMo2V.jpg",
-      "today_price_usd": 0.18,
-      "baseline_price_usd": 1195.6,
-      "price_change_usd": -1195.42,
-      "price_change_percent": -99.98
-    },
-    {
-      "card_id": "OP16-073",
-      "card_name": "Borsalino",
-      "set_code": "OP-16",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-073_qzFOeIQ.jpg",
-      "today_price_usd": 0.16,
-      "baseline_price_usd": 1058.21,
-      "price_change_usd": -1058.05,
-      "price_change_percent": -99.98
-    },
-    {
-      "card_id": "EB02-010",
-      "card_name": "Monkey.D.Luffy (010)",
-      "set_code": "EB-02",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-010.jpg",
-      "today_price_usd": 0.38,
-      "baseline_price_usd": 941.51,
-      "price_change_usd": -941.13,
-      "price_change_percent": -99.96
-    },
-    {
-      "card_id": "OP07-097",
-      "card_name": "Vegapunk",
-      "set_code": "OP-07",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-097.jpg",
-      "today_price_usd": 0.15,
-      "baseline_price_usd": 300.24,
-      "price_change_usd": -300.09,
-      "price_change_percent": -99.95
-    },
-    {
-      "card_id": "OP13-080",
-      "card_name": "St. Ethanbaron V. Nusjuro",
-      "set_code": "OP-13",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-080_CwJlWfT.jpg",
-      "today_price_usd": 0.24,
-      "baseline_price_usd": 520.76,
-      "price_change_usd": -520.52,
-      "price_change_percent": -99.95
-    }
-  ]
+  "cards": []
 }
