@@ -1787,6 +1787,8 @@ function jumpCard(code,imgId){
 function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
 
 // ─── PRODUCT DETAIL / BUYING GUIDE ───────────────────────────────────────────
+// Resolve bilingual text: field can be a plain string or {th,en} object
+function _t(field,lang){if(!field)return '';if(typeof field==='string')return field;return field[lang]||field.en||field.th||'';}
 function _recClass(label){
   const m={'Highly Recommended':'highly-recommended','Recommended':'recommended','Recommended with Caution':'recommended-caution','Only for Collectors':'collectors-only','Only for Fans of the Series':'fans-only','Skip for Now':'skip'};
   return m[label]||'empty-state';
@@ -1841,7 +1843,7 @@ function openProduct(productId){
         <span class="rec-verdict">${L==='th'?'คำแนะนำ':'Our Verdict'}</span>
         <span class="rec-label ${recLabelClass}">${rec.label}</span>
       </div>
-      <p class="rec-summary">${rec.summary||''}</p>`
+      <p class="rec-summary">${_t(rec.summary,L)||''}</p>`
     :`<div class="rec-label-wrap"><span class="rec-verdict">${L==='th'?'คำแนะนำ':'Our Verdict'}</span></div>
       <p class="rec-coming-soon">${L==='th'?'กำลังจัดทำคู่มือการซื้อ...':'Buying Guide is being prepared...'}</p>`;
 
@@ -1868,9 +1870,9 @@ function openProduct(productId){
         const ap=D.products.find(x=>x.product_id===a.product_id);
         const aName=ap?ap.product_name:a.product_id;
         return `<div class="alt-card" onclick="${ap?`openProduct('${a.product_id}')`:''}" style="${ap?'':'cursor:default'}">
-          <span class="alt-reason-badge">${a.reason}</span>
+          <span class="alt-reason-badge">${_t(a.reason,L)}</span>
           <div class="alt-name">${aName}</div>
-          <div class="alt-context">${a.context}</div>
+          <div class="alt-context">${_t(a.context,L)}</div>
           ${ap?'<div class="alt-arrow">View Guide →</div>':''}
         </div>`;
       }).join('')
@@ -1878,7 +1880,7 @@ function openProduct(productId){
 
   // Things to know
   const ttkHtml=ttk.length
-    ?ttk.map(t=>`<div class="ttk-item"><div class="ttk-topic">${t.topic}</div><div class="ttk-detail">${t.detail}</div></div>`).join('')
+    ?ttk.map(t=>`<div class="ttk-item"><div class="ttk-topic">${_t(t.topic,L)}</div><div class="ttk-detail">${_t(t.detail,L)}</div></div>`).join('')
     :`<p class="ttk-empty">${L==='th'?'กำลังจัดทำ...':'Being prepared...'}</p>`;
 
   // Editorial
@@ -1930,7 +1932,7 @@ function openProduct(productId){
         <span class="ms-icon">${hasMsStatus?msIcon:'📊'}</span>
         <span class="ms-badge ${msBadgeClass}">${ms.status||(L==='th'?'กำลังประเมิน':'Pending Assessment')}</span>
       </div>
-      ${hasMsStatus?`<div class="ms-sep"></div><span class="ms-reason">${ms.reason}</span>`:`<div class="ms-sep"></div><span class="ms-reason" style="font-style:italic;color:var(--faint)">${L==='th'?'กำลังวิเคราะห์ข้อมูลตลาด...':'Market analysis in progress...'}</span>`}
+      ${hasMsStatus?`<div class="ms-sep"></div><span class="ms-reason">${_t(ms.reason,L)}</span>`:`<div class="ms-sep"></div><span class="ms-reason" style="font-style:italic;color:var(--faint)">${L==='th'?'กำลังวิเคราะห์ข้อมูลตลาด...':'Market analysis in progress...'}</span>`}
     </div>
 
     <div class="prod-sec-head"><h2>${L==='th'?'Chase Cards ในชุดนี้':'Top Chase Cards in This Set'}</h2><div class="prod-sec-divider"></div></div>
