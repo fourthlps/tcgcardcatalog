@@ -30,12 +30,16 @@ GAINERS_PATH = f"{DATA_DIR}/top-gainers.json"
 LOSERS_PATH = f"{DATA_DIR}/top-losers.json"
 STATUS_PATH = f"{DATA_DIR}/status.json"
 
-# Dual-threshold filter: a price movement must clear BOTH bars to appear in
-# trends. This prevents noise on low-priced cards (big % / tiny $ change)
-# and ignores trivial moves on high-priced cards (large $ / tiny % change).
-TREND_MIN_ABS_USD = 0.50    # must move at least $0.50 in absolute dollar terms
-TREND_MIN_PCT = 2.0         # AND at least 2.0% relative to the baseline price
+# Trend quality filters -- ALL of the following must pass simultaneously.
+# Cards that fail any check are silently skipped; fewer but trustworthy results.
+TREND_MIN_PRICE_USD = 1.00  # both today AND baseline price must be >= $1.00
+                             # eliminates $0.02 bulk commons and corrupted lookups
+TREND_MIN_ABS_USD = 1.00    # absolute dollar change must be >= $1.00
+TREND_MIN_PCT = 3.0         # AND percentage change must be >= 3.0%
+TREND_MAX_PCT_CAP = 500.0   # hard cap: change > 500% is treated as bad data, not real market movement
 TREND_TOP_N = 5             # top N cards shown per direction
+                             # Ranking is by dollar change (not %), so $50 on a $200 card
+                             # ranks above $10 on a $12 card even if % differs.
 
 # --- Phase 2: Price History Raw ingest ---
 APPS_SCRIPT_URL = os.environ.get("APPS_SCRIPT_URL", "")
@@ -174,14 +178,27 @@ def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str
         "game": "onepiece",
     }
 
+    # Same-day guard: comparing a snapshot to itself produces noise, not signal.
+    # This happens when the pipeline runs twice on the same date (e.g. a manual
+    # re-run after an earlier scheduled run already saved the snapshot).
     if not snapshot_prices or not baseline_date:
         print("Trends: no baseline available -- writing empty trend files")
         empty = {**meta, "cards_evaluated": 0, "cards_with_trend": 0}
         return ({**empty, "trend_type": "gainers", "cards": []},
                 {**empty, "trend_type": "losers",  "cards": []})
 
+    if days_between == 0:
+        print(
+            f"Trends: baseline_date == run_date ({run_date}) -- "
+            f"same-day comparison skipped, writing empty trend files"
+        )
+        empty = {**meta, "cards_evaluated": 0, "cards_with_trend": 0}
+        return ({**empty, "trend_type": "gainers", "cards": []},
+                {**empty, "trend_type": "losers",  "cards": []})
+
     changes = []
     cards_evaluated = 0
+    skipped_no_baseline = skipped_min_price = skipped_min_abs = skipped_min_pct = skipped_cap = 0
 
     for set_code, cards in combined.items():
         for card in cards:
@@ -199,18 +216,36 @@ def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str
             if today_price <= 0:
                 continue
 
-            baseline_price = snapshot_prices.get(card_id)
+            # Composite key must match what save_snapshot wrote
+            composite_key = f"{set_code}::{card_id}"
+            baseline_price = snapshot_prices.get(composite_key)
             if baseline_price is None or baseline_price <= 0:
-                continue  # card not in previous snapshot (new card) -- skip
+                skipped_no_baseline += 1
+                continue  # card not in previous snapshot (new or unmapped) -- skip
+
+            # Minimum price on BOTH sides: eliminates bulk commons and corrupted lookups
+            # where a $0.11 base card is compared against a $2,124 alternate art.
+            if today_price < TREND_MIN_PRICE_USD or baseline_price < TREND_MIN_PRICE_USD:
+                skipped_min_price += 1
+                continue
 
             cards_evaluated += 1
             price_change = today_price - baseline_price
             price_change_pct = (price_change / baseline_price) * 100
 
-            # Dual filter -- both thresholds must pass
-            if abs(price_change) < TREND_MIN_ABS_USD:
+            # Hard cap: > 500% or < -99% change indicates bad data, not real market movement
+            if abs(price_change_pct) > TREND_MAX_PCT_CAP:
+                skipped_cap += 1
                 continue
+
+            # Absolute dollar filter
+            if abs(price_change) < TREND_MIN_ABS_USD:
+                skipped_min_abs += 1
+                continue
+
+            # Percentage filter
             if abs(price_change_pct) < TREND_MIN_PCT:
+                skipped_min_pct += 1
                 continue
 
             changes.append({
@@ -225,15 +260,23 @@ def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str
                 "price_change_percent": round(price_change_pct, 2),
             })
 
+    # Rank by absolute dollar change, not percentage.
+    # $50 on a $200 card is more meaningful than $10 on a $12 card.
     gainers = sorted(
-        [c for c in changes if c["price_change_percent"] > 0],
-        key=lambda x: x["price_change_percent"], reverse=True
+        [c for c in changes if c["price_change_usd"] > 0],
+        key=lambda x: x["price_change_usd"], reverse=True
     )[:TREND_TOP_N]
 
     losers = sorted(
-        [c for c in changes if c["price_change_percent"] < 0],
-        key=lambda x: x["price_change_percent"]
+        [c for c in changes if c["price_change_usd"] < 0],
+        key=lambda x: x["price_change_usd"]
     )[:TREND_TOP_N]
+
+    print(
+        f"Trends filter summary: no_baseline={skipped_no_baseline}, "
+        f"min_price=${TREND_MIN_PRICE_USD}={skipped_min_price}, "
+        f"cap={skipped_cap}, min_abs={skipped_min_abs}, min_pct={skipped_min_pct}"
+    )
 
     full_meta = {**meta, "cards_evaluated": cards_evaluated, "cards_with_trend": len(changes)}
     print(
@@ -276,13 +319,19 @@ def save_snapshot(combined: dict, run_date: str, timestamp: str,
 
     prices = {}
     total_with_price = 0
-    for cards in combined.values():
+    for set_code, cards in combined.items():
         for card in cards:
             cid = card.get("card_set_id")
             price = card.get("market_price")
             if cid and price is not None:
                 try:
-                    prices[cid] = float(price)
+                    # Composite key: "SET_CODE::card_id" prevents collision when the
+                    # same card_id appears in multiple sets (alternate arts, SPs, gold
+                    # versions). Without this, last-write wins and the snapshot maps
+                    # e.g. OP09-051 to $0.11 (base card) while the alternate art is
+                    # $2,124 -- producing a 1,900,000% phantom gain on next run.
+                    composite_key = f"{set_code}::{cid}"
+                    prices[composite_key] = float(price)
                     total_with_price += 1
                 except (TypeError, ValueError):
                     pass
