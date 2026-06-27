@@ -77,19 +77,34 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
    only. The UI (cards, buttons, type, spacing) is completely
    untouched -- a soft overlay keeps the center column readable
    without ever hiding the artwork at the edges. */
-.home-art{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;overflow:hidden;
-  background-image:url('assets/55e6d703-fc33-41ae-9af6-a5107b573747.png');
-  background-size:cover;background-position:center top;background-repeat:no-repeat;background-color:var(--bg)}
-.home-art::after{content:'';position:absolute;inset:0;background:
+/* home-art: container only — background-image lives on .home-art-img so we
+   can fade the artwork independently from the ::after white-overlay, which
+   must stay fully opaque to protect readability on content-heavy inner pages. */
+.home-art{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;overflow:hidden;background-color:var(--bg)}
+.home-art-img{position:absolute;inset:0;background-image:url('assets/55e6d703-fc33-41ae-9af6-a5107b573747.png');background-size:cover;background-position:center top;background-repeat:no-repeat;opacity:1;transition:opacity .55s ease}
+/* Inner pages: artwork fades to ~22% so edges retain atmosphere without
+   competing with content; the ::after overlay strengthens the center. */
+.home-art--inner .home-art-img{opacity:.22}
+.home-art::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:
   linear-gradient(180deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 22%,rgba(255,255,255,0) 78%,rgba(255,255,255,.22) 100%),
-  radial-gradient(ellipse 58% 62% at 50% 42%,rgba(255,255,255,.16),transparent 70%)}
+  radial-gradient(ellipse 58% 62% at 50% 42%,rgba(255,255,255,.16),transparent 70%);
+  transition:background .55s ease}
+.home-art--inner::after{background:
+  linear-gradient(180deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,.44) 22%,rgba(255,255,255,.44) 78%,rgba(255,255,255,.62) 100%),
+  radial-gradient(ellipse 62% 68% at 50% 42%,rgba(255,255,255,.58),transparent 68%)}
 @media (max-width:1023px){.home-art::after{background:
   linear-gradient(180deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,0) 24%,rgba(255,255,255,0) 76%,rgba(255,255,255,.26) 100%),
-  radial-gradient(ellipse 64% 64% at 50% 42%,rgba(255,255,255,.2),transparent 70%)}}
-@media (max-width:640px){.home-art{background-position:center 14%}
+  radial-gradient(ellipse 64% 64% at 50% 42%,rgba(255,255,255,.2),transparent 70%)}
+  .home-art--inner::after{background:
+    linear-gradient(180deg,rgba(255,255,255,.75) 0%,rgba(255,255,255,.46) 24%,rgba(255,255,255,.46) 76%,rgba(255,255,255,.65) 100%),
+    radial-gradient(ellipse 64% 64% at 50% 42%,rgba(255,255,255,.6),transparent 70%)}}
+@media (max-width:640px){.home-art-img{background-position:center 14%}
   .home-art::after{background:
     linear-gradient(180deg,rgba(255,255,255,.4) 0%,rgba(255,255,255,.05) 26%,rgba(255,255,255,.05) 74%,rgba(255,255,255,.32) 100%),
-    radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,255,255,.24),transparent 70%)}}
+    radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,255,255,.24),transparent 70%)}
+  .home-art--inner::after{background:
+    linear-gradient(180deg,rgba(255,255,255,.80) 0%,rgba(255,255,255,.52) 26%,rgba(255,255,255,.52) 74%,rgba(255,255,255,.70) 100%),
+    radial-gradient(ellipse 70% 60% at 50% 40%,rgba(255,255,255,.65),transparent 70%)}}
 .serif{font-family:var(--font-display);font-weight:700}
 .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
 
@@ -379,7 +394,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-img-wrap.cat-deck .set-cat-badge{color:var(--teal);border-color:rgba(45,212,191,.35)}
 .set-cat-badge{position:absolute;top:9px;left:9px;background:rgba(10,10,15,.82);border:1px solid var(--bord2);border-radius:5px;padding:3px 8px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--gold);text-transform:uppercase}
 .set-price-badge{position:absolute;bottom:9px;left:9px;background:rgba(10,10,15,.85);border:1px solid var(--gold);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:700;color:var(--gold)}
-.set-hot{position:absolute;top:9px;right:9px;font-size:14px}
+.set-hot{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:4px;background:linear-gradient(135deg,#ea580c,#f97316);color:#fff;font-size:10px;font-weight:800;letter-spacing:.06em;padding:4px 9px;border-radius:999px;box-shadow:0 0 14px rgba(234,88,12,.55),0 2px 6px rgba(0,0,0,.22);text-transform:uppercase}
+.set-card.is-hot{border-color:rgba(234,88,12,.35);box-shadow:var(--shadow),0 0 0 1px rgba(249,115,22,.18),0 0 20px rgba(234,88,12,.12)}
 .set-body{padding:13px 14px 15px}
 .set-code{font-family:var(--font-display);font-size:13.5px;color:var(--gold);margin-bottom:2px}
 .set-name{font-weight:600;font-size:14px;margin-bottom:4px;line-height:1.3}
@@ -451,6 +467,22 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11px;color:var(--faint);margin-top:16px}
+/* Enhanced price section: today + yesterday comparison */
+.price-main-box{background:var(--bg3);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.price-main-label{font-size:10.5px;color:var(--faint);margin-bottom:3px}
+.price-main-val{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--gold);letter-spacing:-.02em;line-height:1}
+.price-hist-strip{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.price-hist-yest-lbl{font-size:10px;color:var(--faint);margin-bottom:2px}
+.price-hist-yest-val{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--soft)}
+.price-hist-delta{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.price-hist-delta-abs{font-family:var(--font-display);font-size:14px;font-weight:800}
+.price-hist-delta-pct{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+.delta-up .price-hist-delta-abs{color:#16a34a}
+.delta-up .price-hist-delta-pct{color:#16a34a;background:rgba(22,163,74,.12)}
+.delta-down .price-hist-delta-abs{color:#dc2626}
+.delta-down .price-hist-delta-pct{color:#dc2626;background:rgba(220,38,38,.12)}
+.delta-flat .price-hist-delta-abs{color:var(--soft)}
+.delta-flat .price-hist-delta-pct{color:var(--soft);background:var(--bg3)}
 
 /* EMPTY + RESULTS */
 .empty{color:var(--faint);padding:30px 0;text-align:center;font-size:14px}
@@ -458,6 +490,16 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </style>
 </head>
 <body>
+
+<!-- ============================================================
+     SITE ARTWORK -- global fixed layer, visible on all pages.
+     .home-art-img fades from opacity:1 (homepage) to .22 (inner pages)
+     via the .home-art--inner class toggled by show(). The ::after
+     white-overlay in CSS strengthens on inner pages to protect readability.
+     ============================================================ -->
+<div class="home-art" id="site-art" aria-hidden="true">
+  <div class="home-art-img"></div>
+</div>
 
 <!-- ============================================================
      FOURTH TCG -- ambient brand-background system (see CSS above).
@@ -588,11 +630,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 <!-- HOME -->
 <div id="view-home">
   <!-- ============================================================
-       HOMEPAGE BACKGROUND ARTWORK -- see CSS above. The approved
-       illustration asset is applied as a real background-image on
-       .home-art; nothing here is generated artwork.
        ============================================================ -->
-  <div class="home-art" aria-hidden="true"></div>
   <section class="hero">
     <div class="hero-orb a" aria-hidden="true"></div>
     <div class="hero-orb b" aria-hidden="true"></div>
@@ -950,6 +988,8 @@ function show(id){
   ['view-home','view-sets','view-cards','view-detail','view-search'].forEach(v=>{
     document.getElementById(v).style.display=v===id?'block':'none';
   });
+  const art=document.getElementById('site-art');
+  if(art)art.className='home-art'+(id==='view-home'?'':' home-art--inner');
 }
 function goHome(){show('view-home');}
 function jumpChaseSection(){
@@ -1488,7 +1528,7 @@ function renderSets(){
     const box=BOX[s.code];
     const price=box?(S.cur==='THB'?'฿ '+box.thb.toLocaleString():'$'+box.usd):'—';
     const imgUrl=setImgUrl(s.code);
-    return `<div class="set-card" onclick="openSet('${s.code}')">
+    return `<div class="set-card${box?.hot?' is-hot':''}" onclick="openSet('${s.code}')">
       <div class="set-img-wrap cat-${cat}">
         <div class="set-tile-pattern"></div>
         <div class="set-tile-icon">${CAT_ICON[cat]}</div>
@@ -1496,7 +1536,7 @@ function renderSets(){
         ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
-        ${box?.hot?'<div class="set-hot">🔥</div>':''}
+        ${box?.hot?'<div class="set-hot">🔥 HOT</div>':''}
       </div>
       <div class="set-body">
         <div class="set-code">${s.code}</div>
@@ -1545,14 +1585,24 @@ function openSet(code){
 // source. Only shown when at least one card in the current set actually
 // matches, same "don't show empty filters" behavior as the rarity chips.
 const CATEGORY_DEFS=[
+  // Variant art tiers — matched by card_name patterns (game-agnostic)
   {key:'Parallel',test:c=>/parallel/i.test(c.card_name||'')},
   {key:'Manga',test:c=>/manga/i.test(c.card_name||'')},
-  {key:'Leader',test:c=>c.card_type==='Leader'},
   {key:'Alt Art',test:c=>/alt(?:ernate)?\s*art/i.test(c.card_name||'')},
-  {key:'Promo',test:c=>c.rarity==='PR'},
-  {key:'Event',test:c=>c.card_type==='Event'},
+  {key:'Super Alt Art',test:c=>/super\s*alt(?:ernate)?\s*art/i.test(c.card_name||'')},
+  {key:'SP',test:c=>/\(SP\)/i.test(c.card_name||'')||c.rarity==='SP'},
+  {key:'Wanted Poster',test:c=>/wanted\s*poster/i.test(c.card_name||'')},
+  // Card types (One Piece — hides automatically on other games)
+  {key:'Leader',test:c=>c.card_type==='Leader'},
   {key:'Character',test:c=>c.card_type==='Character'},
+  {key:'Event',test:c=>c.card_type==='Event'},
   {key:'Stage',test:c=>c.card_type==='Stage'},
+  // Promos (multi-game: PR rarity OR "Promo" in name)
+  {key:'Promo',test:c=>c.rarity==='PR'||c.rarity==='Promo'||/\bpromo\b/i.test(c.card_name||'')},
+  // Future-game filters — only surface when matching cards are loaded
+  {key:'Holo',test:c=>/\bholo\b/i.test(c.card_name||'')||c.rarity==='Holo'||c.rarity==='RH'},
+  {key:'Full Art',test:c=>/full\s*art/i.test(c.card_name||'')||c.rarity==='FA'},
+  {key:'Enchanted',test:c=>c.rarity==='Enchanted'||/\benchanted\b/i.test(c.card_name||'')},
 ];
 function tagMatches(c,tag){
   const cat=CATEGORY_DEFS.find(d=>d.key===tag);
@@ -1631,10 +1681,38 @@ function openCard(idx){
     </div>
     <p class="det-text">${c.card_text||''}</p>
     <div class="price-hd"><span style="font-size:14px;font-weight:600">${L==='th'?'ราคา':'Price'}</span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
-    <div class="price-grid">
-      <div class="price-box"><div class="pl">${L==='th'?'ราคาตลาด (market)':'Market Price'}</div><div class="pv">${fp(c.market_price)}</div></div>
-      <div class="price-box"><div class="pl">${L==='th'?'ราคาอ้างอิง (inventory)':'Inventory Price'}</div><div class="pv">${fp(c.inventory_price)}</div></div>
-    </div>
+    ${(()=>{
+      const tr=priceTrend(c);
+      if(tr.hasData){
+        const up=tr.priceChange>0,flat=Math.abs(tr.priceChangePercent)<0.01;
+        const dir=flat?'flat':up?'up':'down';
+        const arrow=flat?'—':up?'▲':'▼';
+        const sign=tr.priceChange>=0?'+':'';
+        const absStr=S.cur==='THB'?`${sign}฿ ${Math.round(Math.abs(tr.priceChange)*S.fx).toLocaleString('th-TH')}`:`${sign}$${Math.abs(tr.priceChange).toFixed(2)}`;
+        const pctStr=`${sign}${tr.priceChangePercent.toFixed(2)}%`;
+        return `<div class="price-main-box">
+          <div class="price-main-label">${L==='th'?'ราคาตลาดวันนี้':'Today\'s Market Price'}</div>
+          <div class="price-main-val">${fp(c.market_price)}</div>
+          <div class="price-hist-strip">
+            <div>
+              <div class="price-hist-yest-lbl">${L==='th'?'เมื่อวาน':'Yesterday'}</div>
+              <div class="price-hist-yest-val">${fpL(tr.previousPrice)}</div>
+            </div>
+            <div class="price-hist-delta delta-${dir}">
+              <span class="price-hist-delta-abs">${arrow} ${absStr}</span>
+              <span class="price-hist-delta-pct">${pctStr}</span>
+            </div>
+          </div>
+        </div>
+        <div class="price-grid">
+          <div class="price-box"><div class="pl">${L==='th'?'ราคาอ้างอิง (inventory)':'Inventory Price'}</div><div class="pv" style="font-size:20px">${fp(c.inventory_price)}</div></div>
+        </div>`;
+      }
+      return `<div class="price-grid">
+        <div class="price-box"><div class="pl">${L==='th'?'ราคาตลาด (market)':'Market Price'}</div><div class="pv">${fp(c.market_price)}</div></div>
+        <div class="price-box"><div class="pl">${L==='th'?'ราคาอ้างอิง (inventory)':'Inventory Price'}</div><div class="pv">${fp(c.inventory_price)}</div></div>
+      </div>`;
+    })()}
     <div class="price-box" style="margin-top:10px"><div class="pl">${L==='th'?'⚠️ ราคาการ์ดดิบ (ยังไม่ได้ส่งเกรด PSA)':'⚠️ Raw card price (ungraded, not PSA)'}</div></div>
     <p class="footnote">${L==='th'?'ที่มา':'Source'}: optcgapi.com · ${L==='th'?'ข้อมูล ณ':'Data as of'} ${c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
   setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
