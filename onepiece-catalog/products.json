@@ -136,6 +136,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-01:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-01",
+    "set_name": "Romance Dawn",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-01 Romance Dawn Booster Box (EN)",
+    "release_date": "2022-12-09",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-02:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -592,6 +641,55 @@
       ],
       "editorial": {
         "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
+    "product_id": "one-piece:OP-05:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-05",
+    "set_name": "Awakening of the New Era",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-05 Awakening of the New Era Booster Box (EN)",
+    "release_date": "2024-03-08",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1061,6 +1159,55 @@
     }
   },
   {
+    "product_id": "one-piece:OP-09:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-09",
+    "set_name": "Emperors in the New World",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-09 Emperors in the New World Booster Box (EN)",
+    "release_date": "2025-04-25",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
     "product_id": "one-piece:OP-10:JP:booster-box",
     "game": "one-piece",
     "game_name": "One Piece Card Game",
@@ -1484,6 +1631,55 @@
       ],
       "editorial": {
         "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
+    }
+  },
+  {
+    "product_id": "one-piece:OP-13:EN:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
+    "set_code": "OP-13",
+    "set_name": "Carrying On His Will",
+    "language": "EN",
+    "status": "draft",
+    "product_type": "Booster Box",
+    "product_name": "OP-13 Carrying On His Will Booster Box (EN)",
+    "release_date": "2026-03-14",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": [],
+        "difficulty": "",
+        "price_range": {
+          "low_thb": 0,
+          "high_thb": 0
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "market_status": {
+        "status": "",
+        "reason": {
+          "th": "",
+          "en": ""
+        }
+      },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": {
+        "last_reviewed": "",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
