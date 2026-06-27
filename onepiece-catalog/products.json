@@ -398,5 +398,105 @@
       "things_to_know": [],
       "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
     }
+  },
+  {
+    "product_id": "eb01-booster-box",
+    "product_name": "EB-01 Memorial Collection Extra Booster Box",
+    "product_type": "Extra Booster",
+    "set_code": "EB-01",
+    "release_date": "2023-08-12",
+    "card_count_per_pack": 8,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": { "best_for": ["Collectors"], "difficulty": "Beginner", "price_range": { "low_thb": 2800, "high_thb": 4000 }, "top_chase_cards": [] },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "eb02-booster-box",
+    "product_name": "EB-02 Memorial Collection Extra Booster Box Vol.2",
+    "product_type": "Extra Booster",
+    "set_code": "EB-02",
+    "release_date": "2024-02-23",
+    "card_count_per_pack": 8,
+    "packs_per_box": 24,
+    "msrp_thb": 3000,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": { "best_for": ["Collectors"], "difficulty": "Beginner", "price_range": { "low_thb": 2600, "high_thb": 3800 }, "top_chase_cards": [] },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "eb03-booster-box",
+    "product_name": "EB-03 Memorial Collection Extra Booster Box Vol.3",
+    "product_type": "Extra Booster",
+    "set_code": "EB-03",
+    "release_date": "2024-11-08",
+    "card_count_per_pack": 8,
+    "packs_per_box": 24,
+    "msrp_thb": 2850,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": { "best_for": ["Collectors"], "difficulty": "Beginner", "price_range": { "low_thb": 2400, "high_thb": 3500 }, "top_chase_cards": [] },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "prb01-booster-box",
+    "product_name": "PRB-01 Premium Booster Box",
+    "product_type": "Premium Booster",
+    "set_code": "PRB-01",
+    "release_date": "2024-09-06",
+    "card_count_per_pack": 10,
+    "packs_per_box": 20,
+    "msrp_thb": 7400,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": { "best_for": ["Collectors", "Investors"], "difficulty": "Advanced", "price_range": { "low_thb": 6500, "high_thb": 9000 }, "top_chase_cards": [] },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "prb02-booster-box",
+    "product_name": "PRB-02 Premium Booster Box Vol.2",
+    "product_type": "Premium Booster",
+    "set_code": "PRB-02",
+    "release_date": "2025-06-06",
+    "card_count_per_pack": 10,
+    "packs_per_box": 20,
+    "msrp_thb": 7000,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": { "best_for": ["Collectors", "Investors"], "difficulty": "Advanced", "price_range": { "low_thb": 6000, "high_thb": 8500 }, "top_chase_cards": [] },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
   }
 ]
