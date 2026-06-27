@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-27T02:46:05.245367+00:00",
+  "generated_at": "2026-06-27T21:43:34.079493+00:00",
   "snapshot_date": "2026-06-27",
   "baseline_date": "2026-06-27",
   "days_between_snapshots": 0,
-  "history_days_collected": 2,
+  "history_days_collected": 3,
   "period": "day_over_day",
   "confidence": "low",
   "source": "optcgapi.com",
