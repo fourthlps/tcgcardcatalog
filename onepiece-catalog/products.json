@@ -1,0 +1,402 @@
+[
+  {
+    "product_id": "op01-booster-box",
+    "product_name": "OP-01 Romance Dawn Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-01",
+    "release_date": "2022-07-08",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 4800,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Beginners", "Character Collectors"],
+        "difficulty": "Beginner",
+        "price_range": { "low_thb": 3500, "high_thb": 5500 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op02-booster-box",
+    "product_name": "OP-02 Paramount War Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-02",
+    "release_date": "2022-12-02",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3500,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Investors"],
+        "difficulty": "Beginner",
+        "price_range": { "low_thb": 3000, "high_thb": 4500 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op03-booster-box",
+    "product_name": "OP-03 Pillars of Strength Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-03",
+    "release_date": "2023-03-10",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 2800,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Players"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2400, "high_thb": 3500 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op04-booster-box",
+    "product_name": "OP-04 Kingdoms of Intrigue Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-04",
+    "release_date": "2023-06-23",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 2900,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Players"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2500, "high_thb": 3800 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op05-booster-box",
+    "product_name": "OP-05 Awakening of the New Era Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-05",
+    "release_date": "2023-09-22",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 16500,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Investors", "Collectors"],
+        "difficulty": "Advanced",
+        "price_range": { "low_thb": 14000, "high_thb": 20000 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op06-booster-box",
+    "product_name": "OP-06 Wings of the Captain Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-06",
+    "release_date": "2023-12-22",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 2800,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Beginners", "Collectors"],
+        "difficulty": "Beginner",
+        "price_range": { "low_thb": 2400, "high_thb": 3500 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op07-booster-box",
+    "product_name": "OP-07 500 Years in the Future Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-07",
+    "release_date": "2024-03-22",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Players", "Collectors"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2800, "high_thb": 4000 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op08-booster-box",
+    "product_name": "OP-08 Two Legends Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-08",
+    "release_date": "2024-06-28",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3700,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Investors"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 3200, "high_thb": 4800 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op09-booster-box",
+    "product_name": "OP-09 Emperors in the New World Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-09",
+    "release_date": "2024-09-27",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 4500,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Investors"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 4000, "high_thb": 5500 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op10-booster-box",
+    "product_name": "OP-10 Royal Blood Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-10",
+    "release_date": "2024-12-27",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3100,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Players"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2700, "high_thb": 4000 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op11-booster-box",
+    "product_name": "OP-11 A Fist of Divine Speed Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-11",
+    "release_date": "2025-03-28",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3000,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Players", "Collectors"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2600, "high_thb": 3800 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op12-booster-box",
+    "product_name": "OP-12 Legacy of the Master Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-12",
+    "release_date": "2025-06-27",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3400,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Players"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 3000, "high_thb": 4200 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op13-booster-box",
+    "product_name": "OP-13 Carrying On His Will Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-13",
+    "release_date": "2025-09-26",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 6500,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors", "Investors"],
+        "difficulty": "Advanced",
+        "price_range": { "low_thb": 5500, "high_thb": 8000 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op14eb04-booster-box",
+    "product_name": "OP-14 The Azure Sea's Seven Booster Box",
+    "product_type": "Extra Booster",
+    "set_code": "OP14-EB04",
+    "release_date": "2025-11-28",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2800, "high_thb": 4000 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op15eb04-booster-box",
+    "product_name": "OP-15 Adventure on Kami's Island Booster Box",
+    "product_type": "Extra Booster",
+    "set_code": "OP15-EB04",
+    "release_date": "2026-03-28",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 3200,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Collectors"],
+        "difficulty": "Intermediate",
+        "price_range": { "low_thb": 2800, "high_thb": 4000 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  },
+  {
+    "product_id": "op16-booster-box",
+    "product_name": "OP-16 The Time of Battle Booster Box",
+    "product_type": "Booster Box",
+    "set_code": "OP-16",
+    "release_date": "2026-03-28",
+    "card_count_per_pack": 12,
+    "packs_per_box": 24,
+    "msrp_thb": 2950,
+    "product_image": "",
+    "affiliate_url": null,
+    "buying_guide": {
+      "quick_facts": {
+        "best_for": ["Beginners", "Players"],
+        "difficulty": "Beginner",
+        "price_range": { "low_thb": 2600, "high_thb": 3600 },
+        "top_chase_cards": []
+      },
+      "recommendation": { "label": "", "summary": "" },
+      "market_status": { "status": "", "reason": "" },
+      "better_alternatives": [],
+      "things_to_know": [],
+      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+    }
+  }
+]
