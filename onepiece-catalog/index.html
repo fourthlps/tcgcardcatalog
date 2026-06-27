@@ -1031,7 +1031,9 @@ async function init(){
   }catch(e){D.index=[];}
   renderHome();
   applyLangUI();
-  fetch('products.json').then(r=>r.ok?r.json():null).then(d=>{if(d){D.products=d;}});
+  fetch('products.json').then(r=>r.ok?r.json():null).then(d=>{
+    if(d){D.products=d;const sv=document.getElementById('view-sets');if(sv&&sv.style.display!=='none')renderSets();}
+  });
   // Non-blocking parallel fetches: FX rate + trend data + site status.
   // None of these block the initial render -- they refresh the relevant
   // UI sections as soon as their data arrives.
