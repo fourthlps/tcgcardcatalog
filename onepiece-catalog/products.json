@@ -19,49 +19,55 @@
       },
       "recommendation": {
         "label": "Recommended with Caution",
-        "summary": "OP-01 Romance Dawn คือชุดแรกของ One Piece TCG — ทุกตัวละครสำคัญอยู่ที่นี่ และประสบการณ์การเปิดซองจากชุดประวัติศาสตร์นี้มีเสน่ห์ในตัวเอง แต่ด้วยประวัติการ Reprint ที่สูง การ์ดพื้นฐาน (Non-Parallel) มีราคาต่ำมาก และเมต้าการแข่งขันได้เปลี่ยนไปไกลแล้ว ชุดนี้เหมาะสำหรับผู้เริ่มต้นและนักสะสมตัวละคร แต่ไม่ใช่ตัวเลือกที่ดีสำหรับนักลงทุน"
+        "summary": {
+          "th": "OP-01 Romance Dawn คือชุดแรกของ One Piece TCG — ทุกตัวละครสำคัญอยู่ที่นี่ และประสบการณ์การเปิดซองจากชุดประวัติศาสตร์นี้มีเสน่ห์ในตัวเอง แต่ด้วยประวัติการ Reprint ที่สูง การ์ดพื้นฐาน (Non-Parallel) มีราคาต่ำมาก และเมต้าการแข่งขันได้เปลี่ยนไปไกลแล้ว ชุดนี้เหมาะสำหรับผู้เริ่มต้นและนักสะสมตัวละคร แต่ไม่ใช่ตัวเลือกที่ดีสำหรับนักลงทุน",
+          "en": "OP-01 Romance Dawn is the first-ever One Piece TCG set — every iconic character is here and the experience of opening it carries real historical weight. However, a heavy reprint history keeps base card values very low, and the competitive meta has moved far beyond 2022. Buy this set for the experience and nostalgia, not as an investment."
+        }
       },
       "market_status": {
         "status": "Reprint Risk",
-        "reason": "OP-01 ถูก Reprint มาแล้วหลายรอบ — การ์ดพื้นฐานหาได้ง่ายและราคาถูก มีเพียงการ์ด Parallel และ SEC เท่านั้นที่ยังรักษามูลค่าไว้ได้ ราคากล่องซีลมีโอกาสขึ้นน้อยมากในระยะยาว"
+        "reason": {
+          "th": "OP-01 ถูก Reprint มาแล้วหลายรอบ — การ์ดพื้นฐานหาได้ง่ายและราคาถูก มีเพียงการ์ด Parallel และ SEC เท่านั้นที่ยังรักษามูลค่าไว้ได้ ราคากล่องซีลมีโอกาสขึ้นน้อยมากในระยะยาว",
+          "en": "OP-01 has been reprinted multiple times since 2022. Base cards are cheap and widely available. Only Parallel and SEC variants retain meaningful value. Sealed box appreciation is unlikely long-term."
+        }
       },
       "better_alternatives": [
         {
           "product_id": "op05-booster-box",
-          "reason": "ดีกว่าสำหรับนักลงทุน",
-          "context": "OP-05 มีประวัติราคากล่องที่ขึ้นอย่างต่อเนื่อง Chase Card หนาแน่นกว่า และโอกาส Reprint ต่ำกว่ามาก เหมาะสำหรับคนที่ซื้อเพื่อถือยาว"
+          "reason": { "th": "ดีกว่าสำหรับนักลงทุน", "en": "Better for Investors" },
+          "context": { "th": "OP-05 มีประวัติราคากล่องที่ขึ้นอย่างต่อเนื่อง Chase Card หนาแน่นกว่า และโอกาส Reprint ต่ำกว่ามาก เหมาะสำหรับคนที่ซื้อเพื่อถือยาว", "en": "OP-05 has a strong sealed appreciation history, denser chase card distribution, and much lower reprint risk. The go-to choice if you're buying to hold." }
         },
         {
           "product_id": "op13-booster-box",
-          "reason": "ดีกว่าสำหรับนักสะสม",
-          "context": "OP-13 มี Chase Card หนาแน่นกว่าต่อกล่อง ราคากล่องสูงกว่าแต่โอกาสคืนทุนก็สูงกว่าด้วย เหมาะสำหรับนักสะสมที่ต้องการความคุ้มค่าจากการเปิด"
+          "reason": { "th": "ดีกว่าสำหรับนักสะสม", "en": "Better for Collectors" },
+          "context": { "th": "OP-13 มี Chase Card หนาแน่นกว่าต่อกล่อง ราคากล่องสูงกว่าแต่โอกาสคืนทุนก็สูงกว่าด้วย เหมาะสำหรับนักสะสมที่ต้องการความคุ้มค่าจากการเปิด", "en": "OP-13 packs more chase cards per box. Higher box price but better expected value per open. The better collector pick at a similar investment level." }
         },
         {
           "product_id": "op06-booster-box",
-          "reason": "ดีกว่าสำหรับผู้เริ่มต้นงบจำกัด",
-          "context": "OP-06 Wings of the Captain มีราคากล่องถูกกว่า เหมาะกับผู้เริ่มต้นเช่นกัน และยังไม่มีประวัติ Reprint หนักเท่า OP-01"
+          "reason": { "th": "ดีกว่าสำหรับผู้เริ่มต้นงบจำกัด", "en": "Better for Beginners on a Budget" },
+          "context": { "th": "OP-06 Wings of the Captain มีราคากล่องถูกกว่า เหมาะกับผู้เริ่มต้นเช่นกัน และยังไม่มีประวัติ Reprint หนักเท่า OP-01", "en": "OP-06 Wings of the Captain is similarly beginner-friendly at a lower box price, and doesn't carry the same reprint baggage as OP-01." }
         }
       ],
       "things_to_know": [
         {
-          "topic": "ชุดที่ถูก Reprint แล้ว",
-          "detail": "OP-01 ถูกพิมพ์ซ้ำหลายครั้งตั้งแต่ปี 2022 การ์ด Common และ Uncommon พื้นฐานหาซื้อได้ราคาต่ำมาก ราคากล่องซีลจึงไม่มีแนวโน้มจะขึ้นอย่างมีนัยสำคัญ"
+          "topic": { "th": "ชุดที่ถูก Reprint แล้ว", "en": "A Reprinted Set" },
+          "detail": { "th": "OP-01 ถูกพิมพ์ซ้ำหลายครั้งตั้งแต่ปี 2022 การ์ด Common และ Uncommon พื้นฐานหาซื้อได้ราคาต่ำมาก ราคากล่องซีลจึงไม่มีแนวโน้มจะขึ้นอย่างมีนัยสำคัญ", "en": "OP-01 has been reprinted multiple times since its 2022 launch. Common and Uncommon base cards are cheap and easy to find. Sealed box prices are unlikely to appreciate significantly." }
         },
         {
-          "topic": "มูลค่าอยู่ที่การ์ด Parallel เท่านั้น",
-          "detail": "การ์ดใน Top 15 ของชุดนี้ทุกใบเป็น Parallel ทั้งหมด การ์ดเวอร์ชันพื้นฐาน (Non-Parallel) มีราคาต่ำกว่ามาก อัตราดึง Parallel ต่อกล่องมีจำกัด ควรมีความคาดหวังที่สมจริง"
+          "topic": { "th": "มูลค่าอยู่ที่การ์ด Parallel เท่านั้น", "en": "Value Lives in Parallels Only" },
+          "detail": { "th": "การ์ดใน Top 15 ของชุดนี้ทุกใบเป็น Parallel ทั้งหมด การ์ดเวอร์ชันพื้นฐาน (Non-Parallel) มีราคาต่ำกว่ามาก อัตราดึง Parallel ต่อกล่องมีจำกัด ควรมีความคาดหวังที่สมจริง", "en": "Every card in the Top 15 most valuable list is a Parallel variant. Base (non-Parallel) versions are worth a fraction of the price. Pull rates for Parallels are low — set realistic expectations." }
         },
         {
-          "topic": "Shanks Manga SEC คือใบที่แพงที่สุด แต่หายากมาก",
-          "detail": "Shanks (Parallel)(Manga)(Alt Art) SEC ราคาสูงถึง $1,500+ แต่โอกาสดึงต่อกล่องนั้นต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้"
+          "topic": { "th": "Shanks Manga SEC คือใบที่แพงที่สุด แต่หายากมาก", "en": "The Shanks Manga SEC Is Extraordinary — and Extremely Rare" },
+          "detail": { "th": "Shanks (Parallel)(Manga)(Alt Art) SEC ราคาสูงถึง $1,500+ แต่โอกาสดึงต่อกล่องนั้นต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้", "en": "The Shanks (Parallel)(Manga)(Alt Art) SEC trades above $1,500 and is the undisputed trophy card of the entire game. Its pull rate is extremely low. Do not buy boxes expecting to hit this card." }
         },
         {
-          "topic": "เมต้าการแข่งขันเปลี่ยนไปแล้ว",
-          "detail": "OP-01 วางจำหน่ายในปี 2022 เมต้าของเกมได้พัฒนาไปไกลมาก การ์ดส่วนใหญ่ในชุดนี้ไม่ถูกใช้ในเดคแข่งขันระดับสูงในปัจจุบัน เหมาะสำหรับผู้เล่นสบายๆ หรือนักสะสม ไม่ใช่ผู้เล่น Competitive"
+          "topic": { "th": "เมต้าการแข่งขันเปลี่ยนไปแล้ว", "en": "Competitive Meta Has Moved On" },
+          "detail": { "th": "OP-01 วางจำหน่ายในปี 2022 เมต้าของเกมได้พัฒนาไปไกลมาก การ์ดส่วนใหญ่ในชุดนี้ไม่ถูกใช้ในเดคแข่งขันระดับสูงในปัจจุบัน เหมาะสำหรับผู้เล่นสบายๆ หรือนักสะสม ไม่ใช่ผู้เล่น Competitive", "en": "Released in 2022, OP-01 cards see very little play in today's high-level competitive decks. This set is best suited for casual players and collectors, not tournament grinders." }
         },
         {
-          "topic": "ราคากล่องในตลาดไทยผันผวนตามร้านค้า",
-          "detail": "ราคากล่องในตลาดไทยอยู่ระหว่าง ฿3,500 – ฿5,500 ขึ้นอยู่กับร้านค้าและช่วงเวลา ควรเปรียบเทียบราคาหลายร้านก่อนซื้อ และระวังกล่องปลอมหรือกล่องที่เคยถูกเปิดมาแล้ว"
+          "topic": { "th": "ราคากล่องในตลาดไทยผันผวนตามร้านค้า", "en": "Thai Market Prices Vary Significantly by Seller" },
+          "detail": { "th": "ราคากล่องในตลาดไทยอยู่ระหว่าง ฿3,500 – ฿5,500 ขึ้นอยู่กับร้านค้าและช่วงเวลา ควรเปรียบเทียบราคาหลายร้านก่อนซื้อ และระวังกล่องปลอมหรือกล่องที่เคยถูกเปิดมาแล้ว", "en": "Thai market box prices range from ฿3,500 to ฿5,500 depending on the seller and timing. Always compare across multiple shops before buying, and watch out for resealed boxes." }
         }
       ],
       "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
