@@ -731,28 +731,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Players",
-          "Collectors"
+          "Boa Hancock Fans",
+          "Parallel Card Collectors",
+          "500 Years in the Future Arc Fans"
         ],
         "difficulty": "Intermediate",
         "price_range": {
-          "low_thb": 2800,
-          "high_thb": 4000
+          "low_thb": 4000,
+          "high_thb": 6000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Recommended",
+        "summary": {
+          "th": "OP-07 500 Years in the Future เป็นชุดที่ Boa Hancock ครองตลาด นำโดย Hancock SR Manga Parallel ที่ $1,687 — การ์ดที่แพงสุดในแนวตัวละครเดี่ยว มี Parallel Card พิเศษที่ทำให้ชุดนี้แตกต่าง รวมถึง SP Card Wave 3 ที่ยังมีมูลค่าดี EV ต่อกล่องอยู่ในระดับที่ดี เหมาะสำหรับแฟน Hancock และนักสะสม Parallel Card",
+          "en": "OP-07 500 Years in the Future is the Boa Hancock set, headlined by the Hancock SR Manga Parallel at $1,687 — the single most valuable character-specific card in the game. Parallel cards are a unique mechanic here alongside SP Wave 3. Good EV for Hancock fans and Parallel collectors, solid for general investors."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Character-Driven",
+        "reason": {
+          "th": "OP-07 ขับเคลื่อนโดยความต้องการการ์ด Boa Hancock เป็นหลัก Hancock Manga Parallel SR มีดีมานด์สูงมากจากแฟนตัวละคร Parallel Card ทั่วชุดก็มีมูลค่าสูงกว่า Non-Parallel อย่างชัดเจน",
+          "en": "OP-07 is primarily driven by Boa Hancock character demand. The Manga Parallel SR maintains exceptional fan-driven value. Parallel cards command a clear premium over their non-parallel counterparts throughout the set."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EV กระจาย",
+            "en": "Better for Broad EV"
+          },
+          "context": {
+            "th": "OP-09 มี Chase Card กระจายดีกว่าและไม่พึ่งตัวละครเดี่ยว EV ต่อกล่องสม่ำเสมอกว่า",
+            "en": "OP-09 has more broadly distributed chase cards and doesn't rely on a single character. More consistent EV per box."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-06:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ Trophy Card สูงสุด",
+            "en": "Better for Highest Trophy Ceiling"
+          },
+          "context": {
+            "th": "OP-06 Zoro Manga Alt Art ที่ $1,875 ยังแพงกว่า Hancock Manga Parallel และมีจำนวนการ์ด $50+ มากกว่า",
+            "en": "OP-06's Zoro Manga Alt Art at $1,875 tops OP-07's ceiling and the set has more $50+ cards overall."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Hancock SR Manga Parallel คือการ์ดที่แพงที่สุดสำหรับตัวละครเดี่ยว",
+            "en": "Hancock SR Manga Parallel — Most Valuable Single-Character Card"
+          },
+          "detail": {
+            "th": "OP07-051 Boa Hancock SR (Manga)(Parallel) ราคา $1,687 เป็นการ์ดที่มีมูลค่าสูงสุดในแนวตัวละครเดี่ยว แฟน Hancock ทั่วโลกต้องการ เวอร์ชัน Non-Manga Parallel ก็ยังราคา $62",
+            "en": "OP07-051 Boa Hancock SR Manga Parallel at $1,687 is the most valuable single-character card in the game. Strong dedicated fan demand worldwide. Non-manga Parallel version is still $62."
+          }
+        },
+        {
+          "topic": {
+            "th": "Parallel Card คือ Mechanic ใหม่ในชุดนี้",
+            "en": "Parallel Cards Are OP-07's Unique Mechanic"
+          },
+          "detail": {
+            "th": "OP-07 แนะนำ Parallel Card เป็นครั้งแรก การ์ดเดียวกันมีทั้งเวอร์ชัน Regular และ Parallel Hancock L Parallel $113, Bonney L Parallel $59, Luffy SR Parallel $54 — Parallel ทุกใบมีมูลค่าสูงกว่า Non-Parallel อย่างชัดเจน",
+            "en": "OP-07 introduced the Parallel card mechanic. Hancock L Parallel $113, Bonney L Parallel $59, Luffy SR Parallel $54 — every parallel version commands a significant premium over the base version."
+          }
+        },
+        {
+          "topic": {
+            "th": "SP Wave 3 ยังมีมูลค่าดีต่อเนื่อง",
+            "en": "SP Wave 3 Holds Value Well"
+          },
+          "detail": {
+            "th": "O-Nami SP $388, Doflamingo SP $90, Kid SP $60, Okiku SP $44, Issho SP $44 — SP Wave 3 ใน OP-07 ยังคงมีมูลค่าสูง เพราะตัวละครเหล่านี้มีแฟนมาก",
+            "en": "O-Nami SP $388, Doflamingo SP $90, Kid SP $60, Okiku SP $44, Issho SP $44 — OP-07's SP Wave 3 holds value well thanks to the popularity of these characters."
+          }
+        },
+        {
+          "topic": {
+            "th": "Trafalgar Law TR จาก ST10 เป็น Pull พิเศษที่มีมูลค่าสูง",
+            "en": "Trafalgar Law TR from ST10 Is a High-Value Special Pull"
+          },
+          "detail": {
+            "th": "ST10-010 Trafalgar Law TR ราคา $135 เป็นการ์ด TR พิเศษที่พบได้ใน OP-07 แม้จะเป็นการ์ดจาก Starter Deck แต่อัตราดึงต่ำมาก",
+            "en": "ST10-010 Trafalgar Law TR at $135 is a special TR pull found in OP-07 boxes. Despite being a Starter Deck card, pull rates are very low and demand is strong."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -776,28 +847,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors",
-          "Investors"
+          "Chopper Fans",
+          "Pudding Fans",
+          "SP Card Completionists"
         ],
         "difficulty": "Intermediate",
         "price_range": {
-          "low_thb": 3200,
-          "high_thb": 4800
+          "low_thb": 3500,
+          "high_thb": 5500
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Recommended for Fans",
+        "summary": {
+          "th": "OP-08 Two Legends เป็นชุดที่มี Chopper และ Pudding เป็นตัวละครหลัก นำโดย Rayleigh SEC Manga Parallel ที่ $650 และมี SP Card Wave 4 ที่เน้นตัวละคร Fan Favorite หลายตัว EV ต่อกล่องกลางๆ แต่เหมาะมากสำหรับแฟน Chopper และผู้ที่ต้องการการ์ด SP ตัวละครหายาก",
+          "en": "OP-08 Two Legends centers on Chopper and Pudding, headlined by Rayleigh SEC Manga Parallel at $650 and SP Wave 4 with some valuable fan-favorite characters. Mid-tier average EV, but ideal for Chopper fans and collectors hunting SP card rarities."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Stable",
+        "reason": {
+          "th": "OP-08 มีราคาเสถียร Chase Card กระจายในหลายระดับราคาแต่ไม่มีตัวใดที่แพงผิดปกติ (ยกเว้น Rayleigh SEC) ไม่มีสัญญาณ Reprint ใกล้ๆ",
+          "en": "OP-08 is stable. Chase cards are spread across several price tiers without extreme outliers aside from Rayleigh SEC. No near-term reprint signals."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EV โดยรวม",
+            "en": "Better for Overall EV"
+          },
+          "context": {
+            "th": "OP-09 มีจำนวนการ์ด $50+ มากกว่าและ Trophy Card ที่แข็งแกร่งกว่า ในราคากล่องที่ใกล้เคียงกัน",
+            "en": "OP-09 has more $50+ cards and stronger trophy cards at a comparable box price."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-11:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ SP Card Density",
+            "en": "Better for SP Card Density"
+          },
+          "context": {
+            "th": "OP-11 มี SP Card มูลค่าสูงกว่าและหนาแน่นกว่า ถ้าชอบ SP Card โดยเฉพาะ OP-11 ให้คุณค่ากว่า",
+            "en": "OP-11 has higher-value SP cards at greater density. If SP cards are the primary draw, OP-11 delivers more."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Rayleigh SEC Manga Parallel คือ Trophy Card ของชุด",
+            "en": "Rayleigh SEC Manga Parallel Is the Set's Trophy"
+          },
+          "detail": {
+            "th": "OP08-118 Silvers Rayleigh SEC (Manga)(Parallel) ราคา $650 เป็นการ์ดที่แฟน Dark King ต้องการมาก อัตราดึงต่ำมากเหมือน SEC ทุกใบ",
+            "en": "OP08-118 Silvers Rayleigh SEC Manga Parallel at $650 is the definitive pull for Dark King fans. Pull rates are as rare as all SEC-level cards."
+          }
+        },
+        {
+          "topic": {
+            "th": "Ace SP จาก OP-02 เป็น Pull พิเศษที่หายากมาก",
+            "en": "Ace SP from OP-02 Is a Rare Special Pull"
+          },
+          "detail": {
+            "th": "OP02-013 Portgas.D.Ace SP ราคา $262 พบได้ใน OP-08 เป็นหนึ่งในการ์ดที่ผู้เล่นดีใจที่สุดเมื่อได้จากกล่อง OP-08",
+            "en": "OP02-013 Portgas.D.Ace SP at $262 appears as a special pull in OP-08 boxes. One of the biggest surprise hits you can get from this set."
+          }
+        },
+        {
+          "topic": {
+            "th": "Jewelry Bonney SP และ Tashigi SP เป็นการ์ด Fan Favorite ที่หายาก",
+            "en": "Jewelry Bonney SP and Tashigi SP Are Fan Favorites"
+          },
+          "detail": {
+            "th": "Jewelry Bonney SP $203 และ Tashigi SP $74 เป็นการ์ดที่หายากมากและมีแฟนคลับของตัวเอง Charlotte Pudding SP $105 ก็เป็นอีกตัวที่น่าสนใจ",
+            "en": "Jewelry Bonney SP $203 and Tashigi SP $74 are rare pulls with dedicated fanbases. Charlotte Pudding SP at $105 rounds out the fan-favorite SP lineup."
+          }
+        },
+        {
+          "topic": {
+            "th": "Chopper Parallel Card มีมูลค่าดีทุกระดับ",
+            "en": "Chopper Parallel Cards Hold Value at Every Tier"
+          },
+          "detail": {
+            "th": "OP-08 มีการ์ด Chopper หลายเวอร์ชัน: Chopper L Parallel $74, Chopper SR Parallel $37 ถ้าคุณเป็นแฟน Chopper ชุดนี้คือคลังสมบัติ",
+            "en": "OP-08 offers Chopper at every level: L Parallel $74, SR Parallel $37. If you're a Chopper fan, this is your treasure trove."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -936,28 +1078,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors",
-          "Players"
+          "Trafalgar Law Fans",
+          "Investors",
+          "SP Card Collectors"
         ],
-        "difficulty": "Intermediate",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2700,
-          "high_thb": 4000
+          "low_thb": 5000,
+          "high_thb": 7500
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-10 Royal Blood เป็นชุด Trafalgar Law ที่แข็งแกร่งมาก นำโดย Law SEC Manga ที่ $828 และมี SP Card Wave 5 ที่มีมูลค่าสูงมาก ($57–$217) รวมถึง Ace TR พิเศษที่ $133 ชุดนี้มีการ์ดเกิน $50 ถึง 9 ใบ เป็นหนึ่งในชุดที่มี EV สูงที่สุดในช่วง OP-07 ถึง OP-12 เหมาะทั้งนักลงทุนและแฟน Law",
+          "en": "OP-10 Royal Blood is a strong Trafalgar Law set headlined by the Law SEC Manga at $828 and SP Wave 5 cards reaching $217. With 9 cards above $50 including a rare Ace TR at $133, OP-10 is one of the highest-EV sets in the OP-07 to OP-12 range. Recommended for investors and Law fans alike."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Strong",
+        "reason": {
+          "th": "OP-10 มีตลาดที่แข็งแกร่ง Law SEC Manga มีดีมานด์ต่อเนื่องจากแฟน Law SP Wave 5 ยังมีมูลค่าดีเพราะตัวละครที่ถูกเลือกมีแฟนคลับมาก",
+          "en": "OP-10 market is strong. Law SEC Manga has sustained fan demand. SP Wave 5 holds well due to the high popularity of the chosen characters."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-13:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ Chase Card Density",
+            "en": "Better for Chase Card Density"
+          },
+          "context": {
+            "th": "OP-13 มีการ์ด $50+ มากกว่าและ EV โดยเฉลี่ยสูงกว่า ถ้ามีงบพอ OP-13 ให้ความคุ้มค่าดีกว่า",
+            "en": "OP-13 has more $50+ cards and higher average EV. Worth the extra budget if chasing density over character specifics."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้างบจำกัดกว่า",
+            "en": "Better if Budget Is Tighter"
+          },
+          "context": {
+            "th": "OP-09 มี EV ใกล้เคียงกันในราคากล่องที่ต่ำกว่า เหมาะถ้าไม่ได้ต้องการการ์ด Law โดยเฉพาะ",
+            "en": "OP-09 delivers comparable EV at a lower box price. Better if you don't have a specific OP-10 character goal."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Law SEC Manga คือ Trophy Card ของสาย Law",
+            "en": "Law SEC Manga Is the Law Fan Trophy"
+          },
+          "detail": {
+            "th": "OP10-119 Trafalgar Law SEC Manga ราคา $828 เป็นการ์ด Law ที่แพงที่สุดในเกม Non-Manga Parallel เวอร์ชันก็ราคา $32 ซึ่งถือว่าดีเช่นกัน",
+            "en": "OP10-119 Trafalgar Law SEC Manga at $828 is the most valuable Law card in the game. The non-manga Parallel version is still $32 — a respectable consolation hit."
+          }
+        },
+        {
+          "topic": {
+            "th": "SP Wave 5 มีตัวละคร Big Name หลายตัว",
+            "en": "SP Wave 5 Features Several Big-Name Characters"
+          },
+          "detail": {
+            "th": "Whitebeard SP $217, Sanji SP $117, Charlotte Pudding SP $57, Uso-Hachi SP $122 — SP Wave 5 ใน OP-10 มีตัวละครยอดนิยมที่ทำให้ EV ต่อกล่องสูง",
+            "en": "Whitebeard SP $217, Sanji SP $117, Uso-Hachi SP $122, Pudding SP $57 — SP Wave 5 features big-name characters that keep per-box EV high."
+          }
+        },
+        {
+          "topic": {
+            "th": "Ace TR เป็น Pull พิเศษที่แพงมาก",
+            "en": "Ace TR Is a Very Valuable Special Pull"
+          },
+          "detail": {
+            "th": "OP08-052 Portgas.D.Ace TR ราคา $133 พบได้ใน OP-10 TR Card หายากมากและ Ace ยังคงเป็นตัวละครที่มีดีมานด์สูง",
+            "en": "OP08-052 Portgas.D.Ace TR at $133 appears in OP-10. TR cards are very rare, and Ace demand makes this one of the most exciting special pulls in the set."
+          }
+        },
+        {
+          "topic": {
+            "th": "Divine Departure Parallel เป็นการ์ด Spell ที่มีมูลค่าสูงผิดคาด",
+            "en": "Divine Departure Parallel Is a Surprisingly Valuable Event Card"
+          },
+          "detail": {
+            "th": "OP10-019 Divine Departure (Parallel) ราคา $60 เป็น R Card ที่ยังถูกใช้ในเดคแข่งขัน ทำให้มีมูลค่าสูงกว่าที่ความ Rarity จะคาดไว้",
+            "en": "OP10-019 Divine Departure Parallel at $60 is an R card that sees active competitive play — rare for a non-chase rarity to hold this much value."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -981,28 +1194,76 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Players",
-          "Collectors"
+          "Investors",
+          "Luffy Fans",
+          "SP Card Collectors"
         ],
-        "difficulty": "Intermediate",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2600,
-          "high_thb": 3800
+          "low_thb": 6000,
+          "high_thb": 9000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-11 A Fist of Divine Speed เป็นหนึ่งในชุดที่ดีที่สุดในเกม มี Luffy SEC Manga ที่ $1,377 และยังมี Luffy SP Gold ที่ $4,250 — การ์ดที่แพงที่สุดในเกม ณ ปัจจุบัน ชุดนี้มีการ์ดเกิน $50 ถึง 13 ใบ และมี SP Card Wave ที่มีมูลค่าสูงกว่าชุดอื่นๆ ทุกชุด ราคากล่องสูงแต่ EV ก็สูงตาม — เหมาะสำหรับนักลงทุนที่จริงจัง",
+          "en": "OP-11 A Fist of Divine Speed is one of the strongest sets in the game. The Luffy SEC Manga at $1,377 headline alongside the Luffy SP Gold at $4,250 — currently the most valuable card in existence. With 13 cards above $50 and the highest-value SP wave in the game, OP-11 has the best raw EV ceiling of any set. High box price, but EV fully supports it."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Exceptional",
+        "reason": {
+          "th": "OP-11 มีตลาดที่แข็งแกร่งที่สุดในบรรดาชุด OP ล่าสุด Luffy SP Gold ที่ $4,250 สร้าง ceiling EV ที่ไม่มีชุดไหนเทียบได้ การ์ด $50+ มี 13 ใบ สูงที่สุดในชุดใดก็ตามที่วิเคราะห์",
+          "en": "OP-11 has the strongest market of any recent OP set. The Luffy SP Gold at $4,250 creates an unmatched EV ceiling. 13 cards above $50 is the highest count of any set analyzed, delivering exceptional floor and ceiling value."
+        }
       },
       "better_alternatives": [],
-      "things_to_know": [],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Luffy SP Gold คือการ์ดที่แพงที่สุดในเกม",
+            "en": "Luffy SP Gold Is the Most Valuable Card in the Game"
+          },
+          "detail": {
+            "th": "OP05-119 Monkey.D.Luffy SEC SP Gold ราคา $4,250 — แพงที่สุดในเกม ณ ปัจจุบัน เวอร์ชัน Non-Gold ก็ยังราคา $4,249 นี่คือ Jackpot Pull ที่แท้จริง อัตราดึงต่ำมากจนแทบเป็น 0 ต่อกล่อง",
+            "en": "OP05-119 Monkey.D.Luffy SEC SP Gold at $4,250 is the highest-valued card in the game right now. Non-gold version is still $4,249. This is the true jackpot pull — pull rate per box approaches zero."
+          }
+        },
+        {
+          "topic": {
+            "th": "Luffy SEC Manga ที่ $1,377 คือ Trophy Card หลักของชุด",
+            "en": "Luffy SEC Manga at $1,377 Is the Set's Primary Trophy"
+          },
+          "detail": {
+            "th": "OP11-118 Monkey.D.Luffy SEC Manga ราคา $1,377 เป็น Trophy Card ที่เข้าถึงได้มากกว่า SP Gold แต่ยังคงหายากมาก เป็นการ์ดที่นักสะสม Luffy ทุกคนต้องการ",
+            "en": "OP11-118 Monkey.D.Luffy SEC Manga at $1,377 is the primary collector target — more accessible than the SP Gold but still extremely rare. Every serious Luffy collector wants this card."
+          }
+        },
+        {
+          "topic": {
+            "th": "SP Wave ใน OP-11 มีมูลค่าสูงที่สุดในเกม",
+            "en": "OP-11's SP Wave Is the Highest-Value in the Game"
+          },
+          "detail": {
+            "th": "Luffy-Tarou SP $309, Shanks SP $152, Stussy SP $125, Shirahoshi SP $92 — SP Wave ใน OP-11 มีมูลค่ารวมสูงที่สุดของทุก Wave ที่ผ่านมา แต่ละใบเป็น Fan Favorite ทั้งนั้น",
+            "en": "Luffy-Tarou SP $309, Shanks SP $152, Stussy SP $125, Shirahoshi SP $92 — OP-11's SP wave has the highest combined value of any SP wave in the game. Every single one is a fan-favorite character."
+          }
+        },
+        {
+          "topic": {
+            "th": "Gear Two Alt Art และ Red Hawk Alt Art เป็น Event Card มูลค่าสูง",
+            "en": "Gear Two and Red Hawk Alt Arts Are High-Value Event Cards"
+          },
+          "detail": {
+            "th": "Gear Two Alt Art $283 และ Red Hawk Alt Art $64 เป็นหลักฐานว่า OP-11 มีมูลค่ากระจายแม้แต่ในการ์ดระดับ R ซึ่งไม่ปกติในชุดอื่น",
+            "en": "Gear Two Alt Art $283 and Red Hawk Alt Art $64 prove OP-11's value extends even to R-rarity event cards — unusually broad value distribution for any set."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1026,28 +1287,88 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors",
-          "Players"
+          "Investors",
+          "Zoro Fans",
+          "SP/Gold Card Hunters"
         ],
-        "difficulty": "Intermediate",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 3000,
-          "high_thb": 4200
+          "low_thb": 6000,
+          "high_thb": 9500
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-12 Legacy of the Master เป็นชุดที่มี EV สูงที่สุดในบรรดาชุดที่วิเคราะห์มา มีการ์ดเกิน $50 ถึง 14 ใบ นำโดย Blackbeard SP Gold ที่ $1,580, Silver ที่ $993, Jewelry Bonney SEC Manga ที่ $905 และ Zoro Alt Art ที่ $64 ชุดนี้ยังมี Zoro-Juurou SP และ Sanji TR ที่มีมูลค่าสูง เหมาะที่สุดสำหรับนักลงทุนที่มีงบ",
+          "en": "OP-12 Legacy of the Master delivers the highest raw EV of any set analyzed — 14 cards above $50, headlined by Blackbeard SP Gold $1,580, Blackbeard SP Silver $993, and Jewelry Bonney SEC Manga $905. Add Zoro-Juurou SP $204, Sanji TR $93, and two high-value Alt Art cards, and OP-12 is the premier investor set right now."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Premium",
+        "reason": {
+          "th": "OP-12 มีตลาดที่แข็งแกร่งมาก Blackbeard Gold/Silver SP เป็น Unique Mechanic ที่ยังไม่มีชุดอื่นเลียนแบบ Bonney SEC Manga มีดีมานด์สูงจากแฟนตัวละคร 14 การ์ด $50+ ทำให้ Floor EV แข็งแกร่ง",
+          "en": "OP-12 commands premium market positioning. Blackbeard's Gold/Silver SP dual-variant is unique to this set and highly coveted. Bonney SEC Manga has strong character fan demand. 14 cards above $50 creates a solid EV floor."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-11:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ Luffy หรือ SP Gold",
+            "en": "Better for Luffy or SP Gold"
+          },
+          "context": {
+            "th": "OP-11 มี Luffy SP Gold ที่ $4,250 ซึ่งเป็น Jackpot สูงสุดในเกม ถ้าต้องการ Luffy โดยเฉพาะ OP-11 คือคำตอบ",
+            "en": "OP-11 has the Luffy SP Gold at $4,250 — the single highest jackpot in the game. Choose OP-11 if Luffy is your target."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Blackbeard SP Gold และ Silver — Dual Trophy ที่ไม่มีในชุดอื่น",
+            "en": "Blackbeard SP Gold and Silver — A Dual Trophy Unique to OP-12"
+          },
+          "detail": {
+            "th": "OP-12 มี Blackbeard SP สองเวอร์ชัน: Gold ($1,580) และ Silver ($993) — เป็น Mechanic พิเศษที่ยังไม่มีชุดไหนทำได้เหมือน ทั้งสองใบมีดีมานด์แยกกันอย่างชัดเจน",
+            "en": "OP-12 features Blackbeard SP in two variants: Gold ($1,580) and Silver ($993) — a unique dual-trophy mechanic not seen in any other set. Both variants have distinct, independent collector demand."
+          }
+        },
+        {
+          "topic": {
+            "th": "Jewelry Bonney SEC Manga — Trophy Card สำหรับแฟน Bonney",
+            "en": "Jewelry Bonney SEC Manga — The Bonney Fan Trophy"
+          },
+          "detail": {
+            "th": "OP12-118 Jewelry Bonney SEC Manga ราคา $905 เป็นการ์ด Bonney ที่แพงที่สุดในเกม และเป็นหนึ่งใน SEC Manga ที่มีดีมานด์สูงสุด",
+            "en": "OP12-118 Jewelry Bonney SEC Manga at $905 is the most valuable Bonney card in the game and one of the most sought-after SEC Manga cards overall."
+          }
+        },
+        {
+          "topic": {
+            "th": "Zoro Alt Art และ Asura Technique มีมูลค่าสูงผิดคาด",
+            "en": "Zoro Alt Art and Asura Technique Are Surprisingly Valuable"
+          },
+          "detail": {
+            "th": "Zoro L Alt Art $64 และ Asura R Alt Art $175 แสดงให้เห็นว่า OP-12 มีมูลค่ากระจายลงมาถึงระดับ R เช่นเดียวกับ OP-11 ทำให้ EV ฐานของกล่องแข็งแกร่งกว่าค่าเฉลี่ย",
+            "en": "Zoro L Alt Art $64 and Asura Technique R Alt Art $175 show OP-12's value spreading down to R-rarity — similar to OP-11. This broad distribution strengthens the base EV floor."
+          }
+        },
+        {
+          "topic": {
+            "th": "Zoro-Juurou SP และ Sanji TR เป็น Pull สำคัญรองจาก Trophy",
+            "en": "Zoro-Juurou SP and Sanji TR Are Key Supporting Pulls"
+          },
+          "detail": {
+            "th": "Zoro-Juurou SP $204 และ Sanji TR $93 เป็น Supporting Pull ที่ดีมากสำหรับกล่องที่ไม่ได้ดึง Trophy Card หลัก ช่วยพยุง EV ได้ดี",
+            "en": "Zoro-Juurou SP $204 and Sanji TR $93 are strong supporting pulls for boxes that miss the trophy tier. Both significantly support box EV even without the headliners."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1186,27 +1507,88 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors"
+          "Investors",
+          "Mihawk Fans",
+          "Gold Card Hunters"
         ],
-        "difficulty": "Intermediate",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2800,
-          "high_thb": 4000
+          "low_thb": 6000,
+          "high_thb": 10000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP14-EB04 เป็นชุดที่รวม Booster OP-14 และ Extra Booster EB-04 ไว้ในกล่องเดียว มีการ์ดถึง 200 ใบ นำโดย Buggy SP Gold ที่ $2,124 (แพงที่สุดใน Gold SP ทั้งหมด), Zoro SP $810, Mihawk SEC Manga $693 และ Boa Hancock SP $512 ชุดนี้มีการ์ดเกิน $100 ถึง 12 ใบ เป็นหนึ่งในชุดที่ดีที่สุดสำหรับนักลงทุน",
+          "en": "OP14-EB04 combines Booster OP-14 and Extra Booster EB-04 in one box with 200 cards. Headlined by Buggy SP Gold $2,124 (highest Gold SP ever), Zoro SP $810, Mihawk SEC Manga $693, and Boa Hancock SP $512. With 12 cards above $100 and 19 above $50, this is one of the strongest investor sets available."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Premium",
+        "reason": {
+          "th": "OP14-EB04 มีตลาดแข็งแกร่งด้วย Buggy SP Gold ที่ไม่มีใครคาดคิดว่าจะแพงขนาดนี้ ($2,124) Mihawk SEC Manga ยังมีดีมานด์จากแฟน Mihawk ที่รอมานาน ขนาดกล่อง 200 การ์ดให้โอกาส EV ที่หลากหลาย",
+          "en": "OP14-EB04 has a strong market driven by the surprisingly valuable Buggy SP Gold ($2,124) and long-awaited Mihawk SEC Manga. The 200-card combined set provides diverse EV pathways that support the premium box price."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-12:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการชุดเดี่ยวที่มี EV สูงสุด",
+            "en": "Better if You Want Highest Single-Set EV"
+          },
+          "context": {
+            "th": "OP-12 มี Blackbeard SP Gold/Silver และ 14 การ์ด $50+ ในชุดเดี่ยว ถ้าไม่ต้องการตัวละครเฉพาะใน OP14-EB04 OP-12 มี EV ต่อ SKU ที่ดีกว่า",
+            "en": "OP-12 has Blackbeard SP Gold/Silver and 14 cards above $50 in a single set. If OP14-EB04's specific characters aren't your target, OP-12 offers comparable EV per box."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Buggy SP Gold ที่ $2,124 — สูงที่สุดในบรรดา Gold SP ทั้งหมด",
+            "en": "Buggy SP Gold at $2,124 — Highest Gold SP in the Game"
+          },
+          "detail": {
+            "th": "OP09-051 Buggy SP Gold ราคา $2,124 เป็น Gold SP ที่แพงที่สุดในเกม ณ ปัจจุบัน แม้แต่ Non-Gold Buggy SP ก็ยังราคา $1,083 ความนิยมของ Buggy ใน One Piece หลังจาก Cross Guild ทำให้มูลค่าพุ่งสูง",
+            "en": "OP09-051 Buggy SP Gold at $2,124 is the highest Gold SP in the game. Even the non-gold Buggy SP is $1,083. Buggy's resurgent popularity post-Cross Guild storyline has driven exceptional value."
+          }
+        },
+        {
+          "topic": {
+            "th": "Mihawk SEC Manga — Trophy ที่แฟน Mihawk รอมานาน",
+            "en": "Mihawk SEC Manga — The Trophy Mihawk Fans Have Waited For"
+          },
+          "detail": {
+            "th": "OP14-119 Dracule Mihawk SEC Manga ราคา $693 เป็นการ์ด Mihawk ที่นักสะสมรอมานาน Mihawk มีแฟนคลับที่ใหญ่มากแต่ไม่ค่อยได้รับ High-End Card ในอดีต",
+            "en": "OP14-119 Dracule Mihawk SEC Manga at $693 is the card Mihawk fans have been waiting for. Mihawk has a huge fanbase historically underserved by high-end cards — this is the definitive collector piece."
+          }
+        },
+        {
+          "topic": {
+            "th": "ขนาด 200 การ์ดให้โอกาส EV หลายทาง",
+            "en": "200-Card Size Creates Multiple EV Pathways"
+          },
+          "detail": {
+            "th": "ด้วยการ์ด 200 ใบจากสองชุด กล่องนี้มีโอกาส EV หลายทางกว่าชุดเดี่ยว 12 การ์ด $100+ จากทั้ง OP-14 และ EB-04 ทำให้แต่ละกล่องมี Path สู่มูลค่าสูงที่หลากหลาย",
+            "en": "With 200 cards from two sets, boxes have more EV pathways than single-set products. 12 cards above $100 spanning both OP-14 and EB-04 means more opportunities to hit significant value in each box."
+          }
+        },
+        {
+          "topic": {
+            "th": "Alt Art Cards ใน OP-14 มีมูลค่าสูงผิดคาด",
+            "en": "OP-14 Alt Art Cards Are Surprisingly Valuable"
+          },
+          "detail": {
+            "th": "OP14-118 'You'll Frighten Me...' Alt Art $212 และ OP14-096 Ground Death Alt Art $143 เป็น Event Card ที่มีมูลค่าสูงมาก แสดงให้เห็นว่า Alt Art ใน OP-14 มีมูลค่าในทุกระดับ Rarity",
+            "en": "'You'll Frighten Me...' Alt Art $212 and Ground Death Alt Art $143 prove OP-14's Alt Art value extends across all rarity levels — a sign of strong set-wide collector demand."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1230,27 +1612,88 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors"
+          "Investors",
+          "Enel Fans",
+          "Koby Fans"
         ],
-        "difficulty": "Intermediate",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2800,
-          "high_thb": 4000
+          "low_thb": 7000,
+          "high_thb": 11000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP15-EB04 รวม Booster OP-15 และ Extra Booster EB-04 ใน 201 การ์ด นำโดย Enel SEC Manga ที่ $1,199 และ Koby Manga SR ที่ $790 ยังมี SP Card มูลค่าสูง: Zeus SP $493, Law SP $255, Newgate SP $244 และอีกหลายใบ ชุดนี้มีการ์ดเกิน $100 ถึง 14 ใบ และเกิน $50 ถึง 24 ใบ เป็นชุดที่มี EV กระจายดีที่สุดในบรรดา Combined Set",
+          "en": "OP15-EB04 combines OP-15 and EB-04 in 201 cards. Led by Enel SEC Manga $1,199 and Koby Manga SR $790, with a deep SP lineup: Zeus SP $493, Law SP $255, Newgate SP $244, and more. 14 cards above $100 and 24 above $50 give OP15-EB04 the best-distributed EV of any combined set."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Premium",
+        "reason": {
+          "th": "OP15-EB04 มีตลาดที่แข็งแกร่ง Enel SEC Manga มีดีมานด์สูงจากแฟนตัวละคร Enel ที่รอมานาน Zeus SP $493 เป็น Surprise Value ที่สูงมาก ขนาด 201 การ์ดให้ EV กระจายดี",
+          "en": "OP15-EB04 commands a premium market. Enel SEC Manga satisfies long-awaited fan demand. Zeus SP at $493 is a surprise high-value pull. The 201-card combined set delivers well-distributed EV that supports the premium price point."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP14-EB04:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ Mihawk หรือ Buggy",
+            "en": "Better for Mihawk or Buggy"
+          },
+          "context": {
+            "th": "OP14-EB04 มี Buggy SP Gold $2,124 และ Mihawk SEC Manga $693 ถ้า Target Card คือตัวละครเหล่านี้ OP14-EB04 คือตัวเลือก",
+            "en": "OP14-EB04 has Buggy SP Gold $2,124 and Mihawk SEC Manga $693. If those are your target characters, OP14-EB04 is the right pick."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Enel SEC Manga — Trophy ที่แฟน Skypiea รอมานาน",
+            "en": "Enel SEC Manga — The Trophy Skypiea Fans Have Been Waiting For"
+          },
+          "detail": {
+            "th": "OP15-118 Enel SEC Manga ราคา $1,199 เป็นการ์ด Enel ที่แพงที่สุดในเกม Enel มีแฟนคลับขนาดใหญ่จาก Skypiea Arc ซึ่งเป็นหนึ่งในอาร์คที่ได้รับความนิยมสูงสุด",
+            "en": "OP15-118 Enel SEC Manga at $1,199 is the most valuable Enel card in the game. Enel's Skypiea arc fanbase is massive — one of the most beloved arcs in the series history."
+          }
+        },
+        {
+          "topic": {
+            "th": "Koby Manga SR เป็น Surprise High-Value Pull",
+            "en": "Koby Manga SR Is a Surprise High-Value Pull"
+          },
+          "detail": {
+            "th": "EB04-044 Koby Manga SR ราคา $790 เป็น Surprise Pull ที่สูงมาก Koby ได้รับความนิยมสูงมากหลังจาก EGGHEAD Arc ทำให้มูลค่าการ์ดของเขาขึ้นอย่างรวดเร็ว",
+            "en": "EB04-044 Koby Manga SR at $790 is a surprising high-value pull. Koby's popularity skyrocketed after his role in the EGGHEAD Arc, driving exceptional card values."
+          }
+        },
+        {
+          "topic": {
+            "th": "Zeus SP $493 เป็น Biggest Surprise ของชุด",
+            "en": "Zeus SP at $493 Is the Set's Biggest Surprise"
+          },
+          "detail": {
+            "th": "Zeus SP ราคา $493 เป็น Pull ที่น่าประหลาดใจที่สุดในชุดนี้ Zeus เป็นตัวละครที่แฟนๆ ไม่คาดว่าจะมีมูลค่าสูงขนาดนี้ แต่ Big Mom Pirates Fan Demand ทำให้ราคาพุ่ง",
+            "en": "Zeus SP at $493 is the set's biggest surprise. A character most fans wouldn't expect at this value — Big Mom Pirates fan demand and Zeus's role in the Wano arc drove the exceptional price."
+          }
+        },
+        {
+          "topic": {
+            "th": "Nami Alt Art ใน OP-15 เป็น Secret High Value",
+            "en": "Nami Alt Art in OP-15 Is a Hidden High-Value Card"
+          },
+          "detail": {
+            "th": "OP15-086 Nami SR Alt Art ราคา $253 เป็น Character Card ที่มีมูลค่าสูงมากจากชุด OP-15 โดยเฉพาะ Nami มีแฟนคลับขนาดใหญ่ทำให้ Alt Art ของเธอมักมีมูลค่าสูง",
+            "en": "OP15-086 Nami SR Alt Art at $253 is a hidden high-value card native to OP-15. Nami's massive fanbase consistently drives Alt Art premiums above what rarity alone would suggest."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1274,28 +1717,99 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Beginners",
-          "Players"
+          "Investors",
+          "Admiral Fans",
+          "New Release Buyers"
         ],
-        "difficulty": "Beginner",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2600,
-          "high_thb": 3600
+          "low_thb": 6500,
+          "high_thb": 10000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-16 The Time of Battle เป็นชุดล่าสุดที่วิเคราะห์ และมี EV ต่อกล่องที่สูงมาก มีการ์ดเกิน $100 ถึง 10 ใบ นำโดย Sakazuki Manga SR $1,205, Kuzan Manga R $1,188, Borsalino Manga R $1,011 — ทั้งสาม Admiral Manga มาพร้อมกัน ยังมี SP Card มูลค่าสูงอีกหลายใบ ชุดใหม่มักมีราคาผันผวนสูงในช่วงแรก แต่ Data ปัจจุบันชี้ว่า EV แข็งแกร่งมาก",
+          "en": "OP-16 The Time of Battle is the newest set analyzed and delivers exceptional EV, with 10 cards above $100 headlined by all three Admiral Manga cards: Sakazuki $1,205, Kuzan $1,188, Borsalino $1,011. New sets carry higher short-term price volatility, but current data supports a very strong EV case for sealed boxes."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Hot / New Release",
+        "reason": {
+          "th": "OP-16 ยังอยู่ในช่วง New Release ราคาอาจผันผวนสูงกว่าชุดเก่า แต่การมี Admiral Manga ทั้งสามพร้อมกันทำให้มีดีมานด์จากแฟนตัวละครสามกลุ่มพร้อมกัน ราคากล่องซีลน่าจะยังแข็งในระยะกลาง",
+          "en": "OP-16 is in the new-release window — expect higher short-term volatility than older sets. However, having all three Admiral Manga cards creates simultaneous demand from three fan bases. Sealed box prices look strong for the medium term."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-12:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการความเสถียร",
+            "en": "Better for Price Stability"
+          },
+          "context": {
+            "th": "OP-12 มีราคาเสถียรกว่าในฐานะชุดที่ผ่าน New Release Window มาแล้ว ถ้าไม่ต้องการความผันผวน OP-12 เป็นตัวเลือกที่ปลอดภัยกว่า",
+            "en": "OP-12 is past its new-release volatility window. If price stability matters more than chasing the newest set, OP-12 is the safer choice."
+          }
+        },
+        {
+          "product_id": "one-piece:OP-11:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ Luffy",
+            "en": "Better for Luffy Focus"
+          },
+          "context": {
+            "th": "OP-11 มี Luffy SP Gold ที่ไม่มีชุดไหนเทียบได้ ถ้าเป้าหมายคือการ์ด Luffy OP-11 ยังคงเป็นชุดที่ดีที่สุด",
+            "en": "OP-11 houses the Luffy SP Gold with no comparable equivalent in OP-16. If Luffy is your target, OP-11 remains unmatched."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Admiral Manga ทั้งสามอยู่ในชุดนี้ — ปรากฏการณ์ที่ไม่เคยเกิดขึ้นมาก่อน",
+            "en": "All Three Admiral Manga Cards Together — Unprecedented"
+          },
+          "detail": {
+            "th": "OP-16 มี Manga Art ของ Sakazuki $1,205, Kuzan $1,188, Borsalino $1,011 ในชุดเดียว การรวม Three Admiral Manga ในชุดเดียวไม่เคยเกิดขึ้นมาก่อนในเกมนี้ ทำให้มีดีมานด์จากแฟนตัวละครสามกลุ่มพร้อมกัน",
+            "en": "OP-16 packs Manga Art of all three Admirals: Sakazuki $1,205, Kuzan $1,188, Borsalino $1,011. Having all three Admiral Manga cards in a single set is unprecedented and creates simultaneous demand from three major fan communities."
+          }
+        },
+        {
+          "topic": {
+            "th": "ชุดใหม่ = ความผันผวนสูง ควรซื้อเมื่อเข้าใจความเสี่ยง",
+            "en": "New Set = Higher Volatility — Buy with Eyes Open"
+          },
+          "detail": {
+            "th": "OP-16 ยังอยู่ในช่วง New Release ราคาการ์ด Single อาจปรับลงได้เมื่อ Supply เพิ่มขึ้น แต่ราคากล่องซีลมักอยู่ได้ดีกว่า ถ้าซื้อ ให้ถือซีลไว้ดีกว่าเปิดเพื่อขาย Single",
+            "en": "OP-16 is still in the new-release window. Single card prices may adjust as supply increases, but sealed boxes tend to hold better. If buying, holding sealed is typically better than opening to sell singles."
+          }
+        },
+        {
+          "topic": {
+            "th": "Ms. All Sunday SP จาก OP-14 เป็น Pull ที่มีมูลค่าสูงมาก",
+            "en": "Ms. All Sunday SP from OP-14 Is a Massive Special Pull"
+          },
+          "detail": {
+            "th": "OP14-084 Ms. All Sunday SP ราคา $706 พบได้ใน OP-16 เป็น Cross-Set Pull ที่ทำให้กล่องมีโอกาส EV พิเศษที่เหนือคาด",
+            "en": "OP14-084 Ms. All Sunday SP at $706 appears in OP-16 boxes — a cross-set special pull that can transform box EV significantly when hit."
+          }
+        },
+        {
+          "topic": {
+            "th": "Blackbeard SEC Alt Art ยังมีมูลค่าดีแม้ไม่ใช่ Trophy หลัก",
+            "en": "Blackbeard SEC Alt Art Is a Solid Hit Even Without Trophy Status"
+          },
+          "detail": {
+            "th": "OP16-119 Marshall D Teach SEC Alt Art ราคา $97 เป็น Secondary Trophy ที่ดีสำหรับกล่องที่ไม่ได้ดึง Admiral Manga แต่ละ Admiral มีผู้ต้องการ กล่องส่วนใหญ่มีโอกาส EV ที่ดีจากหลายทาง",
+            "en": "OP16-119 Marshall D Teach SEC Alt Art at $97 is a solid secondary trophy for boxes that miss Admiral Manga. Multiple high-value targets mean most boxes have multiple EV paths."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1319,27 +1833,88 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors"
+          "Chopper Fans",
+          "Collector Sets",
+          "Fan Art Enthusiasts"
         ],
-        "difficulty": "Beginner",
+        "difficulty": "Intermediate",
         "price_range": {
-          "low_thb": 2800,
-          "high_thb": 4000
+          "low_thb": 3200,
+          "high_thb": 5000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Recommended for Fans",
+        "summary": {
+          "th": "EB-01 Memorial Collection เป็น Extra Booster ชุดแรก — ชุดที่รวม Alt Art ของตัวละครที่แฟนๆ ชื่นชอบในสไตล์พิเศษ นำโดย Chopper SR Manga Alt Art ที่ $1,720 ซึ่งเป็นการ์ด Chopper ที่แพงที่สุดในเกม ชุดนี้มีการ์ดน้อยกว่า Booster ปกติ (80 ใบ) EV ต่อกล่องผันผวนสูง ขึ้นอยู่กับว่าดึง Chopper Manga หรือไม่",
+          "en": "EB-01 Memorial Collection is the first Extra Booster — a curated Alt Art set celebrating fan-favorite characters in unique artwork styles. Headlined by Chopper SR Manga Alt Art at $1,720, the most valuable Chopper card in the game. Smaller card pool (80 cards) means higher EV variance — it's largely determined by whether you hit the Chopper Manga."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Character-Driven",
+        "reason": {
+          "th": "EB-01 ขับเคลื่อนโดย Chopper Manga Alt Art เป็นหลัก ถ้าดึงได้ EV สูงมาก ถ้าไม่ได้ EV ต่อกล่องอยู่ระดับปานกลาง ชุดนี้เหมาะที่สุดสำหรับผู้ที่ซื้อเพราะชอบ Chopper หรือต้องการ Alt Art สไตล์พิเศษ",
+          "en": "EB-01 is primarily driven by the Chopper Manga Alt Art. Hit it and EV is exceptional. Miss it and box value is moderate. This set is best bought by fans of the characters featured, not as a general investment play."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:EB-02:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EV โดยรวม",
+            "en": "Better for Overall EV"
+          },
+          "context": {
+            "th": "EB-02 มี Luffy SEC Manga ที่ $2,750 และ SPR Leaders ที่มีมูลค่าสูงกว่าโดยเฉลี่ย EV กระจายดีกว่า EB-01 มาก",
+            "en": "EB-02 has the Luffy SEC Manga at $2,750 and SPR Leaders with higher average values. Far better distributed EV than EB-01."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Chopper SR Manga Alt Art คือการ์ด Chopper ที่แพงที่สุดในเกม",
+            "en": "Chopper SR Manga Alt Art Is the Most Valuable Chopper Card Ever"
+          },
+          "detail": {
+            "th": "EB01-006 Tony Tony Chopper SR (Manga)(Alt Art) ราคา $1,720 แพงกว่า Chopper SR Alt Art ปกติ ($155) ถึง 11 เท่า เป็น Trophy สุดท้ายสำหรับแฟน Chopper",
+            "en": "EB01-006 Tony Tony Chopper SR Manga Alt Art at $1,720 is 11x more valuable than the regular Alt Art version ($155). The ultimate trophy for any Chopper fan."
+          }
+        },
+        {
+          "topic": {
+            "th": "EB-01 มีการ์ดเพียง 80 ใบ — Pool เล็กกว่าชุดปกติ",
+            "en": "EB-01 Has Only 80 Cards — Much Smaller Pool"
+          },
+          "detail": {
+            "th": "ชุดปกติมี 150+ ใบ แต่ EB-01 มีเพียง 80 ใบ ทำให้มีโอกาสดึงการ์ดเฉพาะได้บ่อยขึ้น แต่ถ้า Trophy Card ไม่ตรงกับที่ต้องการ EV จะต่ำกว่าชุดปกติ",
+            "en": "Regular sets have 150+ cards; EB-01 has just 80. Smaller pool means slightly higher pull probability for any specific card, but if the trophy misses, overall box EV is lower than full sets."
+          }
+        },
+        {
+          "topic": {
+            "th": "Mr.2 Bon Kurei SEC Alt Art เป็น Fan Favorite ที่น่าสะสม",
+            "en": "Mr.2 Bon Kurei SEC Alt Art Is a Beloved Fan Pick"
+          },
+          "detail": {
+            "th": "EB01-061 Mr.2 Bon Kurei (Bentham) SEC Alt Art ราคา $116 เป็นการ์ดที่แฟนตัวละครนี้ชื่นชอบมาก และเป็น Secondary Trophy ที่ดีสำหรับกล่องที่ไม่ได้ Chopper Manga",
+            "en": "EB01-061 Mr.2 Bon Kurei SEC Alt Art at $116 is a beloved character pull and solid secondary trophy for boxes that miss the Chopper Manga."
+          }
+        },
+        {
+          "topic": {
+            "th": "Laboon Alt Art เป็น Pull ที่ไม่คาดฝันในราคาดี",
+            "en": "Laboon Alt Art Is an Unexpected Pleasant Surprise"
+          },
+          "detail": {
+            "th": "EB01-048 Laboon SR Alt Art ราคา $90 เป็นการ์ดที่แฟน Whitebeard และ Brook ชอบมาก เป็น Pull ที่น่าประทับใจสำหรับผู้ที่ไม่คาดว่าจะเห็นการ์ด Laboon มีมูลค่าขนาดนี้",
+            "en": "EB01-048 Laboon SR Alt Art at $90 is a beloved card for Whitebeard and Brook fans. An unexpectedly impressive pull that proves even supporting characters get strong representation in Memorial Collection."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1363,27 +1938,76 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors"
+          "Investors",
+          "Leader Card Collectors",
+          "SPR Hunters"
         ],
-        "difficulty": "Beginner",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2600,
-          "high_thb": 3800
+          "low_thb": 7000,
+          "high_thb": 11000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "EB-02 Memorial Collection Vol.2 เป็น Extra Booster ที่มี EV สูงที่สุดในบรรดา EB ทั้งหมด นำโดย Luffy SEC Manga ที่ $2,750 และ Luffy L Alt Art ที่ $944 ยังมี SPR Leader หลายใบที่ราคา $175–$376 ต่อใบ ชุดนี้มีการ์ดเกิน $50 ถึง 33 ใบ สูงที่สุดในชุดที่วิเคราะห์ทั้งหมด — EV ต่อกล่องสูงมากและกระจายดี",
+          "en": "EB-02 Memorial Collection Vol.2 is the highest-EV Extra Booster, led by Luffy SEC Manga at $2,750 and Luffy L Alt Art at $944. With 25 cards over $100 and 33 cards over $50 — the most of any set analyzed — EB-02 delivers the best all-round EV. SPR Leaders ($175–$376 each) provide a dense value floor that almost no other set can match."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Exceptional",
+        "reason": {
+          "th": "EB-02 มีตลาดที่ดีที่สุดในบรรดา EB ทั้งหมด SPR Leader 25 ใบที่มีมูลค่า $175–$376 สร้าง Floor EV ที่แข็งแกร่งมาก ไม่ว่าจะดึง Trophy Card หลักหรือไม่ กล่องก็ยังมีมูลค่าสูง",
+          "en": "EB-02 has the strongest market of any EB set. The 25 SPR Leaders valued $175–$376 each create an exceptional EV floor. Even without hitting the trophy tier, boxes reliably deliver strong value through SPR pulls."
+        }
       },
       "better_alternatives": [],
-      "things_to_know": [],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Luffy SEC Manga $2,750 — Trophy สูงสุดในบรรดา EB ทั้งหมด",
+            "en": "Luffy SEC Manga $2,750 — Highest Trophy in Any EB Set"
+          },
+          "detail": {
+            "th": "EB02-061 Monkey.D.Luffy SEC Manga ราคา $2,750 เป็น Trophy สูงสุดในบรรดา EB ทั้งหมด และเป็นหนึ่งในการ์ดที่แพงที่สุดในเกม เมื่อรวมกับ Luffy L Alt Art $944 ทำให้ Luffy alone มี Trophy Tier สองระดับ",
+            "en": "EB02-061 Luffy SEC Manga at $2,750 is the highest trophy in any EB set. Combined with Luffy L Alt Art at $944, the set offers two separate Luffy trophy tiers — a collector's dream."
+          }
+        },
+        {
+          "topic": {
+            "th": "SPR Leader คือสิ่งที่ทำให้ EB-02 แตกต่างจากชุดอื่นทั้งหมด",
+            "en": "SPR Leaders Are What Truly Set EB-02 Apart"
+          },
+          "detail": {
+            "th": "EB-02 มี SPR Leader ของตัวละครจากชุดก่อนๆ: Boa Hancock SPR $376, Vegapunk SPR $300, Yamato SPR $284, Reiju SPR $249, Jewelry Bonney SPR $238, Enel SPR $236, Luffy SPR $232, Rob Lucci SPR $218 — นี่คือ Floor EV ที่ไม่มีชุดไหนเทียบได้",
+            "en": "EB-02's SPR Leaders of previous set characters: Hancock SPR $376, Vegapunk SPR $300, Yamato SPR $284, Reiju SPR $249, Bonney SPR $238, Enel SPR $236, Luffy SPR $232, Rob Lucci SPR $218. No other set comes close to this EV floor density."
+          }
+        },
+        {
+          "topic": {
+            "th": "105 การ์ดในชุดเล็กกว่า Booster ปกติ แต่ EV สูงกว่ามาก",
+            "en": "105 Cards — Smaller Pool, Far Higher EV Than Standard Boosters"
+          },
+          "detail": {
+            "th": "EB-02 มี 105 ใบเทียบกับ Booster ปกติ 150+ ใบ แต่ความหนาแน่นของ Chase Card สูงมากกว่ามาก ทำให้ EV ต่อกล่องสูงกว่า Booster ปกติส่วนใหญ่",
+            "en": "EB-02's 105-card pool is smaller than standard 150+ boosters, but the chase card density is dramatically higher. EV per box outperforms most standard booster sets by a significant margin."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคากล่องสูงกว่า EB-01 มาก แต่ EV รองรับ",
+            "en": "Box Price Is Much Higher Than EB-01, but EV Fully Supports It"
+          },
+          "detail": {
+            "th": "EB-02 ราคากล่องสูงกว่า EB-01 อย่างมีนัย แต่เมื่อดู SPR Floor และ Trophy Ceiling แล้ว นักสะสมที่คำนวณ EV จะเห็นว่าราคานั้นสมเหตุสมผล",
+            "en": "EB-02 commands a significantly higher box price than EB-01. But once you calculate the SPR floor values against the trophy ceiling, the premium is fully justified by the data."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1407,27 +2031,88 @@
     "buying_guide": {
       "quick_facts": {
         "best_for": [
-          "Collectors"
+          "Female Character Fans",
+          "SP Card Hunters",
+          "Uta Fans"
         ],
-        "difficulty": "Beginner",
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 2400,
-          "high_thb": 3500
+          "low_thb": 7000,
+          "high_thb": 12000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "EB-03 One Piece Heroines Edition คือชุดที่เน้นตัวละครหญิงทั้งหมด นำโดย SP ที่มีมูลค่าสูงที่สุดในเกม: Nami SP $1,240, Boa Hancock SP $1,237, Nico Robin SP $1,221 ทั้งสามใบในราคาเกิน $1,200 ยังมี Uta SEC Manga $972 และ Vivi SP $453 ชุดนี้มีการ์ดเกิน $100 ถึง 11 ใบ เหมาะที่สุดสำหรับแฟนตัวละครหญิงและนักสะสม SP Card",
+          "en": "EB-03 One Piece Heroines Edition is the all-female character set, headlined by the three highest-value SP cards in the game: Nami SP $1,240, Boa Hancock SP $1,237, Nico Robin SP $1,221. Add Uta SEC Manga $972 and Vivi SP $453 — 11 cards above $100. Purpose-built for female character fans and SP card hunters."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Exceptional",
+        "reason": {
+          "th": "EB-03 มีตลาดที่แข็งแกร่งมากเพราะ SP Card ของตัวละครหญิงที่แฟนๆ รักมีมูลค่าสูงกว่า SP Wave ทั่วไปมาก Nami, Robin, Hancock มีแฟนคลับที่ใหญ่ที่สุดในเกม ทำให้ดีมานด์คงสูงต่อเนื่อง",
+          "en": "EB-03 has an exceptionally strong market because the featured female characters — Nami, Hancock, Robin — have the largest fan bases in the game. SP cards of these characters command values far above typical SP wave cards."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:EB-02:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ EV กระจาย",
+            "en": "Better for Distributed EV"
+          },
+          "context": {
+            "th": "EB-02 มี SPR Floor กระจายดีกว่า ถ้าไม่ได้ต้องการตัวละครหญิงโดยเฉพาะ EB-02 มี EV ที่สม่ำเสมอกว่า",
+            "en": "EB-02 has better SPR floor distribution. If female characters aren't your specific target, EB-02 delivers more consistent EV."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "SP Triple Crown — Nami, Hancock, Robin ทั้งสามเกิน $1,200",
+            "en": "SP Triple Crown — Nami, Hancock, Robin All Above $1,200"
+          },
+          "detail": {
+            "th": "EB-03 มี SP ของสามตัวละครหญิงที่ได้รับความนิยมสูงสุด: Nami SP $1,240, Boa Hancock SP $1,237, Nico Robin SP $1,221 — ทั้งสามเกิน $1,200 ซึ่งไม่มีชุดไหนทำได้ในประวัติศาสตร์เกม",
+            "en": "EB-03 houses SP cards of the three most popular female characters in the game: Nami SP $1,240, Hancock SP $1,237, Robin SP $1,221. Having three $1,200+ SP cards in one set is unprecedented in the game's history."
+          }
+        },
+        {
+          "topic": {
+            "th": "Uta SEC Manga คือ Trophy Card สำหรับแฟน Uta",
+            "en": "Uta SEC Manga Is the Trophy for Uta Fans"
+          },
+          "detail": {
+            "th": "EB03-061 Uta SEC Manga ราคา $972 เป็นการ์ด Uta ที่แพงที่สุดในเกม ตัวละครจากภาพยนตร์ Film: Red ที่มีแฟนคลับจำนวนมาก ยังมี Uta SR SP $316 เป็น Secondary Pull",
+            "en": "EB03-061 Uta SEC Manga at $972 is the most valuable Uta card in the game. Film: Red's breakout character has a massive fanbase. Uta SR SP at $316 is the strong secondary pull for the same fans."
+          }
+        },
+        {
+          "topic": {
+            "th": "Vivi SP และ Perona SP คือ Pull สำคัญระดับกลาง",
+            "en": "Vivi SP and Perona SP Are Strong Mid-Tier Pulls"
+          },
+          "detail": {
+            "th": "Nefeltari Vivi SP $453 และ Perona SP $371 เป็น Mid-Tier Pull ที่ทำให้กล่องที่ไม่ได้ Trophy หลักยังคงมีมูลค่าดีมาก ยิ่งกว่า EB-01 มาก",
+            "en": "Nefeltari Vivi SP $453 and Perona SP $371 are strong mid-tier pulls that support box EV even without hitting the top trophies. Far better consolation value than EB-01."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคากล่องสูงที่สุดในบรรดา EB แต่ EV รองรับ",
+            "en": "Highest Box Price Among EB Sets, but EV Fully Justifies It"
+          },
+          "detail": {
+            "th": "EB-03 มีราคากล่องสูงที่สุดในบรรดา Extra Booster แต่เมื่อพิจารณา SP Triple Crown และ Floor Pull ที่มีมูลค่าดี ราคานั้นสมเหตุสมผลสำหรับนักสะสมที่จริงจัง",
+            "en": "EB-03 commands the highest box price among Extra Boosters. But given the SP Triple Crown and the quality of floor pulls, the premium is justified for serious collectors."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1452,27 +2137,87 @@
       "quick_facts": {
         "best_for": [
           "Collectors",
-          "Investors"
+          "Manga Art Completionists",
+          "Trophy Hunters"
         ],
         "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 6500,
-          "high_thb": 9000
+          "low_thb": 7400,
+          "high_thb": 12000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "PRB-01 Premium Booster - The Best เป็นชุดรวม Manga Alt Art ของการ์ดที่ดีที่สุดทั้งหมดในเกม — เปรียบเหมือน 'Hall of Fame' ของ One Piece TCG มีการ์ดถึง 317 ใบรวมทุก Manga Art จากชุดก่อนๆ นำโดย Luffy SP Gold $4,133, Nami Manga R $2,283, Zoro SEC Manga $1,875 ชุดนี้คือของสะสมที่สมบูรณ์ที่สุดสำหรับ One Piece TCG",
+          "en": "PRB-01 Premium Booster - The Best is the game's definitive collector set — a 317-card Hall of Fame featuring Manga Alt Art reprints of the best cards across all previous sets. Led by Luffy SP Gold $4,133, Nami Manga R $2,283, Zoro SEC Manga $1,875. The ultimate collector product for serious One Piece TCG enthusiasts."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Collector's Landmark",
+        "reason": {
+          "th": "PRB-01 เป็น Collector Product ที่ไม่ใช่ Investment Product ราคากล่องสูงแต่เหมาะสำหรับผู้ที่ต้องการ Manga Art ทุกใบในที่เดียว ไม่ควรซื้อเพื่อหวัง EV จากการเปิด — ควรซื้อเพราะอยากได้การ์ด",
+          "en": "PRB-01 is a collector product, not an investment vehicle. The high box price is justified by the legendary card pool, not chase EV. Buy because you want the cards — not because you're calculating return on investment."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-11:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EV การลงทุน",
+            "en": "Better for Investment EV"
+          },
+          "context": {
+            "th": "ถ้าเป้าหมายคือ EV การลงทุน OP-11 มี EV ต่อกล่องที่ดีกว่าสำหรับนักลงทุน PRB-01 เหมาะสำหรับนักสะสมที่ต้องการ Manga Art Collection",
+            "en": "If investment EV is the goal, OP-11 delivers better per-box returns. PRB-01 is for collectors who want to own the Manga Art collection, not investors calculating ROI."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "PRB-01 คือ 'Hall of Fame' ของ One Piece TCG",
+            "en": "PRB-01 Is the One Piece TCG Hall of Fame"
+          },
+          "detail": {
+            "th": "ชุดนี้รวม Manga Alt Art ของการ์ดที่ดีที่สุดทั้งหมดในเกม — Luffy SP Gold, Nami Manga, Zoro Manga, Shanks Manga, Ace Manga ทุกใบในที่เดียว ถ้าต้องการ Manga Art Collection ที่สมบูรณ์ PRB-01 คือคำตอบ",
+            "en": "PRB-01 collects the game's finest Manga Alt Arts — Luffy SP Gold, Nami Manga, Zoro Manga, Shanks Manga, Ace Manga and more — all in one product. The definitive single-purchase Manga Art collection."
+          }
+        },
+        {
+          "topic": {
+            "th": "Nami Manga R ที่ $2,283 เป็น Surprise Trophy ที่ไม่ใครคาด",
+            "en": "Nami Manga R at $2,283 Is the Unexpected Trophy"
+          },
+          "detail": {
+            "th": "OP01-016 Nami Manga R ราคา $2,283 เป็น R Card ที่แพงที่สุดในเกม เกิดจาก Combination ของ Nami's huge fanbase + Manga variant + หายากมากในชุดนี้ เป็น Pull ที่ไม่มีใครคาดได้เลย",
+            "en": "OP01-016 Nami Manga R at $2,283 is the most valuable R-rarity card in the game. The combination of Nami's enormous fanbase, Manga variant exclusivity, and extreme rarity created this extraordinary valuation."
+          }
+        },
+        {
+          "topic": {
+            "th": "317 การ์ด — Pool ใหญ่ที่สุดในเกม แต่ EV กระจายบางกว่า",
+            "en": "317 Cards — Largest Pool in the Game, but EV Spreads Thinner"
+          },
+          "detail": {
+            "th": "PRB-01 มี 317 ใบ ใหญ่ที่สุดในเกม ทำให้โอกาสดึงการ์ดเฉพาะต่ำกว่าชุดเล็ก อัตรา EV ต่อกล่องสูงเพราะมี Card Value Pool มาก แต่ไม่ใช่ตัวเลือกสำหรับ Single Card Hunter ที่ต้องการ Target เฉพาะ",
+            "en": "PRB-01's 317-card pool is the largest in the game. Pull probability for any specific card is lower than smaller sets. High cumulative EV from the massive value pool, but not the right choice if you're hunting a single target card."
+          }
+        },
+        {
+          "topic": {
+            "th": "ซื้อเพราะอยากสะสม ไม่ใช่เพราะคาดหวัง ROI",
+            "en": "Buy Because You Love the Collection, Not for ROI Expectations"
+          },
+          "detail": {
+            "th": "PRB-01 เป็น Premium Product ที่ทำมาสำหรับนักสะสมที่ต้องการ Manga Art Collection ที่สมบูรณ์ ไม่ใช่ Investment Tool เมื่อเทียบกับ OP-11 หรือ OP-12 แล้ว ROI ต่อกล่องต่ำกว่า",
+            "en": "PRB-01 is a premium collector product, not an investment instrument. Compared to OP-11 or OP-12 on pure ROI metrics, it underperforms. Buy it because you want to own the Manga Art Collection — not to flip."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1497,27 +2242,87 @@
       "quick_facts": {
         "best_for": [
           "Collectors",
-          "Investors"
+          "Sanji Fans",
+          "Manga Art Enthusiasts"
         ],
         "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 6000,
-          "high_thb": 8500
+          "low_thb": 7000,
+          "high_thb": 11000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
-        "summary": ""
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "PRB-02 Premium Booster - The Best Vol.2 เป็นภาคต่อของ PRB-01 รวม Manga Alt Art รอบที่สองของเกม นำโดย Sanji SEC Manga ที่ $2,216 และ Luffy EB02 SP ที่ $458 ยังมี Manga Art ของ R Card: Gum-Gum Giant $409 และ My Era...Begins!! $102 ชุดนี้มีการ์ดเกิน $50 ถึง 14 ใบ และเป็น Sanji Trophy Card ที่สำคัญที่สุด",
+          "en": "PRB-02 Premium Booster - The Best Vol.2 is the sequel to PRB-01, collecting the second wave of Manga Alt Arts. Headlined by Sanji SEC Manga $2,216 and Luffy EB02 SP $458, with surprising R-rarity Manga values: Gum-Gum Giant $409 and My Era...Begins!! $102. The home of the most valuable Sanji card in the game."
+        }
       },
       "market_status": {
-        "status": "",
-        "reason": ""
+        "status": "Strong",
+        "reason": {
+          "th": "PRB-02 มีตลาดแข็งแกร่งจาก Sanji SEC Manga ที่ $2,216 — Sanji มีแฟนคลับขนาดใหญ่มาก R Card Manga หลายใบที่มีมูลค่าสูงผิดคาดทำให้ Floor EV ดีกว่า PRB-01",
+          "en": "PRB-02 has a strong market anchored by Sanji SEC Manga at $2,216 — Sanji's fanbase is among the game's largest. Multiple high-value R-rarity Manga cards provide a better EV floor than PRB-01."
+        }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:PRB-01:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ Trophy สูงสุด",
+            "en": "Better for Absolute Trophy Ceiling"
+          },
+          "context": {
+            "th": "PRB-01 มี Luffy SP Gold $4,133, Nami Manga $2,283, Zoro Manga $1,875 — Trophy Ceiling สูงกว่า PRB-02 ถ้าต้องการ Jackpot สูงสุด PRB-01 คือคำตอบ",
+            "en": "PRB-01 has Luffy SP Gold $4,133, Nami Manga $2,283, Zoro Manga $1,875 — a higher trophy ceiling than PRB-02. If you want the highest jackpot potential, PRB-01 is the choice."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Sanji SEC Manga $2,216 — การ์ด Sanji ที่แพงที่สุดในเกม",
+            "en": "Sanji SEC Manga $2,216 — Most Valuable Sanji Card Ever"
+          },
+          "detail": {
+            "th": "OP06-119 Sanji SEC Manga ราคา $2,216 เป็นการ์ด Sanji ที่แพงที่สุดในประวัติศาสตร์เกม Sanji มีแฟนคลับที่ใหญ่ที่สุดในบรรดาตัวละคร Straw Hat ทำให้มูลค่า Trophy Card พุ่งสูง",
+            "en": "OP06-119 Sanji SEC Manga at $2,216 is the most valuable Sanji card in game history. Sanji has one of the largest fanbases among Straw Hat crew members, driving exceptional trophy card values."
+          }
+        },
+        {
+          "topic": {
+            "th": "R Card Manga มีมูลค่าสูงผิดปกติในชุดนี้",
+            "en": "R-Rarity Manga Cards Are Unusually Valuable Here"
+          },
+          "detail": {
+            "th": "Gum-Gum Giant R Manga $409 และ My Era...Begins!! R Manga $102 เป็นหลักฐานว่า PRB-02 กระจายมูลค่าลงมาถึง R Rarity ดีกว่า PRB-01 ทำให้ Floor EV ต่อกล่องดีกว่า",
+            "en": "Gum-Gum Giant R Manga $409 and My Era...Begins!! R Manga $102 prove PRB-02 distributes value down to R-rarity better than PRB-01. Stronger EV floor even in non-trophy boxes."
+          }
+        },
+        {
+          "topic": {
+            "th": "Shanks SP $217 และ Rebecca SP $127 เป็น Supporting Pull ที่ดี",
+            "en": "Shanks SP $217 and Rebecca SP $127 Are Strong Supporting Pulls"
+          },
+          "detail": {
+            "th": "Shanks SP $217 และ Rebecca SP $127 เป็น Mid-Tier Pull ที่ช่วยพยุง EV กล่องที่ไม่ได้ Trophy หลัก Carrot SP $111 ก็เป็น Fan Favorite ที่ดีด้วย",
+            "en": "Shanks SP $217 and Rebecca SP $127 are reliable mid-tier supporting pulls for boxes that miss the trophy tier. Carrot SP $111 is another well-loved addition to the supporting value floor."
+          }
+        },
+        {
+          "topic": {
+            "th": "PRB-02 เหมาะกว่า PRB-01 สำหรับ Floor EV",
+            "en": "PRB-02 Beats PRB-01 on Floor EV"
+          },
+          "detail": {
+            "th": "แม้ Trophy Ceiling ของ PRB-01 จะสูงกว่า แต่ PRB-02 มี Floor EV ดีกว่าเนื่องจาก R Card Manga มูลค่าสูงหลายใบ กล่องที่ไม่ได้ Trophy หลักยัง 'รอด' ได้ดีกว่าใน PRB-02",
+            "en": "While PRB-01 has a higher trophy ceiling, PRB-02 wins on floor EV. The multiple high-value R Manga cards mean boxes that miss the main trophy still land solid supporting value — better for risk-averse collectors."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-27",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
