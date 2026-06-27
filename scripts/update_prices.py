@@ -464,6 +464,77 @@ def check_date_exists(run_date: str) -> str:
     return "unknown"
 
 
+def post_wide_update(combined: dict, run_date: str, game: str = "onepiece") -> str:
+    """Push today's prices to the Price History Wide pivot sheet via Apps Script.
+
+    Sends one payload with all cards that have a market_price. The Apps Script
+    handler writes a new date column (or updates the existing one if re-running
+    today) and upserts card rows -- never touching any other date column.
+
+    Returns a status string for the run log: 'ok', 'dry_run', 'skipped', or 'error'.
+    Never raises -- a wide-sheet failure must never affect pipeline data.
+    """
+    if not APPS_SCRIPT_URL or not APPS_SCRIPT_SECRET:
+        print("Price History Wide: APPS_SCRIPT_URL/APPS_SCRIPT_SECRET not configured, skipping")
+        return "skipped"
+
+    rows = []
+    for set_code, cards in combined.items():
+        for card in cards:
+            price = card.get("market_price")
+            if price is None:
+                continue
+            try:
+                price = float(price)
+            except (TypeError, ValueError):
+                continue
+            rows.append({
+                "card_id":      card.get("card_set_id") or "",
+                "card_name":    card.get("card_name") or "",
+                "set_code":     set_code,
+                "rarity":       card.get("rarity") or "",
+                "market_price": price,
+            })
+
+    if not rows:
+        print("Price History Wide: no cards with price, skipping")
+        return "skipped"
+
+    payload = {
+        "secret":  APPS_SCRIPT_SECRET,
+        "action":  "updateWide",
+        "dryRun":  DRY_RUN,
+        "data": {
+            "date":     run_date,
+            "game":     game,
+            "currency": HISTORY_CURRENCY,
+            "rows":     rows,
+        },
+    }
+
+    try:
+        resp = requests.post(APPS_SCRIPT_URL, json=payload, timeout=120)
+        resp.raise_for_status()
+        body = resp.json()
+        if not body.get("ok"):
+            print(f"Price History Wide: Apps Script error: {body.get('error')}")
+            return "error"
+        if DRY_RUN:
+            print(f"Price History Wide: dry-run OK (would process {body.get('wouldProcess')} cards for {run_date})")
+            return "dry_run"
+        print(
+            f"Price History Wide: {body.get('cardsUpdated', 0)} updated, "
+            f"{body.get('cardsAdded', 0)} added, "
+            f"date_col={'new' if body.get('isNewDateColumn') else 'existing'} "
+            f"(col {body.get('dateColumnNumber')}), "
+            f"total rows={body.get('totalDataRows')}"
+        )
+        return "ok"
+    except Exception as exc:
+        print(f"Price History Wide: failed ({exc}) -- pipeline data is not affected")
+        return "error"
+
+
 def post_run_log(log_data: dict) -> None:
     """Append one admin run-log row to the Run Log sheet via Apps Script.
 
@@ -617,6 +688,7 @@ def main():
             "trend_losers_count": 0,
             "snapshot_saved": False,
             "json_updated": False,
+            "wide_sheet_status": "skipped",
             "duration_seconds": duration,
             "error_message": "All sets/decks failed to fetch -- no data written",
             "github_run_id": github_run_id,
@@ -680,6 +752,9 @@ def main():
     )
     cards_missing_price = total_cards - cards_with_price
 
+    # --- Wide pivot sheet: update Price History Wide (one card per row, one date per column) ---
+    wide_status = post_wide_update(combined, run_date)
+
     # --- Phase 3: Write status.json ---
     write_status(
         run_date, timestamp,
@@ -716,6 +791,7 @@ def main():
         "trend_losers_count": len(losers_data.get("cards", [])),
         "snapshot_saved": snapshot_saved,
         "json_updated": True,
+        "wide_sheet_status": wide_status,
         "duration_seconds": duration,
         "error_message": "",
         "github_run_id": github_run_id,
