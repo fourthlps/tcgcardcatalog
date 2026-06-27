@@ -1,9 +1,13 @@
 [
   {
-    "product_id": "op01-booster-box",
-    "product_name": "OP-01 Romance Dawn Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-01:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-01",
+    "set_name": "Romance Dawn",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-01 Romance Dawn Booster Box",
     "release_date": "2022-07-08",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -12,9 +16,15 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Beginners", "Character Collectors"],
+        "best_for": [
+          "Beginners",
+          "Character Collectors"
+        ],
         "difficulty": "Beginner",
-        "price_range": { "low_thb": 3500, "high_thb": 5500 },
+        "price_range": {
+          "low_thb": 3500,
+          "high_thb": 5500
+        },
         "top_chase_cards": []
       },
       "recommendation": {
@@ -33,51 +43,107 @@
       },
       "better_alternatives": [
         {
-          "product_id": "op05-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับนักลงทุน", "en": "Better for Investors" },
-          "context": { "th": "OP-05 มีประวัติราคากล่องที่ขึ้นอย่างต่อเนื่อง Chase Card หนาแน่นกว่า และโอกาส Reprint ต่ำกว่ามาก เหมาะสำหรับคนที่ซื้อเพื่อถือยาว", "en": "OP-05 has a strong sealed appreciation history, denser chase card distribution, and much lower reprint risk. The go-to choice if you're buying to hold." }
+          "product_id": "one-piece:OP-05:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับนักลงทุน",
+            "en": "Better for Investors"
+          },
+          "context": {
+            "th": "OP-05 มีประวัติราคากล่องที่ขึ้นอย่างต่อเนื่อง Chase Card หนาแน่นกว่า และโอกาส Reprint ต่ำกว่ามาก เหมาะสำหรับคนที่ซื้อเพื่อถือยาว",
+            "en": "OP-05 has a strong sealed appreciation history, denser chase card distribution, and much lower reprint risk. The go-to choice if you're buying to hold."
+          }
         },
         {
-          "product_id": "op13-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับนักสะสม", "en": "Better for Collectors" },
-          "context": { "th": "OP-13 มี Chase Card หนาแน่นกว่าต่อกล่อง ราคากล่องสูงกว่าแต่โอกาสคืนทุนก็สูงกว่าด้วย เหมาะสำหรับนักสะสมที่ต้องการความคุ้มค่าจากการเปิด", "en": "OP-13 packs more chase cards per box. Higher box price but better expected value per open. The better collector pick at a similar investment level." }
+          "product_id": "one-piece:OP-13:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับนักสะสม",
+            "en": "Better for Collectors"
+          },
+          "context": {
+            "th": "OP-13 มี Chase Card หนาแน่นกว่าต่อกล่อง ราคากล่องสูงกว่าแต่โอกาสคืนทุนก็สูงกว่าด้วย เหมาะสำหรับนักสะสมที่ต้องการความคุ้มค่าจากการเปิด",
+            "en": "OP-13 packs more chase cards per box. Higher box price but better expected value per open. The better collector pick at a similar investment level."
+          }
         },
         {
-          "product_id": "op06-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับผู้เริ่มต้นงบจำกัด", "en": "Better for Beginners on a Budget" },
-          "context": { "th": "OP-06 Wings of the Captain มีราคากล่องถูกกว่า เหมาะกับผู้เริ่มต้นเช่นกัน และยังไม่มีประวัติ Reprint หนักเท่า OP-01", "en": "OP-06 Wings of the Captain is similarly beginner-friendly at a lower box price, and doesn't carry the same reprint baggage as OP-01." }
+          "product_id": "one-piece:OP-06:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับผู้เริ่มต้นงบจำกัด",
+            "en": "Better for Beginners on a Budget"
+          },
+          "context": {
+            "th": "OP-06 Wings of the Captain มีราคากล่องถูกกว่า เหมาะกับผู้เริ่มต้นเช่นกัน และยังไม่มีประวัติ Reprint หนักเท่า OP-01",
+            "en": "OP-06 Wings of the Captain is similarly beginner-friendly at a lower box price, and doesn't carry the same reprint baggage as OP-01."
+          }
         }
       ],
       "things_to_know": [
         {
-          "topic": { "th": "ชุดที่ถูก Reprint แล้ว", "en": "A Reprinted Set" },
-          "detail": { "th": "OP-01 ถูกพิมพ์ซ้ำหลายครั้งตั้งแต่ปี 2022 การ์ด Common และ Uncommon พื้นฐานหาซื้อได้ราคาต่ำมาก ราคากล่องซีลจึงไม่มีแนวโน้มจะขึ้นอย่างมีนัยสำคัญ", "en": "OP-01 has been reprinted multiple times since its 2022 launch. Common and Uncommon base cards are cheap and easy to find. Sealed box prices are unlikely to appreciate significantly." }
+          "topic": {
+            "th": "ชุดที่ถูก Reprint แล้ว",
+            "en": "A Reprinted Set"
+          },
+          "detail": {
+            "th": "OP-01 ถูกพิมพ์ซ้ำหลายครั้งตั้งแต่ปี 2022 การ์ด Common และ Uncommon พื้นฐานหาซื้อได้ราคาต่ำมาก ราคากล่องซีลจึงไม่มีแนวโน้มจะขึ้นอย่างมีนัยสำคัญ",
+            "en": "OP-01 has been reprinted multiple times since its 2022 launch. Common and Uncommon base cards are cheap and easy to find. Sealed box prices are unlikely to appreciate significantly."
+          }
         },
         {
-          "topic": { "th": "มูลค่าอยู่ที่การ์ด Parallel เท่านั้น", "en": "Value Lives in Parallels Only" },
-          "detail": { "th": "การ์ดใน Top 15 ของชุดนี้ทุกใบเป็น Parallel ทั้งหมด การ์ดเวอร์ชันพื้นฐาน (Non-Parallel) มีราคาต่ำกว่ามาก อัตราดึง Parallel ต่อกล่องมีจำกัด ควรมีความคาดหวังที่สมจริง", "en": "Every card in the Top 15 most valuable list is a Parallel variant. Base (non-Parallel) versions are worth a fraction of the price. Pull rates for Parallels are low — set realistic expectations." }
+          "topic": {
+            "th": "มูลค่าอยู่ที่การ์ด Parallel เท่านั้น",
+            "en": "Value Lives in Parallels Only"
+          },
+          "detail": {
+            "th": "การ์ดใน Top 15 ของชุดนี้ทุกใบเป็น Parallel ทั้งหมด การ์ดเวอร์ชันพื้นฐาน (Non-Parallel) มีราคาต่ำกว่ามาก อัตราดึง Parallel ต่อกล่องมีจำกัด ควรมีความคาดหวังที่สมจริง",
+            "en": "Every card in the Top 15 most valuable list is a Parallel variant. Base (non-Parallel) versions are worth a fraction of the price. Pull rates for Parallels are low — set realistic expectations."
+          }
         },
         {
-          "topic": { "th": "Shanks Manga SEC คือใบที่แพงที่สุด แต่หายากมาก", "en": "The Shanks Manga SEC Is Extraordinary — and Extremely Rare" },
-          "detail": { "th": "Shanks (Parallel)(Manga)(Alt Art) SEC ราคาสูงถึง $1,500+ แต่โอกาสดึงต่อกล่องนั้นต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้", "en": "The Shanks (Parallel)(Manga)(Alt Art) SEC trades above $1,500 and is the undisputed trophy card of the entire game. Its pull rate is extremely low. Do not buy boxes expecting to hit this card." }
+          "topic": {
+            "th": "Shanks Manga SEC คือใบที่แพงที่สุด แต่หายากมาก",
+            "en": "The Shanks Manga SEC Is Extraordinary — and Extremely Rare"
+          },
+          "detail": {
+            "th": "Shanks (Parallel)(Manga)(Alt Art) SEC ราคาสูงถึง $1,500+ แต่โอกาสดึงต่อกล่องนั้นต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้",
+            "en": "The Shanks (Parallel)(Manga)(Alt Art) SEC trades above $1,500 and is the undisputed trophy card of the entire game. Its pull rate is extremely low. Do not buy boxes expecting to hit this card."
+          }
         },
         {
-          "topic": { "th": "เมต้าการแข่งขันเปลี่ยนไปแล้ว", "en": "Competitive Meta Has Moved On" },
-          "detail": { "th": "OP-01 วางจำหน่ายในปี 2022 เมต้าของเกมได้พัฒนาไปไกลมาก การ์ดส่วนใหญ่ในชุดนี้ไม่ถูกใช้ในเดคแข่งขันระดับสูงในปัจจุบัน เหมาะสำหรับผู้เล่นสบายๆ หรือนักสะสม ไม่ใช่ผู้เล่น Competitive", "en": "Released in 2022, OP-01 cards see very little play in today's high-level competitive decks. This set is best suited for casual players and collectors, not tournament grinders." }
+          "topic": {
+            "th": "เมต้าการแข่งขันเปลี่ยนไปแล้ว",
+            "en": "Competitive Meta Has Moved On"
+          },
+          "detail": {
+            "th": "OP-01 วางจำหน่ายในปี 2022 เมต้าของเกมได้พัฒนาไปไกลมาก การ์ดส่วนใหญ่ในชุดนี้ไม่ถูกใช้ในเดคแข่งขันระดับสูงในปัจจุบัน เหมาะสำหรับผู้เล่นสบายๆ หรือนักสะสม ไม่ใช่ผู้เล่น Competitive",
+            "en": "Released in 2022, OP-01 cards see very little play in today's high-level competitive decks. This set is best suited for casual players and collectors, not tournament grinders."
+          }
         },
         {
-          "topic": { "th": "ราคากล่องในตลาดไทยผันผวนตามร้านค้า", "en": "Thai Market Prices Vary Significantly by Seller" },
-          "detail": { "th": "ราคากล่องในตลาดไทยอยู่ระหว่าง ฿3,500 – ฿5,500 ขึ้นอยู่กับร้านค้าและช่วงเวลา ควรเปรียบเทียบราคาหลายร้านก่อนซื้อ และระวังกล่องปลอมหรือกล่องที่เคยถูกเปิดมาแล้ว", "en": "Thai market box prices range from ฿3,500 to ฿5,500 depending on the seller and timing. Always compare across multiple shops before buying, and watch out for resealed boxes." }
+          "topic": {
+            "th": "ราคากล่องในตลาดไทยผันผวนตามร้านค้า",
+            "en": "Thai Market Prices Vary Significantly by Seller"
+          },
+          "detail": {
+            "th": "ราคากล่องในตลาดไทยอยู่ระหว่าง ฿3,500 – ฿5,500 ขึ้นอยู่กับร้านค้าและช่วงเวลา ควรเปรียบเทียบราคาหลายร้านก่อนซื้อ และระวังกล่องปลอมหรือกล่องที่เคยถูกเปิดมาแล้ว",
+            "en": "Thai market box prices range from ฿3,500 to ฿5,500 depending on the seller and timing. Always compare across multiple shops before buying, and watch out for resealed boxes."
+          }
         }
       ],
-      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op02-booster-box",
-    "product_name": "OP-02 Paramount War Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-02:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-02",
+    "set_name": "Paramount War",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-02 Paramount War Booster Box",
     "release_date": "2022-12-02",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -86,23 +152,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Investors"],
+        "best_for": [
+          "Collectors",
+          "Investors"
+        ],
         "difficulty": "Beginner",
-        "price_range": { "low_thb": 3000, "high_thb": 4500 },
+        "price_range": {
+          "low_thb": 3000,
+          "high_thb": 4500
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op03-booster-box",
-    "product_name": "OP-03 Pillars of Strength Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-03:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-03",
+    "set_name": "Pillars of Strength",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-03 Pillars of Strength Booster Box",
     "release_date": "2023-03-10",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -111,23 +197,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Players"],
+        "best_for": [
+          "Collectors",
+          "Players"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2400, "high_thb": 3500 },
+        "price_range": {
+          "low_thb": 2400,
+          "high_thb": 3500
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op04-booster-box",
-    "product_name": "OP-04 Kingdoms of Intrigue Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-04:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-04",
+    "set_name": "Kingdoms of Intrigue",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-04 Kingdoms of Intrigue Booster Box",
     "release_date": "2023-06-23",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -136,23 +242,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Players"],
+        "best_for": [
+          "Collectors",
+          "Players"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2500, "high_thb": 3800 },
+        "price_range": {
+          "low_thb": 2500,
+          "high_thb": 3800
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op05-booster-box",
-    "product_name": "OP-05 Awakening of the New Era Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-05:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-05",
+    "set_name": "Awakening of the New Era",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-05 Awakening of the New Era Booster Box",
     "release_date": "2023-09-22",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -161,9 +287,15 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Investors", "Collectors"],
+        "best_for": [
+          "Investors",
+          "Collectors"
+        ],
         "difficulty": "Advanced",
-        "price_range": { "low_thb": 14000, "high_thb": 20000 },
+        "price_range": {
+          "low_thb": 14000,
+          "high_thb": 20000
+        },
         "top_chase_cards": []
       },
       "recommendation": {
@@ -182,42 +314,86 @@
       },
       "better_alternatives": [
         {
-          "product_id": "op13-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับผู้เริ่มต้นสะสม", "en": "Better for Entry-Level Collectors" },
-          "context": { "th": "OP-13 มีราคากล่องถูกกว่ามาก แต่ยังมี Chase Card ที่น่าสนใจและมูลค่าสูง เหมาะสำหรับผู้ที่ยังไม่พร้อมลงทุนใน OP-05", "en": "OP-13 offers a lower entry price with strong chase card density. A better starting point if the OP-05 budget feels out of reach." }
+          "product_id": "one-piece:OP-13:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับผู้เริ่มต้นสะสม",
+            "en": "Better for Entry-Level Collectors"
+          },
+          "context": {
+            "th": "OP-13 มีราคากล่องถูกกว่ามาก แต่ยังมี Chase Card ที่น่าสนใจและมูลค่าสูง เหมาะสำหรับผู้ที่ยังไม่พร้อมลงทุนใน OP-05",
+            "en": "OP-13 offers a lower entry price with strong chase card density. A better starting point if the OP-05 budget feels out of reach."
+          }
         },
         {
-          "product_id": "op09-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับนักสะสม Manga Art", "en": "Better for Manga Art Collectors" },
-          "context": { "th": "OP-09 มี Manga Art cards ชั้นนำรวมถึง Roger และ Luffy SEC Manga ที่ราคาเกิน $2,000 เหมาะสำหรับนักสะสมสาย Manga Art โดยเฉพาะ", "en": "OP-09 houses the Roger and Luffy Manga SECs above $2,000 each. The premium destination for Manga Art collectors specifically." }
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับนักสะสม Manga Art",
+            "en": "Better for Manga Art Collectors"
+          },
+          "context": {
+            "th": "OP-09 มี Manga Art cards ชั้นนำรวมถึง Roger และ Luffy SEC Manga ที่ราคาเกิน $2,000 เหมาะสำหรับนักสะสมสาย Manga Art โดยเฉพาะ",
+            "en": "OP-09 houses the Roger and Luffy Manga SECs above $2,000 each. The premium destination for Manga Art collectors specifically."
+          }
         }
       ],
       "things_to_know": [
         {
-          "topic": { "th": "Luffy SEC Manga Alt Art คือราคา Trophy สูงสุดของเกม", "en": "Luffy SEC Manga Alt Art Is the Game's #1 Trophy Card" },
-          "detail": { "th": "OP05-119 Luffy SEC (Manga)(Alt Art) มีราคาสูงถึง $3,900+ เป็นใบที่นักสะสมทุกคนต้องการ แต่อัตราดึงต่อกล่องต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้โดยเฉพาะ", "en": "OP05-119 Luffy SEC Manga Alt Art trades above $3,900 — the most valuable standard-set card in the game. Pull rates are extremely low. Do not buy boxes expecting to hit this specific card." }
+          "topic": {
+            "th": "Luffy SEC Manga Alt Art คือราคา Trophy สูงสุดของเกม",
+            "en": "Luffy SEC Manga Alt Art Is the Game's #1 Trophy Card"
+          },
+          "detail": {
+            "th": "OP05-119 Luffy SEC (Manga)(Alt Art) มีราคาสูงถึง $3,900+ เป็นใบที่นักสะสมทุกคนต้องการ แต่อัตราดึงต่อกล่องต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้โดยเฉพาะ",
+            "en": "OP05-119 Luffy SEC Manga Alt Art trades above $3,900 — the most valuable standard-set card in the game. Pull rates are extremely low. Do not buy boxes expecting to hit this specific card."
+          }
         },
         {
-          "topic": { "th": "ราคากล่องสูงที่สุดในเกม", "en": "The Most Expensive Box in the Game" },
-          "detail": { "th": "OP-05 มีราคากล่องประมาณ ฿16,500 ซึ่งสูงที่สุดในบรรดาทุกชุดของ One Piece TCG ควรมีงบสำรองและพร้อมรับความเสี่ยงก่อนเปิด", "en": "At ~฿16,500 per box, OP-05 is the most expensive One Piece booster box on the market. Budget accordingly and understand the risk profile before opening." }
+          "topic": {
+            "th": "ราคากล่องสูงที่สุดในเกม",
+            "en": "The Most Expensive Box in the Game"
+          },
+          "detail": {
+            "th": "OP-05 มีราคากล่องประมาณ ฿16,500 ซึ่งสูงที่สุดในบรรดาทุกชุดของ One Piece TCG ควรมีงบสำรองและพร้อมรับความเสี่ยงก่อนเปิด",
+            "en": "At ~฿16,500 per box, OP-05 is the most expensive One Piece booster box on the market. Budget accordingly and understand the risk profile before opening."
+          }
         },
         {
-          "topic": { "th": "ชุดที่ไม่มีสัญญาณ Reprint", "en": "No Reprint Signals" },
-          "detail": { "th": "ต่างจาก OP-01 ที่ถูก Reprint บ่อย OP-05 ยังไม่มีสัญญาณว่าจะถูกพิมพ์ซ้ำ ทำให้กล่องซีลยังรักษามูลค่าได้ดีในระยะยาว", "en": "Unlike OP-01, OP-05 has shown no reprint signals. Sealed boxes have maintained strong long-term value as a result." }
+          "topic": {
+            "th": "ชุดที่ไม่มีสัญญาณ Reprint",
+            "en": "No Reprint Signals"
+          },
+          "detail": {
+            "th": "ต่างจาก OP-01 ที่ถูก Reprint บ่อย OP-05 ยังไม่มีสัญญาณว่าจะถูกพิมพ์ซ้ำ ทำให้กล่องซีลยังรักษามูลค่าได้ดีในระยะยาว",
+            "en": "Unlike OP-01, OP-05 has shown no reprint signals. Sealed boxes have maintained strong long-term value as a result."
+          }
         },
         {
-          "topic": { "th": "Cards $50+ หนาแน่นที่สุดในเกม", "en": "Densest $50+ Card Distribution in the Game" },
-          "detail": { "th": "OP-05 มีการ์ดที่ราคาเกิน $50 ถึง 13 ใบ — สูงกว่าชุดอื่นส่วนใหญ่ ทำให้ Expected Value ต่อกล่องสูงกว่าที่ราคากล่องบ่งบอก", "en": "OP-05 has 13 cards priced above $50 — more than almost any other set. This makes the expected value per box strong relative to the box price." }
+          "topic": {
+            "th": "Cards $50+ หนาแน่นที่สุดในเกม",
+            "en": "Densest $50+ Card Distribution in the Game"
+          },
+          "detail": {
+            "th": "OP-05 มีการ์ดที่ราคาเกิน $50 ถึง 13 ใบ — สูงกว่าชุดอื่นส่วนใหญ่ ทำให้ Expected Value ต่อกล่องสูงกว่าที่ราคากล่องบ่งบอก",
+            "en": "OP-05 has 13 cards priced above $50 — more than almost any other set. This makes the expected value per box strong relative to the box price."
+          }
         }
       ],
-      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op06-booster-box",
-    "product_name": "OP-06 Wings of the Captain Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-06:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-06",
+    "set_name": "Wings of the Captain",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-06 Wings of the Captain Booster Box",
     "release_date": "2023-12-22",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -226,23 +402,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Beginners", "Collectors"],
+        "best_for": [
+          "Beginners",
+          "Collectors"
+        ],
         "difficulty": "Beginner",
-        "price_range": { "low_thb": 2400, "high_thb": 3500 },
+        "price_range": {
+          "low_thb": 2400,
+          "high_thb": 3500
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op07-booster-box",
-    "product_name": "OP-07 500 Years in the Future Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-07:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-07",
+    "set_name": "500 Years in the Future",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-07 500 Years in the Future Booster Box",
     "release_date": "2024-03-22",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -251,23 +447,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Players", "Collectors"],
+        "best_for": [
+          "Players",
+          "Collectors"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2800, "high_thb": 4000 },
+        "price_range": {
+          "low_thb": 2800,
+          "high_thb": 4000
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op08-booster-box",
-    "product_name": "OP-08 Two Legends Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-08:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-08",
+    "set_name": "Two Legends",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-08 Two Legends Booster Box",
     "release_date": "2024-06-28",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -276,23 +492,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Investors"],
+        "best_for": [
+          "Collectors",
+          "Investors"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 3200, "high_thb": 4800 },
+        "price_range": {
+          "low_thb": 3200,
+          "high_thb": 4800
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op09-booster-box",
-    "product_name": "OP-09 Emperors in the New World Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-09:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-09",
+    "set_name": "Emperors in the New World",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-09 Emperors in the New World Booster Box",
     "release_date": "2024-09-27",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -301,9 +537,15 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Investors"],
+        "best_for": [
+          "Collectors",
+          "Investors"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 4000, "high_thb": 5500 },
+        "price_range": {
+          "low_thb": 4000,
+          "high_thb": 5500
+        },
         "top_chase_cards": []
       },
       "recommendation": {
@@ -322,42 +564,86 @@
       },
       "better_alternatives": [
         {
-          "product_id": "op05-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับ Trophy Card สูงสุด", "en": "Better for the Single Highest Trophy" },
-          "context": { "th": "ถ้าเป้าหมายคือการดึง Luffy SEC Manga Alt Art ที่ราคา $3,900 OP-05 คือชุดที่ต้องซื้อ แต่ต้องพร้อมรับราคากล่องที่สูงกว่า 3 เท่า", "en": "If your goal is chasing the Luffy SEC Manga Alt Art at $3,900, OP-05 is the set to buy — but be ready for a box price 3x higher." }
+          "product_id": "one-piece:OP-05:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ Trophy Card สูงสุด",
+            "en": "Better for the Single Highest Trophy"
+          },
+          "context": {
+            "th": "ถ้าเป้าหมายคือการดึง Luffy SEC Manga Alt Art ที่ราคา $3,900 OP-05 คือชุดที่ต้องซื้อ แต่ต้องพร้อมรับราคากล่องที่สูงกว่า 3 เท่า",
+            "en": "If your goal is chasing the Luffy SEC Manga Alt Art at $3,900, OP-05 is the set to buy — but be ready for a box price 3x higher."
+          }
         },
         {
-          "product_id": "op13-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับ Parallel Rare ระดับสูง", "en": "Better for High-Value Parallel Rares" },
-          "context": { "th": "OP-13 มีความพิเศษที่ Parallel R cards มีราคาสูงมาก ($400-$540 ต่อใบ) ซึ่งแตกต่างจากทุกชุดที่ผ่านมา", "en": "OP-13 is unique in that its Parallel R cards command $400–$540 each — a distribution pattern unlike any previous set." }
+          "product_id": "one-piece:OP-13:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ Parallel Rare ระดับสูง",
+            "en": "Better for High-Value Parallel Rares"
+          },
+          "context": {
+            "th": "OP-13 มีความพิเศษที่ Parallel R cards มีราคาสูงมาก ($400-$540 ต่อใบ) ซึ่งแตกต่างจากทุกชุดที่ผ่านมา",
+            "en": "OP-13 is unique in that its Parallel R cards command $400–$540 each — a distribution pattern unlike any previous set."
+          }
         }
       ],
       "things_to_know": [
         {
-          "topic": { "th": "Roger SEC Manga คือ Trophy Card สูงสุดของชุด", "en": "Roger SEC Manga Is the Crown Jewel" },
-          "detail": { "th": "OP09-118 Gol.D.Roger SEC Manga มีราคาสูงถึง $2,900+ — หนึ่งในการ์ดที่นักสะสมทุกคนอยากได้มากที่สุด อัตราดึงต่ำมากเช่นกัน ควรวางความคาดหวังให้สมจริง", "en": "OP09-118 Gol.D.Roger SEC Manga trades above $2,900 — one of the most coveted cards in the entire game. Pull rates are very low. Manage expectations accordingly." }
+          "topic": {
+            "th": "Roger SEC Manga คือ Trophy Card สูงสุดของชุด",
+            "en": "Roger SEC Manga Is the Crown Jewel"
+          },
+          "detail": {
+            "th": "OP09-118 Gol.D.Roger SEC Manga มีราคาสูงถึง $2,900+ — หนึ่งในการ์ดที่นักสะสมทุกคนอยากได้มากที่สุด อัตราดึงต่ำมากเช่นกัน ควรวางความคาดหวังให้สมจริง",
+            "en": "OP09-118 Gol.D.Roger SEC Manga trades above $2,900 — one of the most coveted cards in the entire game. Pull rates are very low. Manage expectations accordingly."
+          }
         },
         {
-          "topic": { "th": "Manga Art Variant คือสิ่งที่ทำให้ชุดนี้พิเศษ", "en": "Manga Art Variants Define This Set's Value" },
-          "detail": { "th": "OP-09 มี Manga Art variants ของ Roger, Luffy, Shanks, Marshall D. Teach และ Buggy — หลายใบมีราคาเกิน $1,000 การ์ดเวอร์ชันปกติมีราคาต่ำกว่ามาก ควรรู้ว่ากำลังล่าอะไรอยู่", "en": "OP-09 features Manga Art variants of Roger, Luffy, Shanks, Teach, and Buggy — multiple cards above $1,000. Base versions are far cheaper. Know exactly which version you're hunting before buying." }
+          "topic": {
+            "th": "Manga Art Variant คือสิ่งที่ทำให้ชุดนี้พิเศษ",
+            "en": "Manga Art Variants Define This Set's Value"
+          },
+          "detail": {
+            "th": "OP-09 มี Manga Art variants ของ Roger, Luffy, Shanks, Marshall D. Teach และ Buggy — หลายใบมีราคาเกิน $1,000 การ์ดเวอร์ชันปกติมีราคาต่ำกว่ามาก ควรรู้ว่ากำลังล่าอะไรอยู่",
+            "en": "OP-09 features Manga Art variants of Roger, Luffy, Shanks, Teach, and Buggy — multiple cards above $1,000. Base versions are far cheaper. Know exactly which version you're hunting before buying."
+          }
         },
         {
-          "topic": { "th": "ราคาคุ้มค่ากว่า OP-05 มาก", "en": "Far Better Value Entry Point Than OP-05" },
-          "detail": { "th": "OP-09 มีราคากล่องประมาณ ฿4,000–5,500 ซึ่งถูกกว่า OP-05 ถึง 3 เท่า แต่ยังมี Chase Card ระดับ Trophy ที่น่าสนใจมาก ทำให้ Risk/Reward ดีกว่าสำหรับนักลงทุนหน้าใหม่", "en": "At ฿4,000–5,500 per box, OP-09 is roughly 3x cheaper than OP-05 while still housing multiple $1,000+ trophy cards. A much better risk/reward entry for newer investors." }
+          "topic": {
+            "th": "ราคาคุ้มค่ากว่า OP-05 มาก",
+            "en": "Far Better Value Entry Point Than OP-05"
+          },
+          "detail": {
+            "th": "OP-09 มีราคากล่องประมาณ ฿4,000–5,500 ซึ่งถูกกว่า OP-05 ถึง 3 เท่า แต่ยังมี Chase Card ระดับ Trophy ที่น่าสนใจมาก ทำให้ Risk/Reward ดีกว่าสำหรับนักลงทุนหน้าใหม่",
+            "en": "At ฿4,000–5,500 per box, OP-09 is roughly 3x cheaper than OP-05 while still housing multiple $1,000+ trophy cards. A much better risk/reward entry for newer investors."
+          }
         },
         {
-          "topic": { "th": "20 ใบที่ราคาเกิน $50 — หนาแน่นที่สุดในบรรดาชุดราคากลาง", "en": "20 Cards Above $50 — Densest Among Mid-Priced Sets" },
-          "detail": { "th": "ด้วยการ์ด 20 ใบที่ราคาเกิน $50 OP-09 มี Expected Value ต่อกล่องที่สูงมากเมื่อเทียบกับราคากล่อง ทำให้เป็นหนึ่งในชุดที่ EV ดีที่สุดในเกม", "en": "With 20 cards above $50, OP-09 delivers outstanding expected value relative to its box price — one of the best EV ratios in the entire One Piece TCG lineup." }
+          "topic": {
+            "th": "20 ใบที่ราคาเกิน $50 — หนาแน่นที่สุดในบรรดาชุดราคากลาง",
+            "en": "20 Cards Above $50 — Densest Among Mid-Priced Sets"
+          },
+          "detail": {
+            "th": "ด้วยการ์ด 20 ใบที่ราคาเกิน $50 OP-09 มี Expected Value ต่อกล่องที่สูงมากเมื่อเทียบกับราคากล่อง ทำให้เป็นหนึ่งในชุดที่ EV ดีที่สุดในเกม",
+            "en": "With 20 cards above $50, OP-09 delivers outstanding expected value relative to its box price — one of the best EV ratios in the entire One Piece TCG lineup."
+          }
         }
       ],
-      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op10-booster-box",
-    "product_name": "OP-10 Royal Blood Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-10:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-10",
+    "set_name": "Royal Blood",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-10 Royal Blood Booster Box",
     "release_date": "2024-12-27",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -366,23 +652,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Players"],
+        "best_for": [
+          "Collectors",
+          "Players"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2700, "high_thb": 4000 },
+        "price_range": {
+          "low_thb": 2700,
+          "high_thb": 4000
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op11-booster-box",
-    "product_name": "OP-11 A Fist of Divine Speed Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-11:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-11",
+    "set_name": "A Fist of Divine Speed",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-11 A Fist of Divine Speed Booster Box",
     "release_date": "2025-03-28",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -391,23 +697,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Players", "Collectors"],
+        "best_for": [
+          "Players",
+          "Collectors"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2600, "high_thb": 3800 },
+        "price_range": {
+          "low_thb": 2600,
+          "high_thb": 3800
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op12-booster-box",
-    "product_name": "OP-12 Legacy of the Master Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-12:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-12",
+    "set_name": "Legacy of the Master",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-12 Legacy of the Master Booster Box",
     "release_date": "2025-06-27",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -416,23 +742,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Players"],
+        "best_for": [
+          "Collectors",
+          "Players"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 3000, "high_thb": 4200 },
+        "price_range": {
+          "low_thb": 3000,
+          "high_thb": 4200
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op13-booster-box",
-    "product_name": "OP-13 Carrying On His Will Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-13:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-13",
+    "set_name": "Carrying On His Will",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-13 Carrying On His Will Booster Box",
     "release_date": "2025-09-26",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -441,9 +787,15 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors", "Investors"],
+        "best_for": [
+          "Collectors",
+          "Investors"
+        ],
         "difficulty": "Advanced",
-        "price_range": { "low_thb": 5500, "high_thb": 8000 },
+        "price_range": {
+          "low_thb": 5500,
+          "high_thb": 8000
+        },
         "top_chase_cards": []
       },
       "recommendation": {
@@ -462,42 +814,86 @@
       },
       "better_alternatives": [
         {
-          "product_id": "op09-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับนักลงทุนที่ต้องการความเสี่ยงต่ำกว่า", "en": "Better for Lower-Risk Investors" },
-          "context": { "th": "OP-09 มีราคาตลาดที่เสถียรกว่าและมี Chase Card ระดับ Trophy เช่นกัน ในราคากล่องที่ถูกกว่ามาก เหมาะสำหรับผู้ที่ต้องการ EV ที่คาดเดาได้มากกว่า", "en": "OP-09 offers a more settled market with proven trophy cards at a much lower box price. Better for those who want more predictable EV." }
+          "product_id": "one-piece:OP-09:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับนักลงทุนที่ต้องการความเสี่ยงต่ำกว่า",
+            "en": "Better for Lower-Risk Investors"
+          },
+          "context": {
+            "th": "OP-09 มีราคาตลาดที่เสถียรกว่าและมี Chase Card ระดับ Trophy เช่นกัน ในราคากล่องที่ถูกกว่ามาก เหมาะสำหรับผู้ที่ต้องการ EV ที่คาดเดาได้มากกว่า",
+            "en": "OP-09 offers a more settled market with proven trophy cards at a much lower box price. Better for those who want more predictable EV."
+          }
         },
         {
-          "product_id": "op05-booster-box",
-          "reason": { "th": "ดีกว่าสำหรับการถือครองระยะยาว", "en": "Better for Long-Term Holding" },
-          "context": { "th": "OP-05 มีประวัติราคากล่องที่ขึ้นต่อเนื่องมานานกว่า 2 ปี ให้ความมั่นใจในการถือครองระยะยาวมากกว่า OP-13 ที่ยังใหม่อยู่", "en": "OP-05 has a 2+ year track record of sealed appreciation, offering more confidence for long-term holding than OP-13 which is still establishing its price floor." }
+          "product_id": "one-piece:OP-05:JP:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับการถือครองระยะยาว",
+            "en": "Better for Long-Term Holding"
+          },
+          "context": {
+            "th": "OP-05 มีประวัติราคากล่องที่ขึ้นต่อเนื่องมานานกว่า 2 ปี ให้ความมั่นใจในการถือครองระยะยาวมากกว่า OP-13 ที่ยังใหม่อยู่",
+            "en": "OP-05 has a 2+ year track record of sealed appreciation, offering more confidence for long-term holding than OP-13 which is still establishing its price floor."
+          }
         }
       ],
       "things_to_know": [
         {
-          "topic": { "th": "Luffy Red Super Alt Art SEC — การ์ดแพงที่สุดในเกมขณะนี้", "en": "Luffy Red Super Alt Art SEC — Currently the Most Expensive Card in the Game" },
-          "detail": { "th": "OP13-118 Luffy SEC (Red Super Alt Art) มีราคาสูงถึง $8,490 — สูงกว่าทุกการ์ดใน One Piece TCG ในขณะนี้ โอกาสดึงต่อกล่องต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้", "en": "OP13-118 Luffy SEC Red Super Alt Art trades above $8,490 — the highest-priced card in One Piece TCG right now. Pull rates are extremely low. Do not buy boxes expecting to pull this specific card." }
+          "topic": {
+            "th": "Luffy Red Super Alt Art SEC — การ์ดแพงที่สุดในเกมขณะนี้",
+            "en": "Luffy Red Super Alt Art SEC — Currently the Most Expensive Card in the Game"
+          },
+          "detail": {
+            "th": "OP13-118 Luffy SEC (Red Super Alt Art) มีราคาสูงถึง $8,490 — สูงกว่าทุกการ์ดใน One Piece TCG ในขณะนี้ โอกาสดึงต่อกล่องต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้",
+            "en": "OP13-118 Luffy SEC Red Super Alt Art trades above $8,490 — the highest-priced card in One Piece TCG right now. Pull rates are extremely low. Do not buy boxes expecting to pull this specific card."
+          }
         },
         {
-          "topic": { "th": "Parallel R ของ Five Elders คือ Game-Changer", "en": "Five Elders Parallel Rs Are a Game-Changer" },
-          "detail": { "th": "OP-13 เป็นชุดแรกที่ Parallel R มีราคาสูงถึง $400–$540 ต่อใบ (Five Elders ทั้ง 5 ตัว) ซึ่งไม่เคยเกิดขึ้นในชุดไหนมาก่อน ทำให้โอกาสได้มูลค่าสูงจากการดึง R card ธรรมดาเป็นไปได้จริง", "en": "OP-13 is the first set where Parallel R cards reach $400–$540 each (all five Five Elders). This has never happened before in any set, making meaningful EV achievable even from R-rarity pulls." }
+          "topic": {
+            "th": "Parallel R ของ Five Elders คือ Game-Changer",
+            "en": "Five Elders Parallel Rs Are a Game-Changer"
+          },
+          "detail": {
+            "th": "OP-13 เป็นชุดแรกที่ Parallel R มีราคาสูงถึง $400–$540 ต่อใบ (Five Elders ทั้ง 5 ตัว) ซึ่งไม่เคยเกิดขึ้นในชุดไหนมาก่อน ทำให้โอกาสได้มูลค่าสูงจากการดึง R card ธรรมดาเป็นไปได้จริง",
+            "en": "OP-13 is the first set where Parallel R cards reach $400–$540 each (all five Five Elders). This has never happened before in any set, making meaningful EV achievable even from R-rarity pulls."
+          }
         },
         {
-          "topic": { "th": "25 ใบที่ราคาเกิน $50 — สูงที่สุดในเกม", "en": "25 Cards Above $50 — Most of Any Set" },
-          "detail": { "th": "OP-13 มีการ์ดราคาเกิน $50 ถึง 25 ใบ — มากกว่าทุกชุดที่ผ่านมา ทำให้ Expected Value ต่อกล่องสูงมาก แม้ว่าราคายังผันผวนอยู่ก็ตาม", "en": "OP-13 has 25 cards priced above $50 — more than any other set in the game. Expected value per box is exceptionally high, even accounting for current price volatility." }
+          "topic": {
+            "th": "25 ใบที่ราคาเกิน $50 — สูงที่สุดในเกม",
+            "en": "25 Cards Above $50 — Most of Any Set"
+          },
+          "detail": {
+            "th": "OP-13 มีการ์ดราคาเกิน $50 ถึง 25 ใบ — มากกว่าทุกชุดที่ผ่านมา ทำให้ Expected Value ต่อกล่องสูงมาก แม้ว่าราคายังผันผวนอยู่ก็ตาม",
+            "en": "OP-13 has 25 cards priced above $50 — more than any other set in the game. Expected value per box is exceptionally high, even accounting for current price volatility."
+          }
         },
         {
-          "topic": { "th": "ชุดใหม่ — ราคายังไม่เสถียร", "en": "New Set — Prices Are Still Settling" },
-          "detail": { "th": "OP-13 วางจำหน่ายในปี 2025 ราคายังปรับตัวอยู่ การซื้อเพื่อลงทุนในช่วงนี้มีความเสี่ยงสูงกว่าชุดเก่า ควรรอให้ราคาเสถียรก่อนหากไม่ต้องการรับความเสี่ยงสูง", "en": "Released in 2025, OP-13 prices are still finding their floor — especially for the SEC Red Super Alt Arts. Higher risk than established sets. Consider waiting for price stabilization if you're risk-averse." }
+          "topic": {
+            "th": "ชุดใหม่ — ราคายังไม่เสถียร",
+            "en": "New Set — Prices Are Still Settling"
+          },
+          "detail": {
+            "th": "OP-13 วางจำหน่ายในปี 2025 ราคายังปรับตัวอยู่ การซื้อเพื่อลงทุนในช่วงนี้มีความเสี่ยงสูงกว่าชุดเก่า ควรรอให้ราคาเสถียรก่อนหากไม่ต้องการรับความเสี่ยงสูง",
+            "en": "Released in 2025, OP-13 prices are still finding their floor — especially for the SEC Red Super Alt Arts. Higher risk than established sets. Consider waiting for price stabilization if you're risk-averse."
+          }
         }
       ],
-      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "2026-06-27",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op14eb04-booster-box",
-    "product_name": "OP-14 The Azure Sea's Seven Booster Box",
-    "product_type": "Extra Booster",
+    "product_id": "one-piece:OP14-EB04:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP14-EB04",
+    "set_name": "The Azure Sea's Seven",
+    "language": "JP",
+    "product_type": "Extra Booster",
+    "product_name": "OP-14 The Azure Sea's Seven Booster Box",
     "release_date": "2025-11-28",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -506,23 +902,42 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors"],
+        "best_for": [
+          "Collectors"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2800, "high_thb": 4000 },
+        "price_range": {
+          "low_thb": 2800,
+          "high_thb": 4000
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op15eb04-booster-box",
-    "product_name": "OP-15 Adventure on Kami's Island Booster Box",
-    "product_type": "Extra Booster",
+    "product_id": "one-piece:OP15-EB04:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP15-EB04",
+    "set_name": "Adventure on Kami's Island",
+    "language": "JP",
+    "product_type": "Extra Booster",
+    "product_name": "OP-15 Adventure on Kami's Island Booster Box",
     "release_date": "2026-03-28",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -531,23 +946,42 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Collectors"],
+        "best_for": [
+          "Collectors"
+        ],
         "difficulty": "Intermediate",
-        "price_range": { "low_thb": 2800, "high_thb": 4000 },
+        "price_range": {
+          "low_thb": 2800,
+          "high_thb": 4000
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "op16-booster-box",
-    "product_name": "OP-16 The Time of Battle Booster Box",
-    "product_type": "Booster Box",
+    "product_id": "one-piece:OP-16:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "OP-16",
+    "set_name": "The Time of Battle",
+    "language": "JP",
+    "product_type": "Booster Box",
+    "product_name": "OP-16 The Time of Battle Booster Box",
     "release_date": "2026-03-28",
     "card_count_per_pack": 12,
     "packs_per_box": 24,
@@ -556,23 +990,43 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": ["Beginners", "Players"],
+        "best_for": [
+          "Beginners",
+          "Players"
+        ],
         "difficulty": "Beginner",
-        "price_range": { "low_thb": 2600, "high_thb": 3600 },
+        "price_range": {
+          "low_thb": 2600,
+          "high_thb": 3600
+        },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "eb01-booster-box",
-    "product_name": "EB-01 Memorial Collection Extra Booster Box",
-    "product_type": "Extra Booster",
+    "product_id": "one-piece:EB-01:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "EB-01",
+    "set_name": "Memorial Collection",
+    "language": "JP",
+    "product_type": "Extra Booster",
+    "product_name": "EB-01 Memorial Collection Extra Booster Box",
     "release_date": "2023-08-12",
     "card_count_per_pack": 8,
     "packs_per_box": 24,
@@ -580,19 +1034,43 @@
     "product_image": "",
     "affiliate_url": null,
     "buying_guide": {
-      "quick_facts": { "best_for": ["Collectors"], "difficulty": "Beginner", "price_range": { "low_thb": 2800, "high_thb": 4000 }, "top_chase_cards": [] },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "quick_facts": {
+        "best_for": [
+          "Collectors"
+        ],
+        "difficulty": "Beginner",
+        "price_range": {
+          "low_thb": 2800,
+          "high_thb": 4000
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "eb02-booster-box",
-    "product_name": "EB-02 Memorial Collection Extra Booster Box Vol.2",
-    "product_type": "Extra Booster",
+    "product_id": "one-piece:EB-02:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "EB-02",
+    "set_name": "Memorial Collection Vol.2",
+    "language": "JP",
+    "product_type": "Extra Booster",
+    "product_name": "EB-02 Memorial Collection Extra Booster Box Vol.2",
     "release_date": "2024-02-23",
     "card_count_per_pack": 8,
     "packs_per_box": 24,
@@ -600,19 +1078,43 @@
     "product_image": "",
     "affiliate_url": null,
     "buying_guide": {
-      "quick_facts": { "best_for": ["Collectors"], "difficulty": "Beginner", "price_range": { "low_thb": 2600, "high_thb": 3800 }, "top_chase_cards": [] },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "quick_facts": {
+        "best_for": [
+          "Collectors"
+        ],
+        "difficulty": "Beginner",
+        "price_range": {
+          "low_thb": 2600,
+          "high_thb": 3800
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "eb03-booster-box",
-    "product_name": "EB-03 Memorial Collection Extra Booster Box Vol.3",
-    "product_type": "Extra Booster",
+    "product_id": "one-piece:EB-03:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "EB-03",
+    "set_name": "One Piece Heroines Edition",
+    "language": "JP",
+    "product_type": "Extra Booster",
+    "product_name": "EB-03 Memorial Collection Extra Booster Box Vol.3",
     "release_date": "2024-11-08",
     "card_count_per_pack": 8,
     "packs_per_box": 24,
@@ -620,19 +1122,43 @@
     "product_image": "",
     "affiliate_url": null,
     "buying_guide": {
-      "quick_facts": { "best_for": ["Collectors"], "difficulty": "Beginner", "price_range": { "low_thb": 2400, "high_thb": 3500 }, "top_chase_cards": [] },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "quick_facts": {
+        "best_for": [
+          "Collectors"
+        ],
+        "difficulty": "Beginner",
+        "price_range": {
+          "low_thb": 2400,
+          "high_thb": 3500
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "prb01-booster-box",
-    "product_name": "PRB-01 Premium Booster Box",
-    "product_type": "Premium Booster",
+    "product_id": "one-piece:PRB-01:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "PRB-01",
+    "set_name": "Premium Booster - The Best",
+    "language": "JP",
+    "product_type": "Premium Booster",
+    "product_name": "PRB-01 Premium Booster Box",
     "release_date": "2024-09-06",
     "card_count_per_pack": 10,
     "packs_per_box": 20,
@@ -640,19 +1166,44 @@
     "product_image": "",
     "affiliate_url": null,
     "buying_guide": {
-      "quick_facts": { "best_for": ["Collectors", "Investors"], "difficulty": "Advanced", "price_range": { "low_thb": 6500, "high_thb": 9000 }, "top_chase_cards": [] },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "quick_facts": {
+        "best_for": [
+          "Collectors",
+          "Investors"
+        ],
+        "difficulty": "Advanced",
+        "price_range": {
+          "low_thb": 6500,
+          "high_thb": 9000
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   },
   {
-    "product_id": "prb02-booster-box",
-    "product_name": "PRB-02 Premium Booster Box Vol.2",
-    "product_type": "Premium Booster",
+    "product_id": "one-piece:PRB-02:JP:booster-box",
+    "game": "one-piece",
+    "game_name": "One Piece Card Game",
     "set_code": "PRB-02",
+    "set_name": "Premium Booster - The Best Vol.2",
+    "language": "JP",
+    "product_type": "Premium Booster",
+    "product_name": "PRB-02 Premium Booster Box Vol.2",
     "release_date": "2025-06-06",
     "card_count_per_pack": 10,
     "packs_per_box": 20,
@@ -660,12 +1211,33 @@
     "product_image": "",
     "affiliate_url": null,
     "buying_guide": {
-      "quick_facts": { "best_for": ["Collectors", "Investors"], "difficulty": "Advanced", "price_range": { "low_thb": 6000, "high_thb": 8500 }, "top_chase_cards": [] },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
+      "quick_facts": {
+        "best_for": [
+          "Collectors",
+          "Investors"
+        ],
+        "difficulty": "Advanced",
+        "price_range": {
+          "low_thb": 6000,
+          "high_thb": 8500
+        },
+        "top_chase_cards": []
+      },
+      "recommendation": {
+        "label": "",
+        "summary": ""
+      },
+      "market_status": {
+        "status": "",
+        "reason": ""
+      },
       "better_alternatives": [],
       "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "editorial": {
+        "last_reviewed": "",
+        "review_version": 1,
+        "reviewed_by": "Voyage Log"
+      }
     }
   }
 ]
