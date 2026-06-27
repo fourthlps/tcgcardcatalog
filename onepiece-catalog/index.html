@@ -487,6 +487,130 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 /* EMPTY + RESULTS */
 .empty{color:var(--faint);padding:30px 0;text-align:center;font-size:14px}
 .results-count{font-size:12px;color:var(--faint);margin-bottom:14px}
+
+/* ============================================================
+   PRODUCT DETAIL PAGE — Voyage Log Buying Guide
+   ============================================================ */
+
+/* Hero strip */
+.prod-hero{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:28px}
+.prod-hero-img{flex:0 0 auto;width:200px;border-radius:14px;overflow:hidden;background:var(--bg3);aspect-ratio:3/4;position:relative;box-shadow:0 16px 40px rgba(16,23,42,.22)}
+.prod-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+.prod-hero-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;opacity:.3}
+.prod-hero-info{flex:1;min-width:260px;display:flex;flex-direction:column;gap:10px}
+.prod-type-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--blues);color:var(--blue);align-self:flex-start}
+.prod-title{font-family:var(--font-display);font-size:28px;font-weight:800;line-height:1.12;letter-spacing:-.02em;margin:0}
+.prod-set-chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:12px;color:var(--soft);align-self:flex-start;cursor:pointer;transition:border-color .15s}
+.prod-set-chip:hover{border-color:var(--gold)}
+.prod-meta-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.prod-meta-pill{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--soft)}
+.prod-meta-pill b{color:var(--text);font-weight:700}
+.prod-meta-sep{color:var(--border);font-size:14px}
+
+/* Quick Facts */
+.qf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;margin-bottom:24px}
+.qf-cell{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow)}
+.qf-label{font-size:10.5px;color:var(--faint);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.qf-value{font-size:14px;font-weight:700;color:var(--text);line-height:1.25}
+.qf-value.gold{color:var(--gold)}
+.qf-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.qf-tag{font-size:11px;padding:2px 9px;border-radius:999px;background:var(--bg3);color:var(--soft);font-weight:600}
+
+/* Recommendation */
+.rec-section{margin-bottom:22px}
+.rec-card{border-radius:14px;padding:22px 24px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;box-shadow:var(--shadow)}
+.rec-card.highly-recommended{background:linear-gradient(135deg,rgba(22,163,74,.09),rgba(22,163,74,.04));border:1px solid rgba(22,163,74,.28)}
+.rec-card.recommended{background:linear-gradient(135deg,rgba(37,99,235,.09),rgba(37,99,235,.04));border:1px solid rgba(37,99,235,.28)}
+.rec-card.recommended-caution{background:linear-gradient(135deg,rgba(217,119,6,.09),rgba(217,119,6,.04));border:1px solid rgba(217,119,6,.28)}
+.rec-card.collectors-only{background:linear-gradient(135deg,rgba(139,92,246,.09),rgba(139,92,246,.04));border:1px solid rgba(139,92,246,.28)}
+.rec-card.fans-only{background:linear-gradient(135deg,rgba(13,148,136,.09),rgba(13,148,136,.04));border:1px solid rgba(13,148,136,.28)}
+.rec-card.skip{background:linear-gradient(135deg,rgba(100,116,139,.09),rgba(100,116,139,.04));border:1px solid rgba(100,116,139,.28)}
+.rec-card.empty-state{background:var(--bg2);border:1px solid var(--border)}
+.rec-label-wrap{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.rec-verdict{font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.rec-label{font-family:var(--font-display);font-size:20px;font-weight:800;line-height:1.2}
+.rec-label.c-green{color:#16a34a}
+.rec-label.c-blue{color:var(--blue)}
+.rec-label.c-orange{color:#d97706}
+.rec-label.c-purple{color:var(--purple)}
+.rec-label.c-teal{color:var(--teal)}
+.rec-label.c-gray{color:var(--soft)}
+.rec-label.c-faint{color:var(--faint)}
+.rec-summary{flex:1;font-size:14px;color:var(--soft);line-height:1.65;padding-top:2px}
+.rec-coming-soon{font-size:13px;color:var(--faint);font-style:italic}
+
+/* Market Status */
+.ms-row{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin-bottom:22px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.ms-label-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ms-icon{font-size:16px}
+.ms-badge{font-size:11.5px;font-weight:800;padding:4px 12px;border-radius:999px;white-space:nowrap}
+.ms-badge.undervalued{background:rgba(22,163,74,.14);color:#16a34a}
+.ms-badge.fair-value{background:var(--blues);color:var(--blue)}
+.ms-badge.overpriced{background:rgba(220,38,38,.12);color:#dc2626}
+.ms-badge.stable{background:var(--teals);color:var(--teal)}
+.ms-badge.volatile{background:rgba(217,119,6,.12);color:#d97706}
+.ms-badge.reprint-risk{background:rgba(220,38,38,.10);color:#dc2626}
+.ms-badge.empty{background:var(--bg3);color:var(--faint)}
+.ms-reason{font-size:13px;color:var(--soft);line-height:1.5}
+.ms-sep{width:1px;height:28px;background:var(--border);flex-shrink:0}
+
+/* Chase preview */
+.chase-preview-section{margin-bottom:24px}
+.chase-preview-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;-ms-overflow-style:none;scrollbar-width:none}
+.chase-preview-row::-webkit-scrollbar{display:none}
+.chase-preview-card{flex:0 0 110px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .18s,transform .18s;box-shadow:var(--shadow)}
+.chase-preview-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.chase-preview-img{aspect-ratio:3/4;background:var(--bg3);overflow:hidden}
+.chase-preview-img img{width:100%;height:100%;object-fit:cover}
+.chase-preview-body{padding:7px 8px}
+.chase-preview-name{font-size:10px;font-weight:700;line-height:1.3;margin-bottom:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.chase-preview-price{font-size:11.5px;font-weight:800;color:var(--gold);font-family:var(--font-display)}
+.chase-preview-rar{font-size:9.5px;color:var(--faint)}
+
+/* Better Alternatives */
+.alts-section{margin-bottom:24px}
+.alts-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.alt-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:var(--shadow)}
+.alt-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.alt-reason-badge{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--golds);color:var(--gold);margin-bottom:8px}
+.alt-name{font-size:14px;font-weight:700;margin-bottom:4px;line-height:1.3}
+.alt-context{font-size:12px;color:var(--soft);line-height:1.5}
+.alt-arrow{font-size:12px;color:var(--gold);margin-top:6px;font-weight:700}
+.alts-empty{font-size:13px;color:var(--faint);font-style:italic;padding:12px 0}
+
+/* Things to Know */
+.ttk-section{margin-bottom:24px}
+.ttk-list{display:flex;flex-direction:column;gap:0}
+.ttk-item{padding:15px 0;border-bottom:1px solid var(--border)}
+.ttk-item:last-child{border-bottom:none}
+.ttk-topic{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:7px}
+.ttk-topic::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.ttk-detail{font-size:13px;color:var(--soft);line-height:1.65;padding-left:12px}
+.ttk-empty{font-size:13px;color:var(--faint);font-style:italic;padding:12px 0}
+
+/* Section heading inside product page */
+.prod-sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.prod-sec-head h2{font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:-.01em}
+.prod-sec-divider{flex:1;height:1px;background:var(--border)}
+
+/* Editorial */
+.editorial-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 18px;background:var(--bg3);border-radius:10px;margin-top:8px}
+.editorial-item{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--faint)}
+.editorial-item b{color:var(--soft);font-weight:700}
+.editorial-sep{color:var(--border)}
+
+/* Set card Buying Guide link */
+.set-guide-btn{display:block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--golds);border:none;border-radius:6px;padding:6px 10px;cursor:pointer;width:100%;text-align:left;transition:background .12s}
+.set-guide-btn:hover{background:rgba(59,111,224,.18)}
+
+/* Mobile tweaks */
+@media (max-width:640px){
+  .prod-hero-img{width:140px}
+  .prod-title{font-size:22px}
+  .qf-grid{grid-template-columns:1fr 1fr}
+  .rec-card{flex-direction:column;gap:10px}
+  .ms-sep{display:none}
+}
 </style>
 </head>
 <body>
@@ -805,6 +929,13 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="detail-card" id="detail-card"></div>
 </main>
 
+<!-- PRODUCT DETAIL -->
+<main class="app" id="view-product" style="display:none">
+  <div class="crumb" id="crumb-product"></div>
+  <button class="back-btn" id="back-product">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to Sets">กลับไปเลือกชุด</span></button>
+  <div id="product-content"></div>
+</main>
+
 <!-- SEARCH RESULTS -->
 <main class="app" id="view-search" style="display:none">
   <div class="crumb" id="crumb-srch"></div>
@@ -823,7 +954,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <script>
-const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null};
+const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null,products:[]};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
@@ -900,6 +1031,7 @@ async function init(){
   }catch(e){D.index=[];}
   renderHome();
   applyLangUI();
+  fetch('products.json').then(r=>r.ok?r.json():null).then(d=>{if(d){D.products=d;}});
   // Non-blocking parallel fetches: FX rate + trend data + site status.
   // None of these block the initial render -- they refresh the relevant
   // UI sections as soon as their data arrives.
@@ -985,7 +1117,7 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-cards','view-detail','view-search'].forEach(v=>{
+  ['view-home','view-sets','view-cards','view-detail','view-search','view-product'].forEach(v=>{
     document.getElementById(v).style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
@@ -1647,6 +1779,173 @@ function jumpCard(code,imgId){
 
 function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
 
+// ─── PRODUCT DETAIL / BUYING GUIDE ───────────────────────────────────────────
+function _recClass(label){
+  const m={'Highly Recommended':'highly-recommended','Recommended':'recommended','Recommended with Caution':'recommended-caution','Only for Collectors':'collectors-only','Only for Fans of the Series':'fans-only','Skip for Now':'skip'};
+  return m[label]||'empty-state';
+}
+function _recColor(label){
+  const m={'Highly Recommended':'c-green','Recommended':'c-blue','Recommended with Caution':'c-orange','Only for Collectors':'c-purple','Only for Fans of the Series':'c-teal','Skip for Now':'c-gray'};
+  return m[label]||'c-faint';
+}
+function _msClass(status){
+  const m={'Undervalued':'undervalued','Fair Value':'fair-value','Overpriced':'overpriced','Stable':'stable','Volatile':'volatile','Reprint Risk':'reprint-risk'};
+  return m[status]||'empty';
+}
+function _msIcon(status){
+  const m={'Undervalued':'📉','Fair Value':'⚖️','Overpriced':'📈','Stable':'🟢','Volatile':'⚡','Reprint Risk':'⚠️'};
+  return m[status]||'📊';
+}
+
+function openProduct(productId){
+  const L=S.lang;
+  const p=D.products.find(x=>x.product_id===productId);
+  if(!p)return;
+  const bg=p.buying_guide||{};
+  const qf=bg.quick_facts||{};
+  const rec=bg.recommendation||{};
+  const ms=bg.market_status||{};
+  const alts=bg.better_alternatives||[];
+  const ttk=bg.things_to_know||[];
+  const ed=bg.editorial||{};
+
+  // Auto-populate chase cards from live price data
+  const setCards=D.cache[p.set_code]||[];
+  const topChase=setCards.filter(c=>realPrice(c)>0).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,6);
+
+  // Hero image: top chase card art
+  const heroImg=topChase[0]?.card_image||'';
+
+  // Price range display
+  const pr=qf.price_range||{};
+  const priceStr=pr.low_thb&&pr.high_thb
+    ?(S.cur==='THB'?`฿${pr.low_thb.toLocaleString('th-TH')} – ฿${pr.high_thb.toLocaleString('th-TH')}`:`$${Math.round(pr.low_thb/S.fx)} – $${Math.round(pr.high_thb/S.fx)}`)
+    :'—';
+
+  // Best-for tags
+  const bestForHtml=(qf.best_for||[]).map(t=>`<span class="qf-tag">${t}</span>`).join('');
+
+  // Recommendation block
+  const hasRec=!!rec.label;
+  const recCardClass=_recClass(rec.label);
+  const recLabelClass=_recColor(rec.label);
+  const recHtml=hasRec
+    ?`<div class="rec-label-wrap">
+        <span class="rec-verdict">${L==='th'?'คำแนะนำ':'Our Verdict'}</span>
+        <span class="rec-label ${recLabelClass}">${rec.label}</span>
+      </div>
+      <p class="rec-summary">${rec.summary||''}</p>`
+    :`<div class="rec-label-wrap"><span class="rec-verdict">${L==='th'?'คำแนะนำ':'Our Verdict'}</span></div>
+      <p class="rec-coming-soon">${L==='th'?'กำลังจัดทำคู่มือการซื้อ...':'Buying Guide is being prepared...'}</p>`;
+
+  // Market status block
+  const hasMsStatus=!!ms.status;
+  const msBadgeClass=_msClass(ms.status);
+  const msIcon=_msIcon(ms.status);
+
+  // Chase preview
+  const chaseHtml=topChase.length
+    ?topChase.map(c=>`<div class="chase-preview-card" onclick="jumpCard('${p.set_code}','${c.card_image_id}')">
+        <div class="chase-preview-img"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
+        <div class="chase-preview-body">
+          <div class="chase-preview-name">${chaseBase(c.card_name)}</div>
+          <div class="chase-preview-price">${fp(realPrice(c))}</div>
+          <div class="chase-preview-rar">${c.rarity||''}</div>
+        </div>
+      </div>`).join('')
+    :`<span class="empty" style="font-size:12px">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</span>`;
+
+  // Better alternatives
+  const altsHtml=alts.length
+    ?alts.map(a=>{
+        const ap=D.products.find(x=>x.product_id===a.product_id);
+        const aName=ap?ap.product_name:a.product_id;
+        return `<div class="alt-card" onclick="${ap?`openProduct('${a.product_id}')`:''}" style="${ap?'':'cursor:default'}">
+          <span class="alt-reason-badge">${a.reason}</span>
+          <div class="alt-name">${aName}</div>
+          <div class="alt-context">${a.context}</div>
+          ${ap?'<div class="alt-arrow">View Guide →</div>':''}
+        </div>`;
+      }).join('')
+    :`<p class="alts-empty">${L==='th'?'ยังไม่มีสินค้าทางเลือกในขณะนี้':'No alternatives listed yet.'}</p>`;
+
+  // Things to know
+  const ttkHtml=ttk.length
+    ?ttk.map(t=>`<div class="ttk-item"><div class="ttk-topic">${t.topic}</div><div class="ttk-detail">${t.detail}</div></div>`).join('')
+    :`<p class="ttk-empty">${L==='th'?'กำลังจัดทำ...':'Being prepared...'}</p>`;
+
+  // Editorial
+  const editHtml=ed.last_reviewed
+    ?`<div class="editorial-bar">
+        <div class="editorial-item">📅 <span>${L==='th'?'อัปเดตล่าสุด':'Last reviewed'}</span> <b>${ed.last_reviewed}</b></div>
+        <span class="editorial-sep">·</span>
+        <div class="editorial-item">✍️ <b>${ed.reviewed_by||'Voyage Log'}</b></div>
+        <span class="editorial-sep">·</span>
+        <div class="editorial-item">${L==='th'?'เวอร์ชัน':'Version'} <b>${ed.review_version||1}</b></div>
+      </div>`
+    :'';
+
+  const html=`
+    <div class="prod-hero">
+      <div class="prod-hero-img">
+        ${heroImg?`<img src="${heroImg}" loading="lazy" onerror="this.style.visibility='hidden'">`
+                 :`<div class="prod-hero-img-ph">${p.product_type==='Starter Deck'?'🗡️':p.product_type==='Extra Booster'?'✨':'⚓'}</div>`}
+      </div>
+      <div class="prod-hero-info">
+        <span class="prod-type-badge">${p.product_type}</span>
+        <h1 class="prod-title">${p.product_name}</h1>
+        <div class="prod-meta-row">
+          <span class="prod-set-chip" onclick="openSet('${p.set_code}')">${p.set_code} ↗</span>
+          ${p.release_date?`<span class="prod-meta-pill prod-meta-sep">·</span><span class="prod-meta-pill">${L==='th'?'วางจำหน่าย':'Released'} <b>${p.release_date}</b></span>`:''}
+          ${p.msrp_thb?`<span class="prod-meta-pill prod-meta-sep">·</span><span class="prod-meta-pill">MSRP <b>${S.cur==='THB'?'฿'+p.msrp_thb.toLocaleString('th-TH'):'$'+Math.round(p.msrp_thb/S.fx)}</b></span>`:''}
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-sec-head"><h2>${L==='th'?'ข้อมูลเบื้องต้น':'Quick Facts'}</h2><div class="prod-sec-divider"></div></div>
+    <div class="qf-grid">
+      <div class="qf-cell"><span class="qf-label">${L==='th'?'เหมาะสำหรับ':'Best For'}</span><div class="qf-tags">${bestForHtml||`<span class="qf-tag">${L==='th'?'กำลังจัดทำ':'—'}</span>`}</div></div>
+      <div class="qf-cell"><span class="qf-label">${L==='th'?'ระดับความยาก':'Difficulty'}</span><span class="qf-value">${qf.difficulty||'—'}</span></div>
+      <div class="qf-cell"><span class="qf-label">${L==='th'?'ช่วงราคากล่อง':'Box Price Range'}</span><span class="qf-value gold">${priceStr}</span></div>
+      <div class="qf-cell"><span class="qf-label">${L==='th'?'จำนวนซองต่อกล่อง':'Packs / Box'}</span><span class="qf-value">${p.packs_per_box||'—'}</span></div>
+      <div class="qf-cell"><span class="qf-label">${L==='th'?'การ์ดต่อซอง':'Cards / Pack'}</span><span class="qf-value">${p.card_count_per_pack||'—'}</span></div>
+      <div class="qf-cell"><span class="qf-label">${L==='th'?'การ์ดทั้งหมดในชุด':'Total Set Cards'}</span><span class="qf-value">${(D.index.find(s=>s.code===p.set_code)||{}).count||'—'}</span></div>
+    </div>
+
+    <div class="prod-sec-head"><h2>${L==='th'?'คำแนะนำ Voyage Log':'Voyage Log Verdict'}</h2><div class="prod-sec-divider"></div></div>
+    <div class="rec-section">
+      <div class="rec-card ${recCardClass}">${recHtml}</div>
+    </div>
+
+    <div class="prod-sec-head"><h2>${L==='th'?'สถานะตลาด':'Market Status'}</h2><div class="prod-sec-divider"></div></div>
+    <div class="ms-row">
+      <div class="ms-label-wrap">
+        <span class="ms-icon">${hasMsStatus?msIcon:'📊'}</span>
+        <span class="ms-badge ${msBadgeClass}">${ms.status||(L==='th'?'กำลังประเมิน':'Pending Assessment')}</span>
+      </div>
+      ${hasMsStatus?`<div class="ms-sep"></div><span class="ms-reason">${ms.reason}</span>`:`<div class="ms-sep"></div><span class="ms-reason" style="font-style:italic;color:var(--faint)">${L==='th'?'กำลังวิเคราะห์ข้อมูลตลาด...':'Market analysis in progress...'}</span>`}
+    </div>
+
+    <div class="prod-sec-head"><h2>${L==='th'?'Chase Cards ในชุดนี้':'Top Chase Cards in This Set'}</h2><div class="prod-sec-divider"></div></div>
+    <div class="chase-preview-section">
+      <div class="chase-preview-row">${chaseHtml}</div>
+    </div>
+
+    <div class="prod-sec-head"><h2>${L==='th'?'ตัวเลือกที่ดีกว่า':'Better Alternatives'}</h2><div class="prod-sec-divider"></div></div>
+    <div class="alts-section"><div class="alts-row">${altsHtml}</div></div>
+
+    <div class="prod-sec-head"><h2>${L==='th'?'สิ่งที่ควรรู้ก่อนซื้อ':'Things to Know Before Buying'}</h2><div class="prod-sec-divider"></div></div>
+    <div class="ttk-section"><div class="ttk-list">${ttkHtml}</div></div>
+
+    ${editHtml}`;
+
+  document.getElementById('product-content').innerHTML=html;
+  document.getElementById('back-product').onclick=()=>{renderSets();setCrumb('crumb-sets',' / One Piece');};
+  setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / ${p.product_name}`);
+  show('view-product');
+  window.scrollTo(0,0);
+}
+
 function setCatChips(){
   const L=S.lang;
   const cats=[
@@ -1684,6 +1983,7 @@ function renderSets(){
         <div class="set-code">${s.code}</div>
         <div class="set-name">${s.name}</div>
         <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · <span style="color:var(--faint);font-size:10.5px">${L==='th'?'ราคาโดยประมาณ':'est. price'}</span></div>
+        ${(()=>{const p=D.products.find(x=>x.set_code===s.code);return p?`<button class="set-guide-btn" onclick="event.stopPropagation();openProduct('${p.product_id}')">📖 ${L==='th'?'คู่มือการซื้อ →':'Buying Guide →'}</button>`:'';})()}
       </div>
     </div>`;
   }).filter(Boolean);
