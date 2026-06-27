@@ -166,11 +166,51 @@
         "price_range": { "low_thb": 14000, "high_thb": 20000 },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
-      "better_alternatives": [],
-      "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "recommendation": {
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-05 Awakening of the New Era คือชุดที่มีมูลค่าสูงที่สุดใน One Piece TCG — ราคากล่องที่ ฿16,500+ สะท้อนถึง Chase Card ระดับตำนาน นำโดย Luffy SEC Manga Alt Art ที่ราคาสูงถึง $3,900 ชุดนี้มีประวัติราคาที่ขึ้นต่อเนื่อง ไม่มีสัญญาณ Reprint และเป็นตัวเลือกอันดับ 1 สำหรับนักลงทุนและนักสะสมจริงจัง",
+          "en": "OP-05 Awakening of the New Era is the highest-value set in One Piece TCG history. The $490+ box price reflects legendary chase cards led by the Luffy SEC Manga Alt Art at ~$3,900. With a strong sealed appreciation track record, no reprint signals, and 13 cards valued above $50, this is the undisputed top pick for serious investors and collectors."
+        }
+      },
+      "market_status": {
+        "status": "Undervalued",
+        "reason": {
+          "th": "แม้ราคากล่องจะสูง แต่ค่า EV รวมของ Chase Card ในชุดนี้ยังสูงกว่าราคากล่องอย่างมีนัยสำคัญ ไม่มีสัญญาณ Reprint และดีมานด์ยังแข็งแกร่งต่อเนื่อง ถือเป็นชุดที่มีมูลค่าที่ซ่อนอยู่สำหรับคนที่มองระยะยาว",
+          "en": "Despite the high box price, the combined EV of top chase cards significantly outpaces the box cost. No reprint signals detected and demand remains strong. Considered undervalued relative to its long-term ceiling."
+        }
+      },
+      "better_alternatives": [
+        {
+          "product_id": "op13-booster-box",
+          "reason": { "th": "ดีกว่าสำหรับผู้เริ่มต้นสะสม", "en": "Better for Entry-Level Collectors" },
+          "context": { "th": "OP-13 มีราคากล่องถูกกว่ามาก แต่ยังมี Chase Card ที่น่าสนใจและมูลค่าสูง เหมาะสำหรับผู้ที่ยังไม่พร้อมลงทุนใน OP-05", "en": "OP-13 offers a lower entry price with strong chase card density. A better starting point if the OP-05 budget feels out of reach." }
+        },
+        {
+          "product_id": "op09-booster-box",
+          "reason": { "th": "ดีกว่าสำหรับนักสะสม Manga Art", "en": "Better for Manga Art Collectors" },
+          "context": { "th": "OP-09 มี Manga Art cards ชั้นนำรวมถึง Roger และ Luffy SEC Manga ที่ราคาเกิน $2,000 เหมาะสำหรับนักสะสมสาย Manga Art โดยเฉพาะ", "en": "OP-09 houses the Roger and Luffy Manga SECs above $2,000 each. The premium destination for Manga Art collectors specifically." }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": { "th": "Luffy SEC Manga Alt Art คือราคา Trophy สูงสุดของเกม", "en": "Luffy SEC Manga Alt Art Is the Game's #1 Trophy Card" },
+          "detail": { "th": "OP05-119 Luffy SEC (Manga)(Alt Art) มีราคาสูงถึง $3,900+ เป็นใบที่นักสะสมทุกคนต้องการ แต่อัตราดึงต่อกล่องต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้โดยเฉพาะ", "en": "OP05-119 Luffy SEC Manga Alt Art trades above $3,900 — the most valuable standard-set card in the game. Pull rates are extremely low. Do not buy boxes expecting to hit this specific card." }
+        },
+        {
+          "topic": { "th": "ราคากล่องสูงที่สุดในเกม", "en": "The Most Expensive Box in the Game" },
+          "detail": { "th": "OP-05 มีราคากล่องประมาณ ฿16,500 ซึ่งสูงที่สุดในบรรดาทุกชุดของ One Piece TCG ควรมีงบสำรองและพร้อมรับความเสี่ยงก่อนเปิด", "en": "At ~฿16,500 per box, OP-05 is the most expensive One Piece booster box on the market. Budget accordingly and understand the risk profile before opening." }
+        },
+        {
+          "topic": { "th": "ชุดที่ไม่มีสัญญาณ Reprint", "en": "No Reprint Signals" },
+          "detail": { "th": "ต่างจาก OP-01 ที่ถูก Reprint บ่อย OP-05 ยังไม่มีสัญญาณว่าจะถูกพิมพ์ซ้ำ ทำให้กล่องซีลยังรักษามูลค่าได้ดีในระยะยาว", "en": "Unlike OP-01, OP-05 has shown no reprint signals. Sealed boxes have maintained strong long-term value as a result." }
+        },
+        {
+          "topic": { "th": "Cards $50+ หนาแน่นที่สุดในเกม", "en": "Densest $50+ Card Distribution in the Game" },
+          "detail": { "th": "OP-05 มีการ์ดที่ราคาเกิน $50 ถึง 13 ใบ — สูงกว่าชุดอื่นส่วนใหญ่ ทำให้ Expected Value ต่อกล่องสูงกว่าที่ราคากล่องบ่งบอก", "en": "OP-05 has 13 cards priced above $50 — more than almost any other set. This makes the expected value per box strong relative to the box price." }
+        }
+      ],
+      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
     }
   },
   {
@@ -266,11 +306,51 @@
         "price_range": { "low_thb": 4000, "high_thb": 5500 },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
-      "better_alternatives": [],
-      "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "recommendation": {
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-09 Emperors in the New World คือชุดของตำนาน — Roger SEC Manga และ Luffy SEC Manga อยู่ที่นี่ รวมถึง Shanks SR Manga ที่ราคาเกิน $1,800 ชุดนี้มีการ์ดราคาเกิน $50 ถึง 20 ใบ และมูลค่ารวมสูงที่สุดในบรรดาทุกชุดที่เราวิเคราะห์ ($15,000+) เหมาะสำหรับนักสะสมและนักลงทุนที่ต้องการชุดที่มี Chase Card ระดับ Trophy หลายใบในกล่องเดียว",
+          "en": "OP-09 Emperors in the New World is home to two of the most coveted cards in the game — the Roger SEC Manga ($2,900+) and Luffy SEC Manga ($2,400+). With 20 cards priced above $50 and the highest total priced value of any set we've analyzed ($15,000+), this is a premium buy for serious collectors and investors alike."
+        }
+      },
+      "market_status": {
+        "status": "Undervalued",
+        "reason": {
+          "th": "มูลค่ารวมของ Chase Card ใน OP-09 สูงกว่า $15,000 ในขณะที่ราคากล่องอยู่ที่ประมาณ $135 ความหนาแน่นของ Chase Card ต่อกล่องสูงมาก และยังไม่มีสัญญาณ Reprint ทำให้ชุดนี้ยังมีมูลค่าที่ซ่อนอยู่",
+          "en": "Total chase card value across the set exceeds $15,000 while boxes trade around $135. The density of high-value cards relative to box price is exceptional, with no reprint signals in sight."
+        }
+      },
+      "better_alternatives": [
+        {
+          "product_id": "op05-booster-box",
+          "reason": { "th": "ดีกว่าสำหรับ Trophy Card สูงสุด", "en": "Better for the Single Highest Trophy" },
+          "context": { "th": "ถ้าเป้าหมายคือการดึง Luffy SEC Manga Alt Art ที่ราคา $3,900 OP-05 คือชุดที่ต้องซื้อ แต่ต้องพร้อมรับราคากล่องที่สูงกว่า 3 เท่า", "en": "If your goal is chasing the Luffy SEC Manga Alt Art at $3,900, OP-05 is the set to buy — but be ready for a box price 3x higher." }
+        },
+        {
+          "product_id": "op13-booster-box",
+          "reason": { "th": "ดีกว่าสำหรับ Parallel Rare ระดับสูง", "en": "Better for High-Value Parallel Rares" },
+          "context": { "th": "OP-13 มีความพิเศษที่ Parallel R cards มีราคาสูงมาก ($400-$540 ต่อใบ) ซึ่งแตกต่างจากทุกชุดที่ผ่านมา", "en": "OP-13 is unique in that its Parallel R cards command $400–$540 each — a distribution pattern unlike any previous set." }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": { "th": "Roger SEC Manga คือ Trophy Card สูงสุดของชุด", "en": "Roger SEC Manga Is the Crown Jewel" },
+          "detail": { "th": "OP09-118 Gol.D.Roger SEC Manga มีราคาสูงถึง $2,900+ — หนึ่งในการ์ดที่นักสะสมทุกคนอยากได้มากที่สุด อัตราดึงต่ำมากเช่นกัน ควรวางความคาดหวังให้สมจริง", "en": "OP09-118 Gol.D.Roger SEC Manga trades above $2,900 — one of the most coveted cards in the entire game. Pull rates are very low. Manage expectations accordingly." }
+        },
+        {
+          "topic": { "th": "Manga Art Variant คือสิ่งที่ทำให้ชุดนี้พิเศษ", "en": "Manga Art Variants Define This Set's Value" },
+          "detail": { "th": "OP-09 มี Manga Art variants ของ Roger, Luffy, Shanks, Marshall D. Teach และ Buggy — หลายใบมีราคาเกิน $1,000 การ์ดเวอร์ชันปกติมีราคาต่ำกว่ามาก ควรรู้ว่ากำลังล่าอะไรอยู่", "en": "OP-09 features Manga Art variants of Roger, Luffy, Shanks, Teach, and Buggy — multiple cards above $1,000. Base versions are far cheaper. Know exactly which version you're hunting before buying." }
+        },
+        {
+          "topic": { "th": "ราคาคุ้มค่ากว่า OP-05 มาก", "en": "Far Better Value Entry Point Than OP-05" },
+          "detail": { "th": "OP-09 มีราคากล่องประมาณ ฿4,000–5,500 ซึ่งถูกกว่า OP-05 ถึง 3 เท่า แต่ยังมี Chase Card ระดับ Trophy ที่น่าสนใจมาก ทำให้ Risk/Reward ดีกว่าสำหรับนักลงทุนหน้าใหม่", "en": "At ฿4,000–5,500 per box, OP-09 is roughly 3x cheaper than OP-05 while still housing multiple $1,000+ trophy cards. A much better risk/reward entry for newer investors." }
+        },
+        {
+          "topic": { "th": "20 ใบที่ราคาเกิน $50 — หนาแน่นที่สุดในบรรดาชุดราคากลาง", "en": "20 Cards Above $50 — Densest Among Mid-Priced Sets" },
+          "detail": { "th": "ด้วยการ์ด 20 ใบที่ราคาเกิน $50 OP-09 มี Expected Value ต่อกล่องที่สูงมากเมื่อเทียบกับราคากล่อง ทำให้เป็นหนึ่งในชุดที่ EV ดีที่สุดในเกม", "en": "With 20 cards above $50, OP-09 delivers outstanding expected value relative to its box price — one of the best EV ratios in the entire One Piece TCG lineup." }
+        }
+      ],
+      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
     }
   },
   {
@@ -366,11 +446,51 @@
         "price_range": { "low_thb": 5500, "high_thb": 8000 },
         "top_chase_cards": []
       },
-      "recommendation": { "label": "", "summary": "" },
-      "market_status": { "status": "", "reason": "" },
-      "better_alternatives": [],
-      "things_to_know": [],
-      "editorial": { "last_reviewed": "", "review_version": 1, "reviewed_by": "Voyage Log" }
+      "recommendation": {
+        "label": "Highly Recommended",
+        "summary": {
+          "th": "OP-13 Carrying On His Will คือชุดที่พิเศษที่สุดในประวัติศาสตร์ One Piece TCG ในแง่ของการกระจายมูลค่า — นอกจาก SEC ระดับ Trophy ที่ราคาเกิน $8,000 แล้ว ยังมี Parallel R cards ของ Five Elders ที่ราคา $400-$540 ต่อใบ ทำให้แม้ดึงการ์ดระดับ R ก็ยังมีโอกาสได้มูลค่าสูง ชุดที่มี $50+ cards มากที่สุดในเกมด้วย 25 ใบ",
+          "en": "OP-13 Carrying On His Will is the most unusually value-distributed set in One Piece TCG history. Beyond SEC trophy cards exceeding $8,000, it features Five Elders Parallel R cards at $400–$540 each — meaning even R-rarity pulls can yield massive value. With 25 cards above $50 (the most of any set), this is the highest-density value box in the game right now."
+        }
+      },
+      "market_status": {
+        "status": "Volatile",
+        "reason": {
+          "th": "OP-13 เพิ่งวางจำหน่ายในปี 2025 ราคาของ SEC Red Super Alt Art และ Parallel R ของ Five Elders ยังผันผวนสูงมาก ราคา $8,000+ ของ Luffy Red Super Alt Art อาจปรับลงได้เมื่อตลาดเสถียรขึ้น ควรติดตามราคาอย่างใกล้ชิดก่อนตัดสินใจซื้อจำนวนมาก",
+          "en": "Released in 2025, OP-13 prices — especially the SEC Red Super Alt Arts and Five Elders Parallel Rs — remain highly volatile. The $8,000+ Luffy Red Super Alt Art price may stabilize or correct as the market matures. Monitor closely before committing large volumes."
+        }
+      },
+      "better_alternatives": [
+        {
+          "product_id": "op09-booster-box",
+          "reason": { "th": "ดีกว่าสำหรับนักลงทุนที่ต้องการความเสี่ยงต่ำกว่า", "en": "Better for Lower-Risk Investors" },
+          "context": { "th": "OP-09 มีราคาตลาดที่เสถียรกว่าและมี Chase Card ระดับ Trophy เช่นกัน ในราคากล่องที่ถูกกว่ามาก เหมาะสำหรับผู้ที่ต้องการ EV ที่คาดเดาได้มากกว่า", "en": "OP-09 offers a more settled market with proven trophy cards at a much lower box price. Better for those who want more predictable EV." }
+        },
+        {
+          "product_id": "op05-booster-box",
+          "reason": { "th": "ดีกว่าสำหรับการถือครองระยะยาว", "en": "Better for Long-Term Holding" },
+          "context": { "th": "OP-05 มีประวัติราคากล่องที่ขึ้นต่อเนื่องมานานกว่า 2 ปี ให้ความมั่นใจในการถือครองระยะยาวมากกว่า OP-13 ที่ยังใหม่อยู่", "en": "OP-05 has a 2+ year track record of sealed appreciation, offering more confidence for long-term holding than OP-13 which is still establishing its price floor." }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": { "th": "Luffy Red Super Alt Art SEC — การ์ดแพงที่สุดในเกมขณะนี้", "en": "Luffy Red Super Alt Art SEC — Currently the Most Expensive Card in the Game" },
+          "detail": { "th": "OP13-118 Luffy SEC (Red Super Alt Art) มีราคาสูงถึง $8,490 — สูงกว่าทุกการ์ดใน One Piece TCG ในขณะนี้ โอกาสดึงต่อกล่องต่ำมาก ไม่ควรซื้อกล่องโดยหวังว่าจะได้ใบนี้", "en": "OP13-118 Luffy SEC Red Super Alt Art trades above $8,490 — the highest-priced card in One Piece TCG right now. Pull rates are extremely low. Do not buy boxes expecting to pull this specific card." }
+        },
+        {
+          "topic": { "th": "Parallel R ของ Five Elders คือ Game-Changer", "en": "Five Elders Parallel Rs Are a Game-Changer" },
+          "detail": { "th": "OP-13 เป็นชุดแรกที่ Parallel R มีราคาสูงถึง $400–$540 ต่อใบ (Five Elders ทั้ง 5 ตัว) ซึ่งไม่เคยเกิดขึ้นในชุดไหนมาก่อน ทำให้โอกาสได้มูลค่าสูงจากการดึง R card ธรรมดาเป็นไปได้จริง", "en": "OP-13 is the first set where Parallel R cards reach $400–$540 each (all five Five Elders). This has never happened before in any set, making meaningful EV achievable even from R-rarity pulls." }
+        },
+        {
+          "topic": { "th": "25 ใบที่ราคาเกิน $50 — สูงที่สุดในเกม", "en": "25 Cards Above $50 — Most of Any Set" },
+          "detail": { "th": "OP-13 มีการ์ดราคาเกิน $50 ถึง 25 ใบ — มากกว่าทุกชุดที่ผ่านมา ทำให้ Expected Value ต่อกล่องสูงมาก แม้ว่าราคายังผันผวนอยู่ก็ตาม", "en": "OP-13 has 25 cards priced above $50 — more than any other set in the game. Expected value per box is exceptionally high, even accounting for current price volatility." }
+        },
+        {
+          "topic": { "th": "ชุดใหม่ — ราคายังไม่เสถียร", "en": "New Set — Prices Are Still Settling" },
+          "detail": { "th": "OP-13 วางจำหน่ายในปี 2025 ราคายังปรับตัวอยู่ การซื้อเพื่อลงทุนในช่วงนี้มีความเสี่ยงสูงกว่าชุดเก่า ควรรอให้ราคาเสถียรก่อนหากไม่ต้องการรับความเสี่ยงสูง", "en": "Released in 2025, OP-13 prices are still finding their floor — especially for the SEC Red Super Alt Arts. Higher risk than established sets. Consider waiting for price stabilization if you're risk-averse." }
+        }
+      ],
+      "editorial": { "last_reviewed": "2026-06-27", "review_version": 1, "reviewed_by": "Voyage Log" }
     }
   },
   {
