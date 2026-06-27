@@ -1228,22 +1228,118 @@ function renderTrend(){
     </div>`;
 }
 
-// "Opening value" score (0-10): data-driven from the set's own card prices
-// rather than a static/placeholder number -- it grows with how much the
-// single best chase card in the box is worth relative to the box's own
-// price (a box with a $300 chase card and a $90 price is a much better
-// "open" than one whose best card barely covers the box cost).
-function boxScore(code){
+// ─── BOX SCORE ENGINE ────────────────────────────────────────────────────────
+// Multi-factor ranking for "This Week's Boxes Worth Opening".
+//
+// Why multiple factors?  A set with one ฿500K card but 400 worthless commons
+// looks great on a single-card metric but is a terrible box to crack.
+// This formula rewards sets with broad, consistent value.
+//
+// Scoring components (weights must sum to 1.0):
+//
+//   ev           0.30  — top-5 card value relative to box price (EV proxy)
+//                        Anchored so top5 = box price → evScore ≈ 5.0
+//
+//   breadth      0.25  — count of cards worth ≥ BOX_SCORE_CFG.threshold of box price
+//                        Rewards sets with many "hits", not just one trophy card
+//                        sqrt-compressed so 4 hits → ~5.8, 12 hits → ~10
+//
+//   distribution 0.20  — how evenly the top-10 value is spread
+//                        = 1 − (topPrice / top10Sum)
+//                        0 = all value in one card; 0.9 = perfectly spread
+//
+//   chase        0.10  — top card ceiling, log-compressed
+//                        Contributes positively but never dominates
+//
+//   confidence   0.15  — fraction of set cards that have a real price
+//                        Penalises newly-released or poorly-scraped sets
+//
+//   trend        0.00  — FUTURE HOOK: set weight > 0 when daily price history
+//                        is reliable; will use aggregated priceTrend() data
+//                        across a set's top cards to reward momentum
+//
+// Game-agnostic: all thresholds are relative to box price, not hardcoded USD.
+// Works identically for One Piece, Pokémon, Lorcana, Naruto, etc.
+//
+// computeBoxData() returns a rich object — callers can surface any signal
+// individually in a future transparency panel without touching this logic.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const BOX_SCORE_CFG={
+  weights:{ev:.30,breadth:.25,distribution:.20,chase:.10,confidence:.15,trend:.00},
+  // Cards worth ≥ this fraction of box price count as "valuable pulls"
+  threshold:.05,
+  // Need at least this many priced cards before ranking a set
+  minPriced:3,
+};
+
+function computeBoxData(code){
   const cards=D.cache[code]||[];
   const box=BOX[code];
-  if(!box)return null;
-  const topPrice=cards.reduce((m,c)=>Math.max(m,realPrice(c)),0);
+  if(!box||!cards.length)return null;
+
   const boxUsd=box.usd>0?box.usd:1;
-  const ratio=topPrice/boxUsd;
-  let score=4+Math.log2(1+ratio)*2.15;
-  score=Math.max(2,Math.min(9.8,score));
-  return Math.round(score*10)/10;
+  const pricedCards=cards.filter(c=>realPrice(c)>0);
+  if(pricedCards.length<BOX_SCORE_CFG.minPriced)return null;
+
+  const confidence=pricedCards.length/cards.length;
+  const byPrice=pricedCards.slice().sort((a,b)=>realPrice(b)-realPrice(a));
+  const topPrice=realPrice(byPrice[0]);
+  if(!topPrice)return null;
+
+  const top5sum=byPrice.slice(0,5).reduce((s,c)=>s+realPrice(c),0);
+  const top10sum=byPrice.slice(0,10).reduce((s,c)=>s+realPrice(c),0);
+
+  // 1. EV Ratio — how much do the best 5 cards return vs box cost?
+  const evScore=Math.min(10,Math.max(0,Math.log2(1+top5sum/boxUsd)*2.5));
+
+  // 2. Value Breadth — how many cards clear the hit threshold?
+  const valuableCount=pricedCards.filter(c=>realPrice(c)>=boxUsd*BOX_SCORE_CFG.threshold).length;
+  const breadthScore=Math.min(10,Math.sqrt(valuableCount)*2.9);
+
+  // 3. Value Distribution — penalise sets where one card holds all the value
+  const dist=top10sum>0?1-topPrice/top10sum:0;
+  const distScore=Math.min(10,dist*10.5);
+
+  // 4. Chase Ceiling — high upside is good, but log-compressed so it can't
+  //    dominate and push a narrow set to the top alone
+  const chaseScore=Math.min(10,Math.log2(1+topPrice/boxUsd)*2.5);
+
+  // 5. Data Confidence — sparse data should lower a set's rank
+  const confScore=Math.min(10,confidence*10);
+
+  // 6. Trend Score — placeholder; wire up when daily history is reliable
+  //    Suggested implementation:
+  //      const trendScores = byPrice.slice(0,10).map(c=>priceTrend(c))
+  //        .filter(t=>t.hasData).map(t=>t.priceChangePercent);
+  //      trendScore = average(trendScores) mapped to 0-10
+  const trendScore=0;
+
+  const W=BOX_SCORE_CFG.weights;
+  const raw=
+    evScore    *W.ev+
+    breadthScore*W.breadth+
+    distScore  *W.distribution+
+    chaseScore *W.chase+
+    confScore  *W.confidence+
+    trendScore *W.trend;
+
+  return{
+    score:Math.min(9.9,Math.max(1.0,Math.round(raw*10)/10)),
+    // Per-signal breakdown — available for a future transparency tooltip
+    signals:{evScore,breadthScore,distScore,chaseScore,confScore,trendScore},
+    // Rich data for future "decision panel" UI (user-requested data points)
+    topChaseUsd:topPrice,
+    top5Usd:top5sum,
+    valuableCount,
+    evRatio:top5sum/boxUsd,
+    confidence,
+    boxUsd,
+  };
 }
+
+// Thin wrapper — keeps the existing call signature intact
+function boxScore(code){return computeBoxData(code)?.score??null;}
 function boxLabel(score,L){
   if(score>=8.3)return{cls:'best',txt:L==='th'?'ตัวเลือกที่ดีที่สุด':'Best Pick'};
   if(score>=6.8)return{cls:'high',txt:L==='th'?'มูลค่า Chase สูง':'High Chase Value'};
@@ -1253,9 +1349,10 @@ function boxLabel(score,L){
 function renderBoxes(){
   const L=S.lang;
   const rows=D.index.filter(s=>BOX[s.code]).map(s=>{
-    const score=boxScore(s.code)??5;
-    return{...s,box:BOX[s.code],score};
-  }).sort((a,b)=>b.score-a.score).slice(0,5);
+    const data=computeBoxData(s.code);
+    if(!data)return null;
+    return{...s,box:BOX[s.code],score:data.score,boxData:data};
+  }).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,5);
   document.getElementById('box-row').innerHTML=rows.map((s,i)=>{
     const cat=setCat(s.code);
     const imgUrl=setImgUrl(s.code);
