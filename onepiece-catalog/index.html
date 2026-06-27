@@ -1098,6 +1098,10 @@ function toggleLang(){
   localStorage.setItem('voyage_lang',S.lang);
   renderHome();
   if(document.getElementById('view-sets').style.display!=='none')renderSets();
+  if(document.getElementById('view-product').style.display!=='none'){
+    const pid=document.getElementById('product-content').dataset.pid;
+    if(pid)openProduct(pid);
+  }
   applyLangUI();
 }
 
@@ -1948,7 +1952,7 @@ function openProduct(productId){
 
     ${editHtml}`;
 
-  document.getElementById('product-content').innerHTML=html;
+  const pc=document.getElementById('product-content');pc.dataset.pid=productId;pc.innerHTML=html;
   document.getElementById('back-product').onclick=()=>{renderSets();setCrumb('crumb-sets',' / One Piece');};
   setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / ${p.product_name}`);
   show('view-product');
