@@ -605,6 +605,32 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-guide-btn.en{color:#4ade80;background:rgba(74,222,128,.08)}
 .set-guide-btn.en:hover{background:rgba(74,222,128,.18)}
 .set-guide-btn.coming{color:var(--soft);background:var(--bg3);cursor:default;opacity:.7}
+/* Set Overview */
+.set-ov-hero{display:flex;align-items:flex-start;gap:20px;padding:24px 0 20px;border-bottom:1px solid var(--bord1);margin-bottom:24px}
+.set-ov-img{width:110px;height:110px;object-fit:cover;border-radius:12px;flex-shrink:0;background:var(--bg2);border:1px solid var(--bord1);display:flex;align-items:center;justify-content:center;font-size:32px}
+.set-ov-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.2}
+.set-ov-meta{font-size:13px;color:var(--soft);line-height:1.7}
+.set-ov-section-label{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.set-ov-versions{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.set-ov-ver-card{background:var(--bg2);border:1px solid var(--bord1);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s,transform .18s}
+.set-ov-ver-card:hover{border-color:var(--gold);transform:translateX(3px)}
+.set-ov-ver-card.jp{border-left:3px solid rgba(250,204,21,.5)}
+.set-ov-ver-card.en{border-left:3px solid rgba(74,222,128,.5)}
+.set-ov-ver-info{flex:1;min-width:0}
+.set-ov-ver-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.set-ov-ver-sub{font-size:11.5px;color:var(--soft);line-height:1.5}
+.set-ov-ver-price{font-size:16px;font-weight:800;color:var(--gold);text-align:right;white-space:nowrap;flex-shrink:0;margin-right:8px}
+.set-ov-open-btn{font-size:12px;font-weight:700;padding:7px 13px;border-radius:7px;background:var(--golds);color:var(--gold);border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .13s}
+.set-ov-open-btn:hover{background:rgba(250,204,21,.18)}
+.set-ov-open-btn.en{background:rgba(74,222,128,.1);color:#4ade80}
+.set-ov-open-btn.en:hover{background:rgba(74,222,128,.2)}
+.set-ov-open-btn.pending{background:var(--bg3);color:var(--faint);cursor:default}
+.set-ov-chase-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:24px;scrollbar-width:none}
+.set-ov-chase-row::-webkit-scrollbar{display:none}
+.set-ov-chase-mini{flex-shrink:0;width:86px;background:var(--bg2);border:1px solid var(--bord1);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.set-ov-chase-mini:hover{border-color:var(--gold)}
+.set-ov-chase-mini img{width:100%;display:block}
+.set-ov-chase-mini-price{font-size:9.5px;font-weight:700;padding:3px 5px;color:var(--gold);text-align:center;background:var(--bg3)}
 .card-lang-tag{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 5px;border-radius:4px;background:rgba(59,111,224,.15);color:#60a5fa;letter-spacing:.04em;vertical-align:middle;margin-left:3px}
 .lang-sep{width:1px;height:20px;background:var(--bord2);align-self:center;margin:0 4px}
 
@@ -908,6 +934,13 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="sets-grid" id="sets-list"></div>
 </main>
 
+<!-- SET OVERVIEW -->
+<main class="app" id="view-set-overview" style="display:none">
+  <div class="crumb" id="crumb-set-ov"></div>
+  <button class="back-btn" id="back-set-ov">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to Sets">กลับไปเลือกชุด</span></button>
+  <div id="set-ov-content"></div>
+</main>
+
 <!-- CARDS -->
 <main class="app" id="view-cards" style="display:none">
   <div class="crumb" id="crumb-cards"></div>
@@ -1136,7 +1169,7 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-cards','view-detail','view-search','view-product'].forEach(v=>{
+  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product'].forEach(v=>{
     document.getElementById(v).style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
@@ -1862,8 +1895,8 @@ function openProduct(productId){
         <div style="margin-top:12px;font-size:11px;color:var(--faint);line-height:1.5">${L==='th'?'ข้อมูล "รอยืนยัน" แสดงเพื่อข้อมูลเท่านั้น ยังไม่ได้รับการยืนยันจาก Sold Listings และ ห้ามใช้เพื่อการตัดสินใจลงทุน':'Data marked "Pending" is shown for informational purposes only. It has not been confirmed against sold listings and must not be used for investment decisions.'}</div>`:''}
         <div style="margin-top:20px;font-size:12px;color:var(--faint)">${p.release_date?`${L==='th'?'วางจำหน่าย':'Released'} ${p.release_date}`:''}</div>
       </div>`;
-    document.getElementById('back-product').onclick=()=>{renderSets();setCrumb('crumb-sets',' / One Piece');};
-    setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / ${p.product_name}`);
+    document.getElementById('back-product').onclick=()=>openSetOverview(p.set_code);
+    setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${p.set_code}')">${p.set_code}</span> / ${p.product_name}`);
     show('view-product');window.scrollTo(0,0);
     return;
   }
@@ -2006,8 +2039,8 @@ function openProduct(productId){
     ${editHtml}`;
 
   const pc=document.getElementById('product-content');pc.dataset.pid=productId;pc.innerHTML=html;
-  document.getElementById('back-product').onclick=()=>{renderSets();setCrumb('crumb-sets',' / One Piece');};
-  setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / ${p.product_name}`);
+  document.getElementById('back-product').onclick=()=>openSetOverview(p.set_code);
+  setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${p.set_code}')">${p.set_code}</span> / ${p.product_name}`);
   show('view-product');
   window.scrollTo(0,0);
 }
@@ -2034,6 +2067,94 @@ function setCatChips(){
 function setSetCat(k){S.setCat=k;renderSets();}
 function setSetLang(k){S.setLang=k;renderSets();}
 
+function openSetOverview(code){
+  S.setCode=code;
+  const L=S.lang;
+  const m=D.index.find(s=>s.code===code)||{};
+  const cards=D.cache[code]||[];
+  const box=BOX[code];
+  const prods=D.products.filter(p=>p.set_code===code);
+  const imgUrl=setImgUrl(code);
+  const cat=setCat(code);
+
+  // Top chase cards from live JP card data
+  const chase=cards.filter(c=>realPrice(c)>0).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,8);
+
+  // Version cards
+  const verCards=prods.map(p=>{
+    const isJP=p.language==='JP'||!p.language;
+    const isDraft=p.status==='draft';
+    const flag=isJP?'🇯🇵':'🇺🇸';
+    const langName=isJP?(L==='th'?'ฉบับภาษาญี่ปุ่น':'Japanese Version'):(L==='th'?'ฉบับภาษาอังกฤษ':'English Version');
+
+    // Price: JP uses BOX lookup; EN uses first verified sealed price, else MSRP
+    let priceHtml='—';
+    if(isJP&&box){
+      priceHtml=S.cur==='THB'?`฿ ${box.thb.toLocaleString()}`:`$${box.usd}`;
+    } else {
+      const mdSealed=D.marketData.find(r=>r.product_id===p.product_id&&r.data_type==='Sealed Box Price'&&r.verification_status==='Verified');
+      const mdMsrp=D.marketData.find(r=>r.product_id===p.product_id&&r.data_type==='Product MSRP'&&r.verification_status==='Verified');
+      if(mdSealed){
+        priceHtml=S.cur==='THB'?`฿ ${Math.round(mdSealed.value_thb).toLocaleString('th-TH')}`:`$${mdSealed.value_usd}`;
+      } else if(mdMsrp){
+        priceHtml=`<span style="font-size:10px;color:var(--faint)">MSRP </span>${S.cur==='THB'?`฿ ${Math.round(mdMsrp.value_thb).toLocaleString('th-TH')}`:`$${mdMsrp.value_usd}`}`;
+      }
+    }
+
+    const btnLabel=isDraft?(L==='th'?'⏳ กำลังตรวจสอบ':'⏳ Pending'):(L==='th'?'เปิดคู่มือ →':'Open Guide →');
+    const btnCls='set-ov-open-btn'+(isJP?'':' en')+(isDraft?' pending':'');
+    const cardCls='set-ov-ver-card'+(isJP?' jp':' en');
+    const relDate=p.release_date?` · ${L==='th'?'วางจำหน่าย':'Released'} ${p.release_date}`:'';
+
+    return `<div class="${cardCls}" onclick="openProduct('${p.product_id}')">
+      <div style="font-size:22px;flex-shrink:0">${flag}</div>
+      <div class="set-ov-ver-info">
+        <div class="set-ov-ver-name">${langName}</div>
+        <div class="set-ov-ver-sub">${p.product_type}${relDate}${isDraft?(' · <span style="color:#fbbf24">'+(L==='th'?'คู่มืออยู่ระหว่างตรวจสอบ':'Guide under verification')+'</span>'):''}</div>
+      </div>
+      <div class="set-ov-ver-price" style="${isDraft&&!isJP?'font-size:13px;color:var(--faint)':''}">${priceHtml}</div>
+      <button class="${btnCls}" onclick="event.stopPropagation();openProduct('${p.product_id}')">${btnLabel}</button>
+    </div>`;
+  }).join('');
+
+  // Chase card strip
+  const chaseHtml=chase.length?`
+    <div class="set-ov-section-label">${L==='th'?'การ์ดราคาสูงในชุดนี้':'Top Chase Cards'}</div>
+    <div class="set-ov-chase-row">${chase.map(c=>{
+      const pr=realPrice(c);
+      const prStr=S.cur==='THB'?'฿ '+(pr*(S.fx||USD_TO_THB)).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+pr.toFixed(2);
+      return `<div class="set-ov-chase-mini" onclick="openCard('${c.card_number||c.card_id||''}','${code}')">
+        ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.display='none'">`:'<div style="height:76px;background:var(--bg3)"></div>'}
+        <div class="set-ov-chase-mini-price">${prStr}</div>
+      </div>`;
+    }).join('')}</div>`:'';
+
+  const totalCards=m.count||cards.length;
+
+  document.getElementById('set-ov-content').innerHTML=`
+    <div class="set-ov-hero">
+      ${imgUrl
+        ?`<img class="set-ov-img" src="${imgUrl}" onerror="this.style.display='none'">`
+        :`<div class="set-ov-img">${CAT_ICON[cat]||'🃏'}</div>`}
+      <div style="flex:1;min-width:0">
+        <div class="set-ov-title">${code} ${m.name||''}</div>
+        <div class="set-ov-meta">${totalCards?`${totalCards} ${L==='th'?'ใบ':'cards'} · `:''}${setCatLabel(code,L)}${box?.hot?' 🔥 HOT':''}</div>
+        ${cards.length?`<button class="chip" style="margin-top:10px;font-size:12px;padding:5px 12px" onclick="openSet('${code}')">${L==='th'?'ดูการ์ดทั้งหมด →':'Browse Card Catalog →'}</button>`:''}
+      </div>
+    </div>
+    ${chaseHtml}
+    ${prods.length
+      ?`<div class="set-ov-section-label">${L==='th'?'เวอร์ชั่นที่มีจำหน่าย':'Available Versions'}</div>
+        <div class="set-ov-versions">${verCards}</div>`
+      :`<div style="color:var(--faint);font-size:13px;padding:16px 0">${L==='th'?'ยังไม่มีข้อมูลสินค้าสำหรับชุดนี้':'No product data available for this set yet.'}</div>`}
+  `;
+
+  document.getElementById('back-set-ov').onclick=()=>renderSets();
+  setCrumb('crumb-set-ov',` / <span class="live" onclick="renderSets()">One Piece</span> / ${code} ${m.name||''}`);
+  show('view-set-overview');
+  window.scrollTo(0,0);
+}
+
 function renderSets(){
   show('view-sets');setCrumb('crumb-sets',' / One Piece');
   const L=S.lang;
@@ -2046,7 +2167,9 @@ function renderSets(){
     const box=BOX[s.code];
     const price=box?(S.cur==='THB'?'฿ '+box.thb.toLocaleString():'$'+box.usd):'—';
     const imgUrl=setImgUrl(s.code);
-    return `<div class="set-card${box?.hot?' is-hot':''}" onclick="openSet('${s.code}')">
+    const vers=D.products.filter(x=>x.set_code===s.code&&(S.setLang==='all'||x.language===S.setLang));
+    const verBadge=vers.length?vers.map(p=>`<span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:${p.language==='EN'?'rgba(74,222,128,.12)':'rgba(250,204,21,.1)'};color:${p.language==='EN'?'#4ade80':'var(--gold)'}">${p.language==='EN'?'🇺🇸 EN':'🇯🇵 JP'}</span>`).join(' '):'';
+    return `<div class="set-card${box?.hot?' is-hot':''}" onclick="openSetOverview('${s.code}')">
       <div class="set-img-wrap cat-${cat}">
         <div class="set-tile-pattern"></div>
         <div class="set-tile-icon">${CAT_ICON[cat]}</div>
@@ -2060,16 +2183,7 @@ function renderSets(){
         <div class="set-code">${s.code}</div>
         <div class="set-name">${s.name}</div>
         <div class="set-meta">${s.count} ${L==='th'?'ใบ':'cards'} · <span style="color:var(--faint);font-size:10.5px">${L==='th'?'ราคาโดยประมาณ':'est. price'}</span></div>
-        ${(()=>{
-          const vers=D.products.filter(x=>x.set_code===s.code&&(S.setLang==='all'||x.language===S.setLang));
-          return vers.map(p=>{
-            const isEN=p.language==='EN';
-            const isDraft=p.status==='draft';
-            const cls='set-guide-btn'+(isEN?' en':'')+(isDraft?' coming':'');
-            const label=isDraft?(L==='th'?'📋 EN คู่มือกำลังมา...':'📋 EN Guide Coming Soon'):`📖 ${p.language||'JP'} ${L==='th'?'คู่มือการซื้อ →':'Buying Guide →'}`;
-            return `<button class="${cls}" onclick="event.stopPropagation();${isDraft?'':(`openProduct('${p.product_id}')`)}">${label}</button>`;
-          }).join('');
-        })()}
+        ${verBadge?`<div style="margin-top:8px;display:flex;gap:5px;flex-wrap:wrap">${verBadge}</div>`:''}
       </div>
     </div>`;
   }).filter(Boolean);
@@ -2103,7 +2217,8 @@ function openSet(code){
   S.cards=D.cache[code]||[];
   const m=D.index.find(s=>s.code===code);
   document.getElementById('cards-ttl').textContent=code+' — '+(m?m.name:'');
-  setCrumb('crumb-cards',' / <span class="live" onclick="renderSets()">One Piece</span> / '+code);
+  document.getElementById('back-cards').onclick=()=>openSetOverview(code);
+  setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${code}')">${code}</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'All Cards'}`);
   show('view-cards');buildRarityChips();applyFilters();
 }
 
