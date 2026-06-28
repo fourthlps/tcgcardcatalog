@@ -1830,9 +1830,10 @@ function openProduct(productId){
       </div></div>
       <div style="text-align:center;padding:60px 24px;color:var(--soft)">
         <div style="font-size:48px;margin-bottom:16px">📋</div>
-        <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px">${L==='th'?'คู่มือการซื้อกำลังมา':'EN Buying Guide Coming Soon'}</div>
-        <div style="font-size:14px;line-height:1.6;max-width:420px;margin:0 auto">${L==='th'?'ทีม Voyage Log กำลังรวบรวมข้อมูลตลาด EN อยู่ในขณะนี้ คู่มือฉบับ EN จะพร้อมเร็วๆ นี้':'The Voyage Log team is currently collecting EN market data. The EN buying guide will be ready soon.'}</div>
-        <div style="margin-top:20px;font-size:12px;color:var(--faint)">${p.release_date?`${L==='th'?'วางจำหน่าย':'Released'} ${p.release_date}`:''}</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px">${L==='th'?'คู่มือการซื้อ EN กำลังอยู่ระหว่างการตรวจสอบ':'EN Buying Guide — Under Verification'}</div>
+        <div style="font-size:14px;line-height:1.6;max-width:460px;margin:0 auto;color:var(--soft)">${L==='th'?'ข้อมูลตลาด EN กำลังอยู่ระหว่างการตรวจสอบสำหรับตลาดประเทศไทย Voyage Log จะเผยแพร่คู่มือก็ต่อเมื่อข้อมูลราคาได้รับการยืนยันจากแหล่งข้อมูลที่เชื่อถือได้แล้วเท่านั้น':'EN market data is currently being verified for the Thailand market. Voyage Log will only publish this guide once price data has been confirmed against verified sold listings.'}</div>
+        <div style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:8px;padding:10px 16px;font-size:12.5px;color:#fbbf24">⏳ ${L==='th'?'อยู่ระหว่างการตรวจสอบข้อมูล':'Verification in progress'}</div>
+        <div style="margin-top:16px;font-size:12px;color:var(--faint)">${p.release_date?`${L==='th'?'วางจำหน่าย':'Released'} ${p.release_date}`:''}</div>
       </div>`;
     document.getElementById('back-product').onclick=()=>{renderSets();setCrumb('crumb-sets',' / One Piece');};
     setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / ${p.product_name}`);
