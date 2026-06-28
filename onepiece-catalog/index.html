@@ -631,12 +631,29 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-ov-chase-mini:hover{border-color:var(--gold)}
 .set-ov-chase-mini img{width:100%;display:block}
 .set-ov-chase-mini-price{font-size:9.5px;font-weight:700;padding:3px 5px;color:var(--gold);text-align:center;background:var(--bg3)}
-.set-ov-browse-cta{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--bg2);border:1px solid var(--bord1);border-radius:14px;padding:18px 22px;cursor:pointer;transition:border-color .2s,transform .18s,box-shadow .18s;margin-bottom:28px;box-shadow:var(--shadow)}
-.set-ov-browse-cta:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
-.set-ov-browse-cta-label{font-size:16px;font-weight:800;color:var(--text)}
-.set-ov-browse-cta-sub{font-size:12.5px;color:var(--soft);margin-top:2px}
-.set-ov-browse-cta-arrow{font-size:22px;color:var(--gold);transition:transform .18s}
-.set-ov-browse-cta:hover .set-ov-browse-cta-arrow{transform:translateX(4px)}
+.set-ov-db-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+@media(max-width:520px){.set-ov-db-grid{grid-template-columns:1fr}}
+.set-ov-db-card{position:relative;background:var(--bg2);border:1px solid var(--bord1);border-radius:14px;padding:20px 18px;cursor:pointer;transition:border-color .22s var(--ease-out),transform .22s var(--ease-out),box-shadow .22s var(--ease-out);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;gap:4px}
+.set-ov-db-card::before{content:'';position:absolute;inset:0;border-radius:14px;opacity:0;transition:opacity .22s}
+.set-ov-db-card.jp{border-left:3px solid rgba(250,204,21,.5)}
+.set-ov-db-card.jp::before{background:linear-gradient(135deg,rgba(250,204,21,.06) 0%,transparent 60%)}
+.set-ov-db-card.en{border-left:3px solid rgba(74,222,128,.4)}
+.set-ov-db-card.en::before{background:linear-gradient(135deg,rgba(74,222,128,.06) 0%,transparent 60%)}
+.set-ov-db-card.unavail{cursor:default;opacity:.6}
+.set-ov-db-card:not(.unavail):hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.set-ov-db-card.jp:not(.unavail):hover{border-color:rgba(250,204,21,.7)}
+.set-ov-db-card.en:not(.unavail):hover{border-color:rgba(74,222,128,.6)}
+.set-ov-db-card:not(.unavail):hover::before{opacity:1}
+.set-ov-db-flag{font-size:22px;margin-bottom:8px;line-height:1}
+.set-ov-db-name{font-size:14px;font-weight:800;color:var(--text)}
+.set-ov-db-count{font-size:12px;color:var(--soft);margin-top:1px}
+.set-ov-db-price-type{font-size:11px;color:var(--faint);margin-top:2px}
+.set-ov-db-btn{margin-top:14px;font-size:12px;font-weight:700;padding:7px 14px;border-radius:8px;border:none;cursor:pointer;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:background .15s}
+.set-ov-db-card.jp .set-ov-db-btn{background:var(--golds);color:var(--gold)}
+.set-ov-db-card.jp .set-ov-db-btn:hover{background:rgba(250,204,21,.18)}
+.set-ov-db-card.en .set-ov-db-btn{background:rgba(74,222,128,.1);color:#4ade80}
+.set-ov-db-card.en .set-ov-db-btn:hover{background:rgba(74,222,128,.2)}
+.set-ov-db-card.unavail .set-ov-db-btn{background:var(--bg3);color:var(--faint);cursor:default}
 .set-ov-dist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-bottom:28px}
 .set-ov-dist-item{background:var(--bg2);border:1px solid var(--bord1);border-radius:9px;padding:10px 8px;text-align:center}
 .set-ov-dist-count{font-size:20px;font-weight:800;color:var(--text);line-height:1}
@@ -2105,14 +2122,26 @@ function openSetOverview(code){
     </div>
   </div>`;
 
-  // ── 2. BROWSE CTA ──────────────────────────────────────────────────────────
-  const browseCta=cards.length?`<button class="set-ov-browse-cta" onclick="openSet('${code}')">
-    <div>
-      <div class="set-ov-browse-cta-label">${L==='th'?'ดูการ์ดทั้งหมดในชุดนี้':'Browse All Cards in This Set'}</div>
-      <div class="set-ov-browse-cta-sub">${totalCards} ${L==='th'?'ใบ · ราคาเรียลไทม์':'cards · Real-time prices'}</div>
-    </div>
-    <div class="set-ov-browse-cta-arrow">→</div>
-  </button>`:'';
+  // ── 2. CARD DATABASE SELECTOR ──────────────────────────────────────────────
+  // JP: always available when card data exists. EN: not yet available (Coming Soon).
+  const hasEN=false; // EN card database not yet built — Third will supply en_prices data
+  const jpCard=cards.length?`<div class="set-ov-db-card jp" onclick="openSet('${code}')">
+    <div class="set-ov-db-flag">🇯🇵</div>
+    <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดญี่ปุ่น':'Japanese Card Database'}</div>
+    <div class="set-ov-db-count">${totalCards} ${L==='th'?'ใบ':'cards'}</div>
+    <div class="set-ov-db-price-type">${L==='th'?'ราคา JP เรียลไทม์':'Real-time JP Prices'}</div>
+    <button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}')">${L==='th'?'ดูการ์ด JP →':'Browse JP Cards →'}<span>→</span></button>
+  </div>`:'';
+  const enCard=`<div class="set-ov-db-card en${hasEN?'':' unavail'}">
+    <div class="set-ov-db-flag">🇺🇸</div>
+    <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดอังกฤษ':'English Card Database'}</div>
+    <div class="set-ov-db-count">${hasEN?`${totalCards} ${L==='th'?'ใบ':'cards'}`:(L==='th'?'กำลังเตรียมข้อมูล':'Coming Soon')}</div>
+    <div class="set-ov-db-price-type">${L==='th'?'ราคา EN · TCGPlayer':'Real-time EN Prices · TCGPlayer'}</div>
+    <button class="set-ov-db-btn">${L==='th'?'เร็วๆ นี้':'Coming Soon'}<span></span></button>
+  </div>`;
+  const dbSelectorHtml=(jpCard||enCard)?`
+    <div class="set-ov-section-label">${L==='th'?'เลือกฐานข้อมูลการ์ด':'Browse Card Database'}</div>
+    <div class="set-ov-db-grid">${jpCard}${enCard}</div>`:'';
 
   // ── 3. CARD DISTRIBUTION ───────────────────────────────────────────────────
   let distHtml='';
@@ -2194,7 +2223,7 @@ function openSetOverview(code){
 
   // ── ASSEMBLE ───────────────────────────────────────────────────────────────
   document.getElementById('set-ov-content').innerHTML=
-    heroHtml + browseCta + distHtml + chaseHtml + prodsSection;
+    heroHtml + dbSelectorHtml + distHtml + chaseHtml + prodsSection;
 
   document.getElementById('back-set-ov').onclick=()=>renderSets();
   setCrumb('crumb-set-ov',` / <span class="live" onclick="renderSets()">One Piece</span> / ${code} ${m.name||''}`);
