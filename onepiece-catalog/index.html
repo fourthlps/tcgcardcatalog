@@ -658,6 +658,16 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-ov-dist-item{background:var(--bg2);border:1px solid var(--bord1);border-radius:9px;padding:10px 8px;text-align:center}
 .set-ov-dist-count{font-size:20px;font-weight:800;color:var(--text);line-height:1}
 .set-ov-dist-label{font-size:10px;font-weight:600;color:var(--faint);margin-top:3px;letter-spacing:.03em}
+.set-ov-desc{font-size:14px;line-height:1.7;color:var(--soft);margin-bottom:20px;border-left:2px solid var(--bord2);padding-left:14px}
+.set-ov-chars{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.set-ov-char-chip{font-size:12px;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--bg2);border:1px solid var(--bord1);color:var(--soft)}
+.set-ov-facts{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.set-ov-fact{font-size:13px;line-height:1.6;color:var(--soft);padding:10px 14px;background:var(--bg2);border:1px solid var(--bord1);border-radius:9px;border-left:2px solid var(--bord2)}
+.set-ov-notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+@media(max-width:520px){.set-ov-notes-grid{grid-template-columns:1fr}}
+.set-ov-note-card{background:var(--bg2);border:1px solid var(--bord1);border-radius:10px;padding:14px 16px}
+.set-ov-note-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.set-ov-note-text{font-size:13px;line-height:1.6;color:var(--soft)}
 .card-lang-tag{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 5px;border-radius:4px;background:rgba(59,111,224,.15);color:#60a5fa;letter-spacing:.04em;vertical-align:middle;margin-left:3px}
 .lang-sep{width:1px;height:20px;background:var(--bord2);align-self:center;margin:0 4px}
 
@@ -1019,7 +1029,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <script>
-const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null,products:[],marketData:[]};
+const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null,products:[],marketData:[],setData:{}};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
@@ -1106,6 +1116,9 @@ async function init(){
   });
   fetch('market_data.json').then(r=>r.ok?r.json():null).then(d=>{
     if(d&&Array.isArray(d.records))D.marketData=d.records;
+  });
+  fetch('sets.json').then(r=>r.ok?r.json():null).then(d=>{
+    if(d&&Array.isArray(d.sets))d.sets.forEach(s=>{D.setData[s.set_code]=s;});
   });
   // Non-blocking parallel fetches: FX rate + trend data + site status.
   // None of these block the initial render -- they refresh the relevant
@@ -2122,7 +2135,33 @@ function openSetOverview(code){
     </div>
   </div>`;
 
-  // ── 2. CARD DATABASE SELECTOR ──────────────────────────────────────────────
+  // ── 2. SET KNOWLEDGE (from sets.json, rendered when available) ────────────
+  const sd=D.setData[code];
+  const _t=(f)=>f?(L==='th'?f.th:f.en)||f.en||f.th||'':'';
+  const descHtml=sd?.description?`<p class="set-ov-desc">${_t(sd.description)}</p>`:'';
+  const arcHtml=sd?.story_arc?`<div style="font-size:12px;font-weight:600;color:var(--faint);margin-top:-12px;margin-bottom:20px;padding-left:16px">${L==='th'?'สตอรี่อาร์ก':'Story Arc'}: <span style="color:var(--soft)">${_t(sd.story_arc)}</span></div>`:'';
+  const charsHtml=sd?.featured_characters?.length
+    ?`<div class="set-ov-section-label">${L==='th'?'ตัวละครหลัก':'Featured Characters'}</div>
+      <div class="set-ov-chars">${sd.featured_characters.map(c=>`<span class="set-ov-char-chip">${c}</span>`).join('')}</div>`
+    :'';
+  const factsHtml=sd?.interesting_facts?.length
+    ?`<div class="set-ov-section-label">${L==='th'?'เรื่องน่ารู้':'Interesting Facts'}</div>
+      <div class="set-ov-facts">${sd.interesting_facts.map(f=>`<div class="set-ov-fact">${_t(f)}</div>`).join('')}</div>`
+    :'';
+  const notesHtml=(sd?.beginner_notes||sd?.collector_notes)
+    ?`<div class="set-ov-notes-grid">
+        ${sd.beginner_notes?`<div class="set-ov-note-card">
+          <div class="set-ov-note-label">${L==='th'?'สำหรับผู้เริ่มต้น':'For Beginners'}</div>
+          <div class="set-ov-note-text">${_t(sd.beginner_notes)}</div>
+        </div>`:''}
+        ${sd.collector_notes?`<div class="set-ov-note-card">
+          <div class="set-ov-note-label">${L==='th'?'สำหรับนักสะสม':'For Collectors'}</div>
+          <div class="set-ov-note-text">${_t(sd.collector_notes)}</div>
+        </div>`:''}
+      </div>`
+    :'';
+
+  // ── 3. CARD DATABASE SELECTOR ──────────────────────────────────────────────
   // JP: always available when card data exists. EN: not yet available (Coming Soon).
   const hasEN=false; // EN card database not yet built — Third will supply en_prices data
   const jpCard=cards.length?`<div class="set-ov-db-card jp" onclick="openSet('${code}')">
@@ -2223,7 +2262,9 @@ function openSetOverview(code){
 
   // ── ASSEMBLE ───────────────────────────────────────────────────────────────
   document.getElementById('set-ov-content').innerHTML=
-    heroHtml + dbSelectorHtml + distHtml + chaseHtml + prodsSection;
+    heroHtml + descHtml + arcHtml + charsHtml +
+    dbSelectorHtml + distHtml + chaseHtml +
+    factsHtml + notesHtml + prodsSection;
 
   document.getElementById('back-set-ov').onclick=()=>renderSets();
   setCrumb('crumb-set-ov',` / <span class="live" onclick="renderSets()">One Piece</span> / ${code} ${m.name||''}`);
