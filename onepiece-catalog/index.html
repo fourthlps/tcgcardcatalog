@@ -119,10 +119,37 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .nav a{color:var(--soft);text-decoration:none;font-size:13.5px;font-weight:600;cursor:pointer;transition:color .15s;white-space:nowrap}
 .nav a:hover{color:var(--gold)}
 .nav a.dim{color:var(--faint);pointer-events:none}
-.hdr-search{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:6px 12px;width:200px;flex-shrink:0;transition:border-color .15s,width .2s}
-.hdr-search:focus-within{border-color:var(--gold);width:240px}
+.hdr-search{position:relative;display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:6px 12px;width:220px;flex-shrink:0;transition:border-color .15s,width .2s}
+.hdr-search:focus-within{border-color:var(--gold);width:280px}
 .hdr-search input{border:none;background:transparent;outline:none;font-size:12.5px;color:var(--text);width:100%}
 .hdr-search input::placeholder{color:var(--faint)}
+/* Universal Search live dropdown */
+.srch-drop{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--bg2);border:1px solid var(--bord2);border-radius:14px;box-shadow:0 8px 32px rgba(16,23,42,.13);z-index:200;overflow:hidden;display:none;min-width:280px}
+.srch-drop.open{display:block}
+.sdrop-cat{font-size:9.5px;font-weight:700;color:var(--faint);letter-spacing:.09em;text-transform:uppercase;padding:9px 14px 3px}
+.sdrop-item{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;transition:background .12s}
+.sdrop-item:hover{background:var(--bg3)}
+.sdrop-item-name{font-size:13px;font-weight:600;color:var(--text);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sdrop-item-meta{font-size:11px;color:var(--faint);flex-shrink:0}
+.sdrop-more{font-size:12px;color:var(--gold);text-align:center;padding:10px 14px;cursor:pointer;font-weight:600;border-top:1px solid var(--border)}
+.sdrop-more:hover{background:var(--bg3)}
+/* Search results page */
+.srch-section{margin-bottom:32px}
+.srch-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.srch-section-title{font-size:15px;font-weight:700}
+.srch-section-count{font-size:12px;color:var(--faint);background:var(--bg3);border-radius:99px;padding:2px 9px;font-weight:600}
+.srch-prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.srch-prod-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;cursor:pointer;transition:box-shadow .15s,border-color .15s;display:flex;align-items:center;gap:11px}
+.srch-prod-card:hover{box-shadow:var(--shadow-hover);border-color:var(--gold)}
+.srch-prod-flag{font-size:20px;flex-shrink:0}
+.srch-prod-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srch-prod-meta{font-size:11px;color:var(--faint);margin-top:2px}
+.srch-char-grid{display:flex;flex-wrap:wrap;gap:8px}
+.srch-char-chip{background:var(--bg2);border:1px solid var(--bord2);border-radius:99px;padding:7px 15px;cursor:pointer;transition:border-color .15s,background .15s}
+.srch-char-chip:hover{border-color:var(--gold);background:var(--golds)}
+.srch-char-name{font-size:13px;font-weight:600}
+.srch-char-sets{font-size:10px;color:var(--faint);margin-top:1px}
+.srch-empty{color:var(--faint);font-size:15px;padding:48px 0;text-align:center}
 .lang-btn{background:var(--bg3);border:1px solid var(--bord2);color:var(--text);padding:5px 13px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:border-color .15s;flex-shrink:0}
 .lang-btn:hover{border-color:var(--gold)}
 .login-btn{background:var(--gold);border:1px solid var(--gold);color:#fff;padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;transition:opacity .15s;flex-shrink:0;white-space:nowrap}
@@ -811,7 +838,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </nav>
     <div class="hdr-search">
       <span style="font-size:12px">🔍</span>
-      <input id="hdr-search-input" class="t" data-th-ph="ค้นหาการ์ด, ชุด..." data-en-ph="Search cards, sets..." placeholder="ค้นหาการ์ด, ชุด..." onkeydown="if(event.key==='Enter'){document.getElementById('gsearch').value=this.value;doSearch();closeMobileMenu();}">
+      <input id="hdr-search-input" class="t" data-th-ph="ค้นหาการ์ด ชุด สินค้า ตัวละคร..." data-en-ph="Search cards, sets, products, characters..." placeholder="ค้นหาการ์ด ชุด สินค้า ตัวละคร..." oninput="hdrSearchInput(this.value)" onkeydown="if(event.key==='Enter'){document.getElementById('gsearch').value=this.value;closeSrchDrop();doSearch();closeMobileMenu();}else if(event.key==='Escape'){closeSrchDrop();}">
+      <div id="srch-drop" class="srch-drop"></div>
     </div>
     <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
     <button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="alert(S.lang==='th'?'ระบบเข้าสู่ระบบกำลังจะมาเร็ว ๆ นี้':'Login is coming soon');closeMobileMenu()">เข้าสู่ระบบ</button>
@@ -1016,7 +1044,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="crumb" id="crumb-srch"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
   <h1 class="page-ttl serif" id="srch-ttl"></h1>
-  <div class="filter-row" id="srch-filters" style="display:none">
+  <div class="results-count" id="srch-count" style="margin-bottom:20px"></div>
+  <div class="filter-row" id="srch-filters" style="display:none;margin-bottom:16px">
     <div class="chip-group" id="srch-rarity-chips"></div>
     <select class="sort-sel" id="srch-sort" onchange="applySrchFilters()">
       <option value="default">เรียงตามชุด</option>
@@ -1024,8 +1053,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <option value="price-asc">ราคา: ต่ำ → สูง</option>
     </select>
   </div>
-  <div class="results-count" id="srch-count"></div>
-  <div class="card-grid" id="srch-results"></div>
+  <div id="srch-results"></div>
 </main>
 
 <script>
@@ -1783,36 +1811,60 @@ function chaseScrollState(){
 
 function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
 
+// ── build character map from D.setData (called once per search) ──────────────
+function buildCharMap(){
+  const m={};
+  Object.entries(D.setData).forEach(([code,sd])=>{
+    (sd.featured_characters||[]).forEach(ch=>{
+      const key=ch.toLowerCase();
+      if(!m[key])m[key]={name:ch,sets:[]};
+      m[key].sets.push(code);
+    });
+  });
+  return m;
+}
+
 function doSearch(){
   const q=document.getElementById('gsearch').value.trim().toLowerCase();
   if(!q)return;
-  const qNorm=q.replace(/[^a-z0-9]/g,''); // lets "OP13001" match "OP13-001"
+  closeSrchDrop();
+  const qNorm=q.replace(/[^a-z0-9]/g,'');
 
-  // Direct card-code jump: if the query exactly matches one card's
-  // code (card_set_id), e.g. "OP13-001", skip the results list and
-  // go straight to that card's detail page.
+  // Direct card-code jump (exact match)
   if(qNorm.length>=4){
     const exact=[];
     Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{
-      const setIdNorm=(c.card_set_id||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-      if(setIdNorm&&setIdNorm===qNorm)exact.push({code,card:c});
+      const n=(c.card_set_id||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+      if(n&&n===qNorm)exact.push({code,card:c});
     });});
     if(exact.length===1){jumpCard(exact[0].code,exact[0].card.card_image_id);return;}
   }
 
-  const res=[];
-  D.index.forEach(s=>{if(s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q)){res.push({type:'set',code:s.code,name:s.name});}});
-  Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{
+  // Sets
+  const sets=D.index.filter(s=>s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q));
+
+  // Cards
+  const cards=[];
+  Object.entries(D.cache).forEach(([code,cardList])=>{cardList.forEach(c=>{
     const setId=(c.card_set_id||'').toLowerCase();
-    const setIdNorm=setId.replace(/[^a-z0-9]/g,'');
     const nameMatch=c.card_name.toLowerCase().includes(q);
-    const codeMatch=setId.includes(q)||(qNorm.length>=3&&setIdNorm.includes(qNorm));
-    if(nameMatch||codeMatch)res.push({type:'card',code,card:c});
+    const codeMatch=setId.includes(q)||(qNorm.length>=3&&setId.replace(/[^a-z0-9]/g,'').includes(qNorm));
+    if(nameMatch||codeMatch)cards.push({code,card:c});
   });});
-  const cardResults=res.filter(r=>r.type==='card');
-  const rarities=[...new Set(cardResults.map(r=>r.card.rarity).filter(Boolean))];
-  S.srchCards=cardResults;S.srchShown=cardResults;
-  paintSearch(res,q,rarities);
+
+  // Products
+  const _t=f=>f?(S.lang==='th'?f.th:f.en)||f.en||f.th||'':'';
+  const products=D.products.filter(p=>{
+    if(p.status!=='live')return false;
+    return _t(p.product_name).toLowerCase().includes(q)||(p.set_code||'').toLowerCase().includes(q)||(p.language||'').toLowerCase()===q;
+  });
+
+  // Characters
+  const chars=Object.values(buildCharMap()).filter(ch=>ch.name.toLowerCase().includes(q));
+
+  const rarities=[...new Set(cards.map(r=>r.card.rarity).filter(Boolean))];
+  S.srchCards=cards;S.srchShown=cards;
+  paintSearch({sets,cards,products,chars},q,rarities);
 }
 
 function applySrchFilters(){
@@ -1824,44 +1876,188 @@ function applySrchFilters(){
   else if(sort==='price-asc')list.sort((a,b)=>realPrice(a.card)-realPrice(b.card));
   S.srchShown=list;
   renderSrchCards(list);
+  const ct=document.getElementById('srch-cards-count');
+  if(ct)ct.textContent=list.length;
 }
 
-function paintSearch(results,q,rarities){
+function paintSearch({sets,cards,products,chars},q,rarities){
   show('view-search');
   const L=S.lang;
-  setCrumb('crumb-srch',' / '+(L==='th'?'ผลการค้นหา':'Results'));
-  document.getElementById('srch-ttl').textContent=(L==='th'?'ผลการค้นหา: ':'Results for: ')+q;
-  const setRes=results.filter(r=>r.type==='set');
-  const cardRes=results.filter(r=>r.type==='card');
-  document.getElementById('srch-count').textContent=(L==='th'?`พบ ${cardRes.length} การ์ด, ${setRes.length} ชุด`:`Found ${cardRes.length} cards, ${setRes.length} sets`);
+  setCrumb('crumb-srch',' / '+(L==='th'?'ค้นหา':'Search'));
+  document.getElementById('srch-ttl').textContent=(L==='th'?'ค้นหา: ':'Search: ')+q;
+
+  const total=cards.length+sets.length+products.length+chars.length;
+  document.getElementById('srch-count').textContent=total===0
+    ?(L==='th'?'ไม่พบผลลัพธ์':'No results found')
+    :(L==='th'
+      ?`พบ ${cards.length} การ์ด · ${sets.length} ชุด · ${products.length} สินค้า · ${chars.length} ตัวละคร`
+      :`${cards.length} cards · ${sets.length} sets · ${products.length} products · ${chars.length} characters`);
+
+  // Rarity filter chips (cards section only)
   const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
   const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
-  if(rarities.length>0){
-    document.getElementById('srch-filters').style.display='flex';
+  document.getElementById('srch-filters').style.display=rarities.length>0?'flex':'none';
+  if(rarities.length>0)
     document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
-  } else {document.getElementById('srch-filters').style.display='none';}
+
   const box=document.getElementById('srch-results');
-  const setHtml=setRes.map(r=>`<div class="card-tile" data-type="set" onclick="openSet('${r.code}')"><div class="ct-ico">⚓</div><div><p class="ct-name">${r.code} — ${r.name}</p><span class="rtag">SET</span></div></div>`).join('');
-  box.innerHTML=setHtml;
-  renderSrchCards(cardRes);
+  box.innerHTML='';
+
+  if(total===0){
+    box.innerHTML=`<div class="srch-empty">${L==='th'?'ไม่พบผลลัพธ์สำหรับ':'No results for'} "<strong>${q}</strong>"</div>`;
+    return;
+  }
+
+  // ── Characters ────────────────────────────────────────────────────────────
+  if(chars.length){
+    const sec=document.createElement('div');
+    sec.className='srch-section';
+    sec.innerHTML=`<div class="srch-section-hdr">
+      <span class="srch-section-title">${L==='th'?'ตัวละคร':'Characters'}</span>
+      <span class="srch-section-count">${chars.length}</span>
+    </div>
+    <div class="srch-char-grid">${chars.map(ch=>{
+      const first=ch.sets[0]||'';
+      return `<div class="srch-char-chip" onclick="openSetOverview('${first}')">
+        <div class="srch-char-name">${ch.name}</div>
+        <div class="srch-char-sets">${ch.sets.join(' · ')}</div>
+      </div>`;
+    }).join('')}</div>`;
+    box.appendChild(sec);
+  }
+
+  // ── Sets ──────────────────────────────────────────────────────────────────
+  if(sets.length){
+    const sec=document.createElement('div');
+    sec.className='srch-section';
+    sec.innerHTML=`<div class="srch-section-hdr">
+      <span class="srch-section-title">${L==='th'?'ชุดการ์ด':'Sets'}</span>
+      <span class="srch-section-count">${sets.length}</span>
+    </div>
+    <div class="srch-char-grid">${sets.map(s=>`<div class="srch-char-chip" onclick="openSetOverview('${s.code}')">
+      <div class="srch-char-name">${s.code}</div>
+      <div class="srch-char-sets">${s.name}</div>
+    </div>`).join('')}</div>`;
+    box.appendChild(sec);
+  }
+
+  // ── Products ──────────────────────────────────────────────────────────────
+  if(products.length){
+    const sec=document.createElement('div');
+    sec.className='srch-section';
+    const _t=f=>f?(L==='th'?f.th:f.en)||f.en||f.th||'':'';
+    sec.innerHTML=`<div class="srch-section-hdr">
+      <span class="srch-section-title">${L==='th'?'สินค้า':'Products'}</span>
+      <span class="srch-section-count">${products.length}</span>
+    </div>
+    <div class="srch-prod-grid">${products.map(p=>{
+      const flag=p.language==='EN'?'🇺🇸':'🇯🇵';
+      const nm=_t(p.product_name)||p.set_code;
+      return `<div class="srch-prod-card" onclick="openProduct('${p.product_id}')">
+        <div class="srch-prod-flag">${flag}</div>
+        <div><div class="srch-prod-name">${nm}</div><div class="srch-prod-meta">${p.set_code} · ${p.language}</div></div>
+      </div>`;
+    }).join('')}</div>`;
+    box.appendChild(sec);
+  }
+
+  // ── Cards ─────────────────────────────────────────────────────────────────
+  const cardSec=document.createElement('div');
+  cardSec.className='srch-section';
+  cardSec.innerHTML=`<div class="srch-section-hdr">
+    <span class="srch-section-title">${L==='th'?'การ์ด':'Cards'}</span>
+    <span class="srch-section-count" id="srch-cards-count">${cards.length}</span>
+  </div>
+  <div class="card-grid" id="srch-results-cards"></div>`;
+  box.appendChild(cardSec);
+  renderSrchCards(cards);
 }
 
-function toggleSrchChip(el,r){
-  el.classList.toggle('on');applySrchFilters();
-}
+function toggleSrchChip(el,r){el.classList.toggle('on');applySrchFilters();}
 
 function renderSrchCards(cards){
-  const box=document.getElementById('srch-results');
-  const setItems=box.querySelectorAll('[data-type="set"]');
-  const setHtml=[...setItems].map(el=>el.outerHTML).join('');
-  box.innerHTML=setHtml+(cards.length?cards.map((r,i)=>{
+  const box=document.getElementById('srch-results-cards');
+  if(!box)return;
+  box.innerHTML=cards.length?cards.map(r=>{
     const c=r.card;
     return `<div class="card-tile" onclick="jumpCard('${r.code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
       <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
     </div>`;
-  }).join(''):'<div class="empty">ไม่พบการ์ดตาม filter นี้</div>');
+  }).join(''):`<div class="empty">${S.lang==='th'?'ไม่พบการ์ดตาม filter นี้':'No cards match this filter'}</div>`;
 }
+
+// ── Header live dropdown ──────────────────────────────────────────────────────
+let _srchTimer=null;
+function hdrSearchInput(val){
+  clearTimeout(_srchTimer);
+  if(!val.trim()){closeSrchDrop();return;}
+  _srchTimer=setTimeout(()=>renderSrchDrop(val.trim().toLowerCase()),200);
+}
+
+function renderSrchDrop(q){
+  const drop=document.getElementById('srch-drop');
+  if(!drop)return;
+  const L=S.lang;
+  const items=[];
+
+  // Characters (max 3)
+  Object.values(buildCharMap()).forEach(ch=>{
+    if(items.filter(i=>i.cat==='char').length<3&&ch.name.toLowerCase().includes(q))
+      items.push({cat:'char',label:ch.name,meta:ch.sets.join(' · '),fn:`openSetOverview('${ch.sets[0]||''}')`});
+  });
+
+  // Sets (max 2)
+  D.index.forEach(s=>{
+    if(items.filter(i=>i.cat==='set').length<2&&(s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q)))
+      items.push({cat:'set',label:s.code,meta:s.name,fn:`openSetOverview('${s.code}')`});
+  });
+
+  // Products (max 2)
+  const _t=f=>f?(L==='th'?f.th:f.en)||f.en||f.th||'':'';
+  D.products.filter(p=>p.status==='live').forEach(p=>{
+    if(items.filter(i=>i.cat==='prod').length<2){
+      const nm=_t(p.product_name)||p.set_code;
+      if(nm.toLowerCase().includes(q)||(p.set_code||'').toLowerCase().includes(q))
+        items.push({cat:'prod',label:nm,meta:`${p.set_code} · ${p.language}`,fn:`openProduct('${p.product_id}')`});
+    }
+  });
+
+  // Cards (max 3)
+  let cc=0;
+  outer:for(const [code,cardList] of Object.entries(D.cache)){
+    for(const c of cardList){
+      if(cc>=3)break outer;
+      if(c.card_name.toLowerCase().includes(q)){
+        items.push({cat:'card',label:c.card_name,meta:`${c.card_set_id||''} · ${c.rarity||''}`,fn:`jumpCard('${code}','${c.card_image_id}')`});
+        cc++;
+      }
+    }
+  }
+
+  if(!items.length){closeSrchDrop();return;}
+
+  const catLabel={char:L==='th'?'ตัวละคร':'Characters',set:L==='th'?'ชุด':'Sets',prod:L==='th'?'สินค้า':'Products',card:L==='th'?'การ์ด':'Cards'};
+  let html='';let lastCat=null;
+  for(const it of items){
+    if(it.cat!==lastCat){html+=`<div class="sdrop-cat">${catLabel[it.cat]}</div>`;lastCat=it.cat;}
+    html+=`<div class="sdrop-item" onclick="closeSrchDrop();${it.fn}">
+      <span class="sdrop-item-name">${it.label}</span>
+      <span class="sdrop-item-meta">${it.meta}</span>
+    </div>`;
+  }
+  html+=`<div class="sdrop-more" onclick="document.getElementById('gsearch').value=document.getElementById('hdr-search-input').value;closeSrchDrop();doSearch()">${L==='th'?'→ ดูผลทั้งหมด':'→ See all results'}</div>`;
+  drop.innerHTML=html;
+  drop.classList.add('open');
+}
+
+function closeSrchDrop(){
+  const d=document.getElementById('srch-drop');
+  if(d)d.classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.hdr-search'))closeSrchDrop();
+});
 
 function jumpCard(code,imgId){
   S.setCode=code;S.cards=D.cache[code]||[];S.shown=S.cards;
