@@ -142,7 +142,7 @@
     "set_code": "OP-01",
     "set_name": "Romance Dawn",
     "language": "EN",
-    "status": "draft",
+    "status": "live",
     "product_type": "Booster Box",
     "product_name": "OP-01 Romance Dawn Booster Box (EN)",
     "release_date": "2022-12-02",
@@ -153,32 +153,99 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": [],
-        "difficulty": "",
+        "best_for": [
+          "Investors",
+          "Trophy Collectors",
+          "Wave 1 / Wave 2 Hunters"
+        ],
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 0,
-          "high_thb": 0
+          "low_thb": 63000,
+          "high_thb": 200000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
+        "label": "Hold — Do Not Open",
         "summary": {
-          "th": "",
-          "en": ""
+          "th": "OP-01 EN Romance Dawn เป็นกล่องซีลที่มีมูลค่าสูงที่สุดในแวดวง One Piece TCG ราคา EN Wave 2 (กล่องฝาขาว) อยู่ที่ $1,787–$2,000+ และ Wave 1 (กล่องฝาน้ำเงิน) สูงถึง $5,675 นี่ไม่ใช่สินค้าสำหรับเปิด — นี่คือ สินค้าสะสมที่มีมูลค่าเพิ่มขึ้นเรื่อยๆ เหมือน Pokémon Base Set ซีล ซื้อเพื่อเก็บ ไม่ใช่เพื่อเปิด",
+          "en": "OP-01 EN Romance Dawn is the highest-value sealed product in One Piece TCG. EN Wave 2 (white-bottom box) trades at $1,787–$2,000+ and Wave 1 (blue-bottom) reaches $5,675+. This is not a product to open — it is a sealed collectible asset comparable to Pokémon Base Set sealed. Buy to hold, not to crack."
         }
       },
       "market_status": {
-        "status": "",
+        "status": "Collector's Asset",
         "reason": {
-          "th": "",
-          "en": ""
+          "th": "EN OP-01 ซีลแพงกว่า JP ซีลถึง 18–57 เท่า เพราะ EN มี Supply น้อยมากจากช่วงเปิดตัว และ Wave 1 Blue-Bottom กลายเป็นสัญลักษณ์ที่สะสมนิยมเหมือน 1st Edition Pokémon การ์ด Shanks Manga Rare ($1,483) ยังคงมีดีมานด์สูง ราคากล่องซีล EN มีแนวโน้มขึ้นต่อเนื่อง",
+          "en": "EN OP-01 sealed commands 18–57x the price of JP sealed. EN supply is permanently fixed from the 2022 launch print run. Wave 1 Blue-Bottom boxes have achieved 1st Edition Pokémon collectible status. The Shanks Manga Rare at $1,483 sustains single card demand. Sealed box price trend has been consistently upward since launch."
         }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-05:EN:booster-box",
+          "reason": {
+            "th": "ถ้าเพิ่งเริ่มสะสม EN",
+            "en": "If You're Just Starting EN Collecting"
+          },
+          "context": {
+            "th": "OP-05 EN มีราคาเข้าถึงได้มากกว่า (~$995) และยังมี Trophy Card ที่แข็งแกร่ง (Gear 5 Luffy $2,851) เหมาะสำหรับผู้ที่ต้องการเริ่มสะสม EN ซีลในราคาที่สมเหตุสมผลกว่า",
+            "en": "OP-05 EN is more accessible (~$995) with a strong trophy card (Gear 5 Luffy $2,851). Better entry point for collectors new to EN sealed investing."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Wave 1 vs Wave 2 — ความแตกต่างมูลค่า $3,800+",
+            "en": "Wave 1 vs Wave 2 — A $3,800+ Value Difference"
+          },
+          "detail": {
+            "th": "Wave 1 (กล่องฝาน้ำเงิน) ราคา $5,675 — Wave 2 (กล่องฝาขาว) ราคา $1,787 ความแตกต่างเพียงสีของบรรจุภัณฑ์สร้างมูลค่าต่างกัน $3,800+ ก่อนซื้อต้องยืนยันว่าเป็น Wave ไหน เพราะผู้ขายบางรายจงใจทำให้สับสน",
+            "en": "Wave 1 (blue-bottom box) trades at $5,675. Wave 2 (white-bottom) at $1,787. A packaging color difference creates a $3,800+ value gap. Always verify Wave designation before buying — some sellers intentionally obscure this detail."
+          }
+        },
+        {
+          "topic": {
+            "th": "OP-01 EN มีแค่ 6 การ์ดต่อแพ็ค — ต่างจากชุดหลัง",
+            "en": "OP-01 EN Is 6 Cards per Pack — Different from Later Sets"
+          },
+          "detail": {
+            "th": "OP-01 EN เป็นรูปแบบ 6 การ์ด/แพ็ค เหมือน JP ชุดหลังๆ (OP-05+) เปลี่ยนเป็น 12 การ์ด/แพ็ค สำหรับ EN การ์ดที่ได้ต่อกล่องจึงน้อยกว่าชุดใหม่ เป็น 144 ใบต่อกล่อง (เทียบกับ 288 ใบสำหรับชุดหลัง)",
+            "en": "OP-01 EN uses 6 cards per pack — the same as JP. Later EN sets (OP-05 onwards) switched to 12 cards per pack. This means OP-01 EN delivers 144 cards per box versus 288 for newer EN sets."
+          }
+        },
+        {
+          "topic": {
+            "th": "Shanks Manga Rare $1,483 — Trophy Card สำหรับ Single Collectors",
+            "en": "Shanks Manga Rare $1,483 — Trophy Card for Single Collectors"
+          },
+          "detail": {
+            "th": "การ์ดเดี่ยว Shanks Manga Rare (OP01-120) ราคา $1,483 เป็น Trophy Card ของ EN OP-01 นักสะสม Single Card ที่ต้องการใบนี้ไม่จำเป็นต้องซื้อกล่อง — ซื้อ Single จะถูกกว่าและแน่นอนกว่าการลุ้นดึง",
+            "en": "Shanks Manga Rare (OP01-120) at $1,483 is the EN OP-01 trophy single. Collectors targeting this specific card should buy single directly — far cheaper and more certain than opening boxes at $1,787+ each."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคานำเข้าสู่ไทย — บวกเพิ่ม 10–20% จากราคา US",
+            "en": "Thailand Import Cost — Add 10–20% Over US Price"
+          },
+          "detail": {
+            "th": "EN OP-01 ต้องนำเข้าจาก US/EU บวกค่าขนส่งและภาษีนำเข้าประมาณ 10–20% ราคา $1,787 บวก 15% = ประมาณ $2,055 หรือ ฿67,000+ ที่อัตราแลกเปลี่ยนปัจจุบัน ตลาดรีเซลใน EN ไทยยังเล็กมาก ถ้าจะขายต่อต้องพึ่งตลาดต่างประเทศ",
+            "en": "EN OP-01 must be imported from US/EU markets. Add 10–20% for shipping and import duty. At $1,787 + 15%, you're paying roughly $2,055 (~฿67,000). Thai resale market for EN OP-01 is very thin — if you need to exit, you'll be selling internationally."
+          }
+        },
+        {
+          "topic": {
+            "th": "ห้ามเปิด — ทุกกล่องที่เปิดทำลาย Supply ที่มีอยู่อย่างถาวร",
+            "en": "Never Open — Every Box Cracked Permanently Destroys Sealed Supply"
+          },
+          "detail": {
+            "th": "นี่คือกฎเหล็ก: ถ้าคุณซื้อ EN OP-01 ที่ราคา $1,787+ ห้ามเปิดเด็ดขาด EV จากการเปิดไม่มีทางคุ้มกับราคากล่องซีล การ์ด Shanks Manga Rare ($1,483) แม้จะแพงแต่ก็ยังถูกกว่าราคากล่อง Supply ซีลลดลงทุกครั้งที่มีคนเปิด ทำให้กล่องซีลที่เหลืออยู่มีมูลค่าสูงขึ้น",
+            "en": "This is the golden rule: if you own EN OP-01 at $1,787+, do not open it. Box EV cannot justify the sealed price. Even hitting Shanks Manga Rare ($1,483) doesn't recover the box cost. Every box cracked reduces sealed supply and increases the value of remaining sealed boxes."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-28",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -800,7 +867,7 @@
     "set_code": "OP-05",
     "set_name": "Awakening of the New Era",
     "language": "EN",
-    "status": "draft",
+    "status": "live",
     "product_type": "Booster Box",
     "product_name": "OP-05 Awakening of the New Era Booster Box (EN)",
     "release_date": "2023-12-08",
@@ -811,32 +878,89 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": [],
-        "difficulty": "",
+        "best_for": [
+          "Investors",
+          "Gear 5 Luffy Fans",
+          "1st Anniversary Collectors"
+        ],
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 0,
-          "high_thb": 0
+          "low_thb": 35000,
+          "high_thb": 50000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
+        "label": "Highly Recommended — Hold Sealed",
         "summary": {
-          "th": "",
-          "en": ""
+          "th": "OP-05 EN Awakening of the New Era คือชุด 1st Anniversary ที่มี Gear 5 Luffy Manga Rare ($2,851) เป็น Trophy Card หลัก ราคากล่องซีล ~$995 (~฿32,000) ยังขึ้นอย่างต่อเนื่องจาก MSRP $108 EN OP-05 มีข้อดีหลักคือ 12 การ์ด/แพ็ค ทำให้เปิดสนุกกว่า OP-01 ถ้าหาได้ใกล้ MSRP คือโอกาสที่ดีมาก — ถ้าซื้อที่ $995 ต้องคิดให้ดีก่อน",
+          "en": "OP-05 EN Awakening of the New Era is the 1st Anniversary set headlined by Gear 5 Luffy Manga Rare ($2,851). Sealed boxes trade at ~$995 (~฿32,000), up significantly from MSRP of $108. EN OP-05 has an important advantage over OP-01: 12 cards per pack means more cards per box and a better opening experience if you choose to open. Near-MSRP is a strong buy — at $995, calculate carefully."
         }
       },
       "market_status": {
-        "status": "",
+        "status": "Strong",
         "reason": {
-          "th": "",
-          "en": ""
+          "th": "OP-05 EN เป็น 1st Anniversary Set ซึ่งประวัติศาสตร์ชี้ว่าชุด Anniversary มักรักษามูลค่าได้ดีในระยะยาว Gear 5 Luffy Manga Rare ยังคงเป็น Icon ของเกมทั้งใน JP และ EN ราคากล่องซีลขึ้นประมาณ 9x จาก MSRP",
+          "en": "OP-05 EN is a 1st Anniversary set — anniversary sets historically hold value better than standard releases. Gear 5 Luffy Manga Rare remains the game's most iconic pull in both JP and EN markets. Sealed box has appreciated ~9x from MSRP."
         }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-09:EN:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ EV ต่อกล่องสูงกว่า",
+            "en": "Better if You Want Higher Box EV"
+          },
+          "context": {
+            "th": "OP-09 EN มีราคาซีล $385–$700 ต่ำกว่า OP-05 EN แต่มี Manga Rare 5 ใบ ซึ่งมากกว่า OP-05 ถ้ากำลังพิจารณาว่าจะเปิดกล่อง EN กล่องไหน OP-09 มี EV ต่อกล่องสูงกว่าในแง่ Manga Rare density",
+            "en": "OP-09 EN sealed costs $385–$700 less than OP-05 EN but includes 5 Manga Rares per set versus OP-05's focus on the single Gear 5 Luffy. If you're choosing an EN box to open, OP-09 has better Manga Rare density per box."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Gear 5 Luffy Manga Rare — การ์ดที่ Icon ที่สุดในเกม",
+            "en": "Gear 5 Luffy Manga Rare — The Game's Most Iconic Card"
+          },
+          "detail": {
+            "th": "OP05-119 Monkey D. Luffy (Gear 5) Manga Rare ราคา $2,851 ใน EN เป็นการ์ดที่ผู้เล่นทุกคนอยากได้มากที่สุดในเกม ถ้าอยากได้ใบนี้โดยเฉพาะ แนะนำให้ซื้อ Single โดยตรง — ราคา $2,851 ยังถูกกว่าการซื้อกล่อง $995 แล้วลุ้นดึง",
+            "en": "OP05-119 Gear 5 Luffy Manga Rare at $2,851 EN is the card every One Piece TCG player wants. If you specifically want this card, buy the single directly — $2,851 is a known cost versus gambling on a $995+ box pull where the odds are against you."
+          }
+        },
+        {
+          "topic": {
+            "th": "EN OP-05 เป็น 12 การ์ด/แพ็ค — เพิ่มขึ้นจาก OP-01",
+            "en": "EN OP-05 Is 12 Cards per Pack — Double OP-01's Format"
+          },
+          "detail": {
+            "th": "เริ่มจาก OP-05 EN ทุกชุดใช้ 12 การ์ด/แพ็ค (288 ใบ/กล่อง) ต่างจาก OP-01 ที่มีแค่ 6 ใบ/แพ็ค ทำให้ได้การ์ดมากขึ้นต่อกล่องและโอกาสดึงมากขึ้น แต่ราคากล่อง EN ก็สูงขึ้นตาม",
+            "en": "Starting from OP-05, all EN sets use 12 cards per pack (288 cards per box), double OP-01's format. More cards per box means more pull opportunities, but EN box secondary market prices reflect this improved value."
+          }
+        },
+        {
+          "topic": {
+            "th": "1st Anniversary = ตั๋วผ่านด่านระยะยาว",
+            "en": "1st Anniversary = Long-Term Floor Support"
+          },
+          "detail": {
+            "th": "ชุด Anniversary มักมี Floor Price ที่แข็งแกร่งกว่าชุดปกติ เพราะนักสะสมกลุ่มใหญ่ที่สะสมครบทุก Anniversary ไม่ขาย OP-01 เป็นต้นแบบ OP-05 ในฐานะ 1st Ann. ควรรักษามูลค่าได้ดีในระยะยาว แม้ว่าราคาจะไม่ขึ้นเร็วเท่า OP-01",
+            "en": "Anniversary sets consistently show stronger long-term floor support than standard releases. A large collector segment specifically targets one of each Anniversary set and doesn't sell. OP-05 as the 1st Anniversary is likely to maintain value even if appreciation is slower than OP-01's trajectory."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคาปัจจุบัน ~$995 — ยังน่าสนใจหรือเปล่า?",
+            "en": "Current Price ~$995 — Is It Still Worth It?"
+          },
+          "detail": {
+            "th": "ที่ $995 (~฿32,000) คุณจ่ายแพง 9x กว่า MSRP แล้ว Upside จากระดับนี้ขึ้นอยู่กับว่า OPTCG จะยังเติบโตต่อหรือไม่ ถ้าซื้อได้ที่ $200–$400 คือ Strong Buy ถ้าซื้อที่ $995 คือ Neutral — ถือได้แต่ไม่ใช่ Entry ที่ดีที่สุด",
+            "en": "At $995 (~฿32,000) you're paying 9x MSRP already. Further upside depends on OPTCG's continued growth. Below $400 is a strong buy. At $995, it's neutral — holdable but not the best entry. Consider OP-09 EN at $385–$700 as a better-priced alternative at similar quality."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-28",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -1459,7 +1583,7 @@
     "set_code": "OP-09",
     "set_name": "Emperors in the New World",
     "language": "EN",
-    "status": "draft",
+    "status": "live",
     "product_type": "Booster Box",
     "product_name": "OP-09 Emperors in the New World Booster Box (EN)",
     "release_date": "2024-12-13",
@@ -1470,32 +1594,89 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": [],
-        "difficulty": "",
+        "best_for": [
+          "Investors",
+          "4 Emperors Fans",
+          "Manga Rare Hunters"
+        ],
+        "difficulty": "Advanced",
         "price_range": {
-          "low_thb": 0,
-          "high_thb": 0
+          "low_thb": 14000,
+          "high_thb": 25000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
+        "label": "Highly Recommended",
         "summary": {
-          "th": "",
-          "en": ""
+          "th": "OP-09 EN Emperors in the New World คือชุด 2nd Anniversary ที่มี Manga Rare มากที่สุดในเกม — 5 ใบในชุดเดียว ครอบคลุม Four Emperors และ Gol D. Roger ราคากล่องซีล $385–$700 (~฿12,000–฿23,000) ยังสมเหตุสมผลกว่า OP-01 และ OP-05 EN มาก กล่อง EN ออกมา 3.5 เดือนหลัง JP ทำให้ผู้ซื้อ EN มีข้อมูลราคาการ์ดจาก JP ก่อนตัดสินใจ",
+          "en": "OP-09 EN Emperors in the New World is the 2nd Anniversary set with the most Manga Rares of any set — 5 cards covering all Four Emperors and Gol D. Roger. Sealed at $385–$700 (~฿12,000–฿23,000), it offers far better entry value than OP-01 and OP-05 EN. With EN releasing 3.5 months after JP, buyers had full JP price discovery before committing."
         }
       },
       "market_status": {
-        "status": "",
+        "status": "Strong",
         "reason": {
-          "th": "",
-          "en": ""
+          "th": "OP-09 มีพื้นฐานแข็งแกร่งจากการเป็น 2nd Anniversary Set Roger Manga Rare ($3,000–$5,000) เป็น Trophy สูงสุดในชุดและยังมีดีมานด์จากแฟนตัวละครสูงมาก Luffy, Shanks, Teach, Buggy Manga Rare แต่ละใบก็มีแฟนคลับของตัวเอง",
+          "en": "OP-09 is structurally strong as the 2nd Anniversary set. Gol D. Roger Manga Rare ($3,000–$5,000) is the trophy pull with sustained fan demand. Each of the four Emperors' Manga Rares (Luffy, Shanks, Teach, Buggy) has its own independent fan demand base."
         }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-13:EN:booster-box",
+          "reason": {
+            "th": "ดีกว่าถ้าต้องการ Entry ใกล้ MSRP",
+            "en": "Better for MSRP-Adjacent Entry"
+          },
+          "context": {
+            "th": "OP-13 EN ราคาต่ำกว่า $519 สูงสุดในช่วง Dec 2025 แต่ปัจจุบันอาจปรับลงมาแล้ว ถ้าหาได้ที่ $150–$200 OP-13 ให้ Upside ดีกว่าในระยะสั้น",
+            "en": "OP-13 EN peaked at $519 in December 2025 but may have corrected since. If available at $150–$200, OP-13 offers better short-term upside given the Three Brothers theme and 3rd Anniversary designation."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "5 Manga Rare ในชุดเดียว — สถิติสูงสุดในเกม",
+            "en": "5 Manga Rares in One Set — The Game's Highest Count"
+          },
+          "detail": {
+            "th": "OP-09 มี Manga Rare ถึง 5 ใบ: Gol D. Roger ($3,000–$5,000), Monkey D. Luffy ($2,472), Shanks ($1,682), Marshall D. Teach ($1,182), Buggy ($800) ไม่มีชุดไหนมี Manga Rare มากเท่านี้ EV ต่อกล่องสูงมากถ้าดึง Manga Rare ได้ แต่อัตราดึงยังต่ำ (ประมาณ 1 ใบต่อ Case ไม่ใช่ต่อกล่อง)",
+            "en": "OP-09 packs 5 Manga Rares: Gol D. Roger ($3,000–$5,000), Luffy ($2,472), Shanks ($1,682), Teach ($1,182), Buggy ($800). No other set matches this count. Box EV ceiling is exceptional if you pull a Manga Rare — but pull rate is approximately 1 per case, not per box."
+          }
+        },
+        {
+          "topic": {
+            "th": "EN Release 3.5 เดือนหลัง JP — ข้อได้เปรียบที่นักลงทุนควรใช้",
+            "en": "EN Released 3.5 Months After JP — An Investor Advantage"
+          },
+          "detail": {
+            "th": "JP ออก 31 ส.ค. 2024, EN ออก 13 ธ.ค. 2024 ผู้ซื้อ EN มีเวลา 3.5 เดือนดู Hype ของ JP ก่อน Gol D. Roger Manga Rare พุ่งถึง $4,781 ที่วันออก JP แล้วปรับลดลง — ผู้ซื้อ EN ที่รอดูก่อนได้ Entry ที่ดีกว่า",
+            "en": "JP launched August 31, 2024; EN launched December 13, 2024. EN buyers had 3.5 months to observe JP market behavior. Gol D. Roger Manga Rare spiked to $4,781 on JP launch day then corrected — EN buyers who waited got a better entry after the hype subsided."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคา EN Sealed ปัจจุบันยังไม่ได้รับการยืนยัน — ตรวจก่อนซื้อ",
+            "en": "Current EN Sealed Price Unverified — Check Before Buying"
+          },
+          "detail": {
+            "th": "ข้อมูลล่าสุดที่มีคือ $385–$700 จากปลายปี 2025 ราคาปัจจุบัน ณ มิถุนายน 2026 อาจเปลี่ยนแปลงได้ แนะนำให้ตรวจ TCGPlayer หรือ PriceCharting ก่อนตัดสินใจซื้อเสมอ",
+            "en": "The most recent data available is $385–$700 from late 2025. Current prices as of June 2026 may have moved in either direction. Always verify on TCGPlayer or PriceCharting before committing to a purchase at any price point."
+          }
+        },
+        {
+          "topic": {
+            "th": "2nd Anniversary ให้ Floor Support ระยะยาว เหมือน OP-05",
+            "en": "2nd Anniversary Provides Long-Term Floor — Like OP-05"
+          },
+          "detail": {
+            "th": "OP-05 (1st Ann.) และ OP-09 (2nd Ann.) มีโครงสร้างที่คล้ายกัน ทั้งคู่เป็น Milestone Set ที่นักสะสมต้องมีในคอลเล็กชัน Anniversary designation ช่วยให้ Floor Price แข็งแกร่งกว่าชุดปกติในระยะยาว",
+            "en": "OP-05 (1st Ann.) and OP-09 (2nd Ann.) share the same structural advantage — both are milestone sets that serious collectors target specifically. Anniversary designation provides stronger long-term floor support than standard set releases."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-28",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
@@ -2084,7 +2265,7 @@
     "set_code": "OP-13",
     "set_name": "Carrying On His Will",
     "language": "EN",
-    "status": "draft",
+    "status": "live",
     "product_type": "Booster Box",
     "product_name": "OP-13 Carrying On His Will Booster Box (EN)",
     "release_date": "2025-11-07",
@@ -2095,32 +2276,100 @@
     "affiliate_url": null,
     "buying_guide": {
       "quick_facts": {
-        "best_for": [],
-        "difficulty": "",
+        "best_for": [
+          "New Collectors",
+          "Three Brothers Fans",
+          "Ghost Rare Hunters",
+          "3rd Anniversary Investors"
+        ],
+        "difficulty": "Intermediate",
         "price_range": {
-          "low_thb": 0,
-          "high_thb": 0
+          "low_thb": 5500,
+          "high_thb": 20000
         },
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "",
+        "label": "Recommended — Verify Current Price First",
         "summary": {
-          "th": "",
-          "en": ""
+          "th": "OP-13 EN Carrying On His Will คือชุด 3rd Anniversary ธีม Three Brothers (Luffy, Ace, Sabo) ที่มี Red Super Alt Art สูงสุดในประวัติศาสตร์เกม — Luffy $8,950 raw, $24,100 PSA 10 ราคากล่องพุ่งถึง $519 ในเดือน ธ.ค. 2025 แต่ปัจจุบันอาจปรับลงแล้ว ซื้อที่ MSRP หรือใกล้เคียง ($120–$180) คือ Entry ที่ดีมาก แต่ต้องตรวจราคาปัจจุบันก่อนเสมอ",
+          "en": "OP-13 EN Carrying On His Will is the 3rd Anniversary set centered on the Three Brothers — Luffy, Ace, Sabo — with the highest single-card values ever recorded: Luffy Red Super Alt Art at $8,950 raw and $24,100 PSA 10. Sealed peaked at $519 in December 2025 but may have corrected. Buying near MSRP ($120–$180) is a strong entry — always verify current price first."
         }
       },
       "market_status": {
-        "status": "",
+        "status": "Volatile — Post-Peak",
         "reason": {
-          "th": "",
-          "en": ""
+          "th": "OP-13 EN อยู่ใน Post-Peak Phase ราคาพุ่งขึ้นสูงสุดในเดือน ธ.ค. 2025 แล้วมักจะปรับลงในช่วงหลายเดือนถัดมา Three Brothers theme มีแฟนคลับขนาดใหญ่และ 3rd Anniversary designation ช่วย Floor แต่ราคา Peak อาจไม่กลับมาในระยะสั้น",
+          "en": "OP-13 EN is in post-peak territory. The December 2025 spike to $519 was driven by launch hype. Three Brothers theme and 3rd Anniversary designation provide floor support, but peak prices rarely recur in the short term. Current prices (June 2026) need verification."
         }
       },
-      "better_alternatives": [],
-      "things_to_know": [],
+      "better_alternatives": [
+        {
+          "product_id": "one-piece:OP-09:EN:booster-box",
+          "reason": {
+            "th": "ดีกว่าสำหรับ EN Sealed ที่ Proven แล้ว",
+            "en": "Better for Proven EN Sealed Investment"
+          },
+          "context": {
+            "th": "OP-09 EN เป็น 2nd Anniversary ที่ผ่าน Hype Cycle มาแล้วและมีราคาที่เสถียรกว่า 5 Manga Rare ต่อชุดทำให้มีฐาน Trophy Card ที่แข็งแกร่งกว่า",
+            "en": "OP-09 EN is past its hype cycle with more stable pricing. Five Manga Rares per set provides a stronger trophy card foundation than OP-13's three Red Super Alt Arts."
+          }
+        }
+      ],
+      "things_to_know": [
+        {
+          "topic": {
+            "th": "Red Super Alt Art — Rarity ใหม่ที่ทำลายสถิติทุกอย่าง",
+            "en": "Red Super Alt Art — New Rarity That Broke Every Record"
+          },
+          "detail": {
+            "th": "OP-13 แนะนำ Red Super Alt Art ซึ่งเป็น Rarity ระดับสูงสุดที่เคยมีในเกม: Luffy $8,950 raw / $24,100 PSA 10, Sabo $5,066, Ace $4,420 นี่คือสถิติ Single Card สูงสุดในประวัติศาสตร์ OPTCG ณ เวลาออกชุด",
+            "en": "OP-13 introduced Red Super Alt Art — the highest rarity tier ever in the game: Luffy $8,950 raw / $24,100 PSA 10, Sabo $5,066, Ace $4,420. These were the highest single-card prices in OPTCG history at time of release."
+          }
+        },
+        {
+          "topic": {
+            "th": "Ghost Rare — Rarity ใหม่ที่ยังไม่รู้ Pull Rate แน่ชัด",
+            "en": "Ghost Rare — New Rarity with Uncertain Long-Term Pull Rate"
+          },
+          "detail": {
+            "th": "OP-13 แนะนำ Ghost Rare ซึ่งเป็น Rarity เหนือกว่า Secret Rare ในชุดก่อนๆ ยังไม่มีข้อมูลเพียงพอว่า Ghost Rare จะรักษามูลค่าในระยะยาวอย่างไร เป็น Uncertainty ที่ควรรับรู้ก่อนซื้อเพื่อ Trophy Card นี้",
+            "en": "OP-13 introduced Ghost Rare — a rarity tier above Secret Rare. Long-term pull rate behavior and value trajectory for Ghost Rares are still uncertain. This is a risk factor to acknowledge before buying specifically for Ghost Rare targets."
+          }
+        },
+        {
+          "topic": {
+            "th": "ธีม Three Brothers — Luffy, Ace, Sabo มีแฟนคลับขนาดใหญ่มาก",
+            "en": "Three Brothers Theme — Among the Most Beloved in One Piece"
+          },
+          "detail": {
+            "th": "Portgas D. Ace, Monkey D. Luffy และ Sabo เป็นตัวละครที่มีแฟนคลับสูงที่สุดกลุ่มหนึ่งในซีรีส์ โดยเฉพาะ Ace ที่มีแฟนคลับที่ทุ่มเทมาก ความต้องการจาก Three Brothers fans จะยังคงค้ำยัน Floor ของชุดนี้ในระยะยาว",
+            "en": "Portgas D. Ace, Luffy, and Sabo represent one of the most emotionally significant character trios in the series. Ace in particular has one of the most devoted fanbases in One Piece. Three Brothers demand will provide sustained floor support for this set long-term."
+          }
+        },
+        {
+          "topic": {
+            "th": "ราคา Dec 2025 อาจปรับลงแล้ว — ตรวจก่อนซื้อเสมอ",
+            "en": "December 2025 Prices Likely Corrected — Always Verify First"
+          },
+          "detail": {
+            "th": "ข้อมูล Third Agent อ้างอิงราคา ธ.ค. 2025 ซึ่งเป็น Peak ชุดนี้ ณ มิถุนายน 2026 ราคา Red Super Alt Art และกล่องซีลอาจปรับลงมาแล้ว 20–40% แนะนำตรวจ TCGPlayer และ PriceCharting ก่อนซื้อเสมอ ไม่ควรอ้างอิงราคาในคู่มือนี้เพียงอย่างเดียว",
+            "en": "All prices cited in this guide reflect December 2025 peak data. By June 2026, Red Super Alt Art cards and sealed boxes may have corrected 20–40% from peak. Always verify on TCGPlayer and PriceCharting before buying — never rely solely on guide prices for purchase decisions."
+          }
+        },
+        {
+          "topic": {
+            "th": "SASOM Thailand ขาย EN OP-13 — ซื้อในไทยได้โดยตรง",
+            "en": "SASOM Thailand Stocks EN OP-13 — Local Purchase Available"
+          },
+          "detail": {
+            "th": "มีการยืนยันว่า SASOM.co.th จำหน่าย EN OP-13 ในประเทศไทย ทำให้ไม่ต้องนำเข้าเอง ลดความเสี่ยงด้าน Authentication และประหยัดค่าขนส่ง แนะนำซื้อผ่านช่องทางที่ได้รับการยืนยันเสมอ",
+            "en": "SASOM.co.th (Thailand) has been confirmed to stock EN OP-13. Local purchase eliminates import risk, shipping cost, and authentication uncertainty. Always buy from verified channels — especially for high-value EN sealed products."
+          }
+        }
+      ],
       "editorial": {
-        "last_reviewed": "",
+        "last_reviewed": "2026-06-28",
         "review_version": 1,
         "reviewed_by": "Voyage Log"
       }
