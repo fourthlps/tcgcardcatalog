@@ -142,7 +142,7 @@
     "set_code": "OP-01",
     "set_name": "Romance Dawn",
     "language": "EN",
-    "status": "live",
+    "status": "draft",
     "product_type": "Booster Box",
     "product_name": "OP-01 Romance Dawn Booster Box (EN)",
     "release_date": "2022-12-02",
@@ -166,14 +166,14 @@
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "Hold — Do Not Open",
+        "label": "Pending Verification",
         "summary": {
           "th": "OP-01 EN Romance Dawn เป็นกล่องซีลที่มีมูลค่าสูงที่สุดในแวดวง One Piece TCG ราคา EN Wave 2 (กล่องฝาขาว) อยู่ที่ $1,787–$2,000+ และ Wave 1 (กล่องฝาน้ำเงิน) สูงถึง $5,675 นี่ไม่ใช่สินค้าสำหรับเปิด — นี่คือ สินค้าสะสมที่มีมูลค่าเพิ่มขึ้นเรื่อยๆ เหมือน Pokémon Base Set ซีล ซื้อเพื่อเก็บ ไม่ใช่เพื่อเปิด",
           "en": "OP-01 EN Romance Dawn is the highest-value sealed product in One Piece TCG. EN Wave 2 (white-bottom box) trades at $1,787–$2,000+ and Wave 1 (blue-bottom) reaches $5,675+. This is not a product to open — it is a sealed collectible asset comparable to Pokémon Base Set sealed. Buy to hold, not to crack."
         }
       },
       "market_status": {
-        "status": "Collector's Asset",
+        "status": "Under Review",
         "reason": {
           "th": "EN OP-01 ซีลแพงกว่า JP ซีลถึง 18–57 เท่า เพราะ EN มี Supply น้อยมากจากช่วงเปิดตัว และ Wave 1 Blue-Bottom กลายเป็นสัญลักษณ์ที่สะสมนิยมเหมือน 1st Edition Pokémon การ์ด Shanks Manga Rare ($1,483) ยังคงมีดีมานด์สูง ราคากล่องซีล EN มีแนวโน้มขึ้นต่อเนื่อง",
           "en": "EN OP-01 sealed commands 18–57x the price of JP sealed. EN supply is permanently fixed from the 2022 launch print run. Wave 1 Blue-Bottom boxes have achieved 1st Edition Pokémon collectible status. The Shanks Manga Rare at $1,483 sustains single card demand. Sealed box price trend has been consistently upward since launch."
@@ -247,7 +247,9 @@
       "editorial": {
         "last_reviewed": "2026-06-28",
         "review_version": 1,
-        "reviewed_by": "Voyage Log"
+        "reviewed_by": "Voyage Log",
+        "verification_status": "unverified",
+        "verification_note": "EN market data is currently being verified for the Thailand market. Price data sourced from Third Agent research (June 2026) and has not been confirmed against live sold listings."
       }
     }
   },
@@ -867,7 +869,7 @@
     "set_code": "OP-05",
     "set_name": "Awakening of the New Era",
     "language": "EN",
-    "status": "live",
+    "status": "draft",
     "product_type": "Booster Box",
     "product_name": "OP-05 Awakening of the New Era Booster Box (EN)",
     "release_date": "2023-12-08",
@@ -891,14 +893,14 @@
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "Highly Recommended — Hold Sealed",
+        "label": "Pending Verification",
         "summary": {
           "th": "OP-05 EN Awakening of the New Era คือชุด 1st Anniversary ที่มี Gear 5 Luffy Manga Rare ($2,851) เป็น Trophy Card หลัก ราคากล่องซีล ~$995 (~฿32,000) ยังขึ้นอย่างต่อเนื่องจาก MSRP $108 EN OP-05 มีข้อดีหลักคือ 12 การ์ด/แพ็ค ทำให้เปิดสนุกกว่า OP-01 ถ้าหาได้ใกล้ MSRP คือโอกาสที่ดีมาก — ถ้าซื้อที่ $995 ต้องคิดให้ดีก่อน",
           "en": "OP-05 EN Awakening of the New Era is the 1st Anniversary set headlined by Gear 5 Luffy Manga Rare ($2,851). Sealed boxes trade at ~$995 (~฿32,000), up significantly from MSRP of $108. EN OP-05 has an important advantage over OP-01: 12 cards per pack means more cards per box and a better opening experience if you choose to open. Near-MSRP is a strong buy — at $995, calculate carefully."
         }
       },
       "market_status": {
-        "status": "Strong",
+        "status": "Under Review",
         "reason": {
           "th": "OP-05 EN เป็น 1st Anniversary Set ซึ่งประวัติศาสตร์ชี้ว่าชุด Anniversary มักรักษามูลค่าได้ดีในระยะยาว Gear 5 Luffy Manga Rare ยังคงเป็น Icon ของเกมทั้งใน JP และ EN ราคากล่องซีลขึ้นประมาณ 9x จาก MSRP",
           "en": "OP-05 EN is a 1st Anniversary set — anniversary sets historically hold value better than standard releases. Gear 5 Luffy Manga Rare remains the game's most iconic pull in both JP and EN markets. Sealed box has appreciated ~9x from MSRP."
@@ -962,7 +964,9 @@
       "editorial": {
         "last_reviewed": "2026-06-28",
         "review_version": 1,
-        "reviewed_by": "Voyage Log"
+        "reviewed_by": "Voyage Log",
+        "verification_status": "unverified",
+        "verification_note": "EN market data is currently being verified for the Thailand market. Price data sourced from Third Agent research (June 2026) and has not been confirmed against live sold listings."
       }
     }
   },
@@ -1583,7 +1587,7 @@
     "set_code": "OP-09",
     "set_name": "Emperors in the New World",
     "language": "EN",
-    "status": "live",
+    "status": "draft",
     "product_type": "Booster Box",
     "product_name": "OP-09 Emperors in the New World Booster Box (EN)",
     "release_date": "2024-12-13",
@@ -1607,14 +1611,14 @@
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "Highly Recommended",
+        "label": "Pending Verification",
         "summary": {
           "th": "OP-09 EN Emperors in the New World คือชุด 2nd Anniversary ที่มี Manga Rare มากที่สุดในเกม — 5 ใบในชุดเดียว ครอบคลุม Four Emperors และ Gol D. Roger ราคากล่องซีล $385–$700 (~฿12,000–฿23,000) ยังสมเหตุสมผลกว่า OP-01 และ OP-05 EN มาก กล่อง EN ออกมา 3.5 เดือนหลัง JP ทำให้ผู้ซื้อ EN มีข้อมูลราคาการ์ดจาก JP ก่อนตัดสินใจ",
           "en": "OP-09 EN Emperors in the New World is the 2nd Anniversary set with the most Manga Rares of any set — 5 cards covering all Four Emperors and Gol D. Roger. Sealed at $385–$700 (~฿12,000–฿23,000), it offers far better entry value than OP-01 and OP-05 EN. With EN releasing 3.5 months after JP, buyers had full JP price discovery before committing."
         }
       },
       "market_status": {
-        "status": "Strong",
+        "status": "Under Review",
         "reason": {
           "th": "OP-09 มีพื้นฐานแข็งแกร่งจากการเป็น 2nd Anniversary Set Roger Manga Rare ($3,000–$5,000) เป็น Trophy สูงสุดในชุดและยังมีดีมานด์จากแฟนตัวละครสูงมาก Luffy, Shanks, Teach, Buggy Manga Rare แต่ละใบก็มีแฟนคลับของตัวเอง",
           "en": "OP-09 is structurally strong as the 2nd Anniversary set. Gol D. Roger Manga Rare ($3,000–$5,000) is the trophy pull with sustained fan demand. Each of the four Emperors' Manga Rares (Luffy, Shanks, Teach, Buggy) has its own independent fan demand base."
@@ -1678,7 +1682,9 @@
       "editorial": {
         "last_reviewed": "2026-06-28",
         "review_version": 1,
-        "reviewed_by": "Voyage Log"
+        "reviewed_by": "Voyage Log",
+        "verification_status": "unverified",
+        "verification_note": "EN market data is currently being verified for the Thailand market. Price data sourced from Third Agent research (June 2026) and has not been confirmed against live sold listings."
       }
     }
   },
@@ -2265,7 +2271,7 @@
     "set_code": "OP-13",
     "set_name": "Carrying On His Will",
     "language": "EN",
-    "status": "live",
+    "status": "draft",
     "product_type": "Booster Box",
     "product_name": "OP-13 Carrying On His Will Booster Box (EN)",
     "release_date": "2025-11-07",
@@ -2290,14 +2296,14 @@
         "top_chase_cards": []
       },
       "recommendation": {
-        "label": "Recommended — Verify Current Price First",
+        "label": "Pending Verification",
         "summary": {
           "th": "OP-13 EN Carrying On His Will คือชุด 3rd Anniversary ธีม Three Brothers (Luffy, Ace, Sabo) ที่มี Red Super Alt Art สูงสุดในประวัติศาสตร์เกม — Luffy $8,950 raw, $24,100 PSA 10 ราคากล่องพุ่งถึง $519 ในเดือน ธ.ค. 2025 แต่ปัจจุบันอาจปรับลงแล้ว ซื้อที่ MSRP หรือใกล้เคียง ($120–$180) คือ Entry ที่ดีมาก แต่ต้องตรวจราคาปัจจุบันก่อนเสมอ",
           "en": "OP-13 EN Carrying On His Will is the 3rd Anniversary set centered on the Three Brothers — Luffy, Ace, Sabo — with the highest single-card values ever recorded: Luffy Red Super Alt Art at $8,950 raw and $24,100 PSA 10. Sealed peaked at $519 in December 2025 but may have corrected. Buying near MSRP ($120–$180) is a strong entry — always verify current price first."
         }
       },
       "market_status": {
-        "status": "Volatile — Post-Peak",
+        "status": "Under Review",
         "reason": {
           "th": "OP-13 EN อยู่ใน Post-Peak Phase ราคาพุ่งขึ้นสูงสุดในเดือน ธ.ค. 2025 แล้วมักจะปรับลงในช่วงหลายเดือนถัดมา Three Brothers theme มีแฟนคลับขนาดใหญ่และ 3rd Anniversary designation ช่วย Floor แต่ราคา Peak อาจไม่กลับมาในระยะสั้น",
           "en": "OP-13 EN is in post-peak territory. The December 2025 spike to $519 was driven by launch hype. Three Brothers theme and 3rd Anniversary designation provide floor support, but peak prices rarely recur in the short term. Current prices (June 2026) need verification."
@@ -2371,7 +2377,9 @@
       "editorial": {
         "last_reviewed": "2026-06-28",
         "review_version": 1,
-        "reviewed_by": "Voyage Log"
+        "reviewed_by": "Voyage Log",
+        "verification_status": "unverified",
+        "verification_note": "EN market data is currently being verified for the Thailand market. Price data sourced from Third Agent research (June 2026) and has not been confirmed against live sold listings."
       }
     }
   },
