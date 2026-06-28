@@ -1,16 +1,72 @@
 {
-  "generated_at": "2026-06-27T21:43:34.079493+00:00",
-  "snapshot_date": "2026-06-27",
+  "generated_at": "2026-06-28T21:45:13.146647+00:00",
+  "snapshot_date": "2026-06-28",
   "baseline_date": "2026-06-27",
-  "days_between_snapshots": 0,
-  "history_days_collected": 3,
+  "days_between_snapshots": 1,
+  "history_days_collected": 4,
   "period": "day_over_day",
   "confidence": "low",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 0,
-  "cards_with_trend": 0,
+  "cards_evaluated": 1123,
+  "cards_with_trend": 287,
   "trend_type": "gainers",
-  "cards": []
+  "cards": [
+    {
+      "card_id": "OP09-051",
+      "card_name": "Buggy - OP09-051 (SP) (Gold)",
+      "set_code": "OP14-EB04",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p4.jpg",
+      "today_price_usd": 2124.73,
+      "baseline_price_usd": 1083.86,
+      "price_change_usd": 1040.87,
+      "price_change_percent": 96.03
+    },
+    {
+      "card_id": "OP09-093",
+      "card_name": "Marshall.D.Teach (SP) (Gold)",
+      "set_code": "OP-12",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p5_esui2Sk.jpg",
+      "today_price_usd": 1580.19,
+      "baseline_price_usd": 998.87,
+      "price_change_usd": 581.32,
+      "price_change_percent": 58.2
+    },
+    {
+      "card_id": "OP05-082",
+      "card_name": "Shirahoshi (OP05-082) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-082_p4.jpg",
+      "today_price_usd": 90.56,
+      "baseline_price_usd": 30.9,
+      "price_change_usd": 59.66,
+      "price_change_percent": 193.07
+    },
+    {
+      "card_id": "EB03-053",
+      "card_name": "Nami (053) (SP)",
+      "set_code": "EB-03",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-053_p2_5xa1OeQ.jpg",
+      "today_price_usd": 1279.82,
+      "baseline_price_usd": 1240.47,
+      "price_change_usd": 39.35,
+      "price_change_percent": 3.17
+    },
+    {
+      "card_id": "OP06-035",
+      "card_name": "Hody Jones (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-035_p3.jpg",
+      "today_price_usd": 29.92,
+      "baseline_price_usd": 5.05,
+      "price_change_usd": 24.87,
+      "price_change_percent": 492.48
+    }
+  ]
 }
