@@ -605,6 +605,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .set-guide-btn.en{color:#4ade80;background:rgba(74,222,128,.08)}
 .set-guide-btn.en:hover{background:rgba(74,222,128,.18)}
 .set-guide-btn.coming{color:var(--soft);background:var(--bg3);cursor:default;opacity:.7}
+.card-lang-tag{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 5px;border-radius:4px;background:rgba(59,111,224,.15);color:#60a5fa;letter-spacing:.04em;vertical-align:middle;margin-left:3px}
 .lang-sep{width:1px;height:20px;background:var(--bord2);align-self:center;margin:0 4px}
 
 /* Mobile tweaks */
@@ -2038,7 +2039,7 @@ function renderSets(){
             const isDraft=p.status==='draft';
             const cls='set-guide-btn'+(isEN?' en':'')+(isDraft?' coming':'');
             const label=isDraft?(L==='th'?'📋 EN คู่มือกำลังมา...':'📋 EN Guide Coming Soon'):`📖 ${p.language||'JP'} ${L==='th'?'คู่มือการซื้อ →':'Buying Guide →'}`;
-            return `<button class="${cls}" onclick="event.stopPropagation();${isDraft?'':(`openProduct('${p.product_id}')`)}}">${label}</button>`;
+            return `<button class="${cls}" onclick="event.stopPropagation();${isDraft?'':(`openProduct('${p.product_id}')`)}">${label}</button>`;
           }).join('');
         })()}
       </div>
@@ -2153,7 +2154,7 @@ function paintCards(cards){
     const cls='card-tile'+(isChase?' is-chase':'')+(isManga?' is-manga':'');
     return `<div class="${cls}" onclick="openCard(${i})">
     <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-    <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
+    <div><p class="ct-name">${c.card_name} <span class="card-lang-tag">JP</span></p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
     ${isChase?'<div class="chase-star-badge">★★★★★</div>':''}
   </div>`;
   }).join('');
@@ -2173,7 +2174,7 @@ function openCard(idx){
     <div class="det-top">
       <img src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
-        <p class="det-name">${c.card_name}</p>
+        <p class="det-name">${c.card_name} <span class="card-lang-tag">JP</span></p>
         <span class="${rc(c.rarity)}">${c.rarity||'—'}</span>
         <div class="det-stats">${stats.map(s=>'<span>'+s+'</span>').join('')}</div>
       </div>
