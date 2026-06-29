@@ -1011,6 +1011,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="crumb" id="crumb-cards"></div>
   <button class="back-btn" onclick="renderSets()">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to sets">กลับไปเลือกชุด</span></button>
   <h1 class="page-ttl serif" id="cards-ttl"></h1>
+  <div id="cards-lang-note" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;font-size:12px;color:var(--soft);margin-bottom:12px"></div>
   <input class="search-bar" id="card-srch" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
   <div class="filter-row">
     <div class="chip-group" id="rarity-chips"></div>
@@ -1423,31 +1424,51 @@ function trendAgeLabel(meta,L){
   return`<span class="mtrend-age">${days} day${days!==1?'s':''} of data · vs ${between} day${between!==1?'s':''} ago${confTag}</span>`;
 }
 
+function topValueFallback(rank){
+  // Returns a card entry HTML for the Nth highest-priced card in the cache (0-indexed).
+  const sorted=flat().filter(c=>realPrice(c)>0).sort((a,b)=>realPrice(b)-realPrice(a));
+  const c=sorted[rank];
+  if(!c)return'';
+  return `<div class="mtrend-body" style="cursor:pointer" onclick="openCard('${c.card_number||c.card_id||''}','${(c.set_id||'').replace('OP-0','OP-0')}')">
+      <img class="mtrend-img" src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
+      <div>
+        <div class="mtrend-name">${chaseBase(c.card_name)}</div>
+        <div class="mtrend-price">${fpL(realPrice(c))}</div>
+        <div style="font-size:10px;color:var(--faint);margin-top:2px">${c.set_id||''} · ${c.rarity||''}</div>
+      </div>
+    </div>`;
+}
+
 function renderTrend(){
   const L=S.lang;
   const top=chasePicks(1)[0];
 
-  // Use the fetched trend JSONs when available (Phase 3 data).
-  // Falls back to the old computed approach if the files haven't been
-  // generated yet (first-run before workflow produces them).
   const gainersData=D.gainers;
   const losersData=D.losers;
   const gainers=gainersData?.cards||[];
   const losers=losersData?.cards||[];
-  const hasTrendData=!!(gainersData&&losersData);
-
-  // Pending state shown when the pipeline hasn't produced data yet,
-  // or when there's not yet enough history for a meaningful comparison.
-  const pendingHtml=`<div class="mtrend-note">
-    <div class="mtrend-note-ic">📊</div>
-    <div class="mtrend-note-hd">${L==='th'?'กำลังสะสมข้อมูลราคา':'Building Price History'}</div>
-    <div class="mtrend-note-sub">${L==='th'?'ระบบจะแสดงเทรนด์ทันทีที่มีข้อมูลรายวัน':'Trends will appear as daily price snapshots accumulate'}</div>
-  </div>`;
 
   const gainerAgeLabel=trendAgeLabel(gainersData,L);
   const loserAgeLabel=trendAgeLabel(losersData,L);
 
-  // Chase card panel — always live data (no history needed)
+  // When trend history hasn't accumulated yet, show top-value cards as fallback
+  // so the section always has real market data instead of a pending message.
+  const gainerContent=gainers.length
+    ?trendEntryFromJson(gainers[0],L)
+    :topValueFallback(0);
+  const loserContent=losers.length
+    ?trendEntryFromJson(losers[0],L)
+    :topValueFallback(1);
+
+  const gainerTitle=gainers.length
+    ?(L==='th'?'ราคาขึ้นแรง':'Trending Up')
+    :(L==='th'?'การ์ดมูลค่าสูงสุด':'Highest Value Card');
+  const loserTitle=losers.length
+    ?(L==='th'?'ราคาลงแรง':'Trending Down')
+    :(L==='th'?'มูลค่าสูง อันดับ 2':'2nd Highest Value');
+  const gainerIc=gainers.length?'📈':'💎';
+  const loserIc=losers.length?'📉':'💰';
+
   const chaseCardHtml=top?`
       <div class="mtrend-body">
         <img class="mtrend-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
@@ -1458,21 +1479,21 @@ function renderTrend(){
       </div>`:`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
   document.getElementById('trend-row').innerHTML=`
-    <div class="mtrend-card">
+    <div class="mtrend-card${gainerContent?' live':''}">
       <div class="mtrend-head">
-        <span class="mtrend-ic">📈</span>
-        <span class="mtrend-ttl t" data-th="ราคาขึ้นแรง" data-en="Trending Up">ราคาขึ้นแรง</span>
-        ${gainerAgeLabel}
+        <span class="mtrend-ic">${gainerIc}</span>
+        <span class="mtrend-ttl">${gainerTitle}</span>
+        ${gainers.length?gainerAgeLabel:'<span class="mtrend-soon">JP</span>'}
       </div>
-      ${gainers.length?trendEntryFromJson(gainers[0],L):pendingHtml}
+      ${gainerContent}
     </div>
-    <div class="mtrend-card">
+    <div class="mtrend-card${loserContent?' live':''}">
       <div class="mtrend-head">
-        <span class="mtrend-ic">📉</span>
-        <span class="mtrend-ttl t" data-th="ราคาลงแรง" data-en="Trending Down">ราคาลงแรง</span>
-        ${loserAgeLabel}
+        <span class="mtrend-ic">${loserIc}</span>
+        <span class="mtrend-ttl">${loserTitle}</span>
+        ${losers.length?loserAgeLabel:'<span class="mtrend-soon">JP</span>'}
       </div>
-      ${losers.length?trendEntryFromJson(losers[0],L):pendingHtml}
+      ${loserContent}
     </div>
     <div class="mtrend-card live" onclick="jumpChaseSection()">
       <div class="mtrend-head"><span class="mtrend-ic">🔥</span><span class="mtrend-ttl t" data-th="Chase Cards ยอดนิยม" data-en="Top Chase Card">Chase Cards ยอดนิยม</span></div>
@@ -2358,8 +2379,9 @@ function openSetOverview(code){
     :'';
 
   // ── 3. CARD DATABASE SELECTOR ──────────────────────────────────────────────
-  // JP: always available when card data exists. EN: not yet available (Coming Soon).
-  const hasEN=false; // EN card database not yet built — Third will supply en_prices data
+  // EN releases: OP-01 through OP-13 have confirmed English releases.
+  const EN_RELEASED=['OP-01','OP-02','OP-03','OP-04','OP-05','OP-06','OP-07','OP-08','OP-09','OP-10','OP-11','OP-12','OP-13'];
+  const hasEN=EN_RELEASED.includes(code)&&cards.length>0;
   const jpCard=cards.length?`<div class="set-ov-db-card jp" onclick="openSet('${code}')">
     <div class="set-ov-db-flag">🇯🇵</div>
     <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดญี่ปุ่น':'Japanese Card Database'}</div>
@@ -2367,12 +2389,12 @@ function openSetOverview(code){
     <div class="set-ov-db-price-type">${L==='th'?'ราคา JP เรียลไทม์':'Real-time JP Prices'}</div>
     <button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}')">${L==='th'?'ดูการ์ด JP →':'Browse JP Cards →'}<span>→</span></button>
   </div>`:'';
-  const enCard=`<div class="set-ov-db-card en${hasEN?'':' unavail'}">
+  const enCard=`<div class="set-ov-db-card en${hasEN?'':' unavail'}" ${hasEN?`onclick="openSet('${code}','en')" style="cursor:pointer"`:''}">
     <div class="set-ov-db-flag">🇺🇸</div>
     <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดอังกฤษ':'English Card Database'}</div>
-    <div class="set-ov-db-count">${hasEN?`${totalCards} ${L==='th'?'ใบ':'cards'}`:(L==='th'?'กำลังเตรียมข้อมูล':'Coming Soon')}</div>
-    <div class="set-ov-db-price-type">${L==='th'?'ราคา EN · TCGPlayer':'Real-time EN Prices · TCGPlayer'}</div>
-    <button class="set-ov-db-btn">${L==='th'?'เร็วๆ นี้':'Coming Soon'}<span></span></button>
+    <div class="set-ov-db-count">${hasEN?`${totalCards} ${L==='th'?'ใบ':'cards'}`:(L==='th'?'เร็วๆ นี้':'Coming Soon')}</div>
+    <div class="set-ov-db-price-type">${hasEN?(L==='th'?'ราคาอ้างอิง JP · optcgapi':'JP reference price · optcgapi'):(L==='th'?'ยังไม่มีข้อมูล EN':'EN data not yet available')}</div>
+    ${hasEN?`<button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}','en')">${L==='th'?'ดูการ์ด EN →':'Browse EN Cards →'}<span>→</span></button>`:`<button class="set-ov-db-btn" disabled style="opacity:.45">${L==='th'?'เร็วๆ นี้':'Coming Soon'}<span></span></button>`}
   </div>`;
   const dbSelectorHtml=(jpCard||enCard)?`
     <div class="set-ov-section-label">${L==='th'?'เลือกฐานข้อมูลการ์ด':'Browse Card Database'}</div>
@@ -2522,16 +2544,24 @@ function renderSets(){
   document.getElementById('sets-list').innerHTML=all.length?all.join(''):'<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';
 }
 
-function openSet(code){
+function openSet(code,lang){
   S.setCode=code;
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='default';
   S.rarities=new Set();
   S.cards=D.cache[code]||[];
   const m=D.index.find(s=>s.code===code);
-  document.getElementById('cards-ttl').textContent=code+' — '+(m?m.name:'');
+  const isEN=lang==='en';
+  const langLabel=isEN?'🇺🇸 EN':'🇯🇵 JP';
+  document.getElementById('cards-ttl').textContent=langLabel+' · '+code+' — '+(m?m.name:'');
   document.getElementById('back-cards').onclick=()=>openSetOverview(code);
-  setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${code}')">${code}</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'All Cards'}`);
+  setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${code}')">${code}</span> / ${isEN?'EN':'JP'} ${S.lang==='th'?'การ์ดทั้งหมด':'Cards'}`);
+  // Show EN price note if browsing EN context
+  const noteEl=document.getElementById('cards-lang-note');
+  if(noteEl){
+    noteEl.style.display=isEN?'block':'none';
+    noteEl.textContent=isEN?(S.lang==='th'?'💡 แสดงราคาอ้างอิงจากตลาด JP (optcgapi.com) — ราคา EN TCGPlayer อาจแตกต่าง':'💡 Prices shown are JP market reference (optcgapi.com) — EN TCGPlayer prices may differ'):'';
+  }
   show('view-cards');buildRarityChips();applyFilters();
 }
 
