@@ -2737,18 +2737,32 @@ function openSet(code,lang){
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='default';
   S.rarities=new Set();
-  S.cards=D.cache[code]||[];
-  const m=D.index.find(s=>s.code===code);
+  const allCards=D.cache[code]||[];
   const isEN=lang==='en';
+  // EN view: filter to cards actually released in EN.
+  // EN sets include standard rarities (L/C/UC/R/SR/SEC) only.
+  // JP-exclusive treatments (Manga Parallels, SP Gold, Treasure) are excluded.
+  const EN_RARITIES=new Set(['L','C','UC','R','SR','SEC']);
+  const EN_EXCLUDE=/manga|treasure|wanted poster/i;
+  S.cards=isEN
+    ?allCards.filter(c=>EN_RARITIES.has(c.rarity||'')&&!EN_EXCLUDE.test(c.card_name||''))
+    :allCards;
+  const m=D.index.find(s=>s.code===code);
   const langLabel=isEN?'🇺🇸 EN':'🇯🇵 JP';
   document.getElementById('cards-ttl').textContent=langLabel+' · '+code+' — '+(m?m.name:'');
   document.getElementById('back-cards').onclick=()=>openSetOverview(code);
   setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${code}')">${code}</span> / ${isEN?'EN':'JP'} ${S.lang==='th'?'การ์ดทั้งหมด':'Cards'}`);
-  // Show EN price note if browsing EN context
   const noteEl=document.getElementById('cards-lang-note');
   if(noteEl){
-    noteEl.style.display=isEN?'block':'none';
-    noteEl.textContent=isEN?(S.lang==='th'?'💡 แสดงราคาอ้างอิงจากตลาด JP (optcgapi.com) — ราคา EN TCGPlayer อาจแตกต่าง':'💡 Prices shown are JP market reference (optcgapi.com) — EN TCGPlayer prices may differ'):'';
+    if(isEN){
+      noteEl.style.display='block';
+      const L=S.lang;
+      noteEl.innerHTML=L==='th'
+        ?`🇺🇸 <strong>EN Edition</strong> · แสดงเฉพาะการ์ดที่วางจำหน่ายในฉบับภาษาอังกฤษ (${S.cards.length} ใบ) · ราคาจาก <strong>TCGPlayer</strong> · ภาพการ์ดใช้ภาพ JP (งานศิลป์เดียวกัน)`
+        :`🇺🇸 <strong>EN Edition</strong> · Showing ${S.cards.length} EN-released cards only (JP-exclusive Manga &amp; SP variants excluded) · Prices from <strong>TCGPlayer</strong> · Card images use JP artwork (identical art, different language text)`;
+    }else{
+      noteEl.style.display='none';
+    }
   }
   show('view-cards');buildRarityChips();applyFilters();
 }
