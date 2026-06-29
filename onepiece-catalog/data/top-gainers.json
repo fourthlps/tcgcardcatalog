@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-06-28T21:45:13.146647+00:00",
-  "snapshot_date": "2026-06-28",
-  "baseline_date": "2026-06-27",
+  "generated_at": "2026-06-29T22:17:49.533029+00:00",
+  "snapshot_date": "2026-06-29",
+  "baseline_date": "2026-06-28",
   "days_between_snapshots": 1,
-  "history_days_collected": 4,
+  "history_days_collected": 5,
   "period": "day_over_day",
   "confidence": "low",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1123,
-  "cards_with_trend": 287,
+  "cards_evaluated": 1121,
+  "cards_with_trend": 306,
   "trend_type": "gainers",
   "cards": [
     {
@@ -42,20 +42,20 @@
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-082_p4.jpg",
       "today_price_usd": 90.56,
-      "baseline_price_usd": 30.9,
-      "price_change_usd": 59.66,
-      "price_change_percent": 193.07
+      "baseline_price_usd": 30.84,
+      "price_change_usd": 59.72,
+      "price_change_percent": 193.64
     },
     {
-      "card_id": "EB03-053",
-      "card_name": "Nami (053) (SP)",
+      "card_id": "EB03-055",
+      "card_name": "Nico Robin (055) (SP)",
       "set_code": "EB-03",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-053_p2_5xa1OeQ.jpg",
-      "today_price_usd": 1279.82,
-      "baseline_price_usd": 1240.47,
-      "price_change_usd": 39.35,
-      "price_change_percent": 3.17
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-055_p2_GwiCq60.jpg",
+      "today_price_usd": 1267.28,
+      "baseline_price_usd": 1221.64,
+      "price_change_usd": 45.64,
+      "price_change_percent": 3.74
     },
     {
       "card_id": "OP06-035",
@@ -63,10 +63,10 @@
       "set_code": "PRB-01",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-035_p3.jpg",
-      "today_price_usd": 29.92,
+      "today_price_usd": 29.83,
       "baseline_price_usd": 5.05,
-      "price_change_usd": 24.87,
-      "price_change_percent": 492.48
+      "price_change_usd": 24.78,
+      "price_change_percent": 490.69
     }
   ]
 }
