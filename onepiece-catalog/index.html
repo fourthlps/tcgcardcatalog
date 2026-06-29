@@ -1205,6 +1205,7 @@ function ttl(){return D.index.reduce((s,x)=>s+x.count,0);}
 function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*S.fx).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
 function jpFx(){return (S.fx||33)/149;}
 function fpJpy(jpy){const n=jpy??0;return S.cur==='THB'?'฿ '+Math.round(n*jpFx()).toLocaleString('th-TH'):'¥'+Math.round(n).toLocaleString();}
+function cardPriceDisplay(c){if(S.cardLang==='jp'&&c.jp_price_jpy>0)return fpJpy(c.jp_price_jpy);return fp(realPrice(c));}
 // Homepage currency helper: TH UI -> THB, EN UI -> USD. Uses a real THB
 // price when one is supplied (e.g. BOX set prices), otherwise converts the
 // USD figure with the live FX rate (falls back to USD_TO_THB if that hasn't
