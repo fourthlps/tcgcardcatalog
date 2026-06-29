@@ -150,6 +150,36 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .srch-char-name{font-size:13px;font-weight:600}
 .srch-char-sets{font-size:10px;color:var(--faint);margin-top:1px}
 .srch-empty{color:var(--faint);font-size:15px;padding:48px 0;text-align:center}
+/* ── Character Hub ─────────────────────────────────────────────────────────── */
+.char-hero{display:flex;align-items:flex-start;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.char-hero-info{flex:1;min-width:220px}
+.char-name{font-size:32px;font-weight:800;font-family:var(--font-display);line-height:1.1;margin-bottom:8px}
+.char-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.char-stat{display:flex;flex-direction:column;gap:2px}
+.char-stat-val{font-size:20px;font-weight:700;font-family:var(--font-display);color:var(--gold)}
+.char-stat-lbl{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
+.char-sets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0}
+.char-set-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:600;cursor:pointer;transition:border-color .12s,background .12s}
+.char-set-chip:hover{border-color:var(--gold);background:var(--golds)}
+.char-hub-section{margin-bottom:36px}
+.char-hub-lbl{font-size:12px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.char-hub-lbl-count{font-size:11px;background:var(--bg3);border-radius:99px;padding:1px 8px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--soft)}
+.char-top-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.char-top-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .15s,box-shadow .15s}
+.char-top-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.char-top-card img{width:100%;aspect-ratio:0.72;object-fit:cover;display:block;background:var(--bg3)}
+.char-top-card-info{padding:8px 10px}
+.char-top-card-name{font-size:11px;color:var(--soft);line-height:1.3;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.char-top-card-price{font-size:14px;font-weight:700;color:var(--gold);font-family:var(--font-display)}
+.char-top-card-set{font-size:10px;color:var(--faint);margin-top:2px}
+.char-all-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.char-set-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.char-set-fchip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;transition:border-color .12s,background .12s}
+.char-set-fchip.active{background:var(--gold);border-color:var(--gold);color:#000}
+.char-related-row{display:flex;flex-wrap:wrap;gap:8px}
+.char-related-chip{background:var(--bg2);border:1px solid var(--bord2);border-radius:99px;padding:7px 16px;cursor:pointer;font-size:13px;font-weight:600;transition:border-color .12s,background .12s}
+.char-related-chip:hover{border-color:var(--gold);background:var(--golds)}
+.char-prod-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
 .lang-btn{background:var(--bg3);border:1px solid var(--bord2);color:var(--text);padding:5px 13px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;transition:border-color .15s;flex-shrink:0}
 .lang-btn:hover{border-color:var(--gold)}
 .login-btn{background:var(--gold);border:1px solid var(--gold);color:#fff;padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;transition:opacity .15s;flex-shrink:0;white-space:nowrap}
@@ -1041,6 +1071,12 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <!-- SEARCH RESULTS -->
+<main class="app" id="view-character" style="display:none">
+  <div class="crumb" id="crumb-char"></div>
+  <button class="back-btn" id="back-char" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
+  <div id="char-hub-content"></div>
+</main>
+
 <main class="app" id="view-search" style="display:none">
   <div class="crumb" id="crumb-srch"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
@@ -1238,7 +1274,7 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product'].forEach(v=>{
+  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character'].forEach(v=>{
     document.getElementById(v).style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
@@ -1845,6 +1881,159 @@ function buildCharMap(){
   return m;
 }
 
+// ── Character Hub ─────────────────────────────────────────────────────────────
+let _charFilter=''; // active set filter on the All Cards section
+
+function openCharacter(name){
+  const L=S.lang;
+  const key=name.toLowerCase();
+  const charMap=buildCharMap();
+  const charEntry=charMap[key]||Object.values(charMap).find(c=>c.name.toLowerCase()===key)||{name,sets:[]};
+  const setCodes=charEntry.sets.length?charEntry.sets:Object.keys(D.setData).filter(code=>(D.setData[code]?.featured_characters||[]).some(c=>c.toLowerCase()===key));
+
+  // Gather all cards whose card_name contains the character name
+  const allCards=[];
+  Object.entries(D.cache).forEach(([code,cards])=>{
+    cards.forEach(c=>{
+      if((c.card_name||'').toLowerCase().includes(key))allCards.push({...c,_setCode:code});
+    });
+  });
+  allCards.sort((a,b)=>realPrice(b)-realPrice(a));
+
+  // Products for sets this character appears in
+  const _t=f=>f?(L==='th'?f.th:f.en)||f.en||f.th||'':'';
+  const prods=D.products.filter(p=>p.status==='live'&&setCodes.includes(p.set_code));
+
+  // Related characters — from same sets, excluding self
+  const relatedSet=new Set();
+  setCodes.forEach(code=>{
+    (D.setData[code]?.featured_characters||[]).forEach(c=>{
+      if(c.toLowerCase()!==key)relatedSet.add(c);
+    });
+  });
+  const related=[...relatedSet].slice(0,12);
+
+  _charFilter='';
+  window._charAllCards=allCards;
+  setCrumb('crumb-char',` / <span class="live" onclick="renderSets()">One Piece</span> / ${L==='th'?'ตัวละคร':'Characters'} / ${charEntry.name}`);
+  document.getElementById('back-char').onclick=()=>{
+    if(window._charPrevView)show(window._charPrevView);else goHome();
+  };
+  document.getElementById('char-hub-content').innerHTML=buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L);
+  show('view-character');
+}
+
+function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
+  const topCards=allCards.slice(0,6);
+  const highestPrice=allCards.length?realPrice(allCards[0]):0;
+  const priceStr=highestPrice>0?fpL(highestPrice):'—';
+  const fx=S.fx||USD_TO_THB;
+
+  // Hero
+  const setChips=setCodes.map(code=>`<span class="char-set-chip" onclick="openSetOverview('${code}')">${code}</span>`).join('');
+  const heroHtml=`
+    <div class="char-hero">
+      <div class="char-hero-info">
+        <div class="char-name">${charEntry.name}</div>
+        <div class="char-stats">
+          <div class="char-stat"><span class="char-stat-val">${allCards.length}</span><span class="char-stat-lbl">${L==='th'?'การ์ดทั้งหมด':'Cards'}</span></div>
+          <div class="char-stat"><span class="char-stat-val">${setCodes.length}</span><span class="char-stat-lbl">${L==='th'?'ชุด':'Sets'}</span></div>
+          ${highestPrice>0?`<div class="char-stat"><span class="char-stat-val">${priceStr}</span><span class="char-stat-lbl">${L==='th'?'ราคาสูงสุด':'Highest Price'}</span></div>`:''}
+        </div>
+        <div class="char-sets">${setChips}</div>
+      </div>
+    </div>`;
+
+  // Top Cards section
+  const topHtml=topCards.length?`
+    <div class="char-hub-section">
+      <div class="char-hub-lbl">${L==='th'?'🏆 การ์ดมูลค่าสูงสุด':'🏆 Most Valuable Cards'}<span class="char-hub-lbl-count">${L==='th'?`top ${topCards.length}`:`top ${topCards.length}`}</span></div>
+      <div class="char-top-grid">${topCards.map(c=>{
+        const pr=realPrice(c);
+        const prStr=pr>0?fpL(pr):'—';
+        const img=c.card_image||'';
+        const cid=c.card_number||c.card_image_id||'';
+        return`<div class="char-top-card" onclick="openCard('${cid}','${c._setCode}')">
+          ${img?`<img src="${img}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
+          <div class="char-top-card-info">
+            <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
+            <div class="char-top-card-price">${prStr}</div>
+            <div class="char-top-card-set">${c._setCode} · ${c.rarity||''}</div>
+          </div>
+        </div>`;
+      }).join('')}</div>
+    </div>`:'';
+
+  // All Cards section with set filter
+  const filterChips=setCodes.length>1?`<div class="char-set-filter" id="char-set-filter">
+    <span class="char-set-fchip active" onclick="charSetFilter('')">${L==='th'?'ทั้งหมด':'All'}</span>
+    ${setCodes.map(code=>`<span class="char-set-fchip" onclick="charSetFilter('${code}')">${code}</span>`).join('')}
+  </div>`:'';
+  const allCardsHtml=allCards.length>6?`
+    <div class="char-hub-section">
+      <div class="char-hub-lbl">${L==='th'?'📋 การ์ดทั้งหมด':'📋 All Cards'}<span class="char-hub-lbl-count">${allCards.length}</span></div>
+      ${filterChips}
+      <div class="char-all-grid" id="char-all-grid">${renderCharAllCards(allCards,'')}</div>
+    </div>`:'';
+
+  // Products section
+  const prodsHtml=prods.length?`
+    <div class="char-hub-section">
+      <div class="char-hub-lbl">${L==='th'?'📦 สินค้าที่มีการ์ดนี้':'📦 Available Products'}<span class="char-hub-lbl-count">${prods.length}</span></div>
+      <div class="char-prod-row">${prods.slice(0,6).map(p=>{
+        const nm=L==='th'?(p.product_name?.th||p.product_name?.en||p.set_code):( p.product_name?.en||p.set_code);
+        const flag=p.language==='EN'?'🇺🇸':'🇯🇵';
+        const md=D.marketData.find(r=>r.product_id===p.product_id&&r.data_type==='Sealed Box Price'&&r.verification_status==='Verified');
+        const priceStr=md?(S.cur==='THB'?`฿ ${Math.round(md.value_thb).toLocaleString('th-TH')}`:`$${md.value_usd}`):'';
+        return`<div class="srch-prod-card" onclick="openProduct('${p.product_id}')">
+          <div style="font-size:22px;margin-bottom:6px">${flag}</div>
+          <div style="font-size:13px;font-weight:600;line-height:1.3;margin-bottom:4px">${nm}</div>
+          <div style="font-size:11px;color:var(--faint)">${p.set_code} · ${p.language}</div>
+          ${priceStr?`<div style="font-size:14px;font-weight:700;color:var(--gold);margin-top:6px">${priceStr}</div>`:''}
+        </div>`;
+      }).join('')}</div>
+    </div>`:'';
+
+  // Related characters
+  const relatedHtml=related.length?`
+    <div class="char-hub-section">
+      <div class="char-hub-lbl">${L==='th'?'👥 ตัวละครที่เกี่ยวข้อง':'👥 Related Characters'}</div>
+      <div class="char-related-row">${related.map(c=>`<span class="char-related-chip" onclick="openCharacter('${c.replace(/'/g,"\\'")}'">${c}</span>`).join('')}</div>
+    </div>`:'';
+
+  return heroHtml+topHtml+allCardsHtml+prodsHtml+relatedHtml;
+}
+
+function renderCharAllCards(allCards,filterCode){
+  const cards=filterCode?allCards.filter(c=>c._setCode===filterCode):allCards;
+  return cards.map(c=>{
+    const pr=realPrice(c);
+    const prStr=pr>0?fpL(pr):'—';
+    const cid=c.card_number||c.card_image_id||'';
+    return`<div class="char-top-card" onclick="openCard('${cid}','${c._setCode}')">
+      ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
+      <div class="char-top-card-info">
+        <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
+        <div class="char-top-card-price">${prStr}</div>
+        <div class="char-top-card-set">${c._setCode} · ${c.rarity||''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function charSetFilter(code){
+  _charFilter=code;
+  document.querySelectorAll('.char-set-fchip').forEach(el=>{
+    el.classList.toggle('active',el.textContent===(code||( S.lang==='th'?'ทั้งหมด':'All')));
+  });
+  const grid=document.getElementById('char-all-grid');
+  if(grid){
+    // Gather stored all-cards from the rendered page context
+    const allCards=window._charAllCards||[];
+    grid.innerHTML=renderCharAllCards(allCards,code);
+  }
+}
+
 function doSearch(){
   const q=document.getElementById('gsearch').value.trim().toLowerCase();
   if(!q)return;
@@ -1938,8 +2127,7 @@ function paintSearch({sets,cards,products,chars},q,rarities){
       <span class="srch-section-count">${chars.length}</span>
     </div>
     <div class="srch-char-grid">${chars.map(ch=>{
-      const first=ch.sets[0]||'';
-      return `<div class="srch-char-chip" onclick="openSetOverview('${first}')">
+      return `<div class="srch-char-chip" onclick="openCharacter('${ch.name.replace(/'/g,"\\'")}')">
         <div class="srch-char-name">${ch.name}</div>
         <div class="srch-char-sets">${ch.sets.join(' · ')}</div>
       </div>`;
@@ -2025,7 +2213,7 @@ function renderSrchDrop(q){
   // Characters (max 3)
   Object.values(buildCharMap()).forEach(ch=>{
     if(items.filter(i=>i.cat==='char').length<3&&ch.name.toLowerCase().includes(q))
-      items.push({cat:'char',label:ch.name,meta:ch.sets.join(' · '),fn:`openSetOverview('${ch.sets[0]||''}')`});
+      items.push({cat:'char',label:ch.name,meta:ch.sets.join(' · '),fn:`openCharacter('${ch.name.replace(/'/g,"\\'")}')`});
   });
 
   // Sets (max 2)
@@ -2359,7 +2547,7 @@ function openSetOverview(code){
   const arcHtml=sd?.story_arc?`<div style="font-size:12px;font-weight:600;color:var(--faint);margin-top:-12px;margin-bottom:20px;padding-left:16px">${L==='th'?'สตอรี่อาร์ก':'Story Arc'}: <span style="color:var(--soft)">${_t(sd.story_arc)}</span></div>`:'';
   const charsHtml=sd?.featured_characters?.length
     ?`<div class="set-ov-section-label">${L==='th'?'ตัวละครหลัก':'Featured Characters'}</div>
-      <div class="set-ov-chars">${sd.featured_characters.map(c=>`<span class="set-ov-char-chip">${c}</span>`).join('')}</div>`
+      <div class="set-ov-chars">${sd.featured_characters.map(c=>`<span class="set-ov-char-chip" onclick="openCharacter('${c.replace(/'/g,"\\'")}'">${c}</span>`).join('')}</div>`
     :'';
   const factsHtml=sd?.interesting_facts?.length
     ?`<div class="set-ov-section-label">${L==='th'?'เรื่องน่ารู้':'Interesting Facts'}</div>
