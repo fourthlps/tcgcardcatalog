@@ -84,6 +84,65 @@ REQUEST_DELAY_SECONDS = 1.5  # be polite to a free hobbyist-run API
 # real JSON null. Normalize it here so downstream data is always clean.
 NULL_LIKE = {"NULL", "null", ""}
 
+# ---------------------------------------------------------------------------
+# Phase 4: Yuyu-tei JP retail price scraping
+# ---------------------------------------------------------------------------
+import re as _re  # noqa: E402 (imported here for locality)
+
+# Map from our internal set code (e.g. "OP-01") to yuyu-tei set slug ("op01")
+YUYU_TEI_CODE_MAP = {
+    **{f"OP-{i:02d}": f"op{i:02d}" for i in range(1, 17)},
+    "EB-01": "eb01",
+    "EB-02": "eb02",
+    "EB-03": "eb03",
+    "OP14-EB04": "op14",   # Adventure on Kami's Island (uses OP-14 slug on yuyu-tei)
+    "OP15-EB04": "op15",   # The Azure Sea's Seven
+    "PRB-01": "prb01",
+    "PRB-02": "prb02",
+}
+YUYU_TEI_DELAY = 2.0   # polite delay between set pages (seconds)
+
+
+def fetch_yuyu_prices(yuyu_slug: str) -> dict:
+    """Scrape yuyu-tei.jp for JP retail prices for one set.
+
+    Returns {card_number: min_price_jpy} where card_number matches
+    the optcgapi card_set_id format (e.g. "OP01-074").
+    Multiple variants of the same card (parallel, manga) appear separately;
+    we keep the minimum (cheapest = standard non-parallel version) as the base price.
+    """
+    url = f"https://yuyu-tei.jp/sell/opc/s/{yuyu_slug}"
+    try:
+        resp = requests.get(url, timeout=25, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Accept": "text/html",
+            "Accept-Language": "ja,en;q=0.9",
+        })
+        if resp.status_code != 200:
+            print(f"  yuyu-tei/{yuyu_slug}: HTTP {resp.status_code}, skipping")
+            return {}
+        html = resp.text
+        # Match: >(OP01-074)</span> ... 80 円
+        # Card number format from yuyu-tei: OP01-074 (no dash in set part)
+        prefix = yuyu_slug[:2].upper()   # e.g. "OP", "EB", "PR"
+        pattern = _re.compile(
+            r'>(' + prefix + r'd{2}-d+)</span>[sS]{0,600}?(d[d,]*)s*円'
+        )
+        prices: dict[str, int] = {}
+        for m in pattern.finditer(html):
+            card_id = m.group(1).upper()
+            price_jpy = int(m.group(2).replace(",", ""))
+            if card_id not in prices:
+                prices[card_id] = price_jpy
+            else:
+                prices[card_id] = min(prices[card_id], price_jpy)
+        return prices
+    except Exception as e:
+        print(f"  yuyu-tei/{yuyu_slug}: error ({e}), skipping")
+        return {}
+
+
+
 
 def clean_card(card: dict) -> dict:
     return {
@@ -705,7 +764,28 @@ def main():
     write_json_file(GAINERS_PATH, gainers_data, label="Top gainers")
     write_json_file(LOSERS_PATH, losers_data, label="Top losers")
 
-    # --- Overwrite main catalog JSON ---
+    # --- Phase 4: Inject yuyu-tei JP retail prices ---
+    print("yuyu-tei: scraping JP retail prices (this adds jp_price_jpy to each card)...")
+    yuyu_matched_total = 0
+    for api_code, cards_list in combined.items():
+        yuyu_slug = YUYU_TEI_CODE_MAP.get(api_code)
+        if not yuyu_slug:
+            continue
+        jp_prices = fetch_yuyu_prices(yuyu_slug)
+        if not jp_prices:
+            continue
+        matched = 0
+        for card in cards_list:
+            card_num = (card.get("card_set_id") or card.get("card_number") or "").upper()
+            if card_num in jp_prices:
+                card["jp_price_jpy"] = jp_prices[card_num]
+                matched += 1
+        yuyu_matched_total += matched
+        print(f"  {api_code}: {matched}/{len(cards_list)} cards matched ({len(jp_prices)} scraped)")
+        time.sleep(YUYU_TEI_DELAY)
+    print(f"yuyu-tei: {yuyu_matched_total} cards enriched with JP prices")
+
+        # --- Overwrite main catalog JSON ---
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
