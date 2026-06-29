@@ -2191,7 +2191,7 @@ function renderSrchCards(cards){
     const c=r.card;
     return `<div class="card-tile" onclick="jumpCard('${r.code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fp(realPrice(c))}</p></div>
+      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${cardPriceDisplay(c)}</p></div>
     </div>`;
   }).join(''):`<div class="empty">${S.lang==='th'?'ไม่พบการ์ดตาม filter นี้':'No cards match this filter'}</div>`;
 }
@@ -2903,7 +2903,8 @@ function openCard(idx){
       </div>`;
     })()}
     <div class="price-box" style="margin-top:10px"><div class="pl">${L==='th'?'⚠️ ราคาการ์ดดิบ (ยังไม่ได้ส่งเกรด PSA)':'⚠️ Raw card price (ungraded, not PSA)'}</div></div>
-    <p class="footnote">${L==='th'?'ที่มา':'Source'}: optcgapi.com · ${L==='th'?'ข้อมูล ณ':'Data as of'} ${c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
+    ${(()=>{if(!c.jp_price_jpy||c.jp_price_jpy<=0)return '';return '<div class="price-box" style="margin-top:10px;border:1px solid rgba(234,179,8,.3);background:rgba(234,179,8,.05)"><div class="pl">🇯🇵 JP Retail (yuyu-tei.jp)</div><div class="pv">¥'+Math.round(c.jp_price_jpy).toLocaleString()+' <span style="font-size:12px;color:var(--faint)">(~'+fpJpy(c.jp_price_jpy)+')</span></div></div>';})()}
+    <p class="footnote">${L==='th'?'ที่มา':'Source'}: ${S.cardLang==='en'?'TCGPlayer EN (via optcgapi.com)':'optcgapi.com'} · ${L==='th'?'ข้อมูล ณ':'Data as of'} ${c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
   setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
   show('view-detail');
 }
