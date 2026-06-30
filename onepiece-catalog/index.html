@@ -935,7 +935,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     <nav class="nav">
       <a onclick="goHome();closeMobileMenu()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
       <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
-      <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
+      <a onclick="openAllCards()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
       <a onclick="jumpChaseSection();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
       <a onclick="openCollection()"><span class="t" data-th="การ์ดของฉัน" data-en="My Cards">การ์ดของฉัน</span><span class="coll-nav-count" style="display:none">0</span></a>
       <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
@@ -2944,6 +2944,25 @@ function openSet(code,lang){
     }
   }
   show('view-cards');buildRarityChips();applyFilters();
+}
+
+// "Cards" nav — browse the entire catalog (all sets) in the card-list view,
+// with the same search / rarity / sort controls. Distinct from "Sets" (the
+// set picker). Prices shown uniformly in the selected currency.
+function openAllCards(){
+  S.setCode=null;
+  S.cardLang='en';        // uniform $/฿ pricing across the mixed catalog
+  S.cardReturn=()=>show('view-cards');  // back from a card returns here
+  document.getElementById('card-srch').value='';
+  document.getElementById('sort-sel').value='price-desc';
+  S.rarities=new Set();
+  S.cards=flat();
+  document.getElementById('cards-ttl').textContent=(S.lang==='th'?'การ์ดทั้งหมด':'All Cards')+' · '+S.cards.length.toLocaleString();
+  document.getElementById('back-cards').onclick=()=>goHome();
+  setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'All Cards'}`);
+  const noteEl=document.getElementById('cards-lang-note');if(noteEl)noteEl.style.display='none';
+  show('view-cards');buildRarityChips();applyFilters();
+  closeMobileMenu&&closeMobileMenu();
 }
 
 // Category pills layered on top of the existing rarity pills on the Set
