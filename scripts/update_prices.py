@@ -22,6 +22,9 @@ import requests
 
 BASE_URL = "https://optcgapi.com/api"
 OUTPUT_PATH = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
+# Normalized per-market price dataset (keyed by card_image_id). Prices live
+# here, NOT on the card objects -- card describes the card, market describes price.
+MARKETS_PATH = "onepiece-catalog/card-markets.json"
 
 # --- Phase 3: Trend + status output paths ---
 DATA_DIR = "onepiece-catalog/data"
@@ -126,7 +129,7 @@ def fetch_yuyu_prices(yuyu_slug: str) -> dict:
         # Card number format from yuyu-tei: OP01-074 (no dash in set part)
         prefix = yuyu_slug[:2].upper()   # e.g. "OP", "EB", "PR"
         pattern = _re.compile(
-            r'>(' + prefix + r'd{2}-d+)</span>[sS]{0,600}?(d[d,]*)s*円'
+            r'>(' + prefix + r'\d{2}-\d+)</span>[\s\S]{0,600}?(\d[\d,]*)\s*円'
         )
         prices: dict[str, int] = {}
         for m in pattern.finditer(html):
@@ -140,6 +143,82 @@ def fetch_yuyu_prices(yuyu_slug: str) -> dict:
     except Exception as e:
         print(f"  yuyu-tei/{yuyu_slug}: error ({e}), skipping")
         return {}
+
+
+def fetch_fx_rates() -> dict:
+    """Fetch JPY->THB and USD->THB conversion rates. Falls back to constants
+    if the FX API is unreachable so the run never fails on FX alone."""
+    rates = {"jpy_to_thb": 0.235, "usd_to_thb": 35.0, "jpy_to_usd": 0.0067}
+    try:
+        r = requests.get("https://open.er-api.com/v6/latest/JPY", timeout=15)
+        if r.status_code == 200:
+            j = r.json().get("rates", {})
+            if j.get("THB") and j.get("USD"):
+                rates["jpy_to_thb"] = j["THB"]
+                rates["jpy_to_usd"] = j["USD"]
+                rates["usd_to_thb"] = round(j["THB"] / j["USD"], 2)
+    except Exception as e:
+        print(f"FX: could not fetch live rate ({e}), using fallback constants")
+    return rates
+
+
+def build_card_markets(combined: dict, jp_prices_by_set: dict, fx: dict, run_date: str) -> dict:
+    """Build the normalized per-market price dataset, keyed by card_image_id.
+
+    EN entries come from optcgapi market_price (per variant). JP entries come
+    from yuyu-tei retail prices (per card_set_id) and are attached to the BASE
+    variant only (card_image_id == card_set_id). JP prices are a converted
+    retail *reference*, never relabeled as a Thai market price.
+    """
+    markets: dict[str, list] = {}
+    en_count = jp_count = 0
+    jpy_to_thb = fx["jpy_to_thb"]
+
+    for set_code, cards in combined.items():
+        jp_for_set = jp_prices_by_set.get(set_code, {})
+        for c in cards:
+            key = c.get("card_image_id") or c.get("card_set_id")
+            if not key:
+                continue
+            # EN market price (per variant)
+            mp = c.get("market_price")
+            try:
+                mp = float(mp)
+            except (TypeError, ValueError):
+                mp = 0
+            if mp > 0:
+                markets.setdefault(key, []).append({
+                    "source_market": "EN", "source_name": "TCGPlayer",
+                    "source_currency": "USD", "source_price": mp,
+                    "last_updated": c.get("date_scraped") or run_date,
+                    "price_type": "Market Price", "confidence": "High",
+                })
+                en_count += 1
+            # JP retail reference (base variant only)
+            base = c.get("card_set_id")
+            if base and c.get("card_image_id") == base and jp_for_set.get(base, 0) > 0:
+                jpy = jp_for_set[base]
+                markets.setdefault(key, []).append({
+                    "source_market": "JP", "source_name": "Yuyu-Tei",
+                    "source_currency": "JPY", "source_price": jpy,
+                    "converted_currency": "THB",
+                    "converted_price": round(jpy * jpy_to_thb),
+                    "conversion_rate_used": jpy_to_thb,
+                    "last_updated": run_date,
+                    "price_type": "Retail Reference", "confidence": "Medium",
+                })
+                jp_count += 1
+
+    return {
+        "_meta": {
+            "generated": run_date, "fx": fx,
+            "en_entries": en_count, "jp_entries": jp_count,
+            "note": ("Keyed by card_image_id (unique per variant). JP prices are "
+                     "retail reference from yuyu-tei, attached to base variant only. "
+                     "Converted THB is an estimate, not a verified Thai market price."),
+        },
+        "markets": markets,
+    }
 
 
 
@@ -764,28 +843,32 @@ def main():
     write_json_file(GAINERS_PATH, gainers_data, label="Top gainers")
     write_json_file(LOSERS_PATH, losers_data, label="Top losers")
 
-    # --- Phase 4: Inject yuyu-tei JP retail prices ---
-    print("yuyu-tei: scraping JP retail prices (this adds jp_price_jpy to each card)...")
-    yuyu_matched_total = 0
-    for api_code, cards_list in combined.items():
+    # --- Phase 4: Build normalized market dataset (card-markets.json) ---
+    # Scrape JP retail prices per set, then build a separate per-market price
+    # dataset keyed by card_image_id. Prices do NOT get stamped onto cards.
+    print("yuyu-tei: scraping JP retail prices for market dataset...")
+    fx = fetch_fx_rates()
+    print(f"FX: 1 JPY = {fx['jpy_to_thb']} THB | 1 USD = {fx['usd_to_thb']} THB")
+    jp_prices_by_set = {}
+    for api_code in combined:
         yuyu_slug = YUYU_TEI_CODE_MAP.get(api_code)
         if not yuyu_slug:
             continue
         jp_prices = fetch_yuyu_prices(yuyu_slug)
-        if not jp_prices:
-            continue
-        matched = 0
-        for card in cards_list:
-            card_num = (card.get("card_set_id") or card.get("card_number") or "").upper()
-            if card_num in jp_prices:
-                card["jp_price_jpy"] = jp_prices[card_num]
-                matched += 1
-        yuyu_matched_total += matched
-        print(f"  {api_code}: {matched}/{len(cards_list)} cards matched ({len(jp_prices)} scraped)")
+        if jp_prices:
+            jp_prices_by_set[api_code] = jp_prices
+            print(f"  {api_code}: {len(jp_prices)} JP prices scraped")
         time.sleep(YUYU_TEI_DELAY)
-    print(f"yuyu-tei: {yuyu_matched_total} cards enriched with JP prices")
 
-        # --- Overwrite main catalog JSON ---
+    card_markets = build_card_markets(combined, jp_prices_by_set, fx, run_date)
+    os.makedirs(os.path.dirname(MARKETS_PATH), exist_ok=True)
+    with open(MARKETS_PATH, "w", encoding="utf-8") as f:
+        json.dump(card_markets, f, ensure_ascii=False)
+    meta = card_markets["_meta"]
+    print(f"Market dataset: {len(card_markets['markets'])} cards, "
+          f"{meta['en_entries']} EN entries, {meta['jp_entries']} JP entries -> {MARKETS_PATH}")
+
+    # --- Overwrite main catalog JSON ---
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
