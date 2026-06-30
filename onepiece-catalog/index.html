@@ -526,6 +526,33 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11.5px;color:var(--soft);margin-top:16px}
+/* Collection / Wishlist */
+.card-actions{display:flex;gap:10px;margin:14px 0 4px}
+.card-act{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:border-color .14s,background .14s,color .14s}
+.card-act .ca-ic{font-size:15px}
+.card-act:hover{border-color:var(--gold)}
+.card-act.own.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.card-act.wish.on{background:rgba(225,29,72,.1);border-color:rgba(225,29,72,.45);color:#e11d48}
+.coll-nav-count{margin-left:5px;font-size:10px;font-weight:800;background:var(--gold);color:#fff;border-radius:999px;padding:1px 7px;vertical-align:middle}
+.coll-summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 18px}
+.coll-sum-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.coll-sum-lbl{font-size:12px;color:var(--soft);font-weight:600}
+.coll-sum-val{font-size:28px;font-weight:800;font-family:var(--font-display);color:var(--text);letter-spacing:-.02em;margin-top:4px;line-height:1.05}
+.coll-sum-sub{font-size:11.5px;color:var(--faint);margin-top:3px}
+.coll-tabs{display:flex;gap:8px;margin-bottom:16px}
+.coll-tab{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;border:1px solid var(--border);background:var(--bg2);color:var(--soft);font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .14s}
+.coll-tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+.coll-tab-n{font-size:11px;font-weight:800;background:var(--bg3);color:var(--soft);border-radius:999px;padding:1px 8px}
+.coll-tab.on .coll-tab-n{background:rgba(255,255,255,.22);color:#fff}
+#collection-content .card-tile{position:relative}
+.coll-remove{position:absolute;top:7px;right:7px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(16,23,42,.55);color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .14s}
+#collection-content .card-tile:hover .coll-remove{opacity:1}
+.coll-empty{text-align:center;padding:54px 20px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.coll-empty-ic{font-size:46px;opacity:.5}
+.coll-empty-hd{font-size:17px;font-weight:700;color:var(--text)}
+.coll-empty-sub{font-size:13px;color:var(--soft);max-width:300px;line-height:1.5}
+.coll-empty-btn{margin-top:8px;padding:11px 22px;border-radius:999px;border:none;background:var(--gold);color:#fff;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+@media(max-width:560px){.coll-summary{grid-template-columns:1fr}}
 /* Related cards (card detail) */
 .rel-sec{margin-top:22px}
 .rel-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:11px;display:flex;align-items:center;gap:8px}
@@ -910,6 +937,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
       <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
       <a onclick="jumpChaseSection();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
+      <a onclick="openCollection()"><span class="t" data-th="การ์ดของฉัน" data-en="My Cards">การ์ดของฉัน</span><span class="coll-nav-count" style="display:none">0</span></a>
       <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
       <a onclick="comingSoon(S.lang==='th'?'ซื้อขายการ์ด':'Marketplace')" class="dim t" data-th="ซื้อขายการ์ด" data-en="Marketplace">ซื้อขายการ์ด</a>
     </nav>
@@ -1124,6 +1152,12 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div id="char-hub-content"></div>
 </main>
 
+<main class="app" id="view-collection" style="display:none">
+  <div class="crumb" id="crumb-collection"></div>
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
+  <div id="collection-content"></div>
+</main>
+
 <main class="app" id="view-search" style="display:none">
   <div class="crumb" id="crumb-srch"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
@@ -1229,6 +1263,7 @@ async function init(){
   }catch(e){D.index=[];}
   renderHome();
   applyLangUI();
+  updateCollCount();
   fetch('products.json').then(r=>r.ok?r.json():null).then(d=>{
     if(d){D.products=d;const sv=document.getElementById('view-sets');if(sv&&sv.style.display!=='none')renderSets();}
   });
@@ -1379,8 +1414,8 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character'].forEach(v=>{
-    document.getElementById(v).style.display=v===id?'block':'none';
+  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection'].forEach(v=>{
+    const el=document.getElementById(v);if(el)el.style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
   if(art)art.className='home-art'+(id==='view-home'?'':' home-art--inner');
@@ -3092,6 +3127,91 @@ function renderMarkets(c){
   if(other)html+=langSwitchLink(other,L);
   return html;
 }
+// ─── COLLECTION & WISHLIST (localStorage, no account needed) ──────────────────
+const LS_COLLECTION='voyage_collection', LS_WISHLIST='voyage_wishlist';
+function _lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return[];}}
+function _lsSet(k,a){try{localStorage.setItem(k,JSON.stringify(a));}catch(e){}}
+function inCollection(id){return _lsGet(LS_COLLECTION).includes(id);}
+function inWishlist(id){return _lsGet(LS_WISHLIST).includes(id);}
+function _lsToggle(k,id){const a=_lsGet(k);const i=a.indexOf(id);if(i<0)a.push(id);else a.splice(i,1);_lsSet(k,a);return i<0;}
+
+// Lazy index: card_image_id -> {card,code}
+function cardByImgId(id){
+  if(!D._imgIndex){D._imgIndex={};Object.entries(D.cache).forEach(([code,cards])=>cards.forEach(c=>{if(c.card_image_id)D._imgIndex[c.card_image_id]={card:c,code};}));}
+  return D._imgIndex[id]||null;
+}
+function _collRefresh(id){
+  refreshCardActions(id); updateCollCount();
+  const cv=document.getElementById('view-collection');
+  if(cv&&cv.style.display!=='none')renderCollectionView(_collTab);
+}
+function toggleCollection(id,ev){
+  if(ev)ev.stopPropagation();
+  const added=_lsToggle(LS_COLLECTION,id);
+  if(added&&inWishlist(id))_lsToggle(LS_WISHLIST,id); // owning a wishlisted card moves it
+  _collRefresh(id); return added;
+}
+function toggleWishlist(id,ev){ if(ev)ev.stopPropagation(); _lsToggle(LS_WISHLIST,id); _collRefresh(id); }
+
+// Keep any visible add/wishlist buttons in sync after a toggle
+function refreshCardActions(id){
+  const L=S.lang;
+  document.querySelectorAll(`[data-card-act="${id}"]`).forEach(el=>{
+    const kind=el.dataset.kind, on=kind==='own'?inCollection(id):inWishlist(id);
+    el.classList.toggle('on',on);
+    const ic=el.querySelector('.ca-ic'), lbl=el.querySelector('.ca-lbl');
+    if(ic)ic.textContent=kind==='own'?(on?'✓':'＋'):(on?'♥':'♡');
+    if(lbl)lbl.textContent=kind==='own'
+      ?(on?(L==='th'?'อยู่ในคอลเลกชัน':'In Collection'):(L==='th'?'เพิ่มเข้าคอลเลกชัน':'Add to Collection'))
+      :(on?(L==='th'?'อยู่ใน Wishlist':'Wishlisted'):(L==='th'?'เพิ่มใน Wishlist':'Wishlist'));
+  });
+}
+function cardActionsHtml(c){
+  const L=S.lang, id=c.card_image_id, own=inCollection(id), wish=inWishlist(id);
+  return `<div class="card-actions">
+    <button class="card-act own${own?' on':''}" data-card-act="${id}" data-kind="own" onclick="toggleCollection('${id}',event)"><span class="ca-ic">${own?'✓':'＋'}</span><span class="ca-lbl">${own?(L==='th'?'อยู่ในคอลเลกชัน':'In Collection'):(L==='th'?'เพิ่มเข้าคอลเลกชัน':'Add to Collection')}</span></button>
+    <button class="card-act wish${wish?' on':''}" data-card-act="${id}" data-kind="wish" onclick="toggleWishlist('${id}',event)"><span class="ca-ic">${wish?'♥':'♡'}</span><span class="ca-lbl">${wish?(L==='th'?'อยู่ใน Wishlist':'Wishlisted'):(L==='th'?'เพิ่มใน Wishlist':'Wishlist')}</span></button>
+  </div>`;
+}
+function updateCollCount(){
+  const n=_lsGet(LS_COLLECTION).length+_lsGet(LS_WISHLIST).length;
+  document.querySelectorAll('.coll-nav-count').forEach(el=>{el.textContent=n;el.style.display=n?'inline-block':'none';});
+}
+let _collTab='collection';
+function openCollection(tab){
+  _collTab=tab||'collection';
+  setCrumb('crumb-collection',' / '+(S.lang==='th'?'การ์ดของฉัน':'My Cards'));
+  renderCollectionView(_collTab); show('view-collection'); closeMobileMenu&&closeMobileMenu();
+}
+function switchCollTab(tab){_collTab=tab;renderCollectionView(tab);}
+function renderCollectionView(tab){
+  const L=S.lang;
+  const collIds=_lsGet(LS_COLLECTION), wishIds=_lsGet(LS_WISHLIST);
+  const ids=tab==='wishlist'?wishIds:collIds;
+  const items=ids.map(cardByImgId).filter(Boolean);
+  const sumVal=arr=>arr.map(cardByImgId).filter(Boolean).reduce((s,x)=>s+realPrice(x.card),0);
+  const collVal=sumVal(collIds), wishVal=sumVal(wishIds);
+  const tabBtn=(k,l,n)=>`<button class="coll-tab${tab===k?' on':''}" onclick="switchCollTab('${k}')">${l} <span class="coll-tab-n">${n}</span></button>`;
+  const grid=items.length?`<div class="card-grid">${items.map(({card:c,code})=>`
+    <div class="card-tile" onclick="jumpCard('${code}','${c.card_image_id}')">
+      <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div>
+      <button class="coll-remove" title="${L==='th'?'นำออก':'Remove'}" onclick="event.stopPropagation();${tab==='wishlist'?'toggleWishlist':'toggleCollection'}('${c.card_image_id}',event)">✕</button>
+    </div>`).join('')}</div>`
+    :`<div class="coll-empty"><div class="coll-empty-ic">${tab==='wishlist'?'♡':'📦'}</div>
+        <div class="coll-empty-hd">${tab==='wishlist'?(L==='th'?'ยังไม่มีการ์ดใน Wishlist':'Your wishlist is empty'):(L==='th'?'ยังไม่มีการ์ดในคอลเลกชัน':'Your collection is empty')}</div>
+        <div class="coll-empty-sub">${L==='th'?'กดปุ่ม ＋ หรือ ♡ ที่หน้าการ์ดเพื่อเพิ่ม':'Use the ＋ / ♡ buttons on any card to add it here'}</div>
+        <button class="coll-empty-btn" onclick="openOnePiece()">${L==='th'?'เลือกชุดการ์ด →':'Browse sets →'}</button></div>`;
+  document.getElementById('collection-content').innerHTML=`
+    <h1 class="page-ttl serif">${L==='th'?'การ์ดของฉัน':'My Cards'}</h1>
+    <div class="coll-summary">
+      <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่าคอลเลกชัน':'Collection Value'}</div><div class="coll-sum-val">${fpL(collVal)}</div><div class="coll-sum-sub">${collIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
+      <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่า Wishlist':'Wishlist Value'}</div><div class="coll-sum-val">${fpL(wishVal)}</div><div class="coll-sum-sub">${wishIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
+    </div>
+    <div class="coll-tabs">${tabBtn('collection',L==='th'?'📦 คอลเลกชัน':'📦 Collection',collIds.length)}${tabBtn('wishlist',L==='th'?'♡ Wishlist':'♡ Wishlist',wishIds.length)}</div>
+    ${grid}`;
+}
+
 // Related cards shown on the detail page: other printings of the same card,
 // then the other most-valuable cards from the same set. Pure existing-data.
 function relatedCardsHtml(c){
@@ -3136,6 +3256,7 @@ function openCard(idx){
         <div class="det-stats">${stats.map(s=>'<span>'+s+'</span>').join('')}</div>
       </div>
     </div>
+    ${cardActionsHtml(c)}
     <p class="det-text">${c.card_text||''}</p>
     <div class="price-hd"><span style="font-size:15px;font-weight:700">${L==='th'?'ราคา':'Price'} <span style="color:var(--soft);font-weight:600">· ${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     ${renderMarkets(c)}
