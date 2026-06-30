@@ -525,24 +525,33 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box{background:var(--bg3);border-radius:8px;padding:12px 14px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
-.footnote{font-size:11px;color:var(--faint);margin-top:16px}
-/* Market records list (per-market price cards) */
-.mkt-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:10px}
-.mkt-jp{border-color:rgba(234,179,8,.35);background:rgba(234,179,8,.06)}
-.mkt-th{border-color:rgba(13,148,136,.35);background:rgba(13,148,136,.06)}
-.mkt-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
-.mkt-label{font-size:13px;font-weight:700;color:var(--text)}
-.mkt-badge{font-size:10px;color:var(--faint);border:1px solid var(--border);border-radius:10px;padding:1px 8px;white-space:nowrap}
-.mkt-val{font-size:24px;font-weight:800;font-family:var(--font-display);color:var(--text);line-height:1.1}
-.mkt-est{font-size:14px;color:#b45309;margin-top:3px;font-weight:700}
-.mkt-est-tag{font-size:10px;color:var(--faint);font-weight:500;margin-left:5px}
-.mkt-src{font-size:11px;color:var(--faint);margin-top:6px}
-.mkt-note{font-size:10.5px;color:var(--faint);margin-top:7px;line-height:1.45;border-top:1px solid var(--border);padding-top:6px}
-/* Language-version switch link (other version's price lives on its own page) */
-.ver-switch{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:1px dashed var(--bord2);border-radius:10px;padding:11px 14px;margin-top:2px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .12s,background .12s}
-.ver-switch:hover{border-color:var(--gold);background:var(--bg3)}
-.ver-switch-main{font-size:12.5px;font-weight:600;color:var(--text)}
-.ver-switch-price{font-size:12.5px;font-weight:700;color:var(--faint);white-space:nowrap}
+.footnote{font-size:11.5px;color:var(--soft);margin-top:16px}
+/* Market price card — primary version price (premium) */
+.mkt-card{position:relative;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:14px;padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow)}
+.mkt-jp{border-left-color:#eab308}
+.mkt-th{border-left-color:var(--teal)}
+.mkt-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.mkt-label{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+.mkt-badge{font-size:11.5px;font-weight:700;color:var(--soft);background:var(--bg3);border-radius:999px;padding:3px 11px;white-space:nowrap}
+.mkt-badge-high{color:#0a7d4f;background:rgba(22,163,74,.13)}
+.mkt-badge-med{color:#a35a09;background:rgba(234,179,8,.16)}
+.mkt-val{font-size:34px;font-weight:800;font-family:var(--font-display);color:var(--text);line-height:1.04;letter-spacing:-.02em}
+.mkt-est{font-size:17px;color:#a35a09;margin-top:6px;font-weight:700}
+.mkt-est-tag{font-size:11px;color:var(--soft);font-weight:700;margin-left:7px;text-transform:uppercase;letter-spacing:.05em}
+.mkt-src{font-size:12.5px;color:var(--soft);margin-top:14px;font-weight:500}
+.mkt-note{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--soft);margin-top:13px;line-height:1.5;background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.2);border-radius:10px;padding:11px 13px}
+.mkt-note-ic{flex-shrink:0;font-size:13px;line-height:1.5}
+.mkt-note.neutral{background:var(--bg3);border-color:var(--border);margin-top:14px}
+/* Other-version (secondary) card — links to the other language version's page */
+.ver-switch{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:2px;cursor:pointer;font-family:inherit;text-align:left;box-shadow:var(--shadow);transition:border-color .14s,transform .14s,box-shadow .14s}
+.ver-switch:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover)}
+.ver-switch-en:hover{border-color:var(--gold)}
+.ver-switch-jp:hover{border-color:#eab308}
+.ver-switch-text{display:flex;flex-direction:column;gap:3px}
+.ver-switch-main{font-size:14px;font-weight:700;color:var(--text)}
+.ver-switch-sub{font-size:12.5px;font-weight:500;color:var(--soft)}
+.ver-switch-arrow{font-size:19px;color:var(--faint);flex-shrink:0;transition:transform .14s,color .14s}
+.ver-switch:hover .ver-switch-arrow{color:var(--text);transform:translateX(3px)}
 /* Enhanced price section: today + yesterday comparison */
 .price-main-box{background:var(--bg3);border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .price-main-label{font-size:10.5px;color:var(--faint);margin-bottom:3px}
@@ -2934,13 +2943,19 @@ function marketTrendStrip(c,L){
     <div class="price-hist-delta delta-${dir}"><span class="price-hist-delta-abs">${arrow} ${absStr}</span><span class="price-hist-delta-pct">${pctStr}</span></div>
   </div>`;
 }
+// Confidence pill with a subtle color tier (green = high, amber = medium).
+function confBadge(conf){
+  const c=(conf||'').toLowerCase();
+  const cls=c==='high'?' mkt-badge-high':(c==='medium'?' mkt-badge-med':'');
+  return `<span class="mkt-badge${cls}">${conf||'—'}</span>`;
+}
 // Render one market record card. Each market keeps its own meaning: EN is a
 // real market price, JP is a converted retail reference, TH (future) is a real
 // Thai market price. We never relabel a converted JP price as a Thai price.
 function marketCard(m,L,c){
   if(m.source_market==='EN'){
-    return `<div class="mkt-card">
-      <div class="mkt-head"><span class="mkt-label">🇺🇸 ${L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price'}</span><span class="mkt-badge">${m.confidence||'—'}</span></div>
+    return `<div class="mkt-card mkt-en">
+      <div class="mkt-head"><span class="mkt-label">🇺🇸 ${L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price'}</span>${confBadge(m.confidence)}</div>
       <div class="mkt-val">${fp(m.source_price)}</div>
       ${marketTrendStrip(c,L)}
       <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}</div>
@@ -2948,16 +2963,16 @@ function marketCard(m,L,c){
   }
   if(m.source_market==='JP'){
     return `<div class="mkt-card mkt-jp">
-      <div class="mkt-head"><span class="mkt-label">🇯🇵 ${L==='th'?'ราคาอ้างอิงญี่ปุ่น':'JP Retail Reference'}</span><span class="mkt-badge">${m.confidence||'—'}</span></div>
+      <div class="mkt-head"><span class="mkt-label">🇯🇵 ${L==='th'?'ราคาอ้างอิงญี่ปุ่น':'JP Retail Reference'}</span>${confBadge(m.confidence)}</div>
       <div class="mkt-val">¥${Math.round(m.source_price).toLocaleString()}</div>
       ${m.converted_price>0?`<div class="mkt-est">≈ ฿${Math.round(m.converted_price).toLocaleString('th-TH')}<span class="mkt-est-tag">${L==='th'?'ประมาณการ':'Estimated'}</span></div>`:''}
       <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}</div>
-      <div class="mkt-note">${L==='th'?'แปลงจากราคาขายปลีกในญี่ปุ่น ไม่รวมค่าจัดส่ง ภาษี ค่านำเข้า หรือส่วนต่างราคาตลาดไทย':'Converted from Japanese retail pricing. Does not include shipping, tax, import cost, or Thai market premium.'}</div>
+      <div class="mkt-note"><span class="mkt-note-ic">ℹ️</span><span>${L==='th'?'แปลงจากราคาขายปลีกในญี่ปุ่น ไม่รวมค่าจัดส่ง ภาษี ค่านำเข้า หรือส่วนต่างราคาตลาดไทย':'Converted from Japanese retail pricing. Does not include shipping, tax, import cost, or Thai market premium.'}</span></div>
     </div>`;
   }
   if(m.source_market==='TH'){
     return `<div class="mkt-card mkt-th">
-      <div class="mkt-head"><span class="mkt-label">🇹🇭 ${L==='th'?'ราคาตลาดไทย':'Thai Market Price'}</span><span class="mkt-badge">${m.confidence||'—'}</span></div>
+      <div class="mkt-head"><span class="mkt-label">🇹🇭 ${L==='th'?'ราคาตลาดไทย':'Thai Market Price'}</span>${confBadge(m.confidence)}</div>
       <div class="mkt-val">฿${Math.round(m.source_price).toLocaleString('th-TH')}</div>
       <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}</div>
     </div>`;
@@ -2973,12 +2988,24 @@ function langSwitchLink(m,L){
   const isJP=m.source_market==='JP';
   const flag=isJP?'🇯🇵':'🇺🇸';
   const label=isJP
-    ?(L==='th'?'ดูราคาเวอร์ชันญี่ปุ่น (JP)':'View Japanese Version')
-    :(L==='th'?'ดูราคาเวอร์ชันอังกฤษ (EN)':'View English Version');
-  const price=isJP?('¥'+Math.round(m.source_price).toLocaleString()):fp(m.source_price);
-  return `<button class="ver-switch" onclick="switchCardVer('${isJP?'jp':'en'}')">
-    <span class="ver-switch-main">${flag} ${label}</span>
-    <span class="ver-switch-price">${price} →</span>
+    ?(L==='th'?'ดูเวอร์ชันญี่ปุ่น (JP)':'View Japanese Version')
+    :(L==='th'?'ดูเวอร์ชันอังกฤษ (EN)':'View English Version');
+  // Sub line gives a price hint for the other version. JP shows ¥ + ≈฿ estimate;
+  // EN shows the market price in the current currency (≈ when shown as THB).
+  let sub;
+  if(isJP){
+    const est=m.converted_price>0?` (≈฿${Math.round(m.converted_price).toLocaleString('th-TH')})`:'';
+    sub=`${L==='th'?'ราคาอ้างอิง JP':'JP reference price'}: ¥${Math.round(m.source_price).toLocaleString()}${est}`;
+  }else{
+    const approx=S.cur==='THB'?(L==='th'?'ราคาประมาณ EN':'EN estimated price'):(L==='th'?'ราคา EN':'EN price');
+    sub=`${approx}: ${fp(m.source_price)}`;
+  }
+  return `<button class="ver-switch ver-switch-${isJP?'jp':'en'}" onclick="switchCardVer('${isJP?'jp':'en'}')">
+    <span class="ver-switch-text">
+      <span class="ver-switch-main">${flag} ${label}</span>
+      <span class="ver-switch-sub">${sub}</span>
+    </span>
+    <span class="ver-switch-arrow">→</span>
   </button>`;
 }
 function renderMarkets(c){
@@ -3024,9 +3051,9 @@ function openCard(idx){
       </div>
     </div>
     <p class="det-text">${c.card_text||''}</p>
-    <div class="price-hd"><span style="font-size:14px;font-weight:600">${L==='th'?'ราคา':'Price'} · <span style="color:var(--faint);font-weight:500">${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
+    <div class="price-hd"><span style="font-size:15px;font-weight:700">${L==='th'?'ราคา':'Price'} <span style="color:var(--soft);font-weight:600">· ${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     ${renderMarkets(c)}
-    <div class="price-box" style="margin-top:2px"><div class="pl">${L==='th'?'⚠️ ราคาการ์ดดิบ (ยังไม่ได้ส่งเกรด PSA)':'⚠️ Raw card price (ungraded, not PSA)'}</div></div>
+    <div class="mkt-note neutral"><span class="mkt-note-ic">⚠️</span><span>${L==='th'?'ราคาการ์ดดิบ ยังไม่ได้ส่งเกรด PSA':'Raw card price — ungraded, not PSA graded.'}</span></div>
     <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
   setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
   show('view-detail');
