@@ -1945,7 +1945,9 @@ function openChaseAll(){
   document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
   document.getElementById('srch-sort').value='price-desc';
   S.srchCards=picks;S.srchShown=picks;
-  document.getElementById('srch-results').innerHTML='';
+  // Rebuild the card-grid container that renderSrchCards() targets. (Blanking
+  // srch-results alone would delete #srch-results-cards and render nothing.)
+  document.getElementById('srch-results').innerHTML='<div class="card-grid" id="srch-results-cards"></div>';
   renderSrchCards(picks);
 }
 
