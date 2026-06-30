@@ -1,72 +1,16 @@
 {
-  "generated_at": "2026-06-29T22:17:49.533029+00:00",
-  "snapshot_date": "2026-06-29",
-  "baseline_date": "2026-06-28",
+  "generated_at": "2026-06-30T22:53:15.601583+00:00",
+  "snapshot_date": "2026-06-30",
+  "baseline_date": "2026-06-29",
   "days_between_snapshots": 1,
-  "history_days_collected": 5,
+  "history_days_collected": 6,
   "period": "day_over_day",
   "confidence": "low",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1121,
-  "cards_with_trend": 306,
+  "cards_evaluated": 0,
+  "cards_with_trend": 0,
   "trend_type": "losers",
-  "cards": [
-    {
-      "card_id": "OP13-118",
-      "card_name": "Monkey.D.Luffy (118)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_AZWGnsD.jpg",
-      "today_price_usd": 17.97,
-      "baseline_price_usd": 8489.98,
-      "price_change_usd": -8472.01,
-      "price_change_percent": -99.79
-    },
-    {
-      "card_id": "OP13-118",
-      "card_name": "Monkey.D.Luffy (118) (Parallel)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_p1_Ly1IuQY.jpg",
-      "today_price_usd": 87.51,
-      "baseline_price_usd": 8489.98,
-      "price_change_usd": -8402.47,
-      "price_change_percent": -98.97
-    },
-    {
-      "card_id": "OP13-118",
-      "card_name": "Monkey.D.Luffy (118) (Wanted Poster)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_p4.jpg",
-      "today_price_usd": 338.43,
-      "baseline_price_usd": 8489.98,
-      "price_change_usd": -8151.55,
-      "price_change_percent": -96.01
-    },
-    {
-      "card_id": "OP13-118",
-      "card_name": "Monkey.D.Luffy (118) (Super Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_p2.jpg",
-      "today_price_usd": 2218.48,
-      "baseline_price_usd": 8489.98,
-      "price_change_usd": -6271.5,
-      "price_change_percent": -73.87
-    },
-    {
-      "card_id": "OP13-120",
-      "card_name": "Sabo (120) (SP)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-120_z0pbdkv.jpg",
-      "today_price_usd": 13.39,
-      "baseline_price_usd": 4749.98,
-      "price_change_usd": -4736.59,
-      "price_change_percent": -99.72
-    }
-  ]
+  "cards": []
 }
