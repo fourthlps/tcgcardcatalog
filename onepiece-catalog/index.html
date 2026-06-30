@@ -478,6 +478,32 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .chip:hover{border-color:var(--gold)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:#ffffff}
 .sort-sel{margin-left:auto;font-size:13px;padding:7px 10px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
+/* Color filter chips */
+.color-chip{font-size:12px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--bord2);background:var(--bg2);cursor:pointer;color:var(--soft);transition:all .12s;display:inline-flex;align-items:center;gap:4px}
+.color-chip:hover{border-color:var(--gold)}
+.color-chip.on{border-color:currentColor;opacity:1;font-weight:700}
+.color-chip.on[data-col="Red"]{background:rgba(239,68,68,.15);color:#f87171;border-color:#f87171}
+.color-chip.on[data-col="Blue"]{background:rgba(59,130,246,.15);color:#60a5fa;border-color:#60a5fa}
+.color-chip.on[data-col="Green"]{background:rgba(34,197,94,.15);color:#4ade80;border-color:#4ade80}
+.color-chip.on[data-col="Purple"]{background:rgba(168,85,247,.15);color:#c084fc;border-color:#c084fc}
+.color-chip.on[data-col="Black"]{background:rgba(148,163,184,.15);color:#94a3b8;border-color:#94a3b8}
+.color-chip.on[data-col="Yellow"]{background:rgba(234,179,8,.15);color:#facc15;border-color:#facc15}
+.color-chip.on[data-col="Multi"]{background:rgba(205,168,103,.15);color:var(--gold);border-color:var(--gold)}
+/* Type filter */
+.type-sel{font-size:12px;padding:5px 8px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
+/* Set completion bar */
+.set-prog-list{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.set-prog-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.set-prog-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:13px}
+.set-prog-name{font-weight:700;color:var(--text)}
+.set-prog-pct{font-weight:700;color:var(--gold);font-size:14px}
+.set-prog-bar-wrap{background:var(--bg3);border-radius:999px;height:6px;overflow:hidden}
+.set-prog-bar-fill{height:100%;border-radius:999px;background:var(--gold);transition:width .4s}
+.set-prog-sub{font-size:11px;color:var(--faint);margin-top:4px}
+/* Rich related cards cross-set */
+.rel-char-sec{margin-top:18px}
+.rel-sec-ttl{font-size:12px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.rel-count-badge{background:var(--bg3);color:var(--faint);font-size:10px;padding:1px 6px;border-radius:999px}
 
 /* CARDS GRID */
 .search-bar{width:100%;padding:10px 14px;margin-bottom:12px;border:1px solid var(--bord2);border-radius:7px;background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .15s}
@@ -1188,6 +1214,16 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <option value="price-asc">ราคา: ต่ำ → สูง</option>
     </select>
   </div>
+  <div class="filter-row" id="color-filter-row" style="gap:5px">
+    <div id="color-chips"></div>
+    <select class="type-sel" id="type-sel" onchange="applyFilters()">
+      <option value="">ทุกประเภท</option>
+      <option value="Leader">Leader</option>
+      <option value="Character">Character</option>
+      <option value="Event">Event</option>
+      <option value="Stage">Stage</option>
+    </select>
+  </div>
   <div class="card-grid" id="card-grid"></div>
   <p class="sample-note">📌 <b>หมายเหตุ:</b> ภาพการ์ดในเว็บไซต์นี้เป็น <b>ภาพตัวอย่าง (SAMPLE)</b> ที่ดึงมาจากฐานข้อมูลสาธารณะเพื่อวัตถุประสงค์ในการอ้างอิงข้อมูลราคาเท่านั้น ลิขสิทธิ์ภาพเป็นของผู้ผลิตการ์ดตามลำดับ · Card images shown are sample references for price lookup purposes only. All card artwork © respective rights holders.</p>
 </main>
@@ -1256,7 +1292,7 @@ const DEBUG_CHASE=false;
 // A panel is live when: confidence !== 'low' AND history_days_collected >= 7
 // AND the cards array is non-empty. No more hardcoded flag.
 function trendsTrustworthy(g){return!!(g&&(g.confidence||'low')!=='low'&&(g.history_days_collected||0)>=7&&(g.cards||[]).length>0);}
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
 
 const BOX={
   'OP-01':{usd:145,thb:4800,hot:false},
@@ -3087,7 +3123,7 @@ function openSet(code,lang){
   S.cardLang=lang==='en'?'en':'jp';
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='default';
-  S.rarities=new Set();
+  S.rarities=new Set();S.colorFilter='';S.typeFilter='';
   const allCards=D.cache[code]||[];
   const isEN=lang==='en';
   // EN view: filter to cards actually released in EN.
@@ -3128,7 +3164,7 @@ function openAllCards(lang){
   S.cardReturn=()=>show('view-cards');  // back from a card returns here
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='price-desc';
-  S.rarities=new Set();
+  S.rarities=new Set();S.colorFilter='';S.typeFilter='';
   // EN edition = all cards; JP edition = only cards that have a JP reference price.
   S.cards=lang==='jp'?flat().filter(c=>hasJP(c)):flat();
   document.getElementById('cards-ttl').textContent=(S.lang==='th'?'การ์ดทั้งหมด':'All Cards')+' · '+S.cards.length.toLocaleString();
@@ -3188,18 +3224,40 @@ function buildRarityChips(){
   const rarityHtml=rars.map(r=>`<button class="chip" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
   const catHtml=CATEGORY_DEFS.filter(d=>S.cards.some(d.test)).map(d=>`<button class="chip" data-r="${d.key}" onclick="toggleChip(this,'${d.key}')">${d.key}</button>`).join('');
   document.getElementById('rarity-chips').innerHTML=rarityHtml+catHtml;
+  buildColorChips();
 }
 
-function toggleChip(el,r){
-  if(S.rarities.has(r))S.rarities.delete(r);else S.rarities.add(r);
-  el.classList.toggle('on',S.rarities.has(r));applyFilters();
+function buildColorChips(){
+  const COLOR_DEF=[
+    {col:'Red',dot:'🔴'},{col:'Blue',dot:'🔵'},{col:'Green',dot:'🟢'},
+    {col:'Purple',dot:'🟣'},{col:'Black',dot:'⚫'},{col:'Yellow',dot:'🟡'},{col:'Multi',dot:'🌈'}
+  ];
+  const present=new Set(S.cards.map(c=>c.card_color).filter(Boolean));
+  // Multi = cards with multiple colors (comma or slash)
+  const hasMulti=S.cards.some(c=>c.card_color&&/[,/]/.test(c.card_color));
+  const chips=COLOR_DEF.filter(d=>d.col==='Multi'?hasMulti:present.has(d.col))
+    .map(d=>`<button class="color-chip${S.colorFilter===d.col?' on':''}" data-col="${d.col}" onclick="toggleColor('${d.col}')">${d.dot} ${d.col}</button>`).join('');
+  document.getElementById('color-chips').innerHTML=chips;
+  const typeEl=document.getElementById('type-sel');
+  if(typeEl)typeEl.value=S.typeFilter||'';
+}
+
+function toggleColor(col){
+  S.colorFilter=S.colorFilter===col?'':col;
+  buildColorChips();applyFilters();
 }
 
 function applyFilters(){
   let list=S.cards.slice();
   const q=document.getElementById('card-srch').value.trim().toLowerCase();
-  if(q)list=list.filter(c=>c.card_name.toLowerCase().includes(q));
+  if(q)list=list.filter(c=>c.card_name&&c.card_name.toLowerCase().includes(q));
   if(S.rarities.size){const tags=[...S.rarities];list=list.filter(c=>tags.some(t=>tagMatches(c,t)));}
+  if(S.colorFilter){
+    if(S.colorFilter==='Multi')list=list.filter(c=>c.card_color&&/[,/]/.test(c.card_color));
+    else list=list.filter(c=>c.card_color&&c.card_color.includes(S.colorFilter));
+  }
+  S.typeFilter=document.getElementById('type-sel')?.value||'';
+  if(S.typeFilter)list=list.filter(c=>c.card_type===S.typeFilter);
   const sort=document.getElementById('sort-sel').value;
   if(sort==='price-desc')list.sort((a,b)=>realPrice(b)-realPrice(a));
   else if(sort==='price-asc')list.sort((a,b)=>realPrice(a)-realPrice(b));
@@ -3388,7 +3446,31 @@ function renderCollectionView(tab){
   const sumVal=arr=>arr.map(cardByImgId).filter(Boolean).reduce((s,x)=>s+realPrice(x.card),0);
   const collVal=sumVal(collIds), wishVal=sumVal(wishIds);
   const tabBtn=(k,l,n)=>`<button class="coll-tab${tab===k?' on':''}" onclick="switchCollTab('${k}')">${l} <span class="coll-tab-n">${n}</span></button>`;
-  const grid=items.length?`<div class="card-grid">${items.map(({card:c,code})=>`
+  const collSet=new Set(collIds);
+  const setsWithCards=Object.keys(D.cache).filter(code=>D.cache[code].some(c=>collSet.has(c.card_image_id))).length;
+
+  // Set completion tab
+  let setProgHtml='';
+  if(tab==='sets'){
+    const setEntries=Object.entries(D.cache).map(([code,cards])=>{
+      const total=cards.length;
+      const owned=cards.filter(c=>collSet.has(c.card_image_id)).length;
+      const pct=total>0?Math.round(owned/total*100):0;
+      return {code,total,owned,pct,setName:cards[0]?.set_name||code};
+    }).filter(e=>e.owned>0).sort((a,b)=>b.pct-a.pct||b.owned-a.owned);
+    setProgHtml=setEntries.length
+      ?`<div class="set-prog-list">${setEntries.map(e=>`
+        <div class="set-prog-row" onclick="openSet('${e.code}')" style="cursor:pointer">
+          <div class="set-prog-hd"><span class="set-prog-name">${e.setName}</span><span class="set-prog-pct">${e.pct}%</span></div>
+          <div class="set-prog-bar-wrap"><div class="set-prog-bar-fill" style="width:${e.pct}%"></div></div>
+          <div class="set-prog-sub">${e.owned} / ${e.total} ${L==='th'?'ใบ':'cards'} · ${e.code}</div>
+        </div>`).join('')}</div>`
+      :`<div class="coll-empty"><div class="coll-empty-ic">📊</div>
+          <div class="coll-empty-hd">${L==='th'?'ยังไม่มีข้อมูล Set Completion':'No set completion data yet'}</div>
+          <div class="coll-empty-sub">${L==='th'?'เพิ่มการ์ดในคอลเลกชันก่อน':'Add cards to your collection first'}</div></div>`;
+  }
+
+  const grid=tab==='sets'?setProgHtml:(items.length?`<div class="card-grid">${items.map(({card:c,code})=>`
     <div class="card-tile" onclick="jumpCard('${code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
       <div><div style="margin-bottom:2px">${editionBadge(cardEdition(c,'all'))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div>
@@ -3397,14 +3479,14 @@ function renderCollectionView(tab){
     :`<div class="coll-empty"><div class="coll-empty-ic">${tab==='wishlist'?'♡':'📦'}</div>
         <div class="coll-empty-hd">${tab==='wishlist'?(L==='th'?'ยังไม่มีการ์ดใน Wishlist':'Your wishlist is empty'):(L==='th'?'ยังไม่มีการ์ดในคอลเลกชัน':'Your collection is empty')}</div>
         <div class="coll-empty-sub">${L==='th'?'กดปุ่ม ＋ หรือ ♡ ที่หน้าการ์ดเพื่อเพิ่ม':'Use the ＋ / ♡ buttons on any card to add it here'}</div>
-        <button class="coll-empty-btn" onclick="openOnePiece()">${L==='th'?'เลือกชุดการ์ด →':'Browse sets →'}</button></div>`;
+        <button class="coll-empty-btn" onclick="openOnePiece()">${L==='th'?'เลือกชุดการ์ด →':'Browse sets →'}</button></div>`);
   document.getElementById('collection-content').innerHTML=`
     <h1 class="page-ttl serif">${L==='th'?'การ์ดของฉัน':'My Cards'}</h1>
     <div class="coll-summary">
       <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่าคอลเลกชัน':'Collection Value'}</div><div class="coll-sum-val">${fpL(collVal)}</div><div class="coll-sum-sub">${collIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
       <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่า Wishlist':'Wishlist Value'}</div><div class="coll-sum-val">${fpL(wishVal)}</div><div class="coll-sum-sub">${wishIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
     </div>
-    <div class="coll-tabs">${tabBtn('collection',L==='th'?'📦 คอลเลกชัน':'📦 Collection',collIds.length)}${tabBtn('wishlist',L==='th'?'♡ Wishlist':'♡ Wishlist',wishIds.length)}</div>
+    <div class="coll-tabs">${tabBtn('collection',L==='th'?'📦 คอลเลกชัน':'📦 Collection',collIds.length)}${tabBtn('wishlist',L==='th'?'♡ Wishlist':'♡ Wishlist',wishIds.length)}${tabBtn('sets',L==='th'?'📊 ความครบชุด':'📊 Set Progress',setsWithCards)}</div>
     ${grid}`;
 }
 
@@ -3502,20 +3584,51 @@ function relatedCardsHtml(c){
   const L=S.lang;
   const setCards=D.cache[S.setCode]||[];
   const num=c.card_set_id;
+  // Other printings of the exact same card_set_id
   const versions=setCards.filter(x=>x.card_set_id===num&&x.card_image_id!==c.card_image_id);
+  // Top-priced in same set (different card)
   const more=setCards.filter(x=>x.card_set_id!==num&&realPrice(x)>0)
-    .sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,10);
-  const mini=x=>`<div class="rel-card" onclick="jumpCard('${S.setCode}','${x.card_image_id}')">
+    .sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,8);
+  // Same character across ALL sets (cross-set)
+  const baseName=chaseBase(c.card_name).toLowerCase();
+  const allCards=flat();
+  const sameChar=allCards.filter(x=>
+    x.card_image_id!==c.card_image_id&&
+    x.card_set_id!==num&&
+    chaseBase(x.card_name).toLowerCase()===baseName&&
+    realPrice(x)>0
+  ).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,12);
+  // Same rarity, different card, sorted by price
+  const sameRar=allCards.filter(x=>
+    x.card_image_id!==c.card_image_id&&
+    x.card_set_id!==num&&
+    x.rarity===c.rarity&&
+    realPrice(x)>0&&
+    chaseBase(x.card_name).toLowerCase()!==baseName
+  ).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,8);
+
+  const mini=(x,code)=>{
+    const hit=D._imgIndex?D._imgIndex[x.card_image_id]:null;
+    const sc=code||(hit?hit.code:S.setCode);
+    return `<div class="rel-card" onclick="jumpCard('${sc}','${x.card_image_id}')">
       <img src="${x.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
       <div style="margin-bottom:2px">${editionBadge(cardEdition(x,'all'))}</div>
       <div class="rel-card-name">${chaseBase(x.card_name)}</div>
-      <div class="rel-card-meta">${x.rarity||''}</div>
+      <div class="rel-card-meta">${x.set_id||x.card_set_id?.slice(0,5)||''} · ${x.rarity||''}</div>
       <div class="rel-card-price">${fpL(realPrice(x))}</div>
     </div>`;
-  let html='';
-  if(versions.length)html+=`<div class="rel-sec"><div class="rel-lbl">${L==='th'?'เวอร์ชันอื่นของการ์ดนี้':'Other Versions of This Card'} <span class="rel-count">${versions.length}</span></div><div class="rel-row">${versions.map(mini).join('')}</div></div>`;
-  if(more.length)html+=`<div class="rel-sec"><div class="rel-lbl">${L==='th'?'การ์ดเด่นอื่นในชุดนี้':'More in This Set'}</div><div class="rel-row">${more.map(mini).join('')}</div></div>`;
-  return html;
+  };
+  const section=(title,cards,code)=>cards.length?`<div class="rel-sec">
+    <div class="rel-lbl">${title} <span class="rel-count">${cards.length}</span></div>
+    <div class="rel-row">${cards.map(x=>mini(x,code)).join('')}</div>
+  </div>`:'';
+
+  return [
+    section(L==='th'?'เวอร์ชันอื่นของการ์ดนี้':'Other Versions of This Card', versions, S.setCode),
+    section(L==='th'?`การ์ดทุกชุดของ ${chaseBase(c.card_name)}`:`All ${chaseBase(c.card_name)} Cards`, sameChar, null),
+    section(L==='th'?'การ์ดเด่นอื่นในชุดนี้':'More in This Set', more, S.setCode),
+    section(L==='th'?`${c.rarity||''}อื่นๆ ที่น่าสะสม`:`Other ${c.rarity||''} Cards`, sameRar, null),
+  ].join('');
 }
 // ─── PRICE HISTORY CHART ─────────────────────────────────────────────────────
 // Renders an inline SVG sparkline for the card's daily price history from
