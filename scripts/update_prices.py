@@ -22,9 +22,6 @@ import requests
 
 BASE_URL = "https://optcgapi.com/api"
 OUTPUT_PATH = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
-# Normalized per-market price dataset (keyed by card_image_id). Prices live
-# here, NOT on the card objects -- card describes the card, market describes price.
-MARKETS_PATH = "onepiece-catalog/card-markets.json"
 
 # --- Phase 3: Trend + status output paths ---
 DATA_DIR = "onepiece-catalog/data"
@@ -32,6 +29,7 @@ SNAPSHOT_PATH = f"{DATA_DIR}/prices-snapshot.json"
 GAINERS_PATH = f"{DATA_DIR}/top-gainers.json"
 LOSERS_PATH = f"{DATA_DIR}/top-losers.json"
 STATUS_PATH = f"{DATA_DIR}/status.json"
+PRICE_HISTORY_PATH = f"{DATA_DIR}/price-history.json"
 
 # Trend quality filters -- ALL of the following must pass simultaneously.
 # Cards that fail any check are silently skipped; fewer but trustworthy results.
@@ -86,235 +84,6 @@ REQUEST_DELAY_SECONDS = 1.5  # be polite to a free hobbyist-run API
 # optcgapi returns the literal string "NULL" for empty fields instead of a
 # real JSON null. Normalize it here so downstream data is always clean.
 NULL_LIKE = {"NULL", "null", ""}
-
-# ---------------------------------------------------------------------------
-# Phase 4: Yuyu-tei JP retail price scraping
-# ---------------------------------------------------------------------------
-import re as _re  # noqa: E402 (imported here for locality)
-
-# Map from our internal set code (e.g. "OP-01") to yuyu-tei set slug ("op01")
-YUYU_TEI_CODE_MAP = {
-    **{f"OP-{i:02d}": f"op{i:02d}" for i in range(1, 17)},
-    "EB-01": "eb01",
-    "EB-02": "eb02",
-    "EB-03": "eb03",
-    "OP14-EB04": "op14",   # Adventure on Kami's Island (uses OP-14 slug on yuyu-tei)
-    "OP15-EB04": "op15",   # The Azure Sea's Seven
-    "PRB-01": "prb01",
-    "PRB-02": "prb02",
-}
-YUYU_TEI_DELAY = 2.0   # polite delay between set pages (seconds)
-
-# Confident variant signatures we map JP prices for. Anything that does not
-# reduce cleanly to one of these (Alternate Art, Reprint, Manga, foils, ...)
-# stays EN-only rather than risk attaching a JP price to the wrong variant.
-CONFIDENT_SIGS = ["base", "parallel", "super", "red-super", "sp", "sp-gold", "sp-silver"]
-
-
-def opt_sig(card_name: str, card_set_id: str):
-    """Reduce an optcgapi variant (English treatment name) to a signature."""
-    toks = [t.strip() for t in _re.findall(r"\(([^)]+)\)", card_name)]
-    toks = [t for t in toks
-            if not _re.fullmatch(r"\d+", t)
-            and t != card_set_id
-            and not _re.fullmatch(r"[A-Z]{2}\d{2}-\d+", t)]
-    if not toks:
-        return "base"
-    low = [t.lower() for t in toks]
-    if "red super alternate art" in low:
-        return "red-super"
-    if "super alternate art" in low:
-        return "super"
-    if "sp" in low:
-        if "gold" in low:
-            return "sp-gold"
-        if "silver" in low:
-            return "sp-silver"
-        return "sp"
-    if len(toks) == 1 and "parallel" in low:
-        return "parallel"
-    return None  # ambiguous -> skip
-
-
-def yuyu_sig(rarity: str, treatments: list):
-    """Reduce a yuyu-tei listing (rarity prefix + JP treatment labels) to a signature."""
-    t = treatments or []
-    if "レッドスーパーパラレル" in t:
-        return "red-super"
-    if "スーパーパラレル" in t:
-        return "super"
-    if rarity == "SP":
-        if "金パラレル" in t:
-            return "sp-gold"
-        if "銀パラレル" in t:
-            return "sp-silver"
-        if all(x == "パラレル" for x in t):
-            return "sp"
-        return None
-    if "特別パラレル" in t or "刻印なし" in t:
-        return None
-    is_parallel = rarity.startswith("P-") or "パラレル" in t
-    if is_parallel:
-        if len(t) == 1 and t[0] == "パラレル":
-            return "parallel"
-        if rarity.startswith("P-") and len(t) == 0:
-            return "parallel"
-        return None
-    if not rarity.startswith("P-") and rarity != "SP" and len(t) == 0:
-        return "base"
-    return None
-
-
-def parse_yuyu_listings(html: str, prefix: str) -> dict:
-    """Parse a yuyu-tei set page into {card_number: {signature: [prices_jpy]}}.
-
-    Each product's <img alt> carries the card number, rarity code, and JP
-    treatment labels, e.g. "OP13-118 P-SEC ...(パラレル)(レッドスーパーパラレル)".
-    """
-    out: dict = {}
-    seen = set()
-    pat = _re.compile(r'alt="(' + prefix + r'\d{2}-\d+)\s+([A-Z][A-Z-]*)\s+([^"]*)"')
-    for m in pat.finditer(html):
-        cardnum, rarity, rest = m.group(1), m.group(2), m.group(3)
-        treatments = _re.findall(r"\(([^)]+)\)", rest)
-        after = html[m.start():m.start() + 900]
-        pm = _re.search(r"(\d[\d,]*)\s*円", after)
-        if not pm:
-            continue
-        price = int(pm.group(1).replace(",", ""))
-        key = f"{cardnum}|{rarity}|{','.join(treatments)}"
-        if key in seen:
-            continue
-        seen.add(key)
-        sig = yuyu_sig(rarity, treatments)
-        if not sig:
-            continue
-        out.setdefault(cardnum, {}).setdefault(sig, []).append(price)
-    return out
-
-
-def fetch_yuyu_listings(yuyu_slug: str, expected: int) -> dict:
-    """Fetch + parse one yuyu-tei set page, retrying until a plausible number
-    of listings is returned (the site intermittently serves a blocked/empty
-    page). Returns {} if it never reaches the expected threshold."""
-    url = f"https://yuyu-tei.jp/sell/opc/s/{yuyu_slug}"
-    prefix = yuyu_slug[:2].upper()
-    for attempt in range(1, 5):
-        try:
-            resp = requests.get(url, timeout=25, headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Accept": "text/html",
-                "Accept-Language": "ja,en;q=0.9",
-            })
-            if resp.status_code == 200:
-                listings = parse_yuyu_listings(resp.text, prefix)
-                if len(listings) >= expected:
-                    return listings
-                print(f"  yuyu-tei/{yuyu_slug}: attempt {attempt} weak "
-                      f"({len(listings)} listings, want {expected}) -- retrying")
-            else:
-                print(f"  yuyu-tei/{yuyu_slug}: attempt {attempt} HTTP {resp.status_code}")
-        except Exception as e:
-            print(f"  yuyu-tei/{yuyu_slug}: attempt {attempt} error ({e})")
-        time.sleep(3)
-    print(f"  yuyu-tei/{yuyu_slug}: SKIPPED (never reached {expected} listings)")
-    return {}
-
-
-def fetch_fx_rates() -> dict:
-    """Fetch JPY->THB and USD->THB conversion rates. Falls back to constants
-    if the FX API is unreachable so the run never fails on FX alone."""
-    rates = {"jpy_to_thb": 0.235, "usd_to_thb": 35.0, "jpy_to_usd": 0.0067}
-    try:
-        r = requests.get("https://open.er-api.com/v6/latest/JPY", timeout=15)
-        if r.status_code == 200:
-            j = r.json().get("rates", {})
-            if j.get("THB") and j.get("USD"):
-                rates["jpy_to_thb"] = j["THB"]
-                rates["jpy_to_usd"] = j["USD"]
-                rates["usd_to_thb"] = round(j["THB"] / j["USD"], 2)
-    except Exception as e:
-        print(f"FX: could not fetch live rate ({e}), using fallback constants")
-    return rates
-
-
-def build_card_markets(combined: dict, jp_listings_by_set: dict, fx: dict, run_date: str) -> dict:
-    """Build the normalized per-market price dataset, keyed by card_image_id.
-
-    EN entries come from optcgapi market_price (per variant). JP entries come
-    from yuyu-tei via a CONFIDENT 1:1 variant-signature match: for a given card
-    number, a signature gets a JP price only when exactly one optcgapi variant
-    and exactly one yuyu listing share it. Ambiguous treatments stay EN-only.
-    JP prices are a converted retail *reference*, never a Thai market price.
-    """
-    markets: dict = {}
-    en_count = jp_count = 0
-    jp_by_sig: dict = {}
-    jpy_to_thb = fx["jpy_to_thb"]
-
-    for set_code, cards in combined.items():
-        # EN entries (per variant) + group optcgapi variants by card number/sig
-        opt_by_num: dict = {}
-        for c in cards:
-            key = c.get("card_image_id") or c.get("card_set_id")
-            if not key:
-                continue
-            mp = c.get("market_price")
-            try:
-                mp = float(mp)
-            except (TypeError, ValueError):
-                mp = 0
-            if mp > 0:
-                markets.setdefault(key, []).append({
-                    "source_market": "EN", "source_name": "TCGPlayer",
-                    "source_currency": "USD", "source_price": mp,
-                    "last_updated": c.get("date_scraped") or run_date,
-                    "price_type": "Market Price", "confidence": "High",
-                })
-                en_count += 1
-            sig = opt_sig(c.get("card_name", ""), c.get("card_set_id", ""))
-            if sig:
-                num = c.get("card_set_id", "")
-                opt_by_num.setdefault(num, {}).setdefault(sig, []).append(c)
-
-        # JP entries: confident 1:1 signature match
-        yuyu = jp_listings_by_set.get(set_code, {})
-        for num, sigs in opt_by_num.items():
-            y_sigs = yuyu.get(num)
-            if not y_sigs:
-                continue
-            for sig in CONFIDENT_SIGS:
-                opts = sigs.get(sig)
-                yprices = y_sigs.get(sig)
-                if opts and len(opts) == 1 and yprices and len(yprices) == 1:
-                    c = opts[0]
-                    key = c.get("card_image_id") or c.get("card_set_id")
-                    jpy = yprices[0]
-                    markets.setdefault(key, []).append({
-                        "source_market": "JP", "source_name": "Yuyu-Tei",
-                        "source_currency": "JPY", "source_price": jpy,
-                        "converted_currency": "THB",
-                        "converted_price": round(jpy * jpy_to_thb),
-                        "conversion_rate_used": jpy_to_thb,
-                        "last_updated": run_date,
-                        "price_type": "Retail Reference", "confidence": "Medium",
-                    })
-                    jp_count += 1
-                    jp_by_sig[sig] = jp_by_sig.get(sig, 0) + 1
-
-    return {
-        "_meta": {
-            "generated": run_date, "fx": fx,
-            "en_entries": en_count, "jp_entries": jp_count, "jp_by_signature": jp_by_sig,
-            "note": ("Keyed by card_image_id. JP prices via confident 1:1 variant-signature "
-                     "mapping (base, parallel, super/red-super alt, SP gold/silver). Ambiguous "
-                     "treatments (Alternate Art, Reprint, Manga, foils) stay EN-only. Converted "
-                     "THB is an estimate, not a verified Thai market price."),
-        },
-        "markets": markets,
-    }
-
-
 
 
 def clean_card(card: dict) -> dict:
@@ -435,7 +204,8 @@ def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str
     for set_code, cards in combined.items():
         for card in cards:
             card_id = card.get("card_set_id")
-            if not card_id:
+            img_id = card.get("card_image_id") or card_id
+            if not img_id:
                 continue
 
             today_raw = card.get("market_price")
@@ -448,9 +218,8 @@ def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str
             if today_price <= 0:
                 continue
 
-            # Composite key must match what save_snapshot wrote
-            composite_key = f"{set_code}::{card_id}"
-            baseline_price = snapshot_prices.get(composite_key)
+            # Key matches save_snapshot: card_image_id (unique per printing/art)
+            baseline_price = snapshot_prices.get(img_id)
             if baseline_price is None or baseline_price <= 0:
                 skipped_no_baseline += 1
                 continue  # card not in previous snapshot (new or unmapped) -- skip
@@ -482,6 +251,7 @@ def compute_trends(combined: dict, snapshot: dict, run_date: str, timestamp: str
 
             changes.append({
                 "card_id": card_id,
+                "card_image_id": img_id,
                 "card_name": card.get("card_name") or "",
                 "set_code": set_code,
                 "rarity": card.get("rarity") or "",
@@ -553,17 +323,15 @@ def save_snapshot(combined: dict, run_date: str, timestamp: str,
     total_with_price = 0
     for set_code, cards in combined.items():
         for card in cards:
-            cid = card.get("card_set_id")
+            # Re-keyed by card_image_id: alternate arts/SP/Gold variants share a
+            # card_set_id but have distinct card_image_id (e.g. OP09-051_p4).
+            # Using card_image_id means each printng tracks independently and
+            # matches the frontend's card lookup index (D._imgIndex).
+            img_id = card.get("card_image_id") or card.get("card_set_id")
             price = card.get("market_price")
-            if cid and price is not None:
+            if img_id and price is not None:
                 try:
-                    # Composite key: "SET_CODE::card_id" prevents collision when the
-                    # same card_id appears in multiple sets (alternate arts, SPs, gold
-                    # versions). Without this, last-write wins and the snapshot maps
-                    # e.g. OP09-051 to $0.11 (base card) while the alternate art is
-                    # $2,124 -- producing a 1,900,000% phantom gain on next run.
-                    composite_key = f"{set_code}::{cid}"
-                    prices[composite_key] = float(price)
+                    prices[img_id] = float(price)
                     total_with_price += 1
                 except (TypeError, ValueError):
                     pass
@@ -583,6 +351,55 @@ def save_snapshot(combined: dict, run_date: str, timestamp: str,
         json.dump(snapshot, f, ensure_ascii=False, separators=(",", ":"))
     print(f"Snapshot: saved {total_with_price} prices for {run_date} (history_days={new_history_days})")
     return True
+
+
+def save_price_history_json(combined: dict, run_date: str, timestamp: str) -> int:
+    """Append today's prices to price-history.json, keyed by card_image_id.
+
+    Structure: {"generated_at":..., "history": {"OP01-077": [{"date":..., "price":...}, ...]}}
+    Loads the existing file (if any), merges today's entries (skipping if already present
+    for this date to make re-runs idempotent), then writes back.
+    Returns the number of cards with price data written.
+    """
+    existing = {}
+    if os.path.exists(PRICE_HISTORY_PATH):
+        try:
+            with open(PRICE_HISTORY_PATH, encoding="utf-8") as f:
+                data = json.load(f)
+            existing = data.get("history", {})
+        except Exception as e:
+            print(f"Price history JSON: could not read existing file ({e}), starting fresh")
+
+    cards_written = 0
+    for _set_code, cards in combined.items():
+        for card in cards:
+            img_id = card.get("card_image_id") or card.get("card_set_id")
+            price = card.get("market_price")
+            if not img_id or price is None:
+                continue
+            try:
+                price = round(float(price), 4)
+            except (TypeError, ValueError):
+                continue
+
+            entries = existing.setdefault(img_id, [])
+            # Idempotent: skip if today's date already present
+            if any(e.get("date") == run_date for e in entries):
+                continue
+            entries.append({"date": run_date, "price": price})
+            cards_written += 1
+
+    output = {
+        "generated_at": timestamp,
+        "currency": HISTORY_CURRENCY,
+        "source": HISTORY_SOURCE,
+        "history": existing,
+    }
+    os.makedirs(os.path.dirname(PRICE_HISTORY_PATH), exist_ok=True)
+    with open(PRICE_HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(output, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Price history JSON: {cards_written} new entries for {run_date} ({len(existing)} cards total)")
+    return cards_written
 
 
 def write_status(run_date: str, timestamp: str,
@@ -937,33 +754,6 @@ def main():
     write_json_file(GAINERS_PATH, gainers_data, label="Top gainers")
     write_json_file(LOSERS_PATH, losers_data, label="Top losers")
 
-    # --- Phase 4: Build normalized market dataset (card-markets.json) ---
-    # Scrape JP retail prices per set, then build a separate per-market price
-    # dataset keyed by card_image_id. Prices do NOT get stamped onto cards.
-    print("yuyu-tei: scraping JP retail prices for market dataset...")
-    fx = fetch_fx_rates()
-    print(f"FX: 1 JPY = {fx['jpy_to_thb']} THB | 1 USD = {fx['usd_to_thb']} THB")
-    jp_listings_by_set = {}
-    for api_code in combined:
-        yuyu_slug = YUYU_TEI_CODE_MAP.get(api_code)
-        if not yuyu_slug:
-            continue
-        expected = max(20, round(len(combined[api_code]) * 0.4))
-        listings = fetch_yuyu_listings(yuyu_slug, expected)
-        if listings:
-            jp_listings_by_set[api_code] = listings
-            print(f"  {api_code}: {len(listings)} card numbers scraped")
-        time.sleep(YUYU_TEI_DELAY)
-
-    card_markets = build_card_markets(combined, jp_listings_by_set, fx, run_date)
-    os.makedirs(os.path.dirname(MARKETS_PATH), exist_ok=True)
-    with open(MARKETS_PATH, "w", encoding="utf-8") as f:
-        json.dump(card_markets, f, ensure_ascii=False)
-    meta = card_markets["_meta"]
-    print(f"Market dataset: {len(card_markets['markets'])} cards, "
-          f"{meta['en_entries']} EN entries, {meta['jp_entries']} JP entries "
-          f"{meta['jp_by_signature']} -> {MARKETS_PATH}")
-
     # --- Overwrite main catalog JSON ---
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
@@ -974,6 +764,9 @@ def main():
     snapshot_saved = save_snapshot(combined, run_date, timestamp, prev_history_days, failed_sets)
     last_snapshot_date = run_date if snapshot_saved else snapshot.get("snapshot_date", "")
     history_days_now = (prev_history_days + 1) if snapshot_saved else prev_history_days
+
+    # --- Phase 3b: Append to price-history.json (for Price History Charts) ---
+    save_price_history_json(combined, run_date, timestamp)
 
     # --- Phase 2: Append to Price History Raw (Google Sheets) ---
     sheets_status = "skipped"
