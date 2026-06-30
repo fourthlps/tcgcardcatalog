@@ -526,6 +526,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11.5px;color:var(--soft);margin-top:16px}
+/* Coming-soon toast */
+.vl-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,16px);background:var(--text);color:#fff;font-size:13.5px;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:0 10px 30px rgba(16,23,42,.28);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;white-space:nowrap}
+.vl-toast.show{opacity:1;transform:translate(-50%,0)}
 /* Market price card — primary version price (premium) */
 .mkt-card{position:relative;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:14px;padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow)}
 .mkt-jp{border-left-color:#eab308}
@@ -581,7 +584,10 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .prod-hero{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:28px}
 .prod-hero-img{flex:0 0 auto;width:200px;border-radius:14px;overflow:hidden;background:var(--bg3);aspect-ratio:3/4;position:relative;box-shadow:0 16px 40px rgba(16,23,42,.22)}
 .prod-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
-.prod-hero-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;opacity:.3}
+.prod-hero-img-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(150deg,var(--bg3),var(--bg2));border-radius:12px;text-align:center;padding:18px}
+.prod-hero-img-ph .ph-ic{font-size:54px;opacity:.45}
+.prod-hero-img-ph .ph-code{font-size:15px;font-weight:800;font-family:var(--font-display);color:var(--soft);letter-spacing:.02em}
+.prod-hero-img-ph .ph-sub{font-size:11px;color:var(--faint)}
 .prod-hero-info{flex:1;min-width:260px;display:flex;flex-direction:column;gap:10px}
 .prod-type-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--blues);color:var(--blue);align-self:flex-start}
 .prod-title{font-family:var(--font-display);font-size:28px;font-weight:800;line-height:1.12;letter-spacing:-.02em;margin:0}
@@ -891,8 +897,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
       <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
       <a onclick="jumpChaseSection();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
-      <a class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
-      <a class="dim t" data-th="ซื้อขายการ์ด" data-en="Marketplace">ซื้อขายการ์ด</a>
+      <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
+      <a onclick="comingSoon(S.lang==='th'?'ซื้อขายการ์ด':'Marketplace')" class="dim t" data-th="ซื้อขายการ์ด" data-en="Marketplace">ซื้อขายการ์ด</a>
     </nav>
     <div class="hdr-search">
       <span style="font-size:12px">🔍</span>
@@ -1020,13 +1026,13 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
           <a onclick="goHome()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
           <a onclick="openOnePiece()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
           <a onclick="jumpChaseSection()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
-          <a class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
+          <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
         </div>
         <div class="footer-col">
           <h4 class="t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</h4>
-          <a class="dim t" data-th="เกี่ยวกับเรา" data-en="About Us">เกี่ยวกับเรา</a>
-          <a class="dim t" data-th="ติดต่อ" data-en="Contact">ติดต่อ</a>
-          <a class="dim t" data-th="ลงโฆษณากับเรา" data-en="Advertise">ลงโฆษณากับเรา</a>
+          <a onclick="comingSoon(S.lang==='th'?'เกี่ยวกับเรา':'About Us')" class="dim t" data-th="เกี่ยวกับเรา" data-en="About Us">เกี่ยวกับเรา</a>
+          <a onclick="comingSoon(S.lang==='th'?'ติดต่อ':'Contact')" class="dim t" data-th="ติดต่อ" data-en="Contact">ติดต่อ</a>
+          <a onclick="comingSoon(S.lang==='th'?'ลงโฆษณากับเรา':'Advertise')" class="dim t" data-th="ลงโฆษณากับเรา" data-en="Advertise">ลงโฆษณากับเรา</a>
         </div>
         <div class="footer-col">
           <h4 class="t" data-th="รับข่าวสาร" data-en="Newsletter">รับข่าวสาร</h4>
@@ -1127,8 +1133,14 @@ const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
 // the logging block in chasePicks) once the ranking has been verified.
-const DEBUG_CHASE=true;
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all'};
+const DEBUG_CHASE=false;
+// P0 QA: homepage Market Trends were computed on a variant-colliding key
+// (card_set_id shared across variants) and produced fabricated movers. Until
+// the trend pipeline is re-keyed by card_image_id and a clean baseline exists,
+// keep this false so the section falls back to real top-value cards instead of
+// showing untrustworthy gainers/losers.
+const TRENDS_TRUSTWORTHY=false;
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null};
 
 const BOX={
   'OP-01':{usd:145,thb:4800,hot:false},
@@ -1360,7 +1372,7 @@ function show(id){
   const art=document.getElementById('site-art');
   if(art)art.className='home-art'+(id==='view-home'?'':' home-art--inner');
 }
-function goHome(){show('view-home');}
+function goHome(){S.cardReturn=null;show('view-home');}
 function jumpChaseSection(){
   show('view-home');
   setTimeout(()=>{document.getElementById('chase-row-wrap')?.scrollIntoView({behavior:'auto',block:'start'});},0);
@@ -1563,8 +1575,10 @@ function renderTrend(){
 
   const gainersData=D.gainers;
   const losersData=D.losers;
-  const gainers=gainersData?.cards||[];
-  const losers=losersData?.cards||[];
+  // P0: ignore the trend JSON until it's trustworthy (see TRENDS_TRUSTWORTHY).
+  // Empty arrays make the panels fall back to real top-value cards.
+  const gainers=TRENDS_TRUSTWORTHY?(gainersData?.cards||[]):[];
+  const losers=TRENDS_TRUSTWORTHY?(losersData?.cards||[]):[];
 
   const gainerAgeLabel=trendAgeLabel(gainersData,L);
   const loserAgeLabel=trendAgeLabel(losersData,L);
@@ -1672,7 +1686,7 @@ const BOX_SCORE_CFG={
   weights:{ev:.30,breadth:.25,distribution:.20,chase:.10,confidence:.15,trend:.00},
   threshold:.05,   // cards worth ≥ this × boxUsd count as a "valuable pull"
   minPriced:3,     // sets with fewer priced cards are excluded from ranking
-  debug:true,      // flip to false once rankings look correct
+  debug:false,     // flip to false once rankings look correct
 };
 
 // Step 1: compute raw (un-normalised) signals for a single set.
@@ -2354,9 +2368,29 @@ document.addEventListener('click',e=>{
 });
 
 function jumpCard(code,imgId){
+  // Remember the originating view (search results, product page, ...) so the
+  // card detail's back button returns there instead of the set card-list.
+  const origin=[...document.querySelectorAll('main')].find(m=>m.style.display!=='none');
+  const originId=origin&&origin.id!=='view-detail'?origin.id:null;
   S.setCode=code;S.cards=D.cache[code]||[];S.shown=S.cards;
   const idx=S.cards.findIndex(c=>String(c.card_image_id)===String(imgId));
-  if(idx>=0)openCard(idx);else openSet(code);
+  if(idx>=0){S.cardReturn=originId?()=>show(originId):null;openCard(idx);}
+  else openSet(code);
+}
+
+// Lightweight toast for not-yet-built features so nav links always respond
+// instead of silently doing nothing.
+let _toastTimer=null;
+function comingSoon(feature){
+  const L=S.lang;
+  let t=document.getElementById('vl-toast');
+  if(!t){t=document.createElement('div');t.id='vl-toast';t.className='vl-toast';document.body.appendChild(t);}
+  const name=feature||(L==='th'?'ฟีเจอร์นี้':'This feature');
+  t.textContent=(L==='th'?`🚧 ${name} กำลังจะมาเร็วๆ นี้`:`🚧 ${name} is coming soon`);
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+  closeMobileMenu&&closeMobileMenu();
 }
 
 function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
@@ -2442,8 +2476,10 @@ function openProduct(productId){
   const setCards=D.cache[p.set_code]||[];
   const topChase=setCards.filter(c=>realPrice(c)>0).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,6);
 
-  // Hero image: top chase card art
-  const heroImg=topChase[0]?.card_image||'';
+  // Hero image: real product/box image only. We deliberately do NOT fall back
+  // to a chase card's art (that misrepresents a sealed box as a single card) --
+  // the branded placeholder is shown until real box images are sourced.
+  const heroImg=(p.product_image&&!/NULL/i.test(p.product_image))?p.product_image:'';
 
   // Price range display
   const pr=qf.price_range||{};
@@ -2518,7 +2554,7 @@ function openProduct(productId){
     <div class="prod-hero">
       <div class="prod-hero-img">
         ${heroImg?`<img src="${heroImg}" loading="lazy" onerror="this.style.visibility='hidden'">`
-                 :`<div class="prod-hero-img-ph">${p.product_type==='Starter Deck'?'🗡️':p.product_type==='Extra Booster'?'✨':'⚓'}</div>`}
+                 :`<div class="prod-hero-img-ph"><div class="ph-ic">${p.product_type==='Starter Deck'?'🗡️':p.product_type==='Extra Booster'?'✨':'⚓'}</div><div class="ph-code">${p.set_code||''}</div><div class="ph-sub">${p.product_type||''} · ${L==='th'?'ภาพสินค้าเร็วๆ นี้':'Product image coming soon'}</div></div>`}
       </div>
       <div class="prod-hero-info">
         <span class="prod-type-badge">${p.product_type}${p.language?` · ${p.language}`:''}</span>
@@ -2731,7 +2767,7 @@ function openSetOverview(code){
       }
     }
 
-    const btnLabel=isDraft?(L==='th'?'⏳ กำลังตรวจสอบ':'⏳ Pending'):(L==='th'?'เปิดคู่มือ →':'Open Guide →');
+    const btnLabel=isDraft?(L==='th'?'⏳ กำลังตรวจสอบ':'⏳ Pending'):(L==='th'?'ดูกล่อง & คู่มือ →':'View Box & Guide →');
     const btnCls='set-ov-open-btn'+(isJP?'':' en')+(isDraft?' pending':'');
     const pRelDate=p.release_date?` · ${L==='th'?'วางจำหน่าย':'Released'} ${p.release_date}`:'';
 
@@ -2818,6 +2854,7 @@ function renderSets(){
 }
 
 function openSet(code,lang){
+  S.cardReturn=null;   // entering a set list: card back-button returns here
   S.setCode=code;
   S.cardLang=lang==='en'?'en':'jp';
   document.getElementById('card-srch').value='';
@@ -3037,7 +3074,9 @@ function renderMarkets(c){
 function openCard(idx){
   const c=S.shown[idx];S.lastIdx=idx;
   const L=S.lang;
-  document.getElementById('back-cards').onclick=()=>openSet(S.setCode);
+  // Back returns to wherever the card was opened from (search results, etc.);
+  // defaults to the set card-list when there's no special origin.
+  document.getElementById('back-cards').onclick=S.cardReturn||(()=>openSet(S.setCode));
   const stats=[];
   if(c.card_cost!=null)stats.push('Cost '+c.card_cost);
   if(c.card_power)stats.push('Power '+c.card_power);
