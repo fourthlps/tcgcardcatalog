@@ -45,6 +45,7 @@ jobs:
           git config user.name "price-update-bot"
           git config user.email "actions@github.com"
           git add onepiece-catalog/one_piece_OP01-OP16_with_prices.json
+          git add onepiece-catalog/card-markets.json
           git add onepiece-catalog/data/
           git diff --staged --quiet || git commit -m "Auto-update prices $(date +'%Y-%m-%d')"
           git push
