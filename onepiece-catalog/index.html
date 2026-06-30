@@ -363,6 +363,11 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .mtrend-note-ic{font-size:22px;opacity:.4}
 .mtrend-note-hd{font-size:12px;font-weight:600;color:var(--soft)}
 .mtrend-note-sub{font-size:11px;color:var(--faint);line-height:1.5;max-width:180px}
+/* "Building price history" placeholder for the gainers/losers panels */
+.mtrend-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;min-height:230px;padding:20px 12px;border:1px dashed var(--bord2);border-radius:12px;background:var(--bg3)}
+.mtrend-ph-ic{font-size:30px;opacity:.55}
+.mtrend-ph-hd{font-size:13px;font-weight:700;color:var(--soft)}
+.mtrend-ph-sub{font-size:11.5px;color:var(--faint);line-height:1.5;max-width:190px}
 .trend-pill{display:inline-flex;align-items:center;gap:3px;font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle;white-space:nowrap}
 .trend-pill.up{color:#16a34a;background:rgba(22,163,74,.12)}
 .trend-pill.down{color:#dc2626;background:rgba(220,38,38,.12)}
@@ -1617,70 +1622,46 @@ function topValueFallback(rank){
     </div>`;
 }
 
+// Placeholder for a movers panel before 7 days of verified history exists.
+function trendPlaceholder(L){
+  return `<div class="mtrend-ph">
+    <div class="mtrend-ph-ic">📊</div>
+    <div class="mtrend-ph-hd">${L==='th'?'กำลังรวบรวมประวัติราคา':'Building price history…'}</div>
+    <div class="mtrend-ph-sub">${L==='th'?'พร้อมแสดงหลังเก็บข้อมูลครบ 7 วัน':'Available after 7 days of data'}</div>
+  </div>`;
+}
+// Permanent market-intelligence layout: 💎 Highest Value · 📈 Biggest Gainers
+// (7d) · 📉 Biggest Losers (7d). Gainers/Losers use REAL verified price history
+// once it exists; until then they show an honest "building history" placeholder
+// (never a substitute ranking).
 function renderTrend(){
   const L=S.lang;
-  const top=chasePicks(1)[0];
+  const enough=g=>g&&(g.cards||[]).length>0&&(g.history_days_collected||0)>=7&&(g.confidence||'low')!=='low';
+  const useGainers=TRENDS_TRUSTWORTHY&&enough(D.gainers);
+  const useLosers=TRENDS_TRUSTWORTHY&&enough(D.losers);
+  const gainers=useGainers?D.gainers.cards:[];
+  const losers=useLosers?D.losers.cards:[];
 
-  const gainersData=D.gainers;
-  const losersData=D.losers;
-  // P0: ignore the trend JSON until it's trustworthy (see TRENDS_TRUSTWORTHY).
-  // Empty arrays make the panels fall back to real top-value cards.
-  const gainers=TRENDS_TRUSTWORTHY?(gainersData?.cards||[]):[];
-  const losers=TRENDS_TRUSTWORTHY?(losersData?.cards||[]):[];
+  // Panel 1 — Highest Value (always real: current top prices)
+  let valHtml=Array.from({length:5},(_,i)=>topValueFallback(i)).join('');
+  if(!valHtml)valHtml=`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
-  const gainerAgeLabel=trendAgeLabel(gainersData,L);
-  const loserAgeLabel=trendAgeLabel(losersData,L);
-
-  // Show the top 5 movers per direction. When trend history hasn't accumulated
-  // yet, fall back to top-value cards so the section always has real data.
-  const TREND_N=5;
-  const gainerContent=gainers.length
-    ?gainers.slice(0,TREND_N).map((g,i)=>trendEntryFromJson(g,L,i+1)).join('')
-    :Array.from({length:TREND_N},(_,i)=>topValueFallback(i)).join('');
-  const loserContent=losers.length
-    ?losers.slice(0,TREND_N).map((g,i)=>trendEntryFromJson(g,L,i+1)).join('')
-    :Array.from({length:TREND_N},(_,i)=>topValueFallback(TREND_N+i)).join('');
-
-  const gainerTitle=gainers.length
-    ?(L==='th'?'ราคาขึ้นแรง':'Trending Up')
-    :(L==='th'?'การ์ดมูลค่าสูงสุด':'Highest Value Card');
-  const loserTitle=losers.length
-    ?(L==='th'?'ราคาลงแรง':'Trending Down')
-    :(L==='th'?'มูลค่าสูง อันดับ 2':'2nd Highest Value');
-  const gainerIc=gainers.length?'📈':'💎';
-  const loserIc=losers.length?'📉':'💰';
-
-  const chaseList=chasePicks(5);
-  const chaseCardHtml=chaseList.length?chaseList.map((tp,i)=>`
-      <div class="mtrend-body">
-        <span class="mtrend-rank">${i+1}</span>
-        <img class="mtrend-img" src="${tp.card_image||''}" onerror="this.style.visibility='hidden'">
-        <div>
-          <div class="mtrend-name">${chaseBase(tp.card_name)}</div>
-          <div class="mtrend-price">${fpL(realPrice(tp))}</div>
-        </div>
-      </div>`).join(''):`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
+  // Panels 2 & 3 — 7-day movers or placeholder
+  const gainHtml=gainers.length?gainers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
+  const loseHtml=losers.length?losers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
 
   document.getElementById('trend-row').innerHTML=`
-    <div class="mtrend-card${gainerContent?' live':''}">
-      <div class="mtrend-head">
-        <span class="mtrend-ic">${gainerIc}</span>
-        <span class="mtrend-ttl">${gainerTitle}</span>
-        ${gainers.length?gainerAgeLabel:'<span class="mtrend-soon">JP</span>'}
-      </div>
-      ${gainerContent}
+    <div class="mtrend-card">
+      <div class="mtrend-head"><span class="mtrend-ic">💎</span><span class="mtrend-ttl">${L==='th'?'การ์ดมูลค่าสูงสุด':'Highest Value Cards'}</span></div>
+      ${valHtml}
     </div>
-    <div class="mtrend-card${loserContent?' live':''}">
-      <div class="mtrend-head">
-        <span class="mtrend-ic">${loserIc}</span>
-        <span class="mtrend-ttl">${loserTitle}</span>
-        ${losers.length?loserAgeLabel:'<span class="mtrend-soon">JP</span>'}
-      </div>
-      ${loserContent}
+    <div class="mtrend-card${gainers.length?' live':''}">
+      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'}</span>${useGainers?trendAgeLabel(D.gainers,L):''}</div>
+      ${gainHtml}
     </div>
-    <div class="mtrend-card live" onclick="jumpChaseSection()">
-      <div class="mtrend-head"><span class="mtrend-ic">🔥</span><span class="mtrend-ttl t" data-th="Chase Cards ยอดนิยม" data-en="Top Chase Card">Chase Cards ยอดนิยม</span></div>
-      ${chaseCardHtml}
+    <div class="mtrend-card${losers.length?' live':''}">
+      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'}</span>${useLosers?trendAgeLabel(D.losers,L):''}</div>
+      ${loseHtml}
     </div>`;
 }
 
@@ -1911,6 +1892,26 @@ function chaseVariant(n){
 // duplicates out of 4023 rows live. Distinct print variants (different
 // rarity/alt-art/gold-stamp suffixes in the name) are different cards and
 // must compete on price independently.
+// Chase = "the card people hunt for", driven by rarity / treatment, NOT price.
+// Higher score = more collectible. Cards that match none of these (plain
+// commons/rares) score 0 and are excluded from chase rankings entirely.
+function chaseScore(c){
+  const n=(c.card_name||'').toLowerCase();
+  const r=(c.rarity||'').toUpperCase();
+  let s=0;
+  if(/manga/.test(n))s=Math.max(s,100);
+  if(/ghost/.test(n))s=Math.max(s,98);
+  if(/treasure/.test(n)||r==='TR')s=Math.max(s,96);
+  if(/red\s*super\s*alt/.test(n))s=Math.max(s,94);
+  if(/super\s*alt/.test(n))s=Math.max(s,90);
+  if(/\(sp\)/.test(n)||r==='SP'||r==='SPR')s=Math.max(s,85);
+  if(/full\s*art/.test(n))s=Math.max(s,78);
+  if(/alt(?:ernate)?\s*art/.test(n))s=Math.max(s,75);
+  if(/box\s*topper/.test(n))s=Math.max(s,68);
+  if(/parallel/.test(n))s=Math.max(s,60);
+  if(r==='SEC')s=Math.max(s,55);
+  return s;
+}
 function chasePicks(limit){
   const cards=flat();
   const withPrice=cards.filter(c=>realPrice(c)>0);
@@ -1920,7 +1921,10 @@ function chasePicks(limit){
     const existing=byKey.get(key);
     if(!existing||realPrice(c)>realPrice(existing))byKey.set(key,c);
   });
-  const ranked=[...byKey.values()].sort((a,b)=>realPrice(b)-realPrice(a));
+  // Rank by collectibility tier first, price only as a tiebreaker within a tier.
+  const ranked=[...byKey.values()]
+    .filter(c=>chaseScore(c)>0)
+    .sort((a,b)=>chaseScore(b)-chaseScore(a)||realPrice(b)-realPrice(a));
 
   // --- TEMPORARY DEBUG (per request) -- safe to delete once verified ---
   if(DEBUG_CHASE&&!window._chaseDebugLogged){
@@ -1978,7 +1982,7 @@ function openChaseAll(){
   const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
   document.getElementById('srch-filters').style.display='flex';
   document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
-  document.getElementById('srch-sort').value='price-desc';
+  document.getElementById('srch-sort').value='default';   // preserve collectibility order
   S.srchCards=picks;S.srchShown=picks;
   // Rebuild the card-grid container that renderSrchCards() targets. (Blanking
   // srch-results alone would delete #srch-results-cards and render nothing.)
