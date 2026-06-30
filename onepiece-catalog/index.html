@@ -491,6 +491,66 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .color-chip.on[data-col="Multi"]{background:rgba(205,168,103,.15);color:var(--gold);border-color:var(--gold)}
 /* Type filter */
 .type-sel{font-size:12px;padding:5px 8px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
+/* ── COMPARE TRAY ── */
+#compare-tray{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg2);border-top:2px solid var(--gold);padding:10px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 -4px 24px rgba(0,0,0,.25);transition:transform .25s}
+.cmp-slot{flex:1;max-width:160px;background:var(--bg3);border:1px dashed var(--bord2);border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--soft);min-height:44px}
+.cmp-slot img{width:28px;height:38px;object-fit:cover;border-radius:3px;flex-shrink:0}
+.cmp-slot-name{flex:1;font-size:11px;color:var(--text);line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cmp-slot-rm{background:none;border:none;color:var(--faint);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0}
+.cmp-slot-rm:hover{color:#f87171}
+.cmp-go-btn{background:var(--gold);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
+.cmp-go-btn:hover{opacity:.85}
+.cmp-go-btn:disabled{opacity:.4;cursor:default}
+.cmp-clear-btn{background:none;border:1px solid var(--bord2);color:var(--soft);border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;flex-shrink:0}
+/* ── COMPARE VIEW ── */
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+@media(max-width:580px){.cmp-grid{grid-template-columns:1fr}}
+.cmp-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.cmp-card-img{width:100%;max-width:180px;border-radius:8px;margin:0 auto;display:block}
+.cmp-card-name{font-size:15px;font-weight:800;color:var(--text)}
+.cmp-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.cmp-row:last-child{border-bottom:none}
+.cmp-row-lbl{color:var(--faint);font-size:12px}
+.cmp-row-val{font-weight:600;color:var(--text)}
+.cmp-row-val.best{color:#4ade80;font-weight:800}
+.cmp-win-badge{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.3);font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px}
+/* ── CHASE PAGE ── */
+.chase-pg-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.chase-pg-set-sel{font-size:12px;padding:6px 10px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
+.chase-pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.chase-pg-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;transition:border-color .15s,transform .2s;position:relative}
+.chase-pg-card:hover{border-color:var(--gold);transform:translateY(-3px)}
+.chase-pg-card img{width:100%;border-radius:6px;display:block;margin-bottom:8px}
+.chase-pg-badge{position:absolute;top:8px;right:8px;background:var(--gold);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:999px}
+.chase-pg-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
+.chase-pg-meta{font-size:11px;color:var(--faint)}
+.chase-pg-price{font-size:13px;font-weight:800;color:var(--gold);margin-top:4px}
+/* ── TRENDING BY EDITION ── */
+.set-movers{margin-top:0;margin-bottom:24px}
+.set-mover-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.set-mover-row::-webkit-scrollbar{display:none}
+.set-mover-card{flex-shrink:0;width:130px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:8px;cursor:pointer;transition:border-color .15s}
+.set-mover-card:hover{border-color:var(--gold)}
+.set-mover-card img{width:100%;border-radius:5px;display:block;margin-bottom:6px}
+.set-mover-name{font-size:10px;color:var(--soft);line-height:1.3;margin-bottom:3px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.set-mover-delta{font-size:11px;font-weight:800}
+.set-mover-delta.up{color:#4ade80}
+.set-mover-delta.down{color:#f87171}
+/* ── COST FILTER ── */
+.cost-filter{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--faint)}
+.cost-filter input{width:44px;padding:4px 6px;border-radius:6px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text);font-size:12px;text-align:center}
+/* ── MOBILE POLISH ── */
+@media(max-width:600px){
+  #color-filter-row{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+  #color-filter-row::-webkit-scrollbar{display:none}
+  #color-chips{display:flex;gap:5px;flex-wrap:nowrap}
+  .filter-row{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .det-top{flex-direction:column;align-items:center;text-align:center}
+  .det-top img{margin-bottom:10px}
+  .cmp-grid{grid-template-columns:1fr}
+  #compare-tray{padding:8px 10px;gap:6px}
+  .cmp-slot{max-width:120px}
+}
 /* Set completion bar */
 .set-prog-list{display:flex;flex-direction:column;gap:12px;margin-top:12px}
 .set-prog-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
@@ -1019,7 +1079,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <a onclick="goHome();closeMobileMenu()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
       <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
       <a onclick="openAllCards()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
-      <a onclick="jumpChaseSection();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
+      <a onclick="openChasePage();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
       <a onclick="openCollection()"><span class="t" data-th="การ์ดของฉัน" data-en="My Cards">การ์ดของฉัน</span><span class="coll-nav-count" style="display:none">0</span></a>
       <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
       <a onclick="comingSoon(S.lang==='th'?'ซื้อขายการ์ด':'Marketplace')" class="dim t" data-th="ซื้อขายการ์ด" data-en="Marketplace">ซื้อขายการ์ด</a>
@@ -1149,7 +1209,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
           <h4 class="t" data-th="ลิงก์ด่วน" data-en="Quick Links">ลิงก์ด่วน</h4>
           <a onclick="goHome()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
           <a onclick="openOnePiece()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
-          <a onclick="jumpChaseSection()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
+          <a onclick="openChasePage()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
           <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
         </div>
         <div class="footer-col">
@@ -1223,6 +1283,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <option value="Event">Event</option>
       <option value="Stage">Stage</option>
     </select>
+    <div class="cost-filter">
+      Cost <input type="number" id="cost-min" min="0" max="20" placeholder="0" oninput="applyFilters()" style="width:40px">–<input type="number" id="cost-max" min="0" max="20" placeholder="∞" oninput="applyFilters()" style="width:40px">
+    </div>
   </div>
   <div class="card-grid" id="card-grid"></div>
   <p class="sample-note">📌 <b>หมายเหตุ:</b> ภาพการ์ดในเว็บไซต์นี้เป็น <b>ภาพตัวอย่าง (SAMPLE)</b> ที่ดึงมาจากฐานข้อมูลสาธารณะเพื่อวัตถุประสงค์ในการอ้างอิงข้อมูลราคาเท่านั้น ลิขสิทธิ์ภาพเป็นของผู้ผลิตการ์ดตามลำดับ · Card images shown are sample references for price lookup purposes only. All card artwork © respective rights holders.</p>
@@ -1259,6 +1322,23 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
   <div id="collection-content"></div>
 </main>
+
+<!-- CHASE CARDS PAGE -->
+<main class="app" id="view-chase" style="display:none">
+  <div class="crumb" id="crumb-chase"></div>
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
+  <div id="chase-page-content"></div>
+</main>
+
+<!-- COMPARE VIEW -->
+<main class="app" id="view-compare" style="display:none">
+  <div class="crumb" id="crumb-compare"></div>
+  <button class="back-btn" onclick="clearCompare()">← <span class="t" data-th="กลับ" data-en="Back">กลับ</span></button>
+  <div id="compare-content"></div>
+</main>
+
+<!-- COMPARE TRAY (floating, always visible when ≥1 card selected) -->
+<div id="compare-tray" style="display:none"></div>
 
 <main class="app" id="view-search" style="display:none">
   <div class="crumb" id="crumb-srch"></div>
@@ -1556,16 +1636,130 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection','view-admin'].forEach(v=>{
+  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection','view-admin','view-chase','view-compare'].forEach(v=>{
     const el=document.getElementById(v);if(el)el.style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
   if(art)art.className='home-art'+(id==='view-home'?'':' home-art--inner');
 }
 function goHome(){S.cardReturn=null;show('view-home');}
-function jumpChaseSection(){
-  show('view-home');
-  setTimeout(()=>{document.getElementById('chase-row-wrap')?.scrollIntoView({behavior:'auto',block:'start'});},0);
+function jumpChaseSection(){openChasePage();}
+
+// ─── CHASE CARDS PAGE ────────────────────────────────────────────────────────
+function openChasePage(setFilter){
+  const L=S.lang;
+  setCrumb('crumb-chase',` / ${L==='th'?'Chase Cards':'Chase Cards'}`);
+  show('view-chase');
+  closeMobileMenu&&closeMobileMenu();
+  _renderChasePage(setFilter||'');
+}
+function _renderChasePage(setFilter){
+  const L=S.lang;
+  const allCards=flat();
+  const chaseCards=allCards.filter(c=>chaseScore(c)>0&&realPrice(c)>0)
+    .sort((a,b)=>chaseScore(b)-chaseScore(a)||realPrice(b)-realPrice(a));
+  const sets=[...new Set(chaseCards.map(c=>c.set_id||c.card_set_id?.slice(0,5)).filter(Boolean))].sort();
+  const filtered=setFilter?chaseCards.filter(c=>(c.set_id||c.card_set_id?.slice(0,5))===setFilter):chaseCards;
+  const setOpts=`<option value="">${L==='th'?'ทุกชุด':'All Sets'}</option>`+sets.map(s=>`<option value="${s}"${s===setFilter?' selected':''}>${s}</option>`).join('');
+  const grid=filtered.slice(0,200).map(c=>{
+    const hit=D._imgIndex?D._imgIndex[c.card_image_id]:null;
+    const sc=hit?hit.code:(c.set_id||'');
+    const score=chaseScore(c);
+    const stars='★'.repeat(Math.min(5,Math.ceil(score/2)));
+    return `<div class="chase-pg-card" onclick="jumpCard('${sc}','${c.card_image_id}')">
+      ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.visibility='hidden'">`:''}
+      <div class="chase-pg-badge">${stars}</div>
+      <div class="chase-pg-name">${chaseBase(c.card_name)}</div>
+      <div class="chase-pg-meta">${c.set_id||''} · ${c.rarity||''}</div>
+      <div class="chase-pg-price">${fpL(realPrice(c))}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('chase-page-content').innerHTML=`
+    <h1 class="page-ttl serif">${L==='th'?'Chase Cards ทั้งหมด':'All Chase Cards'}</h1>
+    <p style="color:var(--soft);font-size:13px;margin-bottom:16px">${L==='th'?`การ์ดหายากและน่าสะสมจากทุกชุด · ${filtered.length} ใบ`:`Rare & collectible cards across all sets · ${filtered.length} cards`}</p>
+    <div class="chase-pg-filters">
+      <select class="chase-pg-set-sel" onchange="_renderChasePage(this.value)">${setOpts}</select>
+    </div>
+    <div class="chase-pg-grid">${grid||`<div class="empty">${L==='th'?'ไม่พบข้อมูล':'No data yet'}</div>`}</div>`;
+}
+
+// ─── COMPARE PRICES ──────────────────────────────────────────────────────────
+D._compare=[];
+function toggleCompare(id,ev){
+  if(ev)ev.stopPropagation();
+  const idx=D._compare.indexOf(id);
+  if(idx>=0){D._compare.splice(idx,1);}
+  else if(D._compare.length<2){D._compare.push(id);}
+  else{D._compare[1]=id;}// replace second slot
+  _renderCompareTray();
+  // refresh button state on visible card detail
+  const btn=document.querySelector(`[onclick*="toggleCompare('${id}'"]`);
+  if(btn)btn.classList.toggle('on',D._compare.includes(id));
+}
+function _renderCompareTray(){
+  const tray=document.getElementById('compare-tray');
+  if(!D._compare.length){tray.style.display='none';return;}
+  tray.style.display='flex';
+  const L=S.lang;
+  const slotHtml=(imgId,idx)=>{
+    if(!imgId)return `<div class="cmp-slot"><span style="color:var(--faint);font-size:11px">${L==='th'?'เลือกการ์ดที่ 2':'Pick card 2'}</span></div>`;
+    const hit=cardByImgId(imgId);
+    const c=hit?.card;
+    return `<div class="cmp-slot">
+      ${c?.card_image?`<img src="${c.card_image}" onerror="this.style.display='none'">`:''}
+      <span class="cmp-slot-name">${c?chaseBase(c.card_name):imgId}</span>
+      <button class="cmp-slot-rm" onclick="toggleCompare('${imgId}',event)">✕</button>
+    </div>`;
+  };
+  const canCompare=D._compare.length===2;
+  tray.innerHTML=`
+    ${slotHtml(D._compare[0],0)}
+    <span style="color:var(--faint);font-size:18px;flex-shrink:0">⚖️</span>
+    ${D._compare[1]?slotHtml(D._compare[1],1):`<div class="cmp-slot"><span style="color:var(--faint);font-size:11px">${L==='th'?'เลือกการ์ดที่ 2':'Pick card 2'}</span></div>`}
+    <button class="cmp-go-btn" onclick="openCompareView()" ${canCompare?'':'disabled'}>${L==='th'?'เปรียบเทียบ →':'Compare →'}</button>
+    <button class="cmp-clear-btn" onclick="clearCompare()">${L==='th'?'ล้าง':'Clear'}</button>`;
+}
+function clearCompare(){D._compare=[];_renderCompareTray();show(S._lastView||'view-home');}
+function openCompareView(){
+  if(D._compare.length<2)return;
+  const L=S.lang;
+  const cards=D._compare.map(id=>{const h=cardByImgId(id);return h?{c:h.card,code:h.code}:null;}).filter(Boolean);
+  if(cards.length<2)return;
+  S._lastView=document.querySelector('.app[style*="display: block"],.app:not([style*="none"])')?.id||'view-home';
+  setCrumb('crumb-compare',` / ${L==='th'?'เปรียบราคา':'Compare'}`);
+  const [a,b]=cards;
+  const prA=realPrice(a.c),prB=realPrice(b.c);
+  const row=(lbl,vA,vB,highlight)=>{
+    const aWin=highlight==='lower'?Number(vA)<Number(vB):Number(vA)>Number(vB);
+    const bWin=highlight==='lower'?Number(vB)<Number(vA):Number(vB)>Number(vA);
+    return `<div class="cmp-row"><span class="cmp-row-lbl">${lbl}</span>
+      <span class="cmp-row-val${aWin?' best':''}">${vA}${aWin?` <span class="cmp-win-badge">✓</span>`:''}</span>
+      <span class="cmp-row-val${bWin?' best':''}">${vB}${bWin?` <span class="cmp-win-badge">✓</span>`:''}</span>
+    </div>`;
+  };
+  const cardCol=(card,code)=>`<div class="cmp-card">
+    ${card.c.card_image?`<img class="cmp-card-img" src="${card.c.card_image}" onerror="this.style.display='none'" onclick="jumpCard('${code}','${card.c.card_image_id}')">`:''}
+    <div class="cmp-card-name" onclick="jumpCard('${code}','${card.c.card_image_id}')" style="cursor:pointer">${card.c.card_name}</div>
+    <span class="${rc(card.c.rarity)}">${card.c.rarity||'—'}</span>
+    ${row(L==='th'?'ราคา EN':'EN Price',fpL(prA),fpL(prB),'higher')}
+    ${row(L==='th'?'ราคา JP (อ้างอิง)':'JP Price (ref)',fpL(jpRefPrice(a.c)),fpL(jpRefPrice(b.c)),'higher')}
+    ${row(L==='th'?'สี':'Color',a.c.card_color||'—',b.c.card_color||'—','')}
+    ${row(L==='th'?'ประเภท':'Type',a.c.card_type||'—',b.c.card_type||'—','')}
+    ${row('Cost',a.c.card_cost||'—',b.c.card_cost||'—','lower')}
+    ${row('Power',a.c.card_power||'—',b.c.card_power||'—','higher')}
+    ${row(L==='th'?'ชุด':'Set',a.c.set_id||'',b.c.set_id||'','')}
+    ${row(L==='th'?'Chase Score':'Chase Score',chaseScore(a.c),chaseScore(b.c),'higher')}
+  </div>`;
+  document.getElementById('compare-content').innerHTML=`
+    <h1 class="page-ttl serif">${L==='th'?'เปรียบเทียบราคาการ์ด':'Card Price Comparison'}</h1>
+    <div class="cmp-grid">${cardCol(a,a.code)}${cardCol(b,b.code)}</div>`;
+  show('view-compare');
+  window.scrollTo(0,0);
+}
+function jpRefPrice(c){
+  const m=marketFor(c,'JP');
+  if(m&&m.source_price>0){const r=(D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.205;return S.cur==='THB'?Math.round(m.source_price*r):+(m.source_price*((D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_usd)||0.0062)).toFixed(0);}
+  return 0;
 }
 function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span class="live" onclick="goHome()">'+( S.lang==='th'?'หน้าแรก':'Home')+'</span>'+html;}
 
@@ -3010,6 +3204,30 @@ function openSetOverview(code){
       </div>`;
     }).join('')}</div>`:'';
 
+  // ── 4b. PRICE MOVERS IN THIS SET ──────────────────────────────────────────
+  const setBaseIds=new Set(cards.map(c=>c.card_set_id));
+  const moversGain=(D.gainers?.cards||[]).filter(g=>setBaseIds.has(g.card_id)||g.card_id?.startsWith(code+'-'));
+  const moversLose=(D.losers?.cards||[]).filter(g=>setBaseIds.has(g.card_id)||g.card_id?.startsWith(code+'-'));
+  let moversHtml='';
+  if(moversGain.length||moversLose.length){
+    const mcard=(g,dir)=>{
+      const hit=D._imgIndex&&(D._imgIndex[g.card_id]||Object.values(D._imgIndex).find(x=>x.card&&x.card.card_set_id===g.card_id));
+      const img=hit?.card?.card_image||g.card_image||'';
+      const pct=g.price_change_percent;
+      const sign=pct>=0?'+':'';
+      return `<div class="set-mover-card" onclick="${hit?`jumpCard('${hit.code}','${hit.card.card_image_id}')`:'void(0)'}">
+        ${img?`<img src="${img}" loading="lazy" onerror="this.style.display='none'">`:'<div style="height:60px;background:var(--bg3);border-radius:5px"></div>'}
+        <div class="set-mover-name">${g.card_name||g.card_id}</div>
+        <div class="set-mover-delta ${dir}">${dir==='up'?'▲':'▼'} ${sign}${pct?.toFixed(1)}%</div>
+      </div>`;
+    };
+    moversHtml=`<div class="set-ov-section-label">${L==='th'?'ความเคลื่อนไหวราคาในชุดนี้':'Price Movers in This Set'}</div>
+    <div class="set-movers">
+      ${moversGain.length?`<div style="font-size:11px;color:#4ade80;font-weight:700;margin-bottom:5px">📈 ${L==='th'?'ราคาขึ้น':'Gainers'}</div><div class="set-mover-row">${moversGain.map(g=>mcard(g,'up')).join('')}</div>`:''}
+      ${moversLose.length?`<div style="font-size:11px;color:#f87171;font-weight:700;margin:8px 0 5px">📉 ${L==='th'?'ราคาลง':'Losers'}</div><div class="set-mover-row">${moversLose.map(g=>mcard(g,'down')).join('')}</div>`:''}
+    </div>`;
+  }
+
   // ── 5. AVAILABLE PRODUCTS ──────────────────────────────────────────────────
   const verCards=prods.map(p=>{
     const isJP=p.language==='JP'||!p.language;
@@ -3053,7 +3271,7 @@ function openSetOverview(code){
   // ── ASSEMBLE ───────────────────────────────────────────────────────────────
   document.getElementById('set-ov-content').innerHTML=
     heroHtml + descHtml + arcHtml + charsHtml +
-    dbSelectorHtml + distHtml + chaseHtml +
+    dbSelectorHtml + distHtml + chaseHtml + moversHtml +
     factsHtml + notesHtml + prodsSection;
 
   document.getElementById('back-set-ov').onclick=()=>renderSets();
@@ -3258,6 +3476,10 @@ function applyFilters(){
   }
   S.typeFilter=document.getElementById('type-sel')?.value||'';
   if(S.typeFilter)list=list.filter(c=>c.card_type===S.typeFilter);
+  const costMin=parseInt(document.getElementById('cost-min')?.value||'',10);
+  const costMax=parseInt(document.getElementById('cost-max')?.value||'',10);
+  if(!isNaN(costMin))list=list.filter(c=>parseInt(c.card_cost,10)>=costMin);
+  if(!isNaN(costMax))list=list.filter(c=>parseInt(c.card_cost,10)<=costMax);
   const sort=document.getElementById('sort-sel').value;
   if(sort==='price-desc')list.sort((a,b)=>realPrice(b)-realPrice(a));
   else if(sort==='price-asc')list.sort((a,b)=>realPrice(a)-realPrice(b));
@@ -3422,9 +3644,11 @@ function refreshCardActions(id){
 }
 function cardActionsHtml(c){
   const L=S.lang, id=c.card_image_id, own=inCollection(id), wish=inWishlist(id);
+  const inCmp=(D._compare||[]).includes(id);
   return `<div class="card-actions">
     <button class="card-act own${own?' on':''}" data-card-act="${id}" data-kind="own" onclick="toggleCollection('${id}',event)"><span class="ca-ic">${own?'✓':'＋'}</span><span class="ca-lbl">${own?(L==='th'?'อยู่ในคอลเลกชัน':'In Collection'):(L==='th'?'เพิ่มเข้าคอลเลกชัน':'Add to Collection')}</span></button>
     <button class="card-act wish${wish?' on':''}" data-card-act="${id}" data-kind="wish" onclick="toggleWishlist('${id}',event)"><span class="ca-ic">${wish?'♥':'♡'}</span><span class="ca-lbl">${wish?(L==='th'?'อยู่ใน Wishlist':'Wishlisted'):(L==='th'?'เพิ่มใน Wishlist':'Wishlist')}</span></button>
+    <button class="card-act${inCmp?' on':''}" onclick="toggleCompare('${id}',event)"><span class="ca-ic">⚖️</span><span class="ca-lbl">${inCmp?(L==='th'?'กำลังเปรียบ':'Comparing'):(L==='th'?'เปรียบราคา':'Compare')}</span></button>
   </div>`;
 }
 function updateCollCount(){
