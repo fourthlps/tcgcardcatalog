@@ -353,7 +353,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .mtrend-soon{font-size:10px;background:var(--bg3);color:var(--faint);padding:2px 8px;border-radius:999px;margin-left:auto;font-weight:700;letter-spacing:.03em}
 .mtrend-age{font-size:10px;color:var(--faint);margin-left:auto;letter-spacing:.01em}
 .sample-note{font-size:10.5px;color:var(--faint);background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;margin-bottom:10px;line-height:1.5}
-.mtrend-body{display:flex;gap:12px;align-items:center}
+.mtrend-body{display:flex;gap:12px;align-items:center;border-radius:8px;transition:background .15s}
+.mtrend-body[onclick]:hover{background:var(--bg3)}
 .mtrend-body+.mtrend-body{margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
 .mtrend-rank{font-size:11px;font-weight:800;color:var(--faint);font-family:var(--font-display);width:14px;flex-shrink:0;text-align:center}
 .mtrend-img{width:46px;height:64px;object-fit:cover;border-radius:6px;background:var(--bg3);flex-shrink:0}
@@ -655,6 +656,14 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .delta-down .price-hist-delta-pct{color:#dc2626;background:rgba(220,38,38,.12)}
 .delta-flat .price-hist-delta-abs{color:var(--soft)}
 .delta-flat .price-hist-delta-pct{color:var(--soft);background:var(--bg3)}
+/* Price History Chart (card detail) */
+.ph-chart-wrap{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+.ph-chart-hd{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.ph-chart-sub{font-size:11px;color:var(--faint);margin-bottom:10px}
+.ph-chart{border-radius:8px;overflow:hidden;background:var(--bg3);padding:4px 0}
+.ph-chart-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:22px 0;color:var(--faint)}
+.ph-chart-empty-ic{font-size:26px;opacity:.5}
+.ph-chart-empty-lbl{font-size:12px;text-align:center}
 
 /* EMPTY + RESULTS */
 .empty{color:var(--faint);padding:30px 0;text-align:center;font-size:14px}
@@ -1233,18 +1242,16 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <script>
-const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null,products:[],marketData:[],setData:{}};
+const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null,products:[],marketData:[],setData:{},priceHistory:null};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
 // the logging block in chasePicks) once the ranking has been verified.
 const DEBUG_CHASE=false;
-// P0 QA: homepage Market Trends were computed on a variant-colliding key
-// (card_set_id shared across variants) and produced fabricated movers. Until
-// the trend pipeline is re-keyed by card_image_id and a clean baseline exists,
-// keep this false so the section falls back to real top-value cards instead of
-// showing untrustworthy gainers/losers.
-const TRENDS_TRUSTWORTHY=false;
+// Trend trustworthiness is now auto-detected from the pipeline JSON metadata.
+// A panel is live when: confidence !== 'low' AND history_days_collected >= 7
+// AND the cards array is non-empty. No more hardcoded flag.
+function trendsTrustworthy(g){return!!(g&&(g.confidence||'low')!=='low'&&(g.history_days_collected||0)>=7&&(g.cards||[]).length>0);}
 const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
 
 const BOX={
@@ -1354,6 +1361,8 @@ async function init(){
       .then(d=>{if(d){D.gainers=d;renderTrend();}}),
     fetch('data/top-losers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.losers=d;renderTrend();}}),
+    fetch('data/price-history.json').then(r=>r.ok?r.json():null)
+      .then(d=>{if(d)D.priceHistory=d;}),
     fetch('data/status.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.siteStatus=d;
         const av=document.getElementById('view-admin');
@@ -1662,7 +1671,9 @@ function trendEntryHtml(entry){
     </div>`;
 }
 
-// Build a single trend entry row from a raw card object in the trend JSON
+// Build a single trend entry row from a raw card object in the trend JSON.
+// Uses card_image_id (added by the re-keyed pipeline) to navigate to the exact
+// printing (alternate art, SP, Gold, etc.) rather than the base card.
 function trendEntryFromJson(card,L,rank){
   const sign=card.price_change_percent>=0?'+':'';
   const pct=card.price_change_percent;
@@ -1670,7 +1681,12 @@ function trendEntryFromJson(card,L,rank){
   const pill=`<span class="trend-pill ${up?'up':'down'}">${up?'▲':'▼'} ${sign}${pct.toFixed(2)}%</span>`;
   const priceDisplay=fpL(card.today_price_usd);
   const rk=rank!=null?`<span class="mtrend-rank">${rank}</span>`:'';
-  return `<div class="mtrend-body">${rk}
+  // Resolve the card in the frontend index by card_image_id (preferred) so
+  // alternate arts link to the exact variant, not the base card.
+  const imgId=card.card_image_id||card.card_id||'';
+  const hit=imgId&&D._imgIndex?D._imgIndex[imgId]:null;
+  const clickAttr=hit?`onclick="jumpCard('${hit.code}','${imgId}')" style="cursor:pointer"`:'';
+  return `<div class="mtrend-body" ${clickAttr}>${rk}
       <img class="mtrend-img" src="${card.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
         ${editionBadge('EN')}
@@ -1727,9 +1743,8 @@ function trendPlaceholder(L){
 // (never a substitute ranking).
 function renderTrend(){
   const L=S.lang;
-  const enough=g=>g&&(g.cards||[]).length>0&&(g.history_days_collected||0)>=7&&(g.confidence||'low')!=='low';
-  const useGainers=TRENDS_TRUSTWORTHY&&enough(D.gainers);
-  const useLosers=TRENDS_TRUSTWORTHY&&enough(D.losers);
+  const useGainers=trendsTrustworthy(D.gainers);
+  const useLosers=trendsTrustworthy(D.losers);
   const gainers=useGainers?D.gainers.cards:[];
   const losers=useLosers?D.losers.cards:[];
 
@@ -3465,6 +3480,69 @@ function relatedCardsHtml(c){
   if(more.length)html+=`<div class="rel-sec"><div class="rel-lbl">${L==='th'?'การ์ดเด่นอื่นในชุดนี้':'More in This Set'}</div><div class="rel-row">${more.map(mini).join('')}</div></div>`;
   return html;
 }
+// ─── PRICE HISTORY CHART ─────────────────────────────────────────────────────
+// Renders an inline SVG sparkline for the card's daily price history from
+// price-history.json, keyed by card_image_id. Shows a polished empty state
+// until at least 2 data points exist.
+function priceHistoryChart(c){
+  const L=S.lang;
+  const imgId=c.card_image_id;
+  const hist=imgId&&D.priceHistory&&D.priceHistory.history?D.priceHistory.history[imgId]:null;
+  const entries=hist?hist.slice().sort((a,b)=>a.date<b.date?-1:1):[];
+  const emptyState=`<div class="ph-chart-wrap">
+    <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา':'Price History'}</span></div>
+    <div class="ph-chart-empty">
+      <div class="ph-chart-empty-ic">📊</div>
+      <div class="ph-chart-empty-lbl">${L==='th'?'ประวัติราคาจะปรากฏหลังเก็บข้อมูลเพิ่มเติม':'Price history will appear after more daily updates'}</div>
+    </div>
+  </div>`;
+  if(entries.length<2)return emptyState;
+  const prices=entries.map(e=>e.price);
+  const minP=Math.min(...prices),maxP=Math.max(...prices);
+  const range=maxP-minP||minP||1;
+  const W=340,H=110,padX=10,padY=14;
+  const w=W-padX*2,h=H-padY*2-14;// 14 for bottom date labels
+  const n=entries.length;
+  const xp=i=>padX+(i/(n-1))*w;
+  const yp=p=>padY+h-((p-minP)/range)*h;
+  const pts=entries.map((e,i)=>`${xp(i).toFixed(1)},${yp(e.price).toFixed(1)}`);
+  const linePath=`M${pts.join('L')}`;
+  const areaPath=`M${xp(0).toFixed(1)},${(padY+h).toFixed(1)}L${pts.join('L')}L${xp(n-1).toFixed(1)},${(padY+h).toFixed(1)}Z`;
+  const latest=entries[n-1],first=entries[0];
+  const change=latest.price-first.price;
+  const pct=change/first.price*100;
+  const up=change>=0;
+  const fmtDate=d=>d?d.slice(5):'';// "06-28" from "2026-06-28"
+  const fmtPrice=p=>S.cur==='THB'?`฿${Math.round(p*S.fx).toLocaleString('th-TH')}`:`$${p.toFixed(2)}`;
+  // Dot + label for first and last point
+  const endDots=[0,n-1].map(i=>{
+    const e=entries[i];const cx=xp(i).toFixed(1),cy=yp(e.price).toFixed(1);
+    const anchor=i===0?'start':'end';const dx=i===0?2:-2;
+    const ly=yp(e.price)-7;const labelY=(ly<padY-2?padY+h+7:ly).toFixed(1);
+    return `<circle cx="${cx}" cy="${cy}" r="3" fill="var(--gold)" stroke="var(--bg2)" stroke-width="1.5"/>
+<text x="${(xp(i)+dx).toFixed(1)}" y="${labelY}" font-size="9" fill="var(--soft)" text-anchor="${anchor}">${fmtPrice(e.price)}</text>`;
+  }).join('');
+  const svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;display:block">
+  <defs><linearGradient id="ph-g-${imgId.replace(/[^a-z0-9]/gi,'')}" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="var(--gold)" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="var(--gold)" stop-opacity="0.02"/>
+  </linearGradient></defs>
+  <path d="${areaPath}" fill="url(#ph-g-${imgId.replace(/[^a-z0-9]/gi,'')})"/>
+  <path d="${linePath}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  ${endDots}
+  <text x="${padX}" y="${H-2}" font-size="9" fill="var(--faint)">${fmtDate(first.date)}</text>
+  <text x="${W-padX}" y="${H-2}" font-size="9" fill="var(--faint)" text-anchor="end">${fmtDate(latest.date)}</text>
+</svg>`;
+  const sign=up?'+':'';
+  const pill=`<span class="trend-pill ${up?'up':'down'}">${up?'▲':'▼'} ${sign}${pct.toFixed(2)}%</span>`;
+  return `<div class="ph-chart-wrap">
+    <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา':'Price History'}</span>${pill}</div>
+    <div class="ph-chart-sub">${entries.length} ${L==='th'?'วันข้อมูล · เทียบจากราคาแรก':'days of data · vs first recorded price'}</div>
+    <div class="ph-chart">${svg}</div>
+  </div>`;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function openCard(idx){
   const c=S.shown[idx];S.lastIdx=idx;
   const L=S.lang;
@@ -3494,6 +3572,7 @@ function openCard(idx){
     <div class="price-hd"><span style="font-size:15px;font-weight:700">${L==='th'?'ราคา':'Price'} <span style="color:var(--soft);font-weight:600">· ${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     ${renderMarkets(c)}
     <div class="mkt-note neutral"><span class="mkt-note-ic">⚠️</span><span>${L==='th'?'ราคาการ์ดดิบ ยังไม่ได้ส่งเกรด PSA':'Raw card price — ungraded, not PSA graded.'}</span></div>
+    ${priceHistoryChart(c)}
     ${relatedCardsHtml(c)}
     <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
   setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
