@@ -656,6 +656,10 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .delta-down .price-hist-delta-pct{color:#dc2626;background:rgba(220,38,38,.12)}
 .delta-flat .price-hist-delta-abs{color:var(--soft)}
 .delta-flat .price-hist-delta-pct{color:var(--soft);background:var(--bg3)}
+/* Highest Value panel — market source badge */
+.val-src{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;margin-bottom:3px;letter-spacing:.02em}
+.val-src.jp{background:rgba(239,68,68,.12);color:#f87171}
+.val-src.en{background:rgba(99,102,241,.12);color:#818cf8}
 /* Price History Chart (card detail) */
 .ph-chart-wrap{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:14px;padding:18px 20px;margin-bottom:14px}
 .ph-chart-hd{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
@@ -1712,18 +1716,51 @@ function trendAgeLabel(meta,L){
   return`<span class="mtrend-age">${days} day${days!==1?'s':''} of data · vs ${between} day${between!==1?'s':''} ago${confTag}</span>`;
 }
 
+// JP-preferred price in THB for ranking the Highest Value panel.
+// Order: JP converted_price → JP source×rate → EN source×fx → legacy field×fx
+function jpPreferredPriceThb(c){
+  const jpy_thb=(D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;
+  const jp=marketFor(c,'JP');
+  if(jp&&jp.source_price>0)return jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
+  const en=marketFor(c,'EN');
+  if(en&&en.source_price>0)return en.source_price*(S.fx||USD_TO_THB);
+  const m=Number(c.market_price);if(!isNaN(m)&&m>0)return m*(S.fx||USD_TO_THB);
+  const i=Number(c.inventory_price);return(!isNaN(i)&&i>0)?i*(S.fx||USD_TO_THB):0;
+}
+// Price display string for the Highest Value panel (always in ฿).
+function jpPreferredDisplay(c){
+  const jp=marketFor(c,'JP');
+  if(jp&&jp.source_price>0){
+    const jpy_thb=(D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;
+    const thb=jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
+    return'฿ '+Math.round(thb).toLocaleString('th-TH');
+  }
+  return fpL(realPrice(c));
+}
+// Small source label: tells users which market the price comes from.
+function valueSrcBadge(c){
+  const jp=marketFor(c,'JP');
+  if(jp&&jp.source_price>0)return`<span class="val-src jp">🇯🇵 JP</span>`;
+  return`<span class="val-src en">🇺🇸 EN</span>`;
+}
 function topValueFallback(rank){
-  // Returns a card entry HTML for the Nth highest-priced card in the cache (0-indexed).
-  const sorted=flat().filter(c=>realPrice(c)>0).sort((a,b)=>realPrice(b)-realPrice(a));
+  // Ranked by JP-preferred THB value so JP market cards surface above EN-only ones.
+  const sorted=flat().filter(c=>jpPreferredPriceThb(c)>0)
+    .sort((a,b)=>jpPreferredPriceThb(b)-jpPreferredPriceThb(a));
   const c=sorted[rank];
   if(!c)return'';
-  return `<div class="mtrend-body">
+  // Use imgIndex for O(1) set-code lookup instead of scanning the cache.
+  if(!D._imgIndex)D._imgIndex={};
+  const hit=D._imgIndex[c.card_image_id];
+  const setCode=hit?hit.code:(c.set_id||'');
+  const clickAttr=setCode?`onclick="jumpCard('${setCode}','${c.card_image_id}')" style="cursor:pointer"`:'';
+  return `<div class="mtrend-body" ${clickAttr}>
       <span class="mtrend-rank">${rank+1}</span>
       <img class="mtrend-img" src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
-        ${editionBadge(cardEdition(c,'all'))}
+        ${valueSrcBadge(c)}
         <div class="mtrend-name">${chaseBase(c.card_name)}</div>
-        <div class="mtrend-price">${fpL(realPrice(c))}</div>
+        <div class="mtrend-price">${jpPreferredDisplay(c)}</div>
         <div style="font-size:10px;color:var(--faint);margin-top:2px">${c.set_id||''} · ${c.rarity||''}</div>
       </div>
     </div>`;
