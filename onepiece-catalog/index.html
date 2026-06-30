@@ -531,6 +531,21 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11.5px;color:var(--soft);margin-top:16px}
+/* Edition (JP/EN) badge — the universal language identifier */
+.ed-badge{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:800;letter-spacing:.02em;padding:2px 8px;border-radius:999px;line-height:1.5;white-space:nowrap;vertical-align:middle}
+.ed-jp{background:rgba(59,111,224,.12);color:#2c5bd0}
+.ed-en{background:rgba(34,197,94,.15);color:#15803d}
+.ed-ref{font-size:11px;font-weight:600;color:var(--faint);margin-left:3px}
+/* Edition filter (All / JP / EN) */
+.ed-filter{display:inline-flex;gap:6px;background:var(--bg3);padding:4px;border-radius:999px}
+.ed-fbtn{font-family:inherit;font-size:12.5px;font-weight:700;border:none;background:transparent;color:var(--soft);padding:5px 13px;border-radius:999px;cursor:pointer;transition:all .12s}
+.ed-fbtn.on{background:var(--bg2);color:var(--text);box-shadow:var(--shadow)}
+/* Search result card — badge-first hierarchy */
+.sc-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.sc-body .ed-badge{align-self:flex-start;margin-bottom:1px}
+.sc-name{font-size:13.5px;font-weight:700;color:var(--text);line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-meta{font-size:11px;color:var(--faint);font-weight:600}
+.sc-price{font-size:13.5px;font-weight:800;color:var(--gold);font-family:var(--font-display);margin-top:1px}
 /* Admin dashboard */
 .adm-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .adm-badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--bg3);color:var(--soft)}
@@ -1198,6 +1213,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <h1 class="page-ttl serif" id="srch-ttl"></h1>
   <div class="results-count" id="srch-count" style="margin-bottom:20px"></div>
   <div class="filter-row" id="srch-filters" style="display:none;margin-bottom:16px">
+    <div class="ed-filter" id="srch-ed-filter">
+      <button class="ed-fbtn on" data-ed="all" onclick="setSrchEdition('all')">All</button>
+      <button class="ed-fbtn" data-ed="jp" onclick="setSrchEdition('jp')">🇯🇵 JP</button>
+      <button class="ed-fbtn" data-ed="en" onclick="setSrchEdition('en')">🇺🇸 EN</button>
+    </div>
     <div class="chip-group" id="srch-rarity-chips"></div>
     <select class="sort-sel" id="srch-sort" onchange="applySrchFilters()">
       <option value="default">เรียงตามชุด</option>
@@ -1221,7 +1241,7 @@ const DEBUG_CHASE=false;
 // keep this false so the section falls back to real top-value cards instead of
 // showing untrustworthy gainers/losers.
 const TRENDS_TRUSTWORTHY=false;
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
 
 const BOX={
   'OP-01':{usd:145,thb:4800,hot:false},
@@ -1350,8 +1370,39 @@ function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*S.fx).toLocaleStrin
 // describes the card; the market describes the price.
 function marketsFor(c){return (c&&D.markets&&D.markets[c.card_image_id])||[];}
 function marketFor(c,lang){return marketsFor(c).find(m=>m.source_market===lang)||null;}
-// Compact price for card tiles: JP tab shows the JP retail reference in yen,
-// EN tab (or fallback) shows the EN market price in the toggled currency.
+
+// ─── EDITION (JP/EN) LANGUAGE-CONTEXT PRIMITIVES ─────────────────────────────
+// The single source of truth for "which edition is this, and what's its price".
+// Law 1: every card/price element shows an edition badge FIRST.
+// Law 2: currency is a display unit, never the primary identifier.
+function hasEN(c){return !!marketFor(c,'EN')||Number(c.market_price)>0;}
+function hasJP(c){return !!marketFor(c,'JP');}
+// The single flag badge used EVERYWHERE (tiles, detail, rankings, search…).
+function editionBadge(ed){
+  return ed==='JP'
+    ?'<span class="ed-badge ed-jp">🇯🇵 JP</span>'
+    :'<span class="ed-badge ed-en">🇺🇸 EN</span>';
+}
+// Resolve which edition a card is shown as in a given context/filter.
+// filter: 'all' | 'jp' | 'en'. Returns 'JP', 'EN', or null (filtered out).
+function cardEdition(c,filter){
+  const e=hasEN(c),j=hasJP(c);
+  if(filter==='jp')return j?'JP':null;
+  if(filter==='en')return e?'EN':null;
+  return e?'EN':(j?'JP':'EN');   // 'all' prefers the verified EN market
+}
+// Labeled price for a specific edition. JP = retail reference (¥ + ≈฿);
+// EN = market price in the toggled currency.
+function editionPrice(c,ed){
+  if(ed==='JP'){
+    const jp=marketFor(c,'JP');
+    if(!jp)return '—';
+    const thb=jp.converted_price>0?` <span class="ed-ref">≈฿${Math.round(jp.converted_price).toLocaleString('th-TH')}</span>`:'';
+    return '¥'+Math.round(jp.source_price).toLocaleString()+thb;
+  }
+  return fp(realPrice(c));
+}
+// Compact price for edition-scoped card tiles (Card Database): follows S.cardLang.
 function tilePrice(c){
   if(S.cardLang==='jp'){
     const jp=marketFor(c,'JP');
@@ -1375,12 +1426,8 @@ function effectiveVer(c){
   if(marketFor(c,'JP'))return 'JP';
   return want;
 }
-// Shared EN/JP version chip -- used on both the card tile and the detail page
-// so the badge always matches the price/version actually shown.
-function verTag(ver){
-  const isEN=ver==='EN';
-  return `<span class="card-lang-tag" style="${isEN?'background:rgba(34,197,94,.15);color:#4ade80':''}">${isEN?'EN':'JP'}</span>`;
-}
+// Shared EN/JP version chip -- now the canonical flag badge everywhere.
+function verTag(ver){return editionBadge(ver==='EN'?'EN':'JP');}
 // Homepage currency helper: TH UI -> THB, EN UI -> USD. Uses a real THB
 // price when one is supplied (e.g. BOX set prices), otherwise converts the
 // USD figure with the live FX rate (falls back to USD_TO_THB if that hasn't
@@ -1494,6 +1541,7 @@ function renderFC(){
     <div class="fc-body">
       <img class="fc-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
       <div class="fc-details">
+        <div style="margin-bottom:5px">${editionBadge(cardEdition(top,'all'))}</div>
         <div class="fc-name">${top.card_name.replace(/\s*\(.*\)$/,'').trim()}</div>
         <div class="fc-variant">${top.card_name.match(/\(.*\)/)?.[0]||''}</div>
         <div class="fc-set-badge">${top.card_set_id||''} · ${setName}</div>
@@ -1621,6 +1669,7 @@ function trendEntryFromJson(card,L,rank){
   return `<div class="mtrend-body">${rk}
       <img class="mtrend-img" src="${card.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
+        ${editionBadge('EN')}
         <div class="mtrend-name">${chaseBase(card.card_name)}</div>
         <div class="mtrend-price">${priceDisplay} ${pill}</div>
       </div>
@@ -1652,6 +1701,7 @@ function topValueFallback(rank){
       <span class="mtrend-rank">${rank+1}</span>
       <img class="mtrend-img" src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
+        ${editionBadge(cardEdition(c,'all'))}
         <div class="mtrend-name">${chaseBase(c.card_name)}</div>
         <div class="mtrend-price">${fpL(realPrice(c))}</div>
         <div style="font-size:10px;color:var(--faint);margin-top:2px">${c.set_id||''} · ${c.rarity||''}</div>
@@ -1988,6 +2038,7 @@ function renderChase(){
       <div class="chase-rank ${rankCls}">${i+1}</div>
       <div class="chase-img-wrap"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
       <div class="chase-body">
+        <div style="margin-bottom:4px">${editionBadge(cardEdition(c,'all'))}</div>
         <div class="chase-name">${chaseBase(c.card_name)}</div>
         ${variant?`<div class="chase-variant">(${variant})</div>`:''}
         <div class="chase-set">${c.card_set_id||''}${c.rarity?' · '+c.rarity:''}</div>
@@ -2018,6 +2069,7 @@ function openChaseAll(){
   const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
   const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
   document.getElementById('srch-filters').style.display='flex';
+  resetSrchEditionBtns();
   document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
   document.getElementById('srch-sort').value='default';   // preserve collectibility order
   S.srchCards=picks;S.srchShown=picks;
@@ -2152,6 +2204,7 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
         return`<div class="char-top-card" onclick="jumpCard('${c._setCode}','${c.card_image_id}')">
           ${img?`<img src="${img}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
           <div class="char-top-card-info">
+            <div style="margin-bottom:3px">${editionBadge(cardEdition(c,'all'))}</div>
             <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
             <div class="char-top-card-price">${prStr}</div>
             <div class="char-top-card-set">${c._setCode} · ${c.rarity||''}</div>
@@ -2269,8 +2322,13 @@ function doSearch(){
   const chars=Object.values(buildCharMap()).filter(ch=>ch.name.toLowerCase().includes(q));
 
   const rarities=[...new Set(cards.map(r=>r.card.rarity).filter(Boolean))];
-  S.srchCards=cards;S.srchShown=cards;
+  S.srchCards=cards;S.srchShown=cards;S.srchEdition='all';
   paintSearch({sets,cards,products,chars},q,rarities);
+}
+// Reset the All/JP/EN filter buttons to "All".
+function resetSrchEditionBtns(){
+  S.srchEdition='all';
+  document.querySelectorAll('#srch-ed-filter .ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed==='all'));
 }
 
 function applySrchFilters(){
@@ -2283,7 +2341,7 @@ function applySrchFilters(){
   S.srchShown=list;
   renderSrchCards(list);
   const ct=document.getElementById('srch-cards-count');
-  if(ct)ct.textContent=list.length;
+  if(ct)ct.textContent=list.filter(r=>cardEdition(r.card,S.srchEdition)).length;
 }
 
 function paintSearch({sets,cards,products,chars},q,rarities){
@@ -2302,9 +2360,11 @@ function paintSearch({sets,cards,products,chars},q,rarities){
   // Rarity filter chips (cards section only)
   const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
   const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
-  document.getElementById('srch-filters').style.display=rarities.length>0?'flex':'none';
-  if(rarities.length>0)
-    document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
+  // Show the filter row (incl. the All/JP/EN edition filter) whenever there are
+  // card results, even if there's only one rarity.
+  document.getElementById('srch-filters').style.display=cards.length>0?'flex':'none';
+  resetSrchEditionBtns();
+  document.getElementById('srch-rarity-chips').innerHTML=sorted.map(r=>`<button class="chip" data-r="${r}" onclick="toggleSrchChip(this,'${r}')">${r}</button>`).join('');
 
   const box=document.getElementById('srch-results');
   box.innerHTML='';
@@ -2383,13 +2443,26 @@ function toggleSrchChip(el,r){el.classList.toggle('on');applySrchFilters();}
 function renderSrchCards(cards){
   const box=document.getElementById('srch-results-cards');
   if(!box)return;
-  box.innerHTML=cards.length?cards.map(r=>{
+  // Badge-first hierarchy: 🇯🇵/🇺🇸 edition → name → number·rarity → price.
+  // The edition filter decides which edition each card is shown as.
+  const rows=cards.map(r=>({r,ed:cardEdition(r.card,S.srchEdition)})).filter(x=>x.ed);
+  box.innerHTML=rows.length?rows.map(({r,ed})=>{
     const c=r.card;
     return `<div class="card-tile" onclick="jumpCard('${r.code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${tilePrice(c)}</p></div>
+      <div class="sc-body">
+        ${editionBadge(ed)}
+        <p class="sc-name">${c.card_name}</p>
+        <div class="sc-meta">${c.card_set_id||''}${c.rarity?' · '+c.rarity:''}</div>
+        <p class="sc-price">${editionPrice(c,ed)}</p>
+      </div>
     </div>`;
   }).join(''):`<div class="empty">${S.lang==='th'?'ไม่พบการ์ดตาม filter นี้':'No cards match this filter'}</div>`;
+}
+function setSrchEdition(ed){
+  S.srchEdition=ed;
+  document.querySelectorAll('#srch-ed-filter .ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===ed));
+  applySrchFilters();
 }
 
 // ── Header live dropdown ──────────────────────────────────────────────────────
@@ -2424,7 +2497,7 @@ function renderSrchDrop(q){
     if(items.filter(i=>i.cat==='prod').length<2){
       const nm=_t(p.product_name)||p.set_code;
       if(nm.toLowerCase().includes(q)||(p.set_code||'').toLowerCase().includes(q))
-        items.push({cat:'prod',label:nm,meta:`${p.set_code} · ${p.language}`,fn:`openProduct('${p.product_id}')`});
+        items.push({cat:'prod',label:nm,meta:p.set_code,badge:editionBadge(p.language==='EN'?'EN':'JP'),fn:`openProduct('${p.product_id}')`});
     }
   });
 
@@ -2434,7 +2507,7 @@ function renderSrchDrop(q){
     for(const c of cardList){
       if(cc>=3)break outer;
       if(c.card_name.toLowerCase().includes(q)){
-        items.push({cat:'card',label:c.card_name,meta:`${c.card_set_id||''} · ${c.rarity||''}`,fn:`jumpCard('${code}','${c.card_image_id}')`});
+        items.push({cat:'card',label:c.card_name,meta:`${c.card_set_id||''} · ${c.rarity||''}`,badge:editionBadge(cardEdition(c,'all')),fn:`jumpCard('${code}','${c.card_image_id}')`});
         cc++;
       }
     }
@@ -2447,7 +2520,7 @@ function renderSrchDrop(q){
   for(const it of items){
     if(it.cat!==lastCat){html+=`<div class="sdrop-cat">${catLabel[it.cat]}</div>`;lastCat=it.cat;}
     html+=`<div class="sdrop-item" onclick="closeSrchDrop();${it.fn}">
-      <span class="sdrop-item-name">${it.label}</span>
+      <span class="sdrop-item-name">${it.badge?it.badge+' ':''}${it.label}</span>
       <span class="sdrop-item-meta">${it.meta}</span>
     </div>`;
   }
@@ -2542,7 +2615,7 @@ function openProduct(productId){
     const mdRows=[...mdVerified,...mdPending].map(r=>renderRow(r,r.verification_status==='Verified')).join('');
     pc.innerHTML=`<div class="prod-hero" style="padding:40px 0 24px">
       <div class="prod-hero-info">
-        <span class="prod-type-badge">${p.product_type}${p.language?' · '+p.language:''}</span>
+        ${p.language?editionBadge(p.language==='EN'?'EN':'JP')+' ':''}<span class="prod-type-badge">${p.product_type}</span>
         <h1 class="prod-title">${p.product_name}</h1>
         <div class="prod-meta-row"><span class="prod-set-chip" onclick="openSet('${p.set_code}')">${p.set_code} ↗</span></div>
       </div></div>
@@ -2610,6 +2683,7 @@ function openProduct(productId){
     ?topChase.map(c=>`<div class="chase-preview-card" onclick="jumpCard('${p.set_code}','${c.card_image_id}')">
         <div class="chase-preview-img"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
         <div class="chase-preview-body">
+          <div style="margin-bottom:2px">${editionBadge(cardEdition(c,'all'))}</div>
           <div class="chase-preview-name">${chaseBase(c.card_name)}</div>
           <div class="chase-preview-price">${fp(realPrice(c))}</div>
           <div class="chase-preview-rar">${c.rarity||''}</div>
@@ -2654,7 +2728,7 @@ function openProduct(productId){
                  :`<div class="prod-hero-img-ph"><div class="ph-ic">${p.product_type==='Starter Deck'?'🗡️':p.product_type==='Extra Booster'?'✨':'⚓'}</div><div class="ph-code">${p.set_code||''}</div><div class="ph-sub">${p.product_type||''} · ${L==='th'?'ภาพสินค้าเร็วๆ นี้':'Product image coming soon'}</div></div>`}
       </div>
       <div class="prod-hero-info">
-        <span class="prod-type-badge">${p.product_type}${p.language?` · ${p.language}`:''}</span>
+        ${p.language?editionBadge(p.language==='EN'?'EN':'JP')+' ':''}<span class="prod-type-badge">${p.product_type}</span>
         <h1 class="prod-title">${p.product_name}</h1>
         <div class="prod-meta-row">
           <span class="prod-set-chip" onclick="openSet('${p.set_code}')">${p.set_code} ↗</span>
@@ -3255,7 +3329,7 @@ function renderCollectionView(tab){
   const grid=items.length?`<div class="card-grid">${items.map(({card:c,code})=>`
     <div class="card-tile" onclick="jumpCard('${code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div>
+      <div><div style="margin-bottom:2px">${editionBadge(cardEdition(c,'all'))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div>
       <button class="coll-remove" title="${L==='th'?'นำออก':'Remove'}" onclick="event.stopPropagation();${tab==='wishlist'?'toggleWishlist':'toggleCollection'}('${c.card_image_id}',event)">✕</button>
     </div>`).join('')}</div>`
     :`<div class="coll-empty"><div class="coll-empty-ic">${tab==='wishlist'?'♡':'📦'}</div>
@@ -3371,6 +3445,7 @@ function relatedCardsHtml(c){
     .sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,10);
   const mini=x=>`<div class="rel-card" onclick="jumpCard('${S.setCode}','${x.card_image_id}')">
       <img src="${x.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div style="margin-bottom:2px">${editionBadge(cardEdition(x,'all'))}</div>
       <div class="rel-card-name">${chaseBase(x.card_name)}</div>
       <div class="rel-card-meta">${x.rarity||''}</div>
       <div class="rel-card-price">${fpL(realPrice(x))}</div>
