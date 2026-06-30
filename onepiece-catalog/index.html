@@ -531,6 +531,30 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11.5px;color:var(--soft);margin-top:16px}
+/* Admin dashboard */
+.adm-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.adm-badge{font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--bg3);color:var(--soft)}
+.adm-sub{font-size:12.5px;color:var(--soft);margin:2px 0 18px}
+.adm-sec-lbl{font-size:14px;font-weight:800;color:var(--text);margin:22px 0 11px}
+.adm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.adm-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:13px;padding:15px 16px;box-shadow:var(--shadow)}
+.adm-card-val{font-size:26px;font-weight:800;font-family:var(--font-display);color:var(--text);letter-spacing:-.02em;line-height:1.05}
+.adm-card-lbl{font-size:12px;font-weight:600;color:var(--soft);margin-top:4px}
+.adm-card-sub{font-size:11px;color:var(--faint);margin-top:2px}
+.adm-ok{border-left-color:var(--green)} .adm-warn{border-left-color:#eab308} .adm-bad{border-left-color:#e11d48}
+.adm-badge.adm-ok{background:rgba(22,163,74,.13);color:#0a7d4f}
+.adm-badge.adm-warn{background:rgba(234,179,8,.16);color:#a35a09}
+.adm-badge.adm-bad{background:rgba(225,29,72,.12);color:#e11d48}
+.adm-panel{background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:16px 18px;box-shadow:var(--shadow)}
+.adm-panel-row{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--soft);margin-top:10px}
+.adm-panel-row strong{color:var(--text)}
+.adm-bar{height:9px;border-radius:999px;background:var(--bg3);overflow:hidden}
+.adm-bar-fill{height:100%;border-radius:999px;background:var(--gold);transition:width .4s}
+.adm-bar-fill.adm-ok{background:var(--green)} .adm-bar-fill.adm-warn{background:#eab308} .adm-bar-fill.adm-bad{background:#e11d48}
+.adm-set-row{display:grid;grid-template-columns:84px 1fr 120px;align-items:center;gap:12px;padding:7px 0}
+.adm-set-code{font-size:12.5px;font-weight:700;color:var(--text)}
+.adm-set-pct{font-size:12px;font-weight:700;color:var(--soft);text-align:right}
+@media(max-width:560px){.adm-set-row{grid-template-columns:64px 1fr 92px;gap:8px}}
 /* Collection / Wishlist */
 .card-actions{display:flex;gap:10px;margin:14px 0 4px}
 .card-act{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:border-color .14s,background .14s,color .14s}
@@ -1157,6 +1181,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div id="char-hub-content"></div>
 </main>
 
+<main class="app" id="view-admin" style="display:none">
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
+  <div id="admin-content"></div>
+</main>
+
 <main class="app" id="view-collection" style="display:none">
   <div class="crumb" id="crumb-collection"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
@@ -1287,6 +1316,8 @@ async function init(){
       if(dv&&dv.style.display!=='none'&&S.shown&&S.lastIdx!=null)openCard(S.lastIdx);
       const cv=document.getElementById('view-cards');
       if(cv&&cv.style.display!=='none'&&S.shown)paintCards(S.shown);
+      const av=document.getElementById('view-admin');
+      if(av&&av.style.display!=='none')openAdmin();
     }
   });
   // Non-blocking parallel fetches: FX rate + trend data + site status.
@@ -1300,8 +1331,14 @@ async function init(){
     fetch('data/top-losers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.losers=d;renderTrend();}}),
     fetch('data/status.json').then(r=>r.ok?r.json():null)
-      .then(d=>{if(d)D.siteStatus=d;}),
+      .then(d=>{if(d){D.siteStatus=d;
+        const av=document.getElementById('view-admin');
+        if(av&&av.style.display!=='none')openAdmin();   // refresh once status arrives
+      }}),
   ]);
+  // Hidden admin route: open via #admin (and react to hash changes).
+  if(location.hash==='#admin')openAdmin();
+  window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin();});
 }
 
 function flat(){return Object.values(D.cache).flat();}
@@ -1419,7 +1456,7 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection'].forEach(v=>{
+  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection','view-admin'].forEach(v=>{
     const el=document.getElementById(v);if(el)el.style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
@@ -3233,6 +3270,94 @@ function renderCollectionView(tab){
     </div>
     <div class="coll-tabs">${tabBtn('collection',L==='th'?'📦 คอลเลกชัน':'📦 Collection',collIds.length)}${tabBtn('wishlist',L==='th'?'♡ Wishlist':'♡ Wishlist',wishIds.length)}</div>
     ${grid}`;
+}
+
+// ─── ADMIN DASHBOARD (read-only platform health + catalog QA) ────────────────
+function _relTime(iso,L){
+  if(!iso)return L==='th'?'ไม่ทราบ':'unknown';
+  const d=new Date(iso), h=Math.floor((Date.now()-d.getTime())/3600000);
+  if(h<1)return L==='th'?'เมื่อสักครู่':'just now';
+  if(h<24)return L==='th'?`${h} ชม.ที่แล้ว`:`${h}h ago`;
+  const days=Math.floor(h/24);
+  return L==='th'?`${days} วันที่แล้ว`:`${days}d ago`;
+}
+function _admCard(label,value,sub,tone){
+  return `<div class="adm-card${tone?' adm-'+tone:''}"><div class="adm-card-val">${value}</div><div class="adm-card-lbl">${label}</div>${sub?`<div class="adm-card-sub">${sub}</div>`:''}</div>`;
+}
+function _admBar(pct,tone){return `<div class="adm-bar"><div class="adm-bar-fill${tone?' adm-'+tone:''}" style="width:${Math.max(2,Math.min(100,pct))}%"></div></div>`;}
+function openAdmin(){
+  const L=S.lang;
+  const st=D.siteStatus||{};
+  const api=st.api||{}, hist=st.history||{}, tr=st.trends||{};
+  const all=flat();
+  let en=0,jp=0,both=0,enOnly=0,jpOnly=0,none=0;
+  all.forEach(c=>{
+    const e=!!marketFor(c,'EN')||Number(c.market_price)>0, j=!!marketFor(c,'JP');
+    if(e)en++; if(j)jp++;
+    if(e&&j)both++; else if(e)enOnly++; else if(j)jpOnly++; else none++;
+  });
+  const total=all.length||1;
+  const prods=D.products||[];
+  const prodNoImg=prods.filter(p=>!p.product_image||/NULL/i.test(p.product_image)).length;
+  const mdVerified=(D.marketData||[]).length;
+  const daysAgo=st.last_updated?Math.floor((Date.now()-new Date(st.last_updated).getTime())/86400000):null;
+  const freshTone=daysAgo==null?'warn':(daysAgo<=1?'ok':(daysAgo<=2?'warn':'bad'));
+  const runOk=(st.status==='success'), runTone=runOk?'ok':(st.status==='partial'?'warn':'bad');
+  const days=hist.days_collected??tr.history_days_collected??0;
+  const need=7, remain=Math.max(0,need-days), trendReady=days>=need;
+  const meta=D.marketsMeta||{}, fx=meta.fx||{};
+  // per-set JP coverage gaps (lowest first)
+  const setRows=Object.entries(D.cache).map(([code,cards])=>{
+    const tot=cards.length||1; const jpc=cards.filter(c=>marketFor(c,'JP')).length;
+    return {code,tot,jpc,pct:Math.round(jpc/tot*100)};
+  }).filter(s=>s.tot>=10).sort((a,b)=>a.pct-b.pct).slice(0,8);
+
+  document.getElementById('admin-content').innerHTML=`
+    <div class="adm-head">
+      <h1 class="page-ttl serif">${L==='th'?'แดชบอร์ดผู้ดูแล':'Admin Dashboard'}</h1>
+      <span class="adm-badge adm-${runTone}">${L==='th'?'การรันล่าสุด':'Last run'}: ${st.status||'?'}</span>
+    </div>
+    <p class="adm-sub">${L==='th'?'อ่านอย่างเดียว · สุขภาพแพลตฟอร์มและคุณภาพข้อมูล':'Read-only · platform health & catalog quality'} · ${L==='th'?'อัปเดต':'updated'} ${_relTime(st.last_updated,L)}</p>
+
+    <div class="adm-sec-lbl">⚙️ ${L==='th'?'สถานะ Pipeline':'Pipeline Health'}</div>
+    <div class="adm-grid">
+      ${_admCard(L==='th'?'อายุข้อมูล':'Data Age',daysAgo==null?'—':(daysAgo+'d'),L==='th'?'ตั้งแต่อัปเดตล่าสุด':'since last update',freshTone)}
+      ${_admCard(L==='th'?'ชุดที่ดึงสำเร็จ':'Sets Fetched',(api.sets_fetched??'—')+(api.sets_failed?` / ${api.sets_failed} ${L==='th'?'ล้มเหลว':'failed'}`:''),api.source||'',api.sets_failed?'bad':'ok')}
+      ${_admCard(L==='th'?'การ์ดที่มีราคา':'Cards Priced',(api.cards_with_price??en).toLocaleString(),`/ ${(api.total_cards??total).toLocaleString()}`,'ok')}
+      ${_admCard(L==='th'?'ประวัติราคา':'Price History',days+' '+(L==='th'?'วัน':'days'),hist.last_snapshot_date||'',days>0?'ok':'warn')}
+    </div>
+
+    <div class="adm-sec-lbl">📊 ${L==='th'?'ความพร้อมเทรนด์ 7 วัน':'7-Day Trend Readiness'}</div>
+    <div class="adm-panel">
+      ${_admBar(days/need*100, trendReady?'ok':'warn')}
+      <div class="adm-panel-row"><span>${days}/${need} ${L==='th'?'วัน':'days'} · ${L==='th'?'ความเชื่อมั่น':'confidence'}: ${tr.confidence||'low'}</span>
+        <strong>${trendReady?(L==='th'?'✅ Movers พร้อมแสดง':'✅ Movers ready'):(L==='th'?`Movers พร้อมในอีก ${remain} วัน`:`Movers live in ${remain} day${remain!==1?'s':''}`)}</strong></div>
+    </div>
+
+    <div class="adm-sec-lbl">💴 ${L==='th'?'ความครอบคลุมราคา':'Price Coverage'}</div>
+    <div class="adm-grid">
+      ${_admCard('EN',Math.round(en/total*100)+'%',`${en.toLocaleString()} ${L==='th'?'ใบ':'cards'}`,'ok')}
+      ${_admCard('JP',Math.round(jp/total*100)+'%',`${jp.toLocaleString()} ${L==='th'?'ใบ':'cards'}`,jp/total>0.4?'ok':'warn')}
+      ${_admCard(L==='th'?'มีทั้ง EN+JP':'Both EN+JP',both.toLocaleString(),Math.round(both/total*100)+'%','ok')}
+      ${_admCard(L==='th'?'EN เท่านั้น':'EN only',enOnly.toLocaleString(),Math.round(enOnly/total*100)+'%','warn')}
+    </div>
+
+    <div class="adm-sec-lbl">🩹 ${L==='th'?'ช่องว่างข้อมูล':'Data Gaps'}</div>
+    <div class="adm-grid">
+      ${_admCard(L==='th'?'การ์ดไม่มีราคา':'Cards w/o price',none.toLocaleString(),Math.round(none/total*100)+'%',none?'warn':'ok')}
+      ${_admCard(L==='th'?'สินค้าไม่มีรูป':'Products w/o image',prodNoImg+' / '+prods.length,'',prodNoImg?'warn':'ok')}
+      ${_admCard(L==='th'?'ราคากล่องที่ตรวจสอบ':'Verified box prices',mdVerified.toLocaleString(),'market_data','ok')}
+      ${_admCard(L==='th'?'อัตราแลกเปลี่ยน':'FX (JPY→THB)',fx.jpy_to_thb?fx.jpy_to_thb.toFixed(4):'—',fx.usd_to_thb?`USD→THB ${fx.usd_to_thb}`:'','ok')}
+    </div>
+
+    <div class="adm-sec-lbl">🇯🇵 ${L==='th'?'ชุดที่ JP ครอบคลุมน้อยสุด':'Lowest JP Coverage by Set'}</div>
+    <div class="adm-panel">
+      ${setRows.map(s=>`<div class="adm-set-row"><span class="adm-set-code">${s.code}</span>${_admBar(s.pct,s.pct>=50?'ok':'warn')}<span class="adm-set-pct">${s.pct}% <span style="color:var(--faint)">(${s.jpc}/${s.tot})</span></span></div>`).join('')}
+    </div>
+
+    <p class="footnote">${L==='th'?'ข้อมูลตลาด ณ':'Market data as of'} ${meta.generated||'—'} · status.json ${st.run_date||''} · ${L==='th'?'คำนวณฝั่ง client':'computed client-side'}</p>`;
+  show('view-admin');
+  closeMobileMenu&&closeMobileMenu();
 }
 
 // Related cards shown on the detail page: other printings of the same card,
