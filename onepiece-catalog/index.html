@@ -526,6 +526,19 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .price-box .pl{font-size:11px;color:var(--faint);margin-bottom:4px}
 .price-box .pv{font-size:26px;font-weight:800;color:var(--gold);font-family:var(--font-display);letter-spacing:-.02em;line-height:1}
 .footnote{font-size:11.5px;color:var(--soft);margin-top:16px}
+/* Related cards (card detail) */
+.rel-sec{margin-top:22px}
+.rel-lbl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.rel-count{font-size:11px;font-weight:700;color:var(--soft);background:var(--bg3);border-radius:999px;padding:2px 9px}
+.rel-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.rel-row::-webkit-scrollbar{height:6px}
+.rel-row::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:6px}
+.rel-card{flex:0 0 112px;width:112px;cursor:pointer;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:9px;transition:border-color .14s,transform .14s,box-shadow .14s}
+.rel-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.rel-card img{width:100%;aspect-ratio:.715;object-fit:cover;border-radius:7px;background:var(--bg3);display:block}
+.rel-card-name{font-size:11.5px;font-weight:600;color:var(--text);margin-top:7px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rel-card-meta{font-size:10px;color:var(--faint);margin-top:2px}
+.rel-card-price{font-size:12.5px;font-weight:800;color:var(--gold);font-family:var(--font-display);margin-top:3px}
 /* Coming-soon toast */
 .vl-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,16px);background:var(--text);color:#fff;font-size:13.5px;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:0 10px 30px rgba(16,23,42,.28);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;white-space:nowrap}
 .vl-toast.show{opacity:1;transform:translate(-50%,0)}
@@ -1988,7 +2001,6 @@ function openCharacter(name){
   const key=name.toLowerCase();
   const charMap=buildCharMap();
   const charEntry=charMap[key]||Object.values(charMap).find(c=>c.name.toLowerCase()===key)||{name,sets:[]};
-  const setCodes=charEntry.sets.length?charEntry.sets:Object.keys(D.setData).filter(code=>(D.setData[code]?.featured_characters||[]).some(c=>c.toLowerCase()===key));
 
   // Gather all cards whose card_name contains the character name
   const allCards=[];
@@ -1998,6 +2010,10 @@ function openCharacter(name){
     });
   });
   allCards.sort((a,b)=>realPrice(b)-realPrice(a));
+
+  // Sets this character actually appears in (derived from the matched cards so
+  // the count is always accurate, not dependent on featured_characters metadata).
+  const setCodes=[...new Set(allCards.map(c=>c._setCode))].sort();
 
   // Products for sets this character appears in
   const _t=f=>f?(L==='th'?f.th:f.en)||f.en||f.th||'':'';
@@ -2028,8 +2044,11 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
   const priceStr=highestPrice>0?fpL(highestPrice):'—';
   const fx=S.fx||USD_TO_THB;
 
-  // Hero
-  const setChips=setCodes.map(code=>`<span class="char-set-chip" onclick="openSetOverview('${code}')">${code}</span>`).join('');
+  // Hero — cap visible set chips so prolific characters (e.g. Luffy in 30+ sets)
+  // don't flood the header.
+  const SET_CHIP_CAP=14;
+  const setChips=setCodes.slice(0,SET_CHIP_CAP).map(code=>`<span class="char-set-chip" onclick="openSetOverview('${code}')">${code}</span>`).join('')
+    +(setCodes.length>SET_CHIP_CAP?`<span class="char-set-chip" style="opacity:.6;cursor:default">+${setCodes.length-SET_CHIP_CAP}</span>`:'');
   const heroHtml=`
     <div class="char-hero">
       <div class="char-hero-info">
@@ -2052,7 +2071,7 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
         const prStr=pr>0?fpL(pr):'—';
         const img=c.card_image||'';
         const cid=c.card_number||c.card_image_id||'';
-        return`<div class="char-top-card" onclick="openCard('${cid}','${c._setCode}')">
+        return`<div class="char-top-card" onclick="jumpCard('${c._setCode}','${c.card_image_id}')">
           ${img?`<img src="${img}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
           <div class="char-top-card-info">
             <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
@@ -2109,7 +2128,7 @@ function renderCharAllCards(allCards,filterCode){
     const pr=realPrice(c);
     const prStr=pr>0?fpL(pr):'—';
     const cid=c.card_number||c.card_image_id||'';
-    return`<div class="char-top-card" onclick="openCard('${cid}','${c._setCode}')">
+    return`<div class="char-top-card" onclick="jumpCard('${c._setCode}','${c.card_image_id}')">
       ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
       <div class="char-top-card-info">
         <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
@@ -3071,6 +3090,26 @@ function renderMarkets(c){
   if(other)html+=langSwitchLink(other,L);
   return html;
 }
+// Related cards shown on the detail page: other printings of the same card,
+// then the other most-valuable cards from the same set. Pure existing-data.
+function relatedCardsHtml(c){
+  const L=S.lang;
+  const setCards=D.cache[S.setCode]||[];
+  const num=c.card_set_id;
+  const versions=setCards.filter(x=>x.card_set_id===num&&x.card_image_id!==c.card_image_id);
+  const more=setCards.filter(x=>x.card_set_id!==num&&realPrice(x)>0)
+    .sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,10);
+  const mini=x=>`<div class="rel-card" onclick="jumpCard('${S.setCode}','${x.card_image_id}')">
+      <img src="${x.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div class="rel-card-name">${chaseBase(x.card_name)}</div>
+      <div class="rel-card-meta">${x.rarity||''}</div>
+      <div class="rel-card-price">${fpL(realPrice(x))}</div>
+    </div>`;
+  let html='';
+  if(versions.length)html+=`<div class="rel-sec"><div class="rel-lbl">${L==='th'?'เวอร์ชันอื่นของการ์ดนี้':'Other Versions of This Card'} <span class="rel-count">${versions.length}</span></div><div class="rel-row">${versions.map(mini).join('')}</div></div>`;
+  if(more.length)html+=`<div class="rel-sec"><div class="rel-lbl">${L==='th'?'การ์ดเด่นอื่นในชุดนี้':'More in This Set'}</div><div class="rel-row">${more.map(mini).join('')}</div></div>`;
+  return html;
+}
 function openCard(idx){
   const c=S.shown[idx];S.lastIdx=idx;
   const L=S.lang;
@@ -3099,6 +3138,7 @@ function openCard(idx){
     <div class="price-hd"><span style="font-size:15px;font-weight:700">${L==='th'?'ราคา':'Price'} <span style="color:var(--soft);font-weight:600">· ${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     ${renderMarkets(c)}
     <div class="mkt-note neutral"><span class="mkt-note-ic">⚠️</span><span>${L==='th'?'ราคาการ์ดดิบ ยังไม่ได้ส่งเกรด PSA':'Raw card price — ungraded, not PSA graded.'}</span></div>
+    ${relatedCardsHtml(c)}
     <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
   setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
   show('view-detail');
