@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{--bg:#f6f8fc;--bg2:#ffffff;--bg3:#eef2fb;--border:rgba(15,23,42,.08);--bord2:rgba(15,23,42,.15);--gold:#3b6fe0;--golds:rgba(59,111,224,.10);--text:#101728;--soft:#5b6478;--faint:#94a0b8;--teal:#0d9488;--teals:rgba(13,148,136,.12);--blue:#2563eb;--blues:rgba(37,99,235,.12);--green:#16a34a;--purple:#8b5cf6;--purples:rgba(139,92,246,.12);--shadow:0 1px 2px rgba(16,23,42,.04),0 6px 18px rgba(16,23,42,.06);--shadow-hover:0 12px 28px rgba(59,111,224,.16);--font-display:'Outfit',system-ui,sans-serif;--ease-out:cubic-bezier(0.25,0.46,0.45,0.94);
 /* Chase/manga highlight tokens reuse the existing chase-rank gold accent
@@ -491,6 +492,71 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .color-chip.on[data-col="Multi"]{background:rgba(205,168,103,.15);color:var(--gold);border-color:var(--gold)}
 /* Type filter */
 .type-sel{font-size:12px;padding:5px 8px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
+/* ── AUTH MODAL ── */
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:16px}
+.auth-modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px 28px;width:100%;max-width:400px;box-shadow:0 24px 64px rgba(0,0,0,.22);position:relative}
+.auth-modal-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--faint);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:color .15s}
+.auth-modal-close:hover{color:var(--text)}
+.auth-logo{font-size:28px;margin-bottom:4px}
+.auth-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px}
+.auth-sub{font-size:13px;color:var(--soft);margin-bottom:24px}
+.auth-input{width:100%;padding:12px 14px;border:1px solid var(--bord2);border-radius:10px;background:var(--bg3);color:var(--text);font-size:14px;outline:none;box-sizing:border-box;transition:border-color .15s;margin-bottom:12px}
+.auth-input:focus{border-color:var(--gold)}
+.auth-btn{width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .15s;margin-bottom:10px}
+.auth-btn:hover{opacity:.88}
+.auth-btn:disabled{opacity:.5;cursor:default}
+.auth-btn.secondary{background:var(--bg3);color:var(--text);border:1px solid var(--bord2)}
+.auth-msg{font-size:13px;text-align:center;padding:10px 14px;border-radius:8px;margin-bottom:10px}
+.auth-msg.ok{background:rgba(74,222,128,.12);color:#4ade80}
+.auth-msg.err{background:rgba(239,68,68,.12);color:#f87171}
+.auth-divider{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:12px;margin:12px 0}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-footer{font-size:11px;color:var(--faint);text-align:center;margin-top:16px}
+/* ── NAV USER STATE ── */
+.user-chip{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text);transition:border-color .15s;flex-shrink:0}
+.user-chip:hover{border-color:var(--gold)}
+.user-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+/* ── COMMENTS ── */
+.comments-wrap{margin-top:18px}
+.comments-hd{font-size:13px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.comment-list{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.comment-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+.comment-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.comment-avatar{width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.comment-user{font-size:12px;font-weight:700;color:var(--text)}
+.comment-time{font-size:11px;color:var(--faint);margin-left:auto}
+.comment-body{font-size:13px;color:var(--text);line-height:1.5}
+.comment-del{background:none;border:none;color:var(--faint);font-size:11px;cursor:pointer;padding:2px 6px;border-radius:4px;margin-left:6px;transition:color .15s}
+.comment-del:hover{color:#f87171}
+.comment-form{display:flex;flex-direction:column;gap:8px}
+.comment-textarea{width:100%;padding:10px 12px;border:1px solid var(--bord2);border-radius:9px;background:var(--bg3);color:var(--text);font-size:13px;resize:vertical;min-height:72px;outline:none;box-sizing:border-box;font-family:inherit;transition:border-color .15s}
+.comment-textarea:focus{border-color:var(--gold)}
+.comment-submit{align-self:flex-end;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.comment-submit:hover{opacity:.88}
+.comment-login-cta{font-size:13px;color:var(--faint);padding:10px 0;text-align:center}
+.comment-login-cta a{color:var(--gold);cursor:pointer;font-weight:700}
+/* ── TRADE LIST ── */
+.trade-wrap{margin-top:18px}
+.trade-hd{font-size:13px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.trade-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.trade-item{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:8px}
+.trade-type{font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;flex-shrink:0}
+.trade-type.have{background:rgba(74,222,128,.12);color:#4ade80}
+.trade-type.want{background:rgba(239,68,68,.12);color:#f87171}
+.trade-user{font-size:12px;color:var(--text);flex:1}
+.trade-price{font-size:12px;font-weight:700;color:var(--gold)}
+.trade-btn-row{display:flex;gap:8px}
+.trade-add-btn{flex:1;padding:9px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.trade-add-btn.have{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+.trade-add-btn.want{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+.trade-add-btn:hover{opacity:.8}
+/* ── PROFILE VIEW ── */
+.profile-hero{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:20px;background:var(--bg2);border:1px solid var(--border);border-radius:16px}
+.profile-avatar-lg{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0}
+.profile-name{font-size:20px;font-weight:800;color:var(--text)}
+.profile-sub{font-size:13px;color:var(--soft);margin-top:2px}
+.profile-share-btn{margin-left:auto;background:var(--bg3);border:1px solid var(--bord2);color:var(--soft);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;transition:border-color .15s}
+.profile-share-btn:hover{border-color:var(--gold);color:var(--gold)}
 /* ── COMPARE TRAY ── */
 #compare-tray{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg2);border-top:2px solid var(--gold);padding:10px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 -4px 24px rgba(0,0,0,.25);transition:transform .25s}
 .cmp-slot{flex:1;max-width:160px;background:var(--bg3);border:1px dashed var(--bord2);border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--soft);min-height:44px}
@@ -1090,7 +1156,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <div id="srch-drop" class="srch-drop"></div>
     </div>
     <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
-    <button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="alert(S.lang==='th'?'ระบบเข้าสู่ระบบกำลังจะมาเร็ว ๆ นี้':'Login is coming soon');closeMobileMenu()">เข้าสู่ระบบ</button>
+    <div id="nav-auth-area">
+      <button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="openAuthModal();closeMobileMenu()">เข้าสู่ระบบ</button>
+    </div>
     <button class="menu-btn" id="menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
   </div>
 </header>
@@ -1339,6 +1407,64 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 
 <!-- COMPARE TRAY (floating, always visible when ≥1 card selected) -->
 <div id="compare-tray" style="display:none"></div>
+
+<!-- AUTH MODAL -->
+<div id="auth-overlay" style="display:none" onclick="if(event.target===this)closeAuthModal()">
+  <div class="auth-modal">
+    <button class="auth-modal-close" onclick="closeAuthModal()">✕</button>
+    <div id="auth-panel-login">
+      <div class="auth-logo">⚓</div>
+      <div class="auth-title t" data-th="เข้าสู่ระบบ Voyage Log" data-en="Sign in to Voyage Log">เข้าสู่ระบบ Voyage Log</div>
+      <div class="auth-sub t" data-th="รับ Magic Link ทางอีเมล ไม่ต้องจำรหัสผ่าน" data-en="Get a Magic Link via email. No password needed.">รับ Magic Link ทางอีเมล ไม่ต้องจำรหัสผ่าน</div>
+      <div id="auth-msg" style="display:none" class="auth-msg"></div>
+      <input id="auth-email" class="auth-input" type="email" placeholder="อีเมลของคุณ / Your email" autocomplete="email">
+      <button class="auth-btn" id="auth-magic-btn" onclick="sendMagicLink()">
+        <span class="t" data-th="ส่ง Magic Link" data-en="Send Magic Link">ส่ง Magic Link</span>
+      </button>
+      <div class="auth-divider"><span class="t" data-th="หรือ" data-en="or">หรือ</span></div>
+      <button class="auth-btn secondary" onclick="showPasswordPanel()">
+        <span class="t" data-th="เข้าสู่ระบบด้วยรหัสผ่าน" data-en="Sign in with password">เข้าสู่ระบบด้วยรหัสผ่าน</span>
+      </button>
+      <div class="auth-footer t" data-th="สมัครสมาชิกฟรี — ใส่อีเมลแล้วกด Send Magic Link" data-en="Free account — enter email and click Send Magic Link">สมัครสมาชิกฟรี — ใส่อีเมลแล้วกด Send Magic Link</div>
+    </div>
+    <div id="auth-panel-password" style="display:none">
+      <div class="auth-logo">🔑</div>
+      <div class="auth-title t" data-th="ใช้รหัสผ่าน" data-en="Use password">ใช้รหัสผ่าน</div>
+      <div id="auth-msg2" style="display:none" class="auth-msg"></div>
+      <input id="auth-email2" class="auth-input" type="email" placeholder="อีเมล / Email" autocomplete="email">
+      <input id="auth-pass" class="auth-input" type="password" placeholder="รหัสผ่าน / Password" autocomplete="current-password">
+      <button class="auth-btn" onclick="signInPassword()">
+        <span class="t" data-th="เข้าสู่ระบบ" data-en="Sign in">เข้าสู่ระบบ</span>
+      </button>
+      <button class="auth-btn secondary" onclick="showRegisterPanel()">
+        <span class="t" data-th="สมัครสมาชิกใหม่" data-en="Create account">สมัครสมาชิกใหม่</span>
+      </button>
+      <button class="auth-btn secondary" onclick="showLoginPanel()" style="margin-top:4px">
+        <span class="t" data-th="← ใช้ Magic Link แทน" data-en="← Use Magic Link instead">← ใช้ Magic Link แทน</span>
+      </button>
+    </div>
+    <div id="auth-panel-register" style="display:none">
+      <div class="auth-logo">✨</div>
+      <div class="auth-title t" data-th="สมัครสมาชิก" data-en="Create account">สมัครสมาชิก</div>
+      <div id="auth-msg3" style="display:none" class="auth-msg"></div>
+      <input id="auth-email3" class="auth-input" type="email" placeholder="อีเมล / Email" autocomplete="email">
+      <input id="auth-pass3" class="auth-input" type="password" placeholder="รหัสผ่าน (min 6 ตัว)" autocomplete="new-password">
+      <button class="auth-btn" onclick="signUpPassword()">
+        <span class="t" data-th="สมัครสมาชิก" data-en="Create account">สมัครสมาชิก</span>
+      </button>
+      <button class="auth-btn secondary" onclick="showLoginPanel()">
+        <span class="t" data-th="← กลับ" data-en="← Back">← กลับ</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE VIEW -->
+<main class="app" id="view-profile" style="display:none">
+  <div class="crumb" id="crumb-profile"></div>
+  <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับ" data-en="Back">กลับ</span></button>
+  <div id="profile-content"></div>
+</main>
 
 <main class="app" id="view-search" style="display:none">
   <div class="crumb" id="crumb-srch"></div>
@@ -1636,7 +1762,7 @@ function toggleCur(){
 }
 
 function show(id){
-  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection','view-admin','view-chase','view-compare'].forEach(v=>{
+  ['view-home','view-sets','view-set-overview','view-cards','view-detail','view-search','view-product','view-character','view-collection','view-admin','view-chase','view-compare','view-profile'].forEach(v=>{
     const el=document.getElementById(v);if(el)el.style.display=v===id?'block':'none';
   });
   const art=document.getElementById('site-art');
@@ -3948,11 +4074,328 @@ function openCard(idx){
     <div class="mkt-note neutral"><span class="mkt-note-ic">⚠️</span><span>${L==='th'?'ราคาการ์ดดิบ ยังไม่ได้ส่งเกรด PSA':'Raw card price — ungraded, not PSA graded.'}</span></div>
     ${priceHistoryChart(c)}
     ${relatedCardsHtml(c)}
+    <div id="trade-section"></div>
+    <div id="comments-section"></div>
     <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
+  document.getElementById('detail-card').dataset.cardId=c.card_image_id;
   setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
   show('view-detail');
+  _loadComments(c.card_image_id);
+  _loadTradeList(c.card_image_id);
 }
 init();
+
+/* ═══════════════════════════════════════════════
+   PHASE 3 — COMMUNITY (Supabase)
+═══════════════════════════════════════════════ */
+const SUPA_URL='https://llelqoscomzlbuiynvys.supabase.co';
+const SUPA_KEY='sb_publishable_BZTS4R6jwQ7wVnlq_N28Xw_xTmBpo-l';
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+
+let _user=null;
+
+sb.auth.onAuthStateChange(async(event,session)=>{
+  _user=session?.user||null;
+  _updateNavAuth();
+  if(event==='SIGNED_IN'){
+    await _syncCollectionToCloud();
+    if(document.getElementById('view-detail').style.display==='block'){
+      const id=document.getElementById('detail-card')?.dataset?.cardId;
+      if(id){_loadComments(id);_loadTradeList(id);}
+    }
+  }
+});
+
+// ── AUTH UI ──────────────────────────────────────
+function openAuthModal(){
+  document.getElementById('auth-overlay').style.display='flex';
+  showLoginPanel();
+}
+function closeAuthModal(){document.getElementById('auth-overlay').style.display='none';}
+function showLoginPanel(){_showAuthPanel('auth-panel-login');}
+function showPasswordPanel(){_showAuthPanel('auth-panel-password');}
+function showRegisterPanel(){_showAuthPanel('auth-panel-register');}
+function _showAuthPanel(id){
+  ['auth-panel-login','auth-panel-password','auth-panel-register'].forEach(p=>{
+    document.getElementById(p).style.display=p===id?'block':'none';
+  });
+}
+
+async function sendMagicLink(){
+  const email=document.getElementById('auth-email').value.trim();
+  if(!email){return;}
+  const btn=document.getElementById('auth-magic-btn');
+  btn.disabled=true;
+  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.href}});
+  if(error){
+    _authMsg('auth-msg','err',error.message);
+  }else{
+    _authMsg('auth-msg','ok',S.lang==='th'?'ส่ง Magic Link แล้ว ตรวจสอบอีเมลของคุณ ✓':'Magic Link sent! Check your email ✓');
+  }
+  btn.disabled=false;
+}
+
+async function signInPassword(){
+  const email=document.getElementById('auth-email2').value.trim();
+  const pass=document.getElementById('auth-pass').value;
+  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){_authMsg('auth-msg2','err',error.message);}
+  else{closeAuthModal();}
+}
+
+async function signUpPassword(){
+  const email=document.getElementById('auth-email3').value.trim();
+  const pass=document.getElementById('auth-pass3').value;
+  const {error}=await sb.auth.signUp({email,password:pass});
+  if(error){_authMsg('auth-msg3','err',error.message);}
+  else{_authMsg('auth-msg3','ok',S.lang==='th'?'สมัครสำเร็จ! ตรวจอีเมลเพื่อยืนยัน':'Account created! Check email to confirm.');}
+}
+
+function _authMsg(elId,type,msg){
+  const el=document.getElementById(elId);
+  el.className='auth-msg '+type;
+  el.textContent=msg;
+  el.style.display='block';
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  _user=null;
+  _updateNavAuth();
+}
+
+function _updateNavAuth(){
+  const area=document.getElementById('nav-auth-area');
+  if(!area)return;
+  if(_user){
+    const uname=_user.user_metadata?.username||_user.email?.split('@')[0]||'User';
+    const color=_avatarColor(uname);
+    area.innerHTML=`<div class="user-chip" onclick="openMyProfile()">
+      <div class="user-avatar" style="background:${color}">${uname[0].toUpperCase()}</div>
+      <span>${uname}</span>
+    </div>`;
+  }else{
+    area.innerHTML=`<button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="openAuthModal();closeMobileMenu()">เข้าสู่ระบบ</button>`;
+  }
+  applyLang();
+}
+
+function _avatarColor(str){
+  const colors=['#3b6fe0','#8b5cf6','#0d9488','#e0603b','#e0b83b','#3be085'];
+  let h=0;for(let i=0;i<str.length;i++)h=(h*31+str.charCodeAt(i))&0xffff;
+  return colors[h%colors.length];
+}
+
+// ── CLOUD COLLECTION SYNC ─────────────────────────
+async function _syncCollectionToCloud(){
+  if(!_user)return;
+  const local=JSON.parse(localStorage.getItem('voyage_collection')||'[]');
+  if(!local.length)return;
+  const rows=local.map(id=>({user_id:_user.id,card_image_id:id}));
+  await sb.from('collections').upsert(rows,{onConflict:'user_id,card_image_id',ignoreDuplicates:true});
+}
+
+async function _toggleCloudCollection(cardImageId){
+  if(!_user)return;
+  const {data}=await sb.from('collections').select('id').eq('user_id',_user.id).eq('card_image_id',cardImageId).maybeSingle();
+  if(data){
+    await sb.from('collections').delete().eq('id',data.id);
+  }else{
+    await sb.from('collections').insert({user_id:_user.id,card_image_id:cardImageId});
+  }
+}
+
+// ── COMMENTS ────────────────────────────────────
+async function _loadComments(cardImageId){
+  const wrap=document.getElementById('comments-section');
+  if(!wrap)return;
+  wrap.innerHTML='<div style="color:var(--faint);font-size:13px;padding:8px 0">กำลังโหลด...</div>';
+  const {data,error}=await sb.from('comments')
+    .select('id,body,created_at,user_id,profiles(username,avatar_color)')
+    .eq('card_image_id',cardImageId)
+    .order('created_at',{ascending:false})
+    .limit(50);
+  if(error){wrap.innerHTML='';return;}
+  _renderComments(wrap,cardImageId,data||[]);
+}
+
+function _renderComments(wrap,cardImageId,items){
+  const L=S.lang;
+  let html=`<div class="comments-wrap"><div class="comments-hd">💬 ${L==='th'?'ความคิดเห็น':'Comments'} <span style="color:var(--faint);font-weight:400">(${items.length})</span></div>`;
+  if(items.length){
+    html+='<div class="comment-list">';
+    items.forEach(c=>{
+      const uname=c.profiles?.username||'User';
+      const color=c.profiles?.avatar_color||_avatarColor(uname);
+      const ts=new Date(c.created_at).toLocaleDateString(L==='th'?'th-TH':'en-US',{day:'numeric',month:'short'});
+      const canDel=_user&&_user.id===c.user_id;
+      html+=`<div class="comment-item">
+        <div class="comment-meta">
+          <div class="comment-avatar" style="background:${color}">${uname[0].toUpperCase()}</div>
+          <span class="comment-user">${uname}</span>
+          <span class="comment-time">${ts}</span>
+          ${canDel?`<button class="comment-del" onclick="_deleteComment('${c.id}','${cardImageId}')">🗑</button>`:''}
+        </div>
+        <div class="comment-body">${_esc(c.body)}</div>
+      </div>`;
+    });
+    html+='</div>';
+  }
+  if(_user){
+    html+=`<div class="comment-form">
+      <textarea class="comment-textarea" id="comment-input-${cardImageId}" placeholder="${L==='th'?'เขียนความคิดเห็น...':'Write a comment...'}" maxlength="500"></textarea>
+      <button class="comment-submit" onclick="_postComment('${cardImageId}')">${L==='th'?'ส่ง':'Post'}</button>
+    </div>`;
+  }else{
+    html+=`<div class="comment-login-cta">${L==='th'?'<a onclick="openAuthModal()">เข้าสู่ระบบ</a> เพื่อแสดงความคิดเห็น':'<a onclick="openAuthModal()">Sign in</a> to comment'}</div>`;
+  }
+  html+='</div>';
+  wrap.innerHTML=html;
+}
+
+async function _postComment(cardImageId){
+  const ta=document.getElementById('comment-input-'+cardImageId);
+  const body=(ta?.value||'').trim();
+  if(!body||!_user)return;
+  ta.disabled=true;
+  const {error}=await sb.from('comments').insert({user_id:_user.id,card_image_id:cardImageId,body});
+  ta.disabled=false;
+  if(!error){ta.value='';_loadComments(cardImageId);}
+}
+
+async function _deleteComment(commentId,cardImageId){
+  if(!_user)return;
+  await sb.from('comments').delete().eq('id',commentId).eq('user_id',_user.id);
+  _loadComments(cardImageId);
+}
+
+function _esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── TRADE LISTS ──────────────────────────────────
+async function _loadTradeList(cardImageId){
+  const wrap=document.getElementById('trade-section');
+  if(!wrap)return;
+  const {data}=await sb.from('trade_lists')
+    .select('id,trade_type,condition,price_thb,notes,user_id,profiles(username,avatar_color)')
+    .eq('card_image_id',cardImageId)
+    .order('created_at',{ascending:false})
+    .limit(30);
+  _renderTradeList(wrap,cardImageId,data||[]);
+}
+
+function _renderTradeList(wrap,cardImageId,items){
+  const L=S.lang;
+  const haves=items.filter(x=>x.trade_type==='have');
+  const wants=items.filter(x=>x.trade_type==='want');
+  const myHave=_user&&items.find(x=>x.user_id===_user.id&&x.trade_type==='have');
+  const myWant=_user&&items.find(x=>x.user_id===_user.id&&x.trade_type==='want');
+
+  let html=`<div class="trade-wrap"><div class="trade-hd">🔄 ${L==='th'?'แลกเปลี่ยน':'Trade'}</div>`;
+
+  if(haves.length||wants.length){
+    html+='<div class="trade-list">';
+    haves.forEach(t=>{
+      const u=t.profiles?.username||'User';
+      html+=`<div class="trade-item"><span class="trade-type have">มี</span><span class="trade-user">${_esc(u)}</span>${t.price_thb?`<span class="trade-price">฿${Math.round(t.price_thb).toLocaleString()}</span>`:''}</div>`;
+    });
+    wants.forEach(t=>{
+      const u=t.profiles?.username||'User';
+      html+=`<div class="trade-item"><span class="trade-type want">ต้องการ</span><span class="trade-user">${_esc(u)}</span></div>`;
+    });
+    html+='</div>';
+  }
+
+  if(_user){
+    html+=`<div class="trade-btn-row">
+      <button class="trade-add-btn have" onclick="_toggleTrade('${cardImageId}','have')">${myHave?'✓ มีการ์ดนี้':'+ มีการ์ดนี้'}</button>
+      <button class="trade-add-btn want" onclick="_toggleTrade('${cardImageId}','want')">${myWant?'✓ ต้องการ':'+ ต้องการ'}</button>
+    </div>`;
+  }else{
+    html+=`<div class="comment-login-cta">${L==='th'?'<a onclick="openAuthModal()">เข้าสู่ระบบ</a> เพื่อลงรายการแลก':'<a onclick="openAuthModal()">Sign in</a> to add trade listing'}</div>`;
+  }
+  html+='</div>';
+  wrap.innerHTML=html;
+}
+
+async function _toggleTrade(cardImageId,type){
+  if(!_user)return;
+  const {data}=await sb.from('trade_lists').select('id').eq('user_id',_user.id).eq('card_image_id',cardImageId).eq('trade_type',type).maybeSingle();
+  if(data){
+    await sb.from('trade_lists').delete().eq('id',data.id);
+  }else{
+    await sb.from('trade_lists').insert({user_id:_user.id,card_image_id:cardImageId,trade_type:type});
+  }
+  _loadTradeList(cardImageId);
+}
+
+// ── PROFILE PAGE ─────────────────────────────────
+function openMyProfile(){
+  if(!_user){openAuthModal();return;}
+  openProfile(_user.id,true);
+}
+
+async function openProfile(userId,isOwn){
+  show('view-profile');
+  const L=S.lang;
+  const el=document.getElementById('profile-content');
+  el.innerHTML='<div style="color:var(--faint);padding:24px 0;text-align:center">กำลังโหลด...</div>';
+
+  const [{data:prof},{data:coll},{data:trades}]=await Promise.all([
+    sb.from('profiles').select('*').eq('id',userId).maybeSingle(),
+    sb.from('collections').select('card_image_id').eq('user_id',userId),
+    sb.from('trade_lists').select('card_image_id,trade_type').eq('user_id',userId)
+  ]);
+
+  const uname=prof?.username||'User';
+  const color=prof?.avatar_color||_avatarColor(uname);
+  const collIds=(coll||[]).map(x=>x.card_image_id);
+  const haveIds=(trades||[]).filter(x=>x.trade_type==='have').map(x=>x.card_image_id);
+
+  let html=`<div class="profile-hero">
+    <div class="profile-avatar-lg" style="background:${color}">${uname[0].toUpperCase()}</div>
+    <div>
+      <div class="profile-name">${_esc(uname)}</div>
+      <div class="profile-sub">${collIds.length} ${L==='th'?'การ์ดในคอลเลคชั่น':'cards in collection'} · ${haveIds.length} ${L==='th'?'รายการแลก':'for trade'}</div>
+    </div>
+    ${isOwn?`<button class="profile-share-btn" onclick="_shareProfile()">🔗 ${L==='th'?'แชร์':'Share'}</button><button class="profile-share-btn" onclick="signOut()" style="margin-left:8px;color:#f87171;border-color:rgba(248,113,113,.3)">ออกจากระบบ</button>`:''}
+  </div>`;
+
+  if(collIds.length){
+    const cards=flat().filter(c=>collIds.includes(c.card_image_id)).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,48);
+    html+=`<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">${L==='th'?'คอลเลคชั่น':'Collection'} (${collIds.length})</div>`;
+    html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${c.card_image_id.replace(/-\d{3}.*$/,'')}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div></div>`).join('')}</div>`;
+  }else{
+    html+=`<div style="text-align:center;padding:48px 0;color:var(--faint)">${L==='th'?'ยังไม่มีการ์ดในคอลเลคชั่น':'No cards in collection yet'}</div>`;
+  }
+
+  el.innerHTML=html;
+  setCrumb('crumb-profile',`/ ${uname}`);
+}
+
+function _shareProfile(){
+  const url=`${location.origin}${location.pathname}?profile=${_user?.id}`;
+  if(navigator.share){navigator.share({title:'Voyage Log Collection',url});}
+  else{navigator.clipboard.writeText(url).then(()=>alert(S.lang==='th'?'คัดลอกลิงก์แล้ว!':'Link copied!'));}
+}
+
+// Handle magic link redirect — clean token from URL after Supabase processes it
+if(location.hash&&location.hash.includes('access_token')){
+  setTimeout(()=>history.replaceState(null,'',location.pathname),1500);
+}
+
+// Handle shared profile links: ?profile=<uuid>
+(()=>{
+  const uid=new URLSearchParams(location.search).get('profile');
+  if(!uid)return;
+  history.replaceState(null,'',location.pathname);
+  // Wait for data load then open
+  const _wait=setInterval(()=>{
+    if(Object.keys(D.cache||{}).length>0||D._loaded){
+      clearInterval(_wait);openProfile(uid,false);
+    }
+  },400);
+  setTimeout(()=>clearInterval(_wait),8000);
+})();
 </script>
 </body>
 </html>
