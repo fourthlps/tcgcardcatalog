@@ -354,6 +354,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .mtrend-age{font-size:10px;color:var(--faint);margin-left:auto;letter-spacing:.01em}
 .sample-note{font-size:10.5px;color:var(--faint);background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;margin-bottom:10px;line-height:1.5}
 .mtrend-body{display:flex;gap:12px;align-items:center}
+.mtrend-body+.mtrend-body{margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
+.mtrend-rank{font-size:11px;font-weight:800;color:var(--faint);font-family:var(--font-display);width:14px;flex-shrink:0;text-align:center}
 .mtrend-img{width:46px;height:64px;object-fit:cover;border-radius:6px;background:var(--bg3);flex-shrink:0}
 .mtrend-name{font-size:12.5px;font-weight:600;line-height:1.3;margin-bottom:3px}
 .mtrend-price{font-size:14px;font-weight:700;color:var(--gold);font-family:var(--font-display)}
@@ -1471,13 +1473,14 @@ function trendEntryHtml(entry){
 }
 
 // Build a single trend entry row from a raw card object in the trend JSON
-function trendEntryFromJson(card,L){
+function trendEntryFromJson(card,L,rank){
   const sign=card.price_change_percent>=0?'+':'';
   const pct=card.price_change_percent;
   const up=pct>=0;
   const pill=`<span class="trend-pill ${up?'up':'down'}">${up?'▲':'▼'} ${sign}${pct.toFixed(2)}%</span>`;
   const priceDisplay=fpL(card.today_price_usd);
-  return `<div class="mtrend-body">
+  const rk=rank!=null?`<span class="mtrend-rank">${rank}</span>`:'';
+  return `<div class="mtrend-body">${rk}
       <img class="mtrend-img" src="${card.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
         <div class="mtrend-name">${chaseBase(card.card_name)}</div>
@@ -1507,7 +1510,8 @@ function topValueFallback(rank){
   const sorted=flat().filter(c=>realPrice(c)>0).sort((a,b)=>realPrice(b)-realPrice(a));
   const c=sorted[rank];
   if(!c)return'';
-  return `<div class="mtrend-body" style="cursor:pointer" onclick="openCard('${c.card_number||c.card_id||''}','${(c.set_id||'').replace('OP-0','OP-0')}')">
+  return `<div class="mtrend-body">
+      <span class="mtrend-rank">${rank+1}</span>
       <img class="mtrend-img" src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
         <div class="mtrend-name">${chaseBase(c.card_name)}</div>
@@ -1529,14 +1533,15 @@ function renderTrend(){
   const gainerAgeLabel=trendAgeLabel(gainersData,L);
   const loserAgeLabel=trendAgeLabel(losersData,L);
 
-  // When trend history hasn't accumulated yet, show top-value cards as fallback
-  // so the section always has real market data instead of a pending message.
+  // Show the top 5 movers per direction. When trend history hasn't accumulated
+  // yet, fall back to top-value cards so the section always has real data.
+  const TREND_N=5;
   const gainerContent=gainers.length
-    ?trendEntryFromJson(gainers[0],L)
-    :topValueFallback(0);
+    ?gainers.slice(0,TREND_N).map((g,i)=>trendEntryFromJson(g,L,i+1)).join('')
+    :Array.from({length:TREND_N},(_,i)=>topValueFallback(i)).join('');
   const loserContent=losers.length
-    ?trendEntryFromJson(losers[0],L)
-    :topValueFallback(1);
+    ?losers.slice(0,TREND_N).map((g,i)=>trendEntryFromJson(g,L,i+1)).join('')
+    :Array.from({length:TREND_N},(_,i)=>topValueFallback(TREND_N+i)).join('');
 
   const gainerTitle=gainers.length
     ?(L==='th'?'ราคาขึ้นแรง':'Trending Up')
@@ -1547,14 +1552,16 @@ function renderTrend(){
   const gainerIc=gainers.length?'📈':'💎';
   const loserIc=losers.length?'📉':'💰';
 
-  const chaseCardHtml=top?`
+  const chaseList=chasePicks(5);
+  const chaseCardHtml=chaseList.length?chaseList.map((tp,i)=>`
       <div class="mtrend-body">
-        <img class="mtrend-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
+        <span class="mtrend-rank">${i+1}</span>
+        <img class="mtrend-img" src="${tp.card_image||''}" onerror="this.style.visibility='hidden'">
         <div>
-          <div class="mtrend-name">${chaseBase(top.card_name)}</div>
-          <div class="mtrend-price">${fpL(realPrice(top))}</div>
+          <div class="mtrend-name">${chaseBase(tp.card_name)}</div>
+          <div class="mtrend-price">${fpL(realPrice(tp))}</div>
         </div>
-      </div>`:`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
+      </div>`).join(''):`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card${gainerContent?' live':''}">
@@ -2945,7 +2952,10 @@ function renderMarkets(c){
     entries=[{source_market:'EN',source_name:'TCGPlayer',source_currency:'USD',source_price:Number(c.market_price),price_type:'Market Price',confidence:'High'}];
   }
   if(!entries.length)return `<div class="mkt-card"><div class="mkt-label">${L==='th'?'ยังไม่มีข้อมูลราคา':'No price data yet'}</div></div>`;
-  const order={EN:0,JP:1,TH:2};
+  // Lead with the market that matches the card's language context: a JP card
+  // shows JP Retail Reference first, an EN card shows EN Market Price first.
+  // The other market still renders below as secondary reference.
+  const order=S.cardLang==='jp'?{JP:0,EN:1,TH:2}:{EN:0,JP:1,TH:2};
   entries.sort((a,b)=>(order[a.source_market]??9)-(order[b.source_market]??9));
   return entries.map(m=>marketCard(m,L,c)).join('');
 }
