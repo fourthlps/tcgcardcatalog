@@ -538,6 +538,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .mkt-est-tag{font-size:10px;color:var(--faint);font-weight:500;margin-left:5px}
 .mkt-src{font-size:11px;color:var(--faint);margin-top:6px}
 .mkt-note{font-size:10.5px;color:var(--faint);margin-top:7px;line-height:1.45;border-top:1px solid var(--border);padding-top:6px}
+/* Language-version switch link (other version's price lives on its own page) */
+.ver-switch{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;background:transparent;border:1px dashed var(--bord2);border-radius:10px;padding:11px 14px;margin-top:2px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .12s,background .12s}
+.ver-switch:hover{border-color:var(--gold);background:var(--bg3)}
+.ver-switch-main{font-size:12.5px;font-weight:600;color:var(--text)}
+.ver-switch-price{font-size:12.5px;font-weight:700;color:var(--faint);white-space:nowrap}
 /* Enhanced price section: today + yesterday comparison */
 .price-main-box{background:var(--bg3);border-radius:10px;padding:14px 16px;margin-bottom:10px}
 .price-main-label{font-size:10.5px;color:var(--faint);margin-bottom:3px}
@@ -1242,6 +1247,22 @@ function tilePrice(c){
     if(jp)return '¥'+Math.round(jp.source_price).toLocaleString();
   }
   return fp(realPrice(c));
+}
+// Switch the open card to its other language version (flips which version's
+// price the detail page shows) and re-render in place.
+function switchCardVer(lang){
+  S.cardLang=lang==='jp'?'jp':'en';
+  if(S.lastIdx!=null)openCard(S.lastIdx);
+}
+// The version actually being displayed: the requested language if it has a
+// price, otherwise whichever single version this card has. Keeps the name
+// badge in sync with the price shown (e.g. EN-only parallels).
+function effectiveVer(c){
+  const want=S.cardLang==='jp'?'JP':'EN';
+  if(marketFor(c,want))return want;
+  if(marketFor(c,'EN')||Number(c.market_price)>0)return 'EN';
+  if(marketFor(c,'JP'))return 'JP';
+  return want;
 }
 // Homepage currency helper: TH UI -> THB, EN UI -> USD. Uses a real THB
 // price when one is supplied (e.g. BOX set prices), otherwise converts the
@@ -2943,21 +2964,42 @@ function marketCard(m,L,c){
   }
   return '';
 }
+// A card detail page represents ONE language version and shows ONLY that
+// version's price. The other language is a SEPARATE version, reachable via a
+// switch link -- never shown as a competing second market box on the same page.
+//   Card Identity -> JP Version -> JP Price
+//   Card Identity -> EN Version -> EN Price
+function langSwitchLink(m,L){
+  const isJP=m.source_market==='JP';
+  const flag=isJP?'🇯🇵':'🇺🇸';
+  const label=isJP
+    ?(L==='th'?'ดูราคาเวอร์ชันญี่ปุ่น (JP)':'View Japanese Version')
+    :(L==='th'?'ดูราคาเวอร์ชันอังกฤษ (EN)':'View English Version');
+  const price=isJP?('¥'+Math.round(m.source_price).toLocaleString()):fp(m.source_price);
+  return `<button class="ver-switch" onclick="switchCardVer('${isJP?'jp':'en'}')">
+    <span class="ver-switch-main">${flag} ${label}</span>
+    <span class="ver-switch-price">${price} →</span>
+  </button>`;
+}
 function renderMarkets(c){
   const L=S.lang;
   let entries=marketsFor(c).slice();
-  // Transition fallback: synthesize an EN card from the legacy field if the
+  // Transition fallback: synthesize an EN version from the legacy field if the
   // market dataset hasn't loaded (or this card isn't in it yet).
   if(!entries.length&&Number(c.market_price)>0){
     entries=[{source_market:'EN',source_name:'TCGPlayer',source_currency:'USD',source_price:Number(c.market_price),price_type:'Market Price',confidence:'High'}];
   }
   if(!entries.length)return `<div class="mkt-card"><div class="mkt-label">${L==='th'?'ยังไม่มีข้อมูลราคา':'No price data yet'}</div></div>`;
-  // Lead with the market that matches the card's language context: a JP card
-  // shows JP Retail Reference first, an EN card shows EN Market Price first.
-  // The other market still renders below as secondary reference.
-  const order=S.cardLang==='jp'?{JP:0,EN:1,TH:2}:{EN:0,JP:1,TH:2};
-  entries.sort((a,b)=>(order[a.source_market]??9)-(order[b.source_market]??9));
-  return entries.map(m=>marketCard(m,L,c)).join('');
+  // Pick the version that matches the current language context; if that version
+  // has no price, fall back to whatever single version exists for this card.
+  const want=S.cardLang==='jp'?'JP':'EN';
+  const primary=entries.find(m=>m.source_market===want)||entries.find(m=>m.source_market==='EN')||entries[0];
+  // The other language version, if its price exists -- shown as a switch link.
+  const otherLang=primary.source_market==='JP'?'EN':'JP';
+  const other=entries.find(m=>m.source_market===otherLang);
+  let html=marketCard(primary,L,c);
+  if(other)html+=langSwitchLink(other,L);
+  return html;
 }
 function openCard(idx){
   const c=S.shown[idx];S.lastIdx=idx;
@@ -2969,17 +3011,20 @@ function openCard(idx){
   if(c.life)stats.push('Life '+c.life);
   if(c.card_color)stats.push(c.card_color);
   if(c.card_type)stats.push(c.card_type);
+  const ver=effectiveVer(c);
+  const verIsEN=ver==='EN';
+  const verLabel=verIsEN?(L==='th'?'เวอร์ชันอังกฤษ (EN)':'English Version'):(L==='th'?'เวอร์ชันญี่ปุ่น (JP)':'Japanese Version');
   document.getElementById('detail-card').innerHTML=`
     <div class="det-top">
       <img src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
-        <p class="det-name">${c.card_name} <span class="card-lang-tag" style="${S.cardLang==='en'?'background:rgba(34,197,94,.15);color:#4ade80':''}">${S.cardLang==='en'?'EN':'JP'}</span></p>
+        <p class="det-name">${c.card_name} <span class="card-lang-tag" style="${verIsEN?'background:rgba(34,197,94,.15);color:#4ade80':''}">${verIsEN?'EN':'JP'}</span></p>
         <span class="${rc(c.rarity)}">${c.rarity||'—'}</span>
         <div class="det-stats">${stats.map(s=>'<span>'+s+'</span>').join('')}</div>
       </div>
     </div>
     <p class="det-text">${c.card_text||''}</p>
-    <div class="price-hd"><span style="font-size:14px;font-weight:600">${L==='th'?'ราคา':'Price'}</span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
+    <div class="price-hd"><span style="font-size:14px;font-weight:600">${L==='th'?'ราคา':'Price'} · <span style="color:var(--faint);font-weight:500">${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     ${renderMarkets(c)}
     <div class="price-box" style="margin-top:2px"><div class="pl">${L==='th'?'⚠️ ราคาการ์ดดิบ (ยังไม่ได้ส่งเกรด PSA)':'⚠️ Raw card price (ungraded, not PSA)'}</div></div>
     <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
