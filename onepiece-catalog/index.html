@@ -2114,9 +2114,8 @@ function topValueFallback(rank){
     .sort((a,b)=>jpPreferredPriceThb(b)-jpPreferredPriceThb(a));
   const c=sorted[rank];
   if(!c)return'';
-  // Use imgIndex for O(1) set-code lookup instead of scanning the cache.
-  if(!D._imgIndex)D._imgIndex={};
-  const hit=D._imgIndex[c.card_image_id];
+  // Use imgIndex for O(1) set-code lookup — cardByImgId builds it lazily.
+  const hit=cardByImgId(c.card_image_id);
   const setCode=hit?hit.code:(c.set_id||'');
   const clickAttr=setCode?`onclick="jumpCard('${setCode}','${c.card_image_id}')" style="cursor:pointer"`:'';
   return `<div class="mtrend-body" ${clickAttr}>
