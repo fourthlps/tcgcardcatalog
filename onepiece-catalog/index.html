@@ -4096,11 +4096,12 @@ init();
 ═══════════════════════════════════════════════ */
 const SUPA_URL='https://llelqoscomzlbuiynvys.supabase.co';
 const SUPA_KEY='sb_publishable_BZTS4R6jwQ7wVnlq_N28Xw_xTmBpo-l';
-const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+let sb=null;
+try{sb=supabase.createClient(SUPA_URL,SUPA_KEY);}catch(e){console.warn('Supabase init failed',e);}
 
 let _user=null;
 
-sb.auth.onAuthStateChange(async(event,session)=>{
+if(sb)sb.auth.onAuthStateChange(async(event,session)=>{
   _user=session?.user||null;
   _updateNavAuth();
   if(event==='SIGNED_IN'){
