@@ -1598,6 +1598,8 @@ async function init(){
   fetch('card-markets.json').then(r=>r.ok?r.json():null).then(d=>{
     if(d&&d.markets){
       D.markets=d.markets;D.marketsMeta=d._meta||{};
+      // Refresh featured card now that verified prices are available
+      renderFC();
       const dv=document.getElementById('view-detail');
       if(dv&&dv.style.display!=='none'&&S.shown&&S.lastIdx!=null)openCard(S.lastIdx);
       const cv=document.getElementById('view-cards');
@@ -1914,7 +1916,11 @@ function renderStats(){
 
 function renderFC(){
   const cards=flat();if(!cards.length)return;
-  const top=cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]);
+  // Pick highest-priced card once and cache it — don't re-roll on language toggle
+  if(!D._featuredCard||realPrice(cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]))>realPrice(D._featuredCard)){
+    D._featuredCard=cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]);
+  }
+  const top=D._featuredCard;
   const L=S.lang;
   const setCode=Object.entries(D.cache).find(([,v])=>v.some(c=>c.card_image_id===top.card_image_id))?.[0]||'';
   const setName=D.index.find(s=>s.code===setCode)?.name||'';
