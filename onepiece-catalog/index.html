@@ -3630,8 +3630,8 @@ function paintCards(cards){
     ${isChase?'<div class="chase-star-badge">★★★★★</div>':''}
   </div>`;
   }).join('');
-  // Load comment badges async (non-blocking)
-  setTimeout(_applyCommentBadges, 200);
+  // Load comment badges only when logged in (avoids Supabase call on every render)
+  if(sb&&_user)setTimeout(_applyCommentBadges, 400);
 }
 
 // Yesterday/delta movement strip, embedded inside the EN market card.
@@ -4185,7 +4185,7 @@ function _updateNavAuth(){
   }else{
     area.innerHTML=`<button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="openAuthModal();closeMobileMenu()">เข้าสู่ระบบ</button>`;
   }
-  applyLang();
+  applyLangUI();
 }
 
 function _avatarColor(str){
@@ -4196,7 +4196,7 @@ function _avatarColor(str){
 
 // ── CLOUD COLLECTION SYNC ─────────────────────────
 async function _syncCollectionToCloud(){
-  if(!_user)return;
+  if(!sb||!_user)return;
   const local=JSON.parse(localStorage.getItem('voyage_collection')||'[]');
   if(!local.length)return;
   const rows=local.map(id=>({user_id:_user.id,card_image_id:id}));
@@ -4217,6 +4217,7 @@ async function _toggleCloudCollection(cardImageId){
 async function _loadComments(cardImageId){
   const wrap=document.getElementById('comments-section');
   if(!wrap)return;
+  if(!sb){wrap.innerHTML='';return;}
   wrap.innerHTML='<div style="color:var(--faint);font-size:13px;padding:8px 0">กำลังโหลด...</div>';
   const {data,error}=await sb.from('comments')
     .select('id,body,created_at,user_id,profiles(username,avatar_color)')
@@ -4283,6 +4284,7 @@ function _esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/
 async function _loadTradeList(cardImageId){
   const wrap=document.getElementById('trade-section');
   if(!wrap)return;
+  if(!sb){wrap.innerHTML='';return;}
   const {data}=await sb.from('trade_lists')
     .select('id,trade_type,condition,price_thb,notes,user_id,profiles(username,avatar_color)')
     .eq('card_image_id',cardImageId)
@@ -4407,7 +4409,7 @@ if(location.hash&&location.hash.includes('access_token')){
 
 // ── USERNAME SETUP ────────────────────────────────
 async function _checkUsernameSetup(){
-  if(!_user)return;
+  if(!sb||!_user)return;
   const {data}=await sb.from('profiles').select('username').eq('id',_user.id).maybeSingle();
   const uname=data?.username||'';
   // If username looks like a raw email prefix (no spaces, no custom chars), prompt to set it
@@ -4455,7 +4457,7 @@ async function _saveUsername(){
 
 // ── TRADE MATCH ALERT ────────────────────────────
 async function _checkTradeMatch(cardImageId){
-  if(!_user)return;
+  if(!sb||!_user)return;
   const wish=JSON.parse(localStorage.getItem('voyage_wishlist')||'[]');
   const coll=JSON.parse(localStorage.getItem('voyage_collection')||'[]');
 
@@ -4505,7 +4507,7 @@ function _showTradeToast(msg){
 
 // ── COMMENT COUNT BADGES (batch on set page) ─────
 async function _loadCommentCounts(cardImageIds){
-  if(!cardImageIds.length)return{};
+  if(!sb||!cardImageIds.length)return{};
   const {data}=await sb.from('comments')
     .select('card_image_id')
     .in('card_image_id',cardImageIds.slice(0,200));
