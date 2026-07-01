@@ -475,6 +475,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 /* FILTER ROW */
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
 .chip-group{display:flex;gap:5px;flex-wrap:wrap}
+.adv-filter-toggle{font-size:12px;padding:4px 12px;border-radius:999px;border:1px solid var(--bord2);background:transparent;cursor:pointer;color:var(--faint);transition:all .12s}
+.adv-filter-toggle:hover{color:var(--soft);border-color:var(--soft)}
 .chip{font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid var(--bord2);background:var(--bg2);cursor:pointer;color:var(--soft);transition:all .12s}
 .chip:hover{border-color:var(--gold)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:#ffffff}
@@ -1336,26 +1338,30 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   </div>
   <div id="cards-lang-note" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;font-size:12px;color:var(--soft);margin-bottom:12px"></div>
   <input class="search-bar" id="card-srch" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
-  <div class="filter-row">
-    <div class="chip-group" id="rarity-chips"></div>
-    <button class="cur-btn" id="cur-btn-cards" onclick="toggleCur()">🇹🇭 THB</button>
-    <select class="sort-sel" id="sort-sel" onchange="applyFilters()">
-      <option value="default">เรียงตามเลขการ์ด</option>
-      <option value="price-desc">ราคา: สูง → ต่ำ</option>
-      <option value="price-asc">ราคา: ต่ำ → สูง</option>
-    </select>
+  <!-- Primary filter row: rarity + category chips + sort/currency -->
+  <div class="filter-row" style="flex-wrap:wrap;gap:6px;align-items:center">
+    <div class="chip-group" id="rarity-chips" style="flex:1 1 auto;display:flex;flex-wrap:wrap;gap:5px"></div>
+    <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
+      <button class="cur-btn" id="cur-btn-cards" onclick="toggleCur()">🇹🇭 THB</button>
+      <select class="sort-sel" id="sort-sel" onchange="applyFilters()">
+        <option value="default">เรียงตามเลขการ์ด</option>
+        <option value="price-desc">ราคา: สูง → ต่ำ</option>
+        <option value="price-asc">ราคา: ต่ำ → สูง</option>
+      </select>
+    </div>
   </div>
-  <div class="filter-row" id="color-filter-row" style="gap:5px">
-    <div id="color-chips"></div>
-    <select class="type-sel" id="type-sel" onchange="applyFilters()">
-      <option value="">ทุกประเภท</option>
-      <option value="Leader">Leader</option>
-      <option value="Character">Character</option>
-      <option value="Event">Event</option>
-      <option value="Stage">Stage</option>
-    </select>
-    <div class="cost-filter">
-      Cost <input type="number" id="cost-min" min="0" max="20" placeholder="0" oninput="applyFilters()" style="width:40px">–<input type="number" id="cost-max" min="0" max="20" placeholder="∞" oninput="applyFilters()" style="width:40px">
+  <!-- Advanced filters: color + cost (collapsed by default) -->
+  <div style="margin-top:6px">
+    <button class="adv-filter-toggle" id="adv-filter-btn" onclick="toggleAdvFilters()">⚙ ตัวกรองขั้นสูง ▾</button>
+    <div id="adv-filter-panel" style="display:none;margin-top:8px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px">
+      <div style="font-size:11px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">สี / Color</div>
+      <div id="color-chips" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px"></div>
+      <div style="font-size:11px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">ค่าใช้จ่าย / Cost</div>
+      <div class="cost-filter">
+        <input type="number" id="cost-min" min="0" max="20" placeholder="0" oninput="applyFilters()" style="width:48px">
+        <span style="color:var(--faint)">–</span>
+        <input type="number" id="cost-max" min="0" max="20" placeholder="∞" oninput="applyFilters()" style="width:48px">
+      </div>
     </div>
   </div>
   <div class="card-grid" id="card-grid"></div>
@@ -3564,14 +3570,29 @@ function chaseIdSet(){
   return _chaseIdSet;
 }
 
+// Primary chip order: rarity first, then variant/type categories
+const PRIMARY_CHIP_ORDER=['L','C','UC','R','SR','SEC','TR','Manga','Alt Art','SP','Leader','Character','Event','Stage','Full Art','Parallel','Super Alt Art','Wanted Poster','Holo','Enchanted','Promo'];
+
 function buildRarityChips(){
-  const order=['L','C','UC','R','SR','SEC','SP','TR','PR'];
-  const rars=[...new Set(S.cards.map(c=>c.rarity).filter(Boolean))];
-  rars.sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
-  const rarityHtml=rars.map(r=>`<button class="chip" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
-  const catHtml=CATEGORY_DEFS.filter(d=>S.cards.some(d.test)).map(d=>`<button class="chip" data-r="${d.key}" onclick="toggleChip(this,'${d.key}')">${d.key}</button>`).join('');
-  document.getElementById('rarity-chips').innerHTML=rarityHtml+catHtml;
+  // Rarity chips — only those present in this set
+  const presentRar=new Set(S.cards.map(c=>c.rarity).filter(Boolean));
+  // Category chips — only those with matching cards
+  const presentCat=CATEGORY_DEFS.filter(d=>S.cards.some(d.test)).map(d=>d.key);
+  // Merge and sort by PRIMARY_CHIP_ORDER
+  const all=[...presentRar,...presentCat.filter(k=>!presentRar.has(k))];
+  all.sort((a,b)=>{
+    const ai=PRIMARY_CHIP_ORDER.indexOf(a);
+    const bi=PRIMARY_CHIP_ORDER.indexOf(b);
+    return (ai<0?99:ai)-(bi<0?99:bi);
+  });
+  document.getElementById('rarity-chips').innerHTML=all.map(r=>`<button class="chip${S.rarities.has(r)?' on':''}" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
   buildColorChips();
+}
+
+function toggleChip(btn,tag){
+  if(S.rarities.has(tag)){S.rarities.delete(tag);btn.classList.remove('on');}
+  else{S.rarities.add(tag);btn.classList.add('on');}
+  applyFilters();
 }
 
 function buildColorChips(){
@@ -3580,13 +3601,10 @@ function buildColorChips(){
     {col:'Purple',dot:'🟣'},{col:'Black',dot:'⚫'},{col:'Yellow',dot:'🟡'},{col:'Multi',dot:'🌈'}
   ];
   const present=new Set(S.cards.map(c=>c.card_color).filter(Boolean));
-  // Multi = cards with multiple colors (comma or slash)
   const hasMulti=S.cards.some(c=>c.card_color&&/[,/]/.test(c.card_color));
   const chips=COLOR_DEF.filter(d=>d.col==='Multi'?hasMulti:present.has(d.col))
     .map(d=>`<button class="color-chip${S.colorFilter===d.col?' on':''}" data-col="${d.col}" onclick="toggleColor('${d.col}')">${d.dot} ${d.col}</button>`).join('');
   document.getElementById('color-chips').innerHTML=chips;
-  const typeEl=document.getElementById('type-sel');
-  if(typeEl)typeEl.value=S.typeFilter||'';
 }
 
 function toggleColor(col){
@@ -3594,22 +3612,31 @@ function toggleColor(col){
   buildColorChips();applyFilters();
 }
 
+function toggleAdvFilters(){
+  const panel=document.getElementById('adv-filter-panel');
+  const btn=document.getElementById('adv-filter-btn');
+  const open=panel.style.display==='none';
+  panel.style.display=open?'block':'none';
+  btn.textContent=open?'⚙ ตัวกรองขั้นสูง ▴':'⚙ ตัวกรองขั้นสูง ▾';
+}
+
 function applyFilters(){
   let list=S.cards.slice();
-  const q=document.getElementById('card-srch').value.trim().toLowerCase();
+  const q=(document.getElementById('card-srch')?.value||'').trim().toLowerCase();
   if(q)list=list.filter(c=>c.card_name&&c.card_name.toLowerCase().includes(q));
+  // Rarity/category chips — OR logic within active chips
   if(S.rarities.size){const tags=[...S.rarities];list=list.filter(c=>tags.some(t=>tagMatches(c,t)));}
+  // Color filter (advanced)
   if(S.colorFilter){
     if(S.colorFilter==='Multi')list=list.filter(c=>c.card_color&&/[,/]/.test(c.card_color));
     else list=list.filter(c=>c.card_color&&c.card_color.includes(S.colorFilter));
   }
-  S.typeFilter=document.getElementById('type-sel')?.value||'';
-  if(S.typeFilter)list=list.filter(c=>c.card_type===S.typeFilter);
+  // Cost filter (advanced)
   const costMin=parseInt(document.getElementById('cost-min')?.value||'',10);
   const costMax=parseInt(document.getElementById('cost-max')?.value||'',10);
   if(!isNaN(costMin))list=list.filter(c=>parseInt(c.card_cost,10)>=costMin);
   if(!isNaN(costMax))list=list.filter(c=>parseInt(c.card_cost,10)<=costMax);
-  const sort=document.getElementById('sort-sel').value;
+  const sort=document.getElementById('sort-sel')?.value||'default';
   if(sort==='price-desc')list.sort((a,b)=>realPrice(b)-realPrice(a));
   else if(sort==='price-asc')list.sort((a,b)=>realPrice(a)-realPrice(b));
   paintCards(list);
