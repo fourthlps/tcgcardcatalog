@@ -4374,38 +4374,58 @@ async function openProfile(userId,isOwn){
   show('view-profile');
   const L=S.lang;
   const el=document.getElementById('profile-content');
-  el.innerHTML='<div style="color:var(--faint);padding:24px 0;text-align:center">กำลังโหลด...</div>';
 
-  const [{data:prof},{data:coll},{data:trades}]=await Promise.all([
-    sb.from('profiles').select('*').eq('id',userId).maybeSingle(),
-    sb.from('collections').select('card_image_id').eq('user_id',userId),
-    sb.from('trade_lists').select('card_image_id,trade_type').eq('user_id',userId)
-  ]);
+  // Always render immediately using local data if this is the current user
+  const localCollIds=isOwn?_lsGet(LS_COLLECTION):[];
+  const uname=isOwn?(_user?.user_metadata?.username||_user?.email?.split('@')[0]||'User'):'User';
+  const color=_avatarColor(uname);
+  _renderProfileContent(el,userId,isOwn,uname,color,localCollIds,[],L);
+  setCrumb('crumb-profile',`/ ${uname}`);
 
-  const uname=prof?.username||'User';
-  const color=prof?.avatar_color||_avatarColor(uname);
-  const collIds=(coll||[]).map(x=>x.card_image_id);
-  const haveIds=(trades||[]).filter(x=>x.trade_type==='have').map(x=>x.card_image_id);
+  // Then fetch from Supabase and update
+  if(!sb)return;
+  try{
+    const [{data:prof},{data:coll},{data:trades}]=await Promise.all([
+      sb.from('profiles').select('*').eq('id',userId).maybeSingle(),
+      sb.from('collections').select('card_image_id').eq('user_id',userId),
+      sb.from('trade_lists').select('card_image_id,trade_type').eq('user_id',userId)
+    ]);
+    const finalName=prof?.username||uname;
+    const finalColor=prof?.avatar_color||color;
+    const collIds=(coll||[]).map(x=>x.card_image_id);
+    const haveIds=(trades||[]).filter(x=>x.trade_type==='have').map(x=>x.card_image_id);
+    _renderProfileContent(el,userId,isOwn,finalName,finalColor,
+      collIds.length?collIds:localCollIds,haveIds,L);
+    setCrumb('crumb-profile',`/ ${finalName}`);
+  }catch(e){/* already showing local data */}
+}
 
+function _renderProfileContent(el,userId,isOwn,uname,color,collIds,haveIds,L){
   let html=`<div class="profile-hero">
     <div class="profile-avatar-lg" style="background:${color}">${uname[0].toUpperCase()}</div>
     <div>
       <div class="profile-name">${_esc(uname)}</div>
-      <div class="profile-sub">${collIds.length} ${L==='th'?'การ์ดในคอลเลคชั่น':'cards in collection'} · ${haveIds.length} ${L==='th'?'รายการแลก':'for trade'}</div>
+      <div class="profile-sub">${collIds.length} ${L==='th'?'การ์ดในคอลเลคชั่น':'cards in collection'}${haveIds.length?` · ${haveIds.length} ${L==='th'?'รายการแลก':'for trade'}`:''}</div>
     </div>
-    ${isOwn?`<button class="profile-share-btn" onclick="_shareProfile()">🔗 ${L==='th'?'แชร์':'Share'}</button><button class="profile-share-btn" onclick="signOut()" style="margin-left:8px;color:#f87171;border-color:rgba(248,113,113,.3)">ออกจากระบบ</button>`:''}
+    ${isOwn?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+      <button class="profile-share-btn" onclick="_shareProfile()">🔗 ${L==='th'?'แชร์':'Share'}</button>
+      <button class="profile-share-btn" onclick="signOut()" style="color:#f87171;border-color:rgba(248,113,113,.3)">${L==='th'?'ออกจากระบบ':'Sign out'}</button>
+    </div>`:''}
   </div>`;
 
   if(collIds.length){
-    const cards=flat().filter(c=>collIds.includes(c.card_image_id)).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,48);
+    const idSet=new Set(collIds);
+    const cards=flat().filter(c=>idSet.has(c.card_image_id)).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,48);
     html+=`<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">${L==='th'?'คอลเลคชั่น':'Collection'} (${collIds.length})</div>`;
-    html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${c.card_image_id.replace(/-\d{3}.*$/,'')}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div></div>`).join('')}</div>`;
+    if(cards.length){
+      const setCode=c=>c.card_image_id.replace(/-\d{3}.*$/,'');
+      html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${setCode(c)}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(realPrice(c))}</p></div></div>`).join('')}</div>`;
+    }
   }else{
     html+=`<div style="text-align:center;padding:48px 0;color:var(--faint)">${L==='th'?'ยังไม่มีการ์ดในคอลเลคชั่น':'No cards in collection yet'}</div>`;
+    if(isOwn)html+=`<div style="text-align:center"><button class="coll-empty-btn" onclick="openOnePiece()">${L==='th'?'เลือกชุดการ์ด →':'Browse sets →'}</button></div>`;
   }
-
   el.innerHTML=html;
-  setCrumb('crumb-profile',`/ ${uname}`);
 }
 
 function _shareProfile(){
