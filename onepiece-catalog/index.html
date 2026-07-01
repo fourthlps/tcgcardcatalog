@@ -666,6 +666,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 #view-cards .filter-row{margin-bottom:11px}
 .ct-name{font-weight:600;font-size:13.5px;margin:0 0 4px}
 .ct-price{font-size:12.5px;color:var(--soft);margin-top:2px}
+.ct-comment-badge{position:absolute;bottom:6px;right:6px;background:rgba(59,111,224,.18);color:var(--blue);font-size:10px;font-weight:700;padding:2px 6px;border-radius:20px;pointer-events:none}
+.trade-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:400;box-shadow:0 8px 32px rgba(0,0,0,.4);cursor:pointer;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(12px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .rtag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;background:var(--bg3);color:var(--soft)}
 .rtag.SEC,.rtag.SR{background:var(--golds);color:var(--gold)}
 .rtag.L{background:var(--teals);color:var(--teal)}
@@ -3621,12 +3624,14 @@ function paintCards(cards){
     const isChase=chaseSet.has(c.card_image_id);
     const isManga=!isChase&&/manga/i.test(c.card_name||'');
     const cls='card-tile'+(isChase?' is-chase':'')+(isManga?' is-manga':'');
-    return `<div class="${cls}" onclick="openCard(${i})">
+    return `<div class="${cls}" onclick="openCard(${i})" data-img-id="${c.card_image_id}">
     <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
     <div><p class="ct-name">${c.card_name} ${verTag(effectiveVer(c))}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${tilePrice(c)}</p></div>
     ${isChase?'<div class="chase-star-badge">★★★★★</div>':''}
   </div>`;
   }).join('');
+  // Load comment badges async (non-blocking)
+  setTimeout(_applyCommentBadges, 200);
 }
 
 // Yesterday/delta movement strip, embedded inside the EN market card.
@@ -4082,6 +4087,7 @@ function openCard(idx){
   show('view-detail');
   _loadComments(c.card_image_id);
   _loadTradeList(c.card_image_id);
+  _checkTradeMatch(c.card_image_id);
 }
 init();
 
@@ -4099,9 +4105,10 @@ sb.auth.onAuthStateChange(async(event,session)=>{
   _updateNavAuth();
   if(event==='SIGNED_IN'){
     await _syncCollectionToCloud();
+    await _checkUsernameSetup();
     if(document.getElementById('view-detail').style.display==='block'){
       const id=document.getElementById('detail-card')?.dataset?.cardId;
-      if(id){_loadComments(id);_loadTradeList(id);}
+      if(id){_loadComments(id);_loadTradeList(id);_checkTradeMatch(id);}
     }
   }
 });
@@ -4396,6 +4403,131 @@ if(location.hash&&location.hash.includes('access_token')){
   },400);
   setTimeout(()=>clearInterval(_wait),8000);
 })();
+
+// ── USERNAME SETUP ────────────────────────────────
+async function _checkUsernameSetup(){
+  if(!_user)return;
+  const {data}=await sb.from('profiles').select('username').eq('id',_user.id).maybeSingle();
+  const uname=data?.username||'';
+  // If username looks like a raw email prefix (no spaces, no custom chars), prompt to set it
+  if(!uname||uname===_user.email?.split('@')[0]){
+    _showUsernameModal(uname);
+  }
+}
+
+function _showUsernameModal(current){
+  // Remove existing if any
+  document.getElementById('username-modal')?.remove();
+  const L=S.lang;
+  const div=document.createElement('div');
+  div.id='username-modal';
+  div.className='auth-overlay';
+  div.style.display='flex';
+  div.innerHTML=`<div class="auth-modal">
+    <div class="auth-logo">✏️</div>
+    <div class="auth-title">${L==='th'?'ตั้งชื่อผู้ใช้':'Set your username'}</div>
+    <div class="auth-sub">${L==='th'?'ชื่อที่จะแสดงในคอมเมนต์และโปรไฟล์':'Shown in comments and your public profile'}</div>
+    <div id="uname-msg" style="display:none" class="auth-msg"></div>
+    <input id="uname-input" class="auth-input" type="text" maxlength="30" placeholder="${L==='th'?'ชื่อผู้ใช้ของคุณ':'Your username'}" value="${current||''}">
+    <button class="auth-btn" onclick="_saveUsername()">${L==='th'?'บันทึก':'Save'}</button>
+    <button class="auth-btn secondary" onclick="document.getElementById('username-modal').remove()" style="margin-top:6px">${L==='th'?'ข้ามตอนนี้':'Skip for now'}</button>
+  </div>`;
+  document.body.appendChild(div);
+}
+
+async function _saveUsername(){
+  const val=(document.getElementById('uname-input')?.value||'').trim();
+  if(!val||val.length<2){
+    const el=document.getElementById('uname-msg');
+    el.className='auth-msg err';el.textContent=S.lang==='th'?'ต้องมีอย่างน้อย 2 ตัวอักษร':'Min 2 characters';el.style.display='block';
+    return;
+  }
+  const {error}=await sb.from('profiles').update({username:val}).eq('id',_user.id);
+  if(error&&error.code==='23505'){
+    const el=document.getElementById('uname-msg');
+    el.className='auth-msg err';el.textContent=S.lang==='th'?'ชื่อนี้ถูกใช้แล้ว':'Username taken';el.style.display='block';
+    return;
+  }
+  document.getElementById('username-modal')?.remove();
+  _updateNavAuth();
+}
+
+// ── TRADE MATCH ALERT ────────────────────────────
+async function _checkTradeMatch(cardImageId){
+  if(!_user)return;
+  const wish=JSON.parse(localStorage.getItem('voyage_wishlist')||'[]');
+  const coll=JSON.parse(localStorage.getItem('voyage_collection')||'[]');
+
+  // Check if anyone HAS a card I want
+  const myWants=wish;
+  // Check if anyone WANTS a card I have
+  const myHaves=coll;
+
+  if(!myWants.length&&!myHaves.length)return;
+
+  // Only check the current card
+  const iWantThis=myWants.includes(cardImageId);
+  const iHaveThis=myHaves.includes(cardImageId);
+
+  const {data}=await sb.from('trade_lists')
+    .select('trade_type,user_id,profiles(username)')
+    .eq('card_image_id',cardImageId)
+    .neq('user_id',_user.id);
+
+  if(!data||!data.length)return;
+
+  const matches=[];
+  if(iWantThis){
+    const sellers=data.filter(x=>x.trade_type==='have');
+    sellers.forEach(x=>matches.push(`🔔 ${x.profiles?.username||'User'} ${S.lang==='th'?'มีการ์ดนี้อยู่':'has this card — trade possible!'}`));
+  }
+  if(iHaveThis){
+    const buyers=data.filter(x=>x.trade_type==='want');
+    buyers.forEach(x=>matches.push(`🔔 ${x.profiles?.username||'User'} ${S.lang==='th'?'ต้องการการ์ดนี้':'wants this card — trade possible!'}`));
+  }
+
+  if(matches.length){
+    _showTradeToast(matches[0]);
+  }
+}
+
+function _showTradeToast(msg){
+  document.getElementById('trade-toast')?.remove();
+  const el=document.createElement('div');
+  el.id='trade-toast';
+  el.className='trade-toast';
+  el.textContent=msg;
+  el.onclick=()=>el.remove();
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),6000);
+}
+
+// ── COMMENT COUNT BADGES (batch on set page) ─────
+async function _loadCommentCounts(cardImageIds){
+  if(!cardImageIds.length)return{};
+  const {data}=await sb.from('comments')
+    .select('card_image_id')
+    .in('card_image_id',cardImageIds.slice(0,200));
+  const counts={};
+  (data||[]).forEach(r=>{counts[r.card_image_id]=(counts[r.card_image_id]||0)+1;});
+  return counts;
+}
+
+async function _applyCommentBadges(){
+  const tiles=[...document.querySelectorAll('.card-tile[data-img-id]')];
+  if(!tiles.length)return;
+  const ids=tiles.map(t=>t.dataset.imgId);
+  const counts=await _loadCommentCounts(ids);
+  tiles.forEach(t=>{
+    const n=counts[t.dataset.imgId]||0;
+    if(!n)return;
+    t.querySelector('.ct-comment-badge')?.remove();
+    const b=document.createElement('div');
+    b.className='ct-comment-badge';
+    b.textContent=`💬 ${n}`;
+    t.appendChild(b);
+  });
+}
 </script>
 </body>
 </html>
