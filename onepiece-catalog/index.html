@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -480,6 +480,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .chip{font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid var(--bord2);background:var(--bg2);cursor:pointer;color:var(--soft);transition:all .12s}
 .chip:hover{border-color:var(--gold)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:#ffffff}
+.chip-reset{border-color:var(--err,#f87171);color:var(--err,#f87171);background:transparent}
+.chip-reset:hover{background:rgba(248,113,113,.1)}
+.chip-sep{padding:0 4px;color:var(--bord2);user-select:none;font-size:14px}
 .sort-sel{margin-left:auto;font-size:13px;padding:7px 10px;border-radius:7px;border:1px solid var(--bord2);background:var(--bg2);color:var(--text)}
 /* Color filter chips */
 .color-chip{font-size:12px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--bord2);background:var(--bg2);cursor:pointer;color:var(--soft);transition:all .12s;display:inline-flex;align-items:center;gap:4px}
@@ -762,6 +765,13 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 .rel-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
 .rel-row::-webkit-scrollbar{height:6px}
 .rel-row::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:6px}
+.wtb-section{margin:20px 0 8px}
+.wtb-note{font-size:11px;color:var(--faint);margin:4px 0 10px}
+.wtb-ad{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(59,111,224,.1);color:var(--accent);vertical-align:middle;margin-left:6px}
+.wtb-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border:1px solid var(--bord1);border-radius:9px;margin-bottom:8px;text-decoration:none;color:var(--text);transition:border-color .13s}
+.wtb-row:hover{border-color:var(--gold)}
+.wtb-name{font-size:13px;font-weight:600}
+.wtb-cta{font-size:12px;color:var(--gold);font-weight:700;white-space:nowrap;margin-left:12px}
 .rel-card{flex:0 0 112px;width:112px;cursor:pointer;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:9px;transition:border-color .14s,transform .14s,box-shadow .14s}
 .rel-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
 .rel-card img{width:100%;aspect-ratio:.715;object-fit:cover;border-radius:7px;background:var(--bg3);display:block}
@@ -1168,6 +1178,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   </div>
 </header>
 
+<!-- KI-02: stale data banner (shown only when pipeline fails) -->
+<div id="stale-data-banner" style="display:none;background:#fef3c7;color:#92400e;font-size:12.5px;padding:8px 20px;text-align:center;border-bottom:1px solid #fde68a"></div>
+
 <!-- HOME -->
 <div id="view-home">
   <!-- ============================================================
@@ -1295,9 +1308,10 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
           <h4 class="t" data-th="รับข่าวสาร" data-en="Newsletter">รับข่าวสาร</h4>
           <p style="font-size:11.5px;color:var(--faint);margin-bottom:8px" class="t" data-th="รับอัปเดตชุดใหม่และการ์ดน่าสะสม" data-en="Get updates on new sets and chase cards">รับอัปเดตชุดใหม่และการ์ดน่าสะสม</p>
           <div class="footer-news">
-            <input class="t" data-th-ph="อีเมลของคุณ" data-en-ph="Your email" placeholder="อีเมลของคุณ">
-            <button class="t" data-th="สมัคร" data-en="Join" onclick="alert(S.lang==='th'?'ระบบสมัครรับข่าวสารกำลังจะมาเร็ว ๆ นี้':'Newsletter signup coming soon')">สมัคร</button>
+            <input id="newsletter-email" class="t" data-th-ph="อีเมลของคุณ" data-en-ph="Your email" placeholder="อีเมลของคุณ">
+            <button class="t" data-th="สมัคร" data-en="Join" onclick="(function(){var el=document.getElementById('newsletter-toast');el.textContent=S.lang==='th'?'เร็วๆ นี้ — ขอบคุณที่สนใจ!':'Coming soon — thanks for your interest!';el.style.display='block';setTimeout(function(){el.style.display='none';},3000);})()">สมัคร</button>
           </div>
+          <div id="newsletter-toast" style="display:none;margin-top:6px;font-size:11.5px;color:var(--teal,#2b6e68);padding:6px 10px;background:var(--bg3,#eef2fb);border-radius:6px"></div>
         </div>
       </div>
       <div class="footer-bottom">
@@ -1333,8 +1347,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <button class="back-btn" onclick="renderSets()">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to sets">กลับไปเลือกชุด</span></button>
   <h1 class="page-ttl serif" id="cards-ttl"></h1>
   <div class="ed-filter" id="cards-ed-toggle" style="display:none;margin-bottom:14px">
-    <button class="ed-fbtn on" data-ed="en" onclick="openAllCards('en')">🇺🇸 EN</button>
-    <button class="ed-fbtn" data-ed="jp" onclick="openAllCards('jp')">🇯🇵 JP</button>
+    <button class="ed-fbtn on" data-ed="en" onclick="switchEdition('en')">🇺🇸 EN</button>
+    <button class="ed-fbtn" data-ed="jp" onclick="switchEdition('jp')">🇯🇵 JP</button>
   </div>
   <div id="cards-lang-note" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;font-size:12px;color:var(--soft);margin-bottom:12px"></div>
   <input class="search-bar" id="card-srch" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
@@ -1507,7 +1521,40 @@ const DEBUG_CHASE=false;
 // A panel is live when: confidence !== 'low' AND history_days_collected >= 7
 // AND the cards array is non-empty. No more hardcoded flag.
 function trendsTrustworthy(g){return!!(g&&(g.confidence||'low')!=='low'&&(g.history_days_collected||0)>=7&&(g.cards||[]).length>0);}
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
+
+// Thai → English alias table for typed search (KI-04)
+const THAI_ALIAS={
+  'ลูฟี่':'luffy','ลูฟี':'luffy','มังกี้ ดี ลูฟี่':'luffy','มังกี้ดีลูฟี่':'luffy',
+  'ซันจิ':'sanji','ซันจี':'sanji',
+  'โซโล่':'zoro','โซโร่':'zoro','โซโล':'zoro','โซโร':'zoro',
+  'นามิ':'nami',
+  'อุสป':'usopp','อุสอปป์':'usopp',
+  'โช้ปเปอร์':'chopper','ช็อปเปอร์':'chopper',
+  'โรบิน':'robin',
+  'ฟรังกี้':'franky','แฟรงกี้':'franky',
+  'บรู๊ค':'brook','บรู้ค':'brook',
+  'ยามาโตะ':'yamato',
+  'ชานค์':'shanks','ชางค์':'shanks','ชาน':'shanks',
+  'เอซ':'ace','เอ็ซ':'ace',
+  'คาอิโด':'kaido','ไคโด':'kaido',
+  'บิ๊กมัม':'big mom','บิ๊ก มัม':'big mom','มัม':'mom',
+  'มังกะ':'manga','มังกา':'manga',
+  'คู่ขนาน':'parallel',
+  'ซีเอ็ม':'sec','ซีเคร็ท':'secret',
+  'หายาก':'rare',
+  'ลีดเดอร์':'leader','ลีดเดอร':'leader',
+  'ตัวละคร':'character',
+  'อีเว้นท์':'event',
+  'เวที':'stage',
+};
+function aliasQ(q){
+  if(!q)return q;
+  const r=THAI_ALIAS[q];if(r)return r;
+  // partial: check if q starts with any alias key
+  for(const[k,v]of Object.entries(THAI_ALIAS)){if(q.startsWith(k))return v+q.slice(k.length);}
+  return q;
+}
 
 const BOX={
   'OP-01':{usd:145,thb:4800,hot:false},
@@ -1624,6 +1671,19 @@ async function init(){
       .then(d=>{if(d){D.siteStatus=d;
         const av=document.getElementById('view-admin');
         if(av&&av.style.display!=='none')openAdmin();   // refresh once status arrives
+        // KI-02: show stale-data banner if pipeline fetched 0 cards or data is old
+        const banner=document.getElementById('stale-data-banner');
+        if(banner){
+          const failed=d.sets_failed>0&&d.sets_fetched===0;
+          const runDate=d.run_date||d.date||'';
+          const daysSince=runDate?Math.floor((Date.now()-new Date(runDate).getTime())/86400000):0;
+          if(failed||(daysSince>3&&runDate)){
+            const msg=S.lang==='th'
+              ?`⚠️ ข้อมูลราคาอาจไม่อัปเดต (API pipeline ล้มเหลว${runDate?' · อัปเดตล่าสุด '+runDate:''}) — ราคาที่แสดงอาจเป็นข้อมูลเก่า`
+              :`⚠️ Price data may be stale (API pipeline failed${runDate?' · last updated '+runDate:''}) — prices shown may be outdated`;
+            banner.textContent=msg;banner.style.display='block';
+          }
+        }
       }}),
   ]);
   // Hidden admin route: open via #admin (and react to hash changes).
@@ -1633,7 +1693,9 @@ async function init(){
 
 function flat(){return Object.values(D.cache).flat();}
 function ttl(){return D.index.reduce((s,x)=>s+x.count,0);}
-function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*S.fx).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
+function activeFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.usd_to_thb)||S.fx;}
+function activeJpyFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;}
+function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*activeFx()).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
 // --- Market dataset accessors (card-markets.json, keyed by card_image_id) ---
 // Prices live in their own dataset now, NOT on the card object. Each card may
 // have several market records (EN/TCGPlayer, JP/Yuyu-Tei, future TH). The card
@@ -1667,8 +1729,10 @@ function editionPrice(c,ed){
   if(ed==='JP'){
     const jp=marketFor(c,'JP');
     if(!jp)return '—';
-    const thb=jp.converted_price>0?` <span class="ed-ref">≈฿${Math.round(jp.converted_price).toLocaleString('th-TH')}</span>`:'';
-    return '¥'+Math.round(jp.source_price).toLocaleString()+thb;
+    let approx='';
+    if(S.cur==='THB'&&jp.converted_price>0)approx=` <span class="ed-ref">≈฿${Math.round(jp.converted_price).toLocaleString('th-TH')}</span>`;
+    else if(S.cur==='USD'&&jp.source_price>0){const usd=jp.source_price*((D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_usd)||0.0062);approx=` <span class="ed-ref">≈$${usd.toFixed(0)}</span>`;}
+    return '¥'+Math.round(jp.source_price).toLocaleString()+approx;
   }
   return fp(realPrice(c));
 }
@@ -1704,8 +1768,8 @@ function verTag(ver){return editionBadge(ver==='EN'?'EN':'JP');}
 // loaded yet).
 function fpL(usd,thbReal){
   const n=usd??0;
-  if(S.lang==='th'){
-    const thb=(typeof thbReal==='number')?thbReal:n*(S.fx||USD_TO_THB);
+  if(S.cur==='THB'){
+    const thb=(typeof thbReal==='number')?thbReal:n*(activeFx());
     return '฿ '+Math.round(thb).toLocaleString('th-TH');
   }
   return '$'+n.toFixed(2);
@@ -1822,16 +1886,28 @@ function _renderChasePage(setFilter){
 
 // ─── COMPARE PRICES ──────────────────────────────────────────────────────────
 D._compare=[];
+function _cmpFeedback(ev,added){
+  if(!ev||!ev.currentTarget)return;
+  const L=S.lang;
+  const tip=document.createElement('div');
+  tip.textContent=added?(L==='th'?'เพิ่มแล้ว ⚖️':'Added ⚖️'):(L==='th'?'ลบออกแล้ว':'Removed');
+  tip.style.cssText='position:fixed;background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;z-index:9999;transition:opacity .4s';
+  const r=ev.currentTarget.getBoundingClientRect();
+  tip.style.left=r.left+'px';tip.style.top=(r.top-32)+'px';
+  document.body.appendChild(tip);
+  requestAnimationFrame(()=>{setTimeout(()=>{tip.style.opacity='0';setTimeout(()=>tip.remove(),420);},700);});
+}
 function toggleCompare(id,ev){
   if(ev)ev.stopPropagation();
   const idx=D._compare.indexOf(id);
+  const adding=idx<0;
   if(idx>=0){D._compare.splice(idx,1);}
   else if(D._compare.length<2){D._compare.push(id);}
-  else{D._compare[1]=id;}// replace second slot
+  else{D._compare[1]=id;}
   _renderCompareTray();
-  // refresh button state on visible card detail
   const btn=document.querySelector(`[onclick*="toggleCompare('${id}'"]`);
   if(btn)btn.classList.toggle('on',D._compare.includes(id));
+  if(ev)_cmpFeedback(ev,adding);
 }
 function _renderCompareTray(){
   const tray=document.getElementById('compare-tray');
@@ -1992,7 +2068,7 @@ function renderGames(){
 function renderHL(){
   const L=S.lang;
   const items=[
-    {ic:'📈',th:'อัปเดตราคาแบบเรียลไทม์',en:'Real-time Price Updates',dth:'ข้อมูลราคาจากหลายแหล่งทั่วโลก',den:'Price data from multiple global sources'},
+    {ic:'📈',th:'ราคาตลาดจากหลายแหล่ง',en:'Market Prices from Multiple Sources',dth:'TCGPlayer (EN) และ Yuyu-Tei (JP) อัปเดตรายวัน',den:'TCGPlayer (EN) and Yuyu-Tei (JP), updated daily'},
     {ic:'🔍',th:'ค้นหาไว แม่นยำ',en:'Fast & Accurate Search',dth:'หาการ์ดที่ต้องการในไม่กี่วินาที',den:'Find any card in seconds'},
     {ic:'🛡️',th:'ข้อมูลแม่นยำ เชื่อถือได้',en:'Reliable Data',dth:'จากแหล่งข้อมูลที่เชื่อถือได้',den:'From verified data sources'},
     {ic:'❤️',th:'สำหรับนักสะสม โดยนักสะสม',en:'By Collectors, For Collectors',dth:'สร้างคอลเลกชันของคุณได้ง่ายขึ้น',den:'Build your collection with ease'},
@@ -2090,19 +2166,19 @@ function trendAgeLabel(meta,L){
 // JP-preferred price in THB for ranking the Highest Value panel.
 // Order: JP converted_price → JP source×rate → EN source×fx → legacy field×fx
 function jpPreferredPriceThb(c){
-  const jpy_thb=(D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;
+  const jpy_thb=activeJpyFx();
   const jp=marketFor(c,'JP');
   if(jp&&jp.source_price>0)return jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
   const en=marketFor(c,'EN');
-  if(en&&en.source_price>0)return en.source_price*(S.fx||USD_TO_THB);
-  const m=Number(c.market_price);if(!isNaN(m)&&m>0)return m*(S.fx||USD_TO_THB);
-  const i=Number(c.inventory_price);return(!isNaN(i)&&i>0)?i*(S.fx||USD_TO_THB):0;
+  if(en&&en.source_price>0)return en.source_price*(activeFx());
+  const m=Number(c.market_price);if(!isNaN(m)&&m>0)return m*(activeFx());
+  const i=Number(c.inventory_price);return(!isNaN(i)&&i>0)?i*(activeFx()):0;
 }
 // Price display string for the Highest Value panel (always in ฿).
 function jpPreferredDisplay(c){
   const jp=marketFor(c,'JP');
   if(jp&&jp.source_price>0){
-    const jpy_thb=(D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;
+    const jpy_thb=activeJpyFx();
     const thb=jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
     return'฿ '+Math.round(thb).toLocaleString('th-TH');
   }
@@ -2353,7 +2429,7 @@ function renderBoxes(){
     const imgUrl=setImgUrl(s.code);
     const price=fpL(s.box.usd,s.box.thb);
     const lbl=boxLabel(s.score,L);
-    return `<div class="boxcard" onclick="openSet('${s.code}')">
+    return `<div class="boxcard" onclick="openBoxProduct('${s.code}')">
       <div class="boxcard-img-wrap">
         ${imgUrl?`<img src="${imgUrl}" loading="lazy" onerror="this.remove()">`:`<div style="font-size:36px;opacity:.35">${CAT_ICON[cat]}</div>`}
         <div class="boxcard-rank">#${i+1}</div>
@@ -2366,12 +2442,17 @@ function renderBoxes(){
           <div class="boxcard-price">${price}</div>
           <div class="boxcard-score">${L==='th'?'คะแนนความน่าเปิด':'Open Value'}<br><b>${s.score.toFixed(1)}</b>/10</div>
         </div>
-        <button class="boxcard-cta" onclick="event.stopPropagation();openSet('${s.code}')">${L==='th'?'ดูรายละเอียด →':'View Details →'}</button>
+        <button class="boxcard-cta" onclick="event.stopPropagation();openBoxProduct('${s.code}')">${L==='th'?'ดูรายละเอียด →':'View Details →'}</button>
       </div>
     </div>`;
   }).join('');
 }
 
+function openBoxProduct(setCode){
+  const p=D.products.find(x=>x.set_code===setCode&&x.product_type==='Booster Box'&&x.language==='JP');
+  if(p)openProduct(p.product_id);
+  else openSetOverview(setCode);
+}
 function chaseBase(n){return (n||'').split('(')[0].trim();}
 function chaseVariant(n){
   const parts=(n||'').match(/\(([^)]+)\)/g);
@@ -2598,7 +2679,7 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
   const topCards=allCards.slice(0,6);
   const highestPrice=allCards.length?realPrice(allCards[0]):0;
   const priceStr=highestPrice>0?fpL(highestPrice):'—';
-  const fx=S.fx||USD_TO_THB;
+  const fx=activeFx();
 
   // Hero — cap visible set chips so prolific characters (e.g. Luffy in 30+ sets)
   // don't flood the header.
@@ -2710,7 +2791,7 @@ function charSetFilter(code){
 }
 
 function doSearch(){
-  const q=document.getElementById('gsearch').value.trim().toLowerCase();
+  const q=aliasQ(document.getElementById('gsearch').value.trim().toLowerCase());
   if(!q)return;
   closeSrchDrop();
   const qNorm=q.replace(/[^a-z0-9]/g,'');
@@ -2896,7 +2977,7 @@ let _srchTimer=null;
 function hdrSearchInput(val){
   clearTimeout(_srchTimer);
   if(!val.trim()){closeSrchDrop();return;}
-  _srchTimer=setTimeout(()=>renderSrchDrop(val.trim().toLowerCase()),200);
+  _srchTimer=setTimeout(()=>renderSrchDrop(aliasQ(val.trim().toLowerCase())),200);
 }
 
 function renderSrchDrop(q){
@@ -3292,14 +3373,14 @@ function openSetOverview(code){
     <div class="set-ov-db-flag">🇯🇵</div>
     <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดญี่ปุ่น':'Japanese Card Database'}</div>
     <div class="set-ov-db-count">${totalCards} ${L==='th'?'ใบ':'cards'}</div>
-    <div class="set-ov-db-price-type">${L==='th'?'ราคา JP เรียลไทม์':'Real-time JP Prices'}</div>
+    <div class="set-ov-db-price-type">${L==='th'?'ราคาอ้างอิง JP (Yuyu-Tei)':'JP Retail Reference (Yuyu-Tei)'}</div>
     <button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}')">${L==='th'?'ดูการ์ด JP →':'Browse JP Cards →'}<span>→</span></button>
   </div>`:'';
   const enCard=`<div class="set-ov-db-card en${hasEN?'':' unavail'}" ${hasEN?`onclick="openSet('${code}','en')" style="cursor:pointer"`:''}">
     <div class="set-ov-db-flag">🇺🇸</div>
     <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดอังกฤษ':'English Card Database'}</div>
     <div class="set-ov-db-count">${hasEN?`${totalCards} ${L==='th'?'ใบ':'cards'}`:(L==='th'?'เร็วๆ นี้':'Coming Soon')}</div>
-    <div class="set-ov-db-price-type">${hasEN?(L==='th'?'ราคาอ้างอิง JP · optcgapi':'JP reference price · optcgapi'):(L==='th'?'ยังไม่มีข้อมูล EN':'EN data not yet available')}</div>
+    <div class="set-ov-db-price-type">${hasEN?(L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price (TCGPlayer)'):(L==='th'?'ยังไม่มีข้อมูล EN':'EN data not yet available')}</div>
     ${hasEN?`<button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}','en')">${L==='th'?'ดูการ์ด EN →':'Browse EN Cards →'}<span>→</span></button>`:`<button class="set-ov-db-btn" disabled style="opacity:.45">${L==='th'?'เร็วๆ นี้':'Coming Soon'}<span></span></button>`}
   </div>`;
   const dbSelectorHtml=(jpCard||enCard)?`
@@ -3337,7 +3418,7 @@ function openSetOverview(code){
     <div class="set-ov-section-label">${L==='th'?'การ์ดราคาสูงสุดในชุดนี้':'Top Chase Cards'}</div>
     <div class="set-ov-chase-row">${chase.map(c=>{
       const pr=realPrice(c);
-      const prStr=S.cur==='THB'?'฿ '+(pr*(S.fx||USD_TO_THB)).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+pr.toFixed(2);
+      const prStr=S.cur==='THB'?'฿ '+(pr*(activeFx())).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+pr.toFixed(2);
       return `<div class="set-ov-chase-mini" onclick="openCard('${c.card_number||c.card_id||''}','${code}')">
         ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.display='none'">`:'<div style="height:76px;background:var(--bg3)"></div>'}
         <div class="set-ov-chase-mini-price">${prStr}</div>
@@ -3474,21 +3555,30 @@ function renderSets(){
   document.getElementById('sets-list').innerHTML=all.length?all.join(''):'<div class="empty">ยังไม่พบไฟล์ข้อมูล</div>';
 }
 
+// Context-aware edition switch: stays in current set if one is open (KI-03)
+function switchEdition(lang){
+  if(S.setCode)openSet(S.setCode,lang);
+  else openAllCards(lang);
+}
+
 function openSet(code,lang){
   S.cardReturn=null;   // entering a set list: card back-button returns here
-  const tog=document.getElementById('cards-ed-toggle');if(tog)tog.style.display='none';
+  // Show toggle scoped to this set so JP↔EN stays within the set (KI-03)
+  const tog=document.getElementById('cards-ed-toggle');
+  const isEN=lang==='en';
+  if(tog){tog.style.display='inline-flex';tog.querySelectorAll('.ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===(isEN?'en':'jp')));}
   S.setCode=code;
   S.cardLang=lang==='en'?'en':'jp';
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='default';
-  S.rarities=new Set();S.colorFilter='';S.typeFilter='';
+  S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
   const allCards=D.cache[code]||[];
-  const isEN=lang==='en';
   // EN view: filter to cards actually released in EN.
   // EN sets include standard rarities (L/C/UC/R/SR/SEC) only.
   // JP-exclusive treatments (Manga Parallels, SP Gold, Treasure) are excluded.
   const EN_RARITIES=new Set(['L','C','UC','R','SR','SEC']);
-  const EN_EXCLUDE=/manga|treasure|wanted poster/i;
+  // Exclude only JP-only treatment types from EN view. Manga Alternate Arts ARE in EN sets.
+  const EN_EXCLUDE=/treasure|wanted poster/i;
   S.cards=isEN
     ?allCards.filter(c=>EN_RARITIES.has(c.rarity||'')&&!EN_EXCLUDE.test(c.card_name||''))
     :allCards;
@@ -3503,8 +3593,8 @@ function openSet(code,lang){
       noteEl.style.display='block';
       const L=S.lang;
       noteEl.innerHTML=L==='th'
-        ?`🇺🇸 <strong>EN Edition</strong> · แสดงเฉพาะการ์ดที่วางจำหน่ายในฉบับภาษาอังกฤษ (${S.cards.length} ใบ) · ราคาจาก <strong>TCGPlayer</strong> · ภาพการ์ดใช้ภาพ JP (งานศิลป์เดียวกัน)`
-        :`🇺🇸 <strong>EN Edition</strong> · Showing ${S.cards.length} EN-released cards only (JP-exclusive Manga &amp; SP variants excluded) · Prices from <strong>TCGPlayer</strong> · Card images use JP artwork (identical art, different language text)`;
+        ?`🇺🇸 <strong>EN Edition</strong> · แสดงเฉพาะการ์ดที่วางจำหน่ายในฉบับภาษาอังกฤษ (${S.cards.length} ใบ) · ราคาจาก <strong>TCGPlayer</strong> · ภาพการ์ดใช้ภาพ JP (งานศิลป์เดียวกัน) · Treasure Chest / Wanted Poster เป็น JP only`
+        :`🇺🇸 <strong>EN Edition</strong> · Showing ${S.cards.length} EN-released cards · Prices from <strong>TCGPlayer</strong> · Card images use JP artwork (identical art) · Treasure Chest &amp; Wanted Poster variants are JP-only`;
     }else{
       noteEl.style.display='none';
     }
@@ -3522,14 +3612,14 @@ function openAllCards(lang){
   S.cardReturn=()=>show('view-cards');  // back from a card returns here
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='price-desc';
-  S.rarities=new Set();S.colorFilter='';S.typeFilter='';
+  S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
   // EN edition = all cards; JP edition = only cards that have a JP reference price.
   S.cards=lang==='jp'?flat().filter(c=>hasJP(c)):flat();
   document.getElementById('cards-ttl').textContent=(S.lang==='th'?'การ์ดทั้งหมด':'All Cards')+' · '+S.cards.length.toLocaleString();
   document.getElementById('back-cards').onclick=()=>goHome();
   setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'All Cards'}`);
   const noteEl=document.getElementById('cards-lang-note');if(noteEl)noteEl.style.display='none';
-  // Edition toggle is only meaningful on All Cards (the set DB is single-edition).
+  // Edition toggle on All Cards: shows EN/JP global switch
   const tog=document.getElementById('cards-ed-toggle');
   if(tog){tog.style.display='inline-flex';tog.querySelectorAll('.ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===lang));}
   show('view-cards');buildRarityChips();applyFilters();
@@ -3579,25 +3669,40 @@ function chaseIdSet(){
 const PRIMARY_CHIP_ORDER=['L','C','UC','R','SR','SEC','TR','Manga','Alt Art','SP','Leader','Character','Event','Stage','Full Art','Parallel','Super Alt Art','Wanted Poster','Holo','Enchanted','Promo'];
 
 function buildRarityChips(){
-  // Rarity chips — only those present in this set
-  const presentRar=new Set(S.cards.map(c=>c.rarity).filter(Boolean));
-  // Category chips — only those with matching cards
+  const catKeys=new Set(CATEGORY_DEFS.map(d=>d.key));
+  const presentRar=new Set(S.cards.map(c=>c.rarity).filter(r=>r&&!catKeys.has(r)));
   const presentCat=CATEGORY_DEFS.filter(d=>S.cards.some(d.test)).map(d=>d.key);
-  // Merge and sort by PRIMARY_CHIP_ORDER
-  const all=[...presentRar,...presentCat.filter(k=>!presentRar.has(k))];
-  all.sort((a,b)=>{
-    const ai=PRIMARY_CHIP_ORDER.indexOf(a);
-    const bi=PRIMARY_CHIP_ORDER.indexOf(b);
+  // Rarity group (left of separator)
+  const rarArr=[...presentRar].sort((a,b)=>{
+    const ai=PRIMARY_CHIP_ORDER.indexOf(a),bi=PRIMARY_CHIP_ORDER.indexOf(b);
     return (ai<0?99:ai)-(bi<0?99:bi);
   });
-  document.getElementById('rarity-chips').innerHTML=all.map(r=>`<button class="chip${S.rarities.has(r)?' on':''}" data-r="${r}" onclick="toggleChip(this,'${r}')">${r}</button>`).join('');
+  // Category group (right of separator)
+  const catArr=presentCat.sort((a,b)=>{
+    const ai=PRIMARY_CHIP_ORDER.indexOf(a),bi=PRIMARY_CHIP_ORDER.indexOf(b);
+    return (ai<0?99:ai)-(bi<0?99:bi);
+  });
+  const rarHtml=rarArr.map(r=>`<button class="chip${S.rarities.has(r)?' on':''}" onclick="toggleChip(this,'${r}','rar')">${r}</button>`).join('');
+  const catHtml=catArr.map(r=>`<button class="chip${S.categories.has(r)?' on':''}" onclick="toggleChip(this,'${r}','cat')">${r}</button>`).join('');
+  const sep=(rarArr.length&&catArr.length)?'<span class="chip-sep">|</span>':'';
+  const hasActive=S.rarities.size||S.categories.size;
+  const resetBtn=hasActive?`<button class="chip chip-reset" onclick="resetChips()">✕ Reset</button>`:'';
+  document.getElementById('rarity-chips').innerHTML=rarHtml+sep+catHtml+resetBtn;
   buildColorChips();
 }
 
-function toggleChip(btn,tag){
-  if(S.rarities.has(tag)){S.rarities.delete(tag);btn.classList.remove('on');}
-  else{S.rarities.add(tag);btn.classList.add('on');}
-  applyFilters();
+function toggleChip(btn,tag,group){
+  const set=group==='cat'?S.categories:S.rarities;
+  if(set.has(tag)){set.delete(tag);btn.classList.remove('on');}
+  else{set.add(tag);btn.classList.add('on');}
+  buildRarityChips();applyFilters();
+}
+
+function resetChips(){
+  S.rarities=new Set();S.categories=new Set();S.colorFilter='';
+  const cmin=document.getElementById('cost-min');const cmax=document.getElementById('cost-max');
+  if(cmin)cmin.value='';if(cmax)cmax.value='';
+  buildRarityChips();applyFilters();
 }
 
 function buildColorChips(){
@@ -3627,10 +3732,11 @@ function toggleAdvFilters(){
 
 function applyFilters(){
   let list=S.cards.slice();
-  const q=(document.getElementById('card-srch')?.value||'').trim().toLowerCase();
+  const q=aliasQ((document.getElementById('card-srch')?.value||'').trim().toLowerCase());
   if(q)list=list.filter(c=>c.card_name&&c.card_name.toLowerCase().includes(q));
-  // Rarity/category chips — OR logic within active chips
+  // Chip filters: OR within each group, AND across groups
   if(S.rarities.size){const tags=[...S.rarities];list=list.filter(c=>tags.some(t=>tagMatches(c,t)));}
+  if(S.categories.size){const tags=[...S.categories];list=list.filter(c=>tags.some(t=>tagMatches(c,t)));}
   // Color filter (advanced)
   if(S.colorFilter){
     if(S.colorFilter==='Multi')list=list.filter(c=>c.card_color&&/[,/]/.test(c.card_color));
@@ -3647,22 +3753,45 @@ function applyFilters(){
   paintCards(list);
 }
 
-function paintCards(cards){
-  S.shown=cards;
-  const grid=document.getElementById('card-grid');
-  if(!cards.length){grid.innerHTML='<div class="empty">ไม่พบการ์ด</div>';return;}
-  const chaseSet=chaseIdSet();
-  grid.innerHTML=cards.map((c,i)=>{
+const TILE_PAGE=150; // max tiles per render chunk (KI-05: prevents 4000-tile freeze)
+function renderTileChunk(cards,offset,chaseSet){
+  return cards.slice(offset,offset+TILE_PAGE).map((c,i)=>{
+    const idx=offset+i;
     const isChase=chaseSet.has(c.card_image_id);
     const isManga=!isChase&&/manga/i.test(c.card_name||'');
     const cls='card-tile'+(isChase?' is-chase':'')+(isManga?' is-manga':'');
-    return `<div class="${cls}" onclick="openCard(${i})" data-img-id="${c.card_image_id}">
+    return `<div class="${cls}" onclick="openCard(${idx})" data-img-id="${c.card_image_id}">
     <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
     <div><p class="ct-name">${c.card_name} ${verTag(effectiveVer(c))}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${tilePrice(c)}</p></div>
     ${isChase?'<div class="chase-star-badge">★★★★★</div>':''}
   </div>`;
   }).join('');
-  // Load comment badges only when logged in (avoids Supabase call on every render)
+}
+function paintCards(cards){
+  S.shown=cards;
+  const grid=document.getElementById('card-grid');
+  if(!cards.length){grid.innerHTML='<div class="empty">ไม่พบการ์ด</div>';return;}
+  const chaseSet=chaseIdSet();
+  const chunk=renderTileChunk(cards,0,chaseSet);
+  const remaining=cards.length-TILE_PAGE;
+  const moreBtn=remaining>0
+    ?`<div id="load-more-wrap" style="grid-column:1/-1;text-align:center;padding:16px 0"><button class="back-btn" style="padding:10px 28px;font-size:14px" onclick="loadMoreTiles(${TILE_PAGE})">โหลดเพิ่ม ${remaining} ใบ · Load ${remaining} more</button></div>`
+    :'';
+  grid.innerHTML=chunk+moreBtn;
+  if(sb&&_user)setTimeout(_applyCommentBadges, 400);
+}
+function loadMoreTiles(offset){
+  const cards=S.shown;
+  const grid=document.getElementById('card-grid');
+  const chaseSet=chaseIdSet();
+  const wrap=document.getElementById('load-more-wrap');
+  if(wrap)wrap.remove();
+  grid.insertAdjacentHTML('beforeend',renderTileChunk(cards,offset,chaseSet));
+  const next=offset+TILE_PAGE;
+  if(next<cards.length){
+    const remaining=cards.length-next;
+    grid.insertAdjacentHTML('beforeend',`<div id="load-more-wrap" style="grid-column:1/-1;text-align:center;padding:16px 0"><button class="back-btn" style="padding:10px 28px;font-size:14px" onclick="loadMoreTiles(${next})">โหลดเพิ่ม ${remaining} ใบ · Load ${remaining} more</button></div>`);
+  }
   if(sb&&_user)setTimeout(_applyCommentBadges, 400);
 }
 
@@ -3967,6 +4096,20 @@ function openAdmin(){
 
 // Related cards shown on the detail page: other printings of the same card,
 // then the other most-valuable cards from the same set. Pure existing-data.
+function whereToBuyHtml(c){
+  const L=S.lang;
+  const prods=(D.products||[]).filter(p=>p.set_code===S.setCode&&p.affiliate_url);
+  if(!prods.length)return '';
+  const rows=prods.map(p=>`<a class="wtb-row" href="${p.affiliate_url}" target="_blank" rel="noopener sponsored">
+    <span class="wtb-name">${p.product_name}</span>
+    <span class="wtb-cta">${L==='th'?'ดูราคา →':'View Price →'}</span>
+  </a>`).join('');
+  return `<div class="wtb-section">
+    <div class="rel-lbl">${L==='th'?'ซื้อได้ที่ไหน':'Where to Buy'} <span class="wtb-ad">${L==='th'?'พาร์ทเนอร์':'Partner'}</span></div>
+    <div class="wtb-note">${L==='th'?'ลิงก์พาร์ทเนอร์ — ราคาและสต็อกอาจเปลี่ยนแปลงได้':'Partner links — prices and availability may vary'}</div>
+    ${rows}
+  </div>`;
+}
 function relatedCardsHtml(c){
   const L=S.lang;
   const setCards=D.cache[S.setCode]||[];
@@ -4111,6 +4254,7 @@ function openCard(idx){
     <div class="mkt-note neutral"><span class="mkt-note-ic">⚠️</span><span>${L==='th'?'ราคาการ์ดดิบ ยังไม่ได้ส่งเกรด PSA':'Raw card price — ungraded, not PSA graded.'}</span></div>
     ${priceHistoryChart(c)}
     ${relatedCardsHtml(c)}
+    ${whereToBuyHtml(c)}
     <div id="trade-section"></div>
     <div id="comments-section"></div>
     <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
@@ -4586,3 +4730,6 @@ async function _applyCommentBadges(){
 </script>
 </body>
 </html>
+
+
+
