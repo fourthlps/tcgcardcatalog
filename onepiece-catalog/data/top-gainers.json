@@ -1,16 +1,77 @@
 {
-  "generated_at": "2026-06-30T22:53:15.601583+00:00",
-  "snapshot_date": "2026-06-30",
-  "baseline_date": "2026-06-29",
-  "days_between_snapshots": 1,
-  "history_days_collected": 6,
+  "generated_at": "2026-07-02T21:52:12.731088+00:00",
+  "snapshot_date": "2026-07-02",
+  "baseline_date": "2026-06-30",
+  "days_between_snapshots": 2,
+  "history_days_collected": 7,
   "period": "day_over_day",
-  "confidence": "low",
+  "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 0,
-  "cards_with_trend": 0,
+  "cards_evaluated": 1273,
+  "cards_with_trend": 80,
   "trend_type": "gainers",
-  "cards": []
+  "cards": [
+    {
+      "card_id": "EB02-061",
+      "card_image_id": "EB02-061_p2",
+      "card_name": "Monkey.D.Luffy (061) (Manga)",
+      "set_code": "EB-02",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_p2.jpg",
+      "today_price_usd": 5199.5,
+      "baseline_price_usd": 2750.99,
+      "price_change_usd": 2448.51,
+      "price_change_percent": 89.0
+    },
+    {
+      "card_id": "OP09-119",
+      "card_image_id": "OP09-119_p2",
+      "card_name": "Monkey.D.Luffy (119) (Manga)",
+      "set_code": "OP-09",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-119_p2.jpg",
+      "today_price_usd": 2699.0,
+      "baseline_price_usd": 2566.33,
+      "price_change_usd": 132.67,
+      "price_change_percent": 5.17
+    },
+    {
+      "card_id": "OP09-093",
+      "card_image_id": "OP09-093_p2",
+      "card_name": "Marshall.D.Teach (093) (Manga)",
+      "set_code": "OP-09",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p2.jpg",
+      "today_price_usd": 1675.0,
+      "baseline_price_usd": 1595.0,
+      "price_change_usd": 80.0,
+      "price_change_percent": 5.02
+    },
+    {
+      "card_id": "OP09-093",
+      "card_image_id": "OP09-093_p5",
+      "card_name": "Marshall.D.Teach (SP) (Gold)",
+      "set_code": "OP-12",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p5_esui2Sk.jpg",
+      "today_price_usd": 1653.09,
+      "baseline_price_usd": 1580.19,
+      "price_change_usd": 72.9,
+      "price_change_percent": 4.61
+    },
+    {
+      "card_id": "OP09-093",
+      "card_image_id": "OP09-093_p4",
+      "card_name": "Marshall.D.Teach (SP) (Silver)",
+      "set_code": "OP-12",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p4_yGd9lfW.jpg",
+      "today_price_usd": 1088.19,
+      "baseline_price_usd": 1020.13,
+      "price_change_usd": 68.06,
+      "price_change_percent": 6.67
+    }
+  ]
 }
