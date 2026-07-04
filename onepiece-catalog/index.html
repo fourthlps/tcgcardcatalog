@@ -1751,7 +1751,6 @@ function tilePrice(c){
 // price the detail page shows) and re-render in place.
 function switchCardVer(lang){
   S.cardLang=lang==='jp'?'jp':'en';
-  localStorage.setItem('voyage_edition',S.cardLang);
   S.srchEdition=S.cardLang;
   if(S.lastIdx!=null)openCard(S.lastIdx);
 }
@@ -3609,7 +3608,6 @@ function openSet(code,lang){
   if(tog){tog.style.display='inline-flex';tog.querySelectorAll('.ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===(isEN?'en':'jp')));}
   S.setCode=code;
   S.cardLang=lang==='en'?'en':'jp';
-  localStorage.setItem('voyage_edition',S.cardLang);
   S.srchEdition=S.cardLang;
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='default';
