@@ -2651,14 +2651,20 @@ function chaseScrollState(){
 
 function quickSearch(q){document.getElementById('gsearch').value=q;doSearch();}
 
-// ── build character map from D.setData (called once per search) ──────────────
+// ── build character map from actual card data (not set metadata) ─────────────
+// Keyed by canonical base name (chaseBase strips parentheticals like "(Gear 5)")
+// so every entry is guaranteed to have ≥ 1 real card.
 function buildCharMap(){
   const m={};
-  Object.entries(D.setData).forEach(([code,sd])=>{
-    (sd.featured_characters||[]).forEach(ch=>{
-      const key=ch.toLowerCase();
-      if(!m[key])m[key]={name:ch,sets:[]};
-      m[key].sets.push(code);
+  Object.entries(D.cache).forEach(([code,cards])=>{
+    cards.forEach(c=>{
+      const base=chaseBase(c.card_name||'');
+      if(!base)return;
+      const key=base.toLowerCase();
+      if(!m[key])m[key]={name:base,sets:[],jpCount:0,enCount:0};
+      if(!m[key].sets.includes(code))m[key].sets.push(code);
+      if(hasJP(c))m[key].jpCount++;
+      if(realPrice(c)>0)m[key].enCount++;
     });
   });
   return m;
@@ -2669,18 +2675,27 @@ let _charFilter=''; // active set filter on the All Cards section
 
 function openCharacter(name){
   const L=S.lang;
-  const key=name.toLowerCase();
+  const isJP=S.cardLang==='jp';
+  // Canonical key: strip parentheticals so "Monkey D. Luffy (Gear 5)" → "Monkey D. Luffy"
+  const baseKey=chaseBase(name).toLowerCase();
+  const key=baseKey;
   const charMap=buildCharMap();
-  const charEntry=charMap[key]||Object.values(charMap).find(c=>c.name.toLowerCase()===key)||{name,sets:[]};
+  const charEntry=charMap[key]||Object.values(charMap).find(c=>c.name.toLowerCase()===key)||{name:chaseBase(name),sets:[]};
 
-  // Gather all cards whose card_name contains the character name
+  // Gather cards in the current edition that match this character
+  const hasEdCard=c=>isJP?hasJP(c):realPrice(c)>0;
   const allCards=[];
   Object.entries(D.cache).forEach(([code,cards])=>{
     cards.forEach(c=>{
-      if((c.card_name||'').toLowerCase().includes(key))allCards.push({...c,_setCode:code});
+      if((c.card_name||'').toLowerCase().includes(key)&&hasEdCard(c))
+        allCards.push({...c,_setCode:code});
     });
   });
-  allCards.sort((a,b)=>realPrice(b)-realPrice(a));
+  allCards.sort((a,b)=>editionPriceThb(b)-editionPriceThb(a));
+
+  // If no cards found for this character in the current edition, fall back to
+  // a card search rather than showing an empty character page.
+  if(!allCards.length){quickSearch(name);return;}
 
   // Sets this character actually appears in (derived from the matched cards so
   // the count is always accurate, not dependent on featured_characters metadata).
@@ -2710,9 +2725,10 @@ function openCharacter(name){
 }
 
 function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
+  const isJP=S.cardLang==='jp';
   const topCards=allCards.slice(0,6);
-  const highestPrice=allCards.length?realPrice(allCards[0]):0;
-  const priceStr=highestPrice>0?fpL(highestPrice):'—';
+  const highestPriceThb=allCards.length?editionPriceThb(allCards[0]):0;
+  const priceStr=highestPriceThb>0?fpL(highestPriceThb/activeFx(),highestPriceThb):'—';
   const fx=activeFx();
 
   // Hero — cap visible set chips so prolific characters (e.g. Luffy in 30+ sets)
@@ -2796,9 +2812,10 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
 
 function renderCharAllCards(allCards,filterCode){
   const cards=filterCode?allCards.filter(c=>c._setCode===filterCode):allCards;
+  const isJP=S.cardLang==='jp';
   return cards.map(c=>{
-    const pr=realPrice(c);
-    const prStr=pr>0?fpL(pr):'—';
+    const prThb=editionPriceThb(c);
+    const prStr=prThb>0?fpL(prThb/activeFx(),prThb):'—';
     const cid=c.card_number||c.card_image_id||'';
     return`<div class="char-top-card" onclick="jumpCard('${c._setCode}','${c.card_image_id}')">
       ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
@@ -2859,8 +2876,11 @@ function doSearch(){
     return _t(p.product_name).toLowerCase().includes(q)||(p.set_code||'').toLowerCase().includes(q)||(p.language||'').toLowerCase()===q;
   });
 
-  // Characters
-  const chars=Object.values(buildCharMap()).filter(ch=>ch.name.toLowerCase().includes(q));
+  // Characters — only show entries that have cards in the current edition
+  const chars=Object.values(buildCharMap()).filter(ch=>{
+    if(!ch.name.toLowerCase().includes(q))return false;
+    return S.cardLang==='jp'?ch.jpCount>0:ch.enCount>0;
+  });
 
   const rarities=[...new Set(cards.map(r=>r.card.rarity).filter(Boolean))];
   S.srchCards=cards;S.srchShown=cards;S.srchEdition=S.cardLang;
