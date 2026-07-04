@@ -2227,9 +2227,9 @@ function topValueFallback(rank){
       <span class="mtrend-rank">${rank+1}</span>
       <img class="mtrend-img" src="${c.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
-        ${valueSrcBadge(c)}
+        ${editionBadge(ed)}
         <div class="mtrend-name">${chaseBase(c.card_name)}</div>
-        <div class="mtrend-price">${jpPreferredDisplay(c)}</div>
+        <div class="mtrend-price">${ed==='JP'?fpL(0,jpPreferredPriceThb(c)):fpL(realPrice(c))}</div>
         <div style="font-size:10px;color:var(--faint);margin-top:2px">${c.set_id||''} · ${c.rarity||''}</div>
       </div>
     </div>`;
@@ -3609,6 +3609,8 @@ function openSet(code,lang){
   if(tog){tog.style.display='inline-flex';tog.querySelectorAll('.ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===(isEN?'en':'jp')));}
   S.setCode=code;
   S.cardLang=lang==='en'?'en':'jp';
+  localStorage.setItem('voyage_edition',S.cardLang);
+  S.srchEdition=S.cardLang;
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='default';
   S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
