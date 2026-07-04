@@ -2518,11 +2518,13 @@ function chaseVariant(n){
 // commons/rares) score 0 and are excluded from chase rankings entirely.
 function chaseScore(c){
   const n=(c.card_name||'').toLowerCase();
+  // Only rarity field drives TR — never card name, so "Mad Treasure" (a
+  // character name) does not trigger the Treasure-rare tier.
   const r=(c.rarity||'').toUpperCase();
   let s=0;
   if(/manga/.test(n))s=Math.max(s,100);
   if(/ghost/.test(n))s=Math.max(s,98);
-  if(/treasure/.test(n)||r==='TR')s=Math.max(s,96);
+  if(r==='TR')s=Math.max(s,96);
   if(/red\s*super\s*alt/.test(n))s=Math.max(s,94);
   if(/super\s*alt/.test(n))s=Math.max(s,90);
   if(/\(sp\)/.test(n)||r==='SP'||r==='SPR')s=Math.max(s,85);
@@ -2533,19 +2535,26 @@ function chaseScore(c){
   if(r==='SEC')s=Math.max(s,55);
   return s;
 }
+// Minimum THB price to appear in Top Chase Cards.
+// Eliminates cheap cards that have an eligible rarity/name but no real market demand.
+const CHASE_MIN_THB=500;
 function chasePicks(limit){
   const cards=flat();
-  const withPrice=cards.filter(c=>hasEditionPrice(c));
-  const byKey=new Map();
+  // Filter: must have a real edition price AND clear the minimum floor.
+  const withPrice=cards.filter(c=>hasEditionPrice(c)&&editionPriceThb(c)>=CHASE_MIN_THB);
+  // Dedup: one entry per card_image_id (exact printing), keep highest-priced duplicate row.
+  const byId=new Map();
   withPrice.forEach(c=>{
-    const key=(c.card_set_id||'')+'|'+(c.card_name||c.card_image_id||'');
-    const existing=byKey.get(key);
-    if(!existing||editionPriceThb(c)>editionPriceThb(existing))byKey.set(key,c);
+    const key=c.card_image_id||c.card_name||'';
+    const existing=byId.get(key);
+    if(!existing||editionPriceThb(c)>editionPriceThb(existing))byId.set(key,c);
   });
-  // Rank by collectibility tier first, price only as a tiebreaker within a tier.
-  const ranked=[...byKey.values()]
+  // Rank: price descending first (the primary signal), chaseScore secondary
+  // (breaks ties between cards at the same price, and keeps pure-rarity
+  // cards from overriding genuinely expensive cards).
+  const ranked=[...byId.values()]
     .filter(c=>chaseScore(c)>0)
-    .sort((a,b)=>chaseScore(b)-chaseScore(a)||editionPriceThb(b)-editionPriceThb(a));
+    .sort((a,b)=>editionPriceThb(b)-editionPriceThb(a)||chaseScore(b)-chaseScore(a));
 
   // --- TEMPORARY DEBUG (per request) -- safe to delete once verified ---
   if(DEBUG_CHASE&&!window._chaseDebugLogged){
