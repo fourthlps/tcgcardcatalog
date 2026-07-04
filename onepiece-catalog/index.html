@@ -1779,6 +1779,18 @@ function fpL(usd,thbReal){
   }
   return '$'+n.toFixed(2);
 }
+// Edition-aware price helpers — all homepage widgets must use these so JP
+// and EN are never mixed on the same surface.
+function editionPriceThb(c){
+  return S.cardLang==='jp'?jpPreferredPriceThb(c):realPrice(c)*activeFx();
+}
+function hasEditionPrice(c){
+  return S.cardLang==='jp'?(marketFor(c,'JP')&&jpPreferredPriceThb(c)>0):realPrice(c)>0;
+}
+function fpEdition(c){
+  const t=editionPriceThb(c);
+  return fpL(t/activeFx(),t);
+}
 function rc(r){return r?'rtag '+r.replace(/[^A-Z]/g,''):'rtag';}
 
 // Single source of truth for "the real price" of a card: prefer the live
@@ -1985,12 +1997,12 @@ function renderHome(){renderStats();renderFC();renderPops();renderSpons();render
 
 function renderStats(){
   const cards=flat();
-  const hi=cards.reduce((m,c)=>Math.max(m,realPrice(c)),0);
+  const hiThb=cards.reduce((m,c)=>Math.max(m,editionPriceThb(c)),0);
   const L=S.lang;
   const st=[
     {ic:'⚓',v:D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
     {ic:'🗂️',v:ttl().toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
-    {ic:'⭐',v:fpL(hi),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
+    {ic:'⭐',v:fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
   ];
   document.getElementById('stats').innerHTML=st.map(s=>`<div class="stat-p"><span class="stat-ic">${s.ic}</span><div><div class="stat-v">${s.v}</div><div class="stat-l">${L==='th'?s.th:s.en}</div></div></div>`).join('');
 }
@@ -2247,8 +2259,12 @@ function renderTrend(){
   if(!valHtml)valHtml=`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
   // Panels 2 & 3 — 7-day movers or placeholder
-  const gainHtml=gainers.length?gainers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
-  const loseHtml=losers.length?losers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
+  // Trend pipeline collects EN (TCGPlayer) data only. In JP mode show a
+  // holding message rather than mixing EN cards into a JP-mode homepage.
+  const jpMode=S.cardLang==='jp';
+  const jpTrendNote=`<div class="mtrend-note">${L==='th'?'กำลังเก็บข้อมูลแนวโน้มราคา JP':'JP price trend data coming soon'}</div>`;
+  const gainHtml=jpMode?jpTrendNote:(gainers.length?gainers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L));
+  const loseHtml=jpMode?jpTrendNote:(losers.length?losers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L));
 
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
@@ -2323,31 +2339,31 @@ function _boxRawSignals(code){
   const cards=D.cache[code]||[];
   const box=BOX[code];
   if(!box||!cards.length)return null;
-  const boxUsd=box.usd>0?box.usd:1;
-  const pricedCards=cards.filter(c=>realPrice(c)>0);
+  // Use THB throughout so JP and EN editions compare apples-to-apples.
+  const boxThb=(S.cardLang==='jp'?(box.thb||box.usd*activeFx()):box.usd*activeFx())||1;
+  const pricedCards=cards.filter(c=>hasEditionPrice(c));
   if(pricedCards.length<BOX_SCORE_CFG.minPriced)return null;
-  const byPrice=pricedCards.slice().sort((a,b)=>realPrice(b)-realPrice(a));
-  const topPrice=realPrice(byPrice[0]);
+  const byPrice=pricedCards.slice().sort((a,b)=>editionPriceThb(b)-editionPriceThb(a));
+  const topPrice=editionPriceThb(byPrice[0]);
   if(!topPrice)return null;
-  const top5sum=byPrice.slice(0,5).reduce((s,c)=>s+realPrice(c),0);
-  const top10sum=byPrice.slice(0,10).reduce((s,c)=>s+realPrice(c),0);
-  const valuableCount=pricedCards.filter(c=>realPrice(c)>=boxUsd*BOX_SCORE_CFG.threshold).length;
+  const top5sum=byPrice.slice(0,5).reduce((s,c)=>s+editionPriceThb(c),0);
+  const top10sum=byPrice.slice(0,10).reduce((s,c)=>s+editionPriceThb(c),0);
+  const valuableCount=pricedCards.filter(c=>editionPriceThb(c)>=boxThb*BOX_SCORE_CFG.threshold).length;
   return{
     code,
     raw:{
-      ev:top5sum/boxUsd,
+      ev:top5sum/boxThb,
       breadth:valuableCount,
       distribution:top10sum>0?1-topPrice/top10sum:0,
-      chase:topPrice/boxUsd,
+      chase:topPrice/boxThb,
       confidence:pricedCards.length/cards.length,
-      trend:0,  // future hook
+      trend:0,
     },
-    // Rich data for future "decision panel" UI
-    topChaseUsd:topPrice,
-    top5Usd:top5sum,
+    topChaseUsd:topPrice/activeFx(),
+    top5Usd:top5sum/activeFx(),
     valuableCount,
     confidence:pricedCards.length/cards.length,
-    boxUsd,
+    boxUsd:box.usd,
   };
 }
 
@@ -2519,17 +2535,17 @@ function chaseScore(c){
 }
 function chasePicks(limit){
   const cards=flat();
-  const withPrice=cards.filter(c=>realPrice(c)>0);
+  const withPrice=cards.filter(c=>hasEditionPrice(c));
   const byKey=new Map();
   withPrice.forEach(c=>{
     const key=(c.card_set_id||'')+'|'+(c.card_name||c.card_image_id||'');
     const existing=byKey.get(key);
-    if(!existing||realPrice(c)>realPrice(existing))byKey.set(key,c);
+    if(!existing||editionPriceThb(c)>editionPriceThb(existing))byKey.set(key,c);
   });
   // Rank by collectibility tier first, price only as a tiebreaker within a tier.
   const ranked=[...byKey.values()]
     .filter(c=>chaseScore(c)>0)
-    .sort((a,b)=>chaseScore(b)-chaseScore(a)||realPrice(b)-realPrice(a));
+    .sort((a,b)=>chaseScore(b)-chaseScore(a)||editionPriceThb(b)-editionPriceThb(a));
 
   // --- TEMPORARY DEBUG (per request) -- safe to delete once verified ---
   if(DEBUG_CHASE&&!window._chaseDebugLogged){
@@ -2547,21 +2563,20 @@ function chasePicks(limit){
 function renderChase(){
   const L=S.lang;
   const picks=chasePicks(15);
+  const ed=S.cardLang==='jp'?'JP':'EN';
   document.getElementById('chase-row').innerHTML=picks.map((c,i)=>{
-    const price=realPrice(c);
-    const showInv=c.inventory_price>0&&Math.abs(c.inventory_price-price)>0.009;
+    const priceDisplay=fpEdition(c);
     const variant=chaseVariant(c.card_name);
     const rankCls=i<3?'top3':'rest';
     return `<div class="chase-card" onclick="jumpFC('${c.set_id||''}','${c.card_image_id}')">
       <div class="chase-rank ${rankCls}">${i+1}</div>
       <div class="chase-img-wrap"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
       <div class="chase-body">
-        <div style="margin-bottom:4px">${editionBadge(cardEdition(c,'all'))}</div>
+        <div style="margin-bottom:4px">${editionBadge(ed)}</div>
         <div class="chase-name">${chaseBase(c.card_name)}</div>
         ${variant?`<div class="chase-variant">(${variant})</div>`:''}
         <div class="chase-set">${c.card_set_id||''}${c.rarity?' · '+c.rarity:''}</div>
-        <div class="chase-price">${fpL(price)}</div>
-        ${showInv?`<div class="chase-price-range">${L==='th'?'ราคาสต็อก':'Inventory'}: ${fpL(c.inventory_price)}</div>`:''}
+        <div class="chase-price">${priceDisplay}</div>
       </div>
     </div>`;
   }).join('');
