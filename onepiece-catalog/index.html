@@ -1521,7 +1521,7 @@ const DEBUG_CHASE=false;
 // A panel is live when: confidence !== 'low' AND history_days_collected >= 7
 // AND the cards array is non-empty. No more hardcoded flag.
 function trendsTrustworthy(g){return!!(g&&(g.confidence||'low')!=='low'&&(g.history_days_collected||0)>=7&&(g.cards||[]).length>0);}
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:'all'};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:(localStorage.getItem('voyage_edition')||'jp'),cardLang:(localStorage.getItem('voyage_edition')||'jp')};
 
 // Thai → English alias table for typed search (KI-04)
 const THAI_ALIAS={
@@ -1751,6 +1751,8 @@ function tilePrice(c){
 // price the detail page shows) and re-render in place.
 function switchCardVer(lang){
   S.cardLang=lang==='jp'?'jp':'en';
+  localStorage.setItem('voyage_edition',S.cardLang);
+  S.srchEdition=S.cardLang;
   if(S.lastIdx!=null)openCard(S.lastIdx);
 }
 // The version actually being displayed: the requested language if it has a
@@ -1995,10 +1997,15 @@ function renderStats(){
 
 function renderFC(){
   const cards=flat();if(!cards.length)return;
-  // Pick highest-priced card once and cache it — don't re-roll on language toggle
-  if(!D._featuredCard||realPrice(cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]))>realPrice(D._featuredCard)){
-    D._featuredCard=cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]);
-  }
+  const ed=S.cardLang==='jp'?'JP':'EN';
+  // Pick highest-priced card for the active edition
+  const pool=cards.filter(c=>ed==='JP'?marketFor(c,'JP'):realPrice(c)>0);
+  const ranked=(pool.length?pool:cards).slice().sort((a,b)=>{
+    const va=ed==='JP'?jpPreferredPriceThb(a):realPrice(a);
+    const vb=ed==='JP'?jpPreferredPriceThb(b):realPrice(b);
+    return vb-va;
+  });
+  D._featuredCard=ranked[0];
   const top=D._featuredCard;
   const L=S.lang;
   const setCode=Object.entries(D.cache).find(([,v])=>v.some(c=>c.card_image_id===top.card_image_id))?.[0]||'';
@@ -2143,7 +2150,7 @@ function trendEntryFromJson(card,L,rank){
   return `<div class="mtrend-body" ${clickAttr}>${rk}
       <img class="mtrend-img" src="${card.card_image||''}" onerror="this.style.visibility='hidden'">
       <div>
-        ${editionBadge('EN')}
+        ${editionBadge(card.source_market||'EN')}
         <div class="mtrend-name">${chaseBase(card.card_name)}</div>
         <div class="mtrend-price">${priceDisplay} ${pill}</div>
       </div>
@@ -2194,9 +2201,10 @@ function valueSrcBadge(c){
   return`<span class="val-src en">🇺🇸 EN</span>`;
 }
 function topValueFallback(rank){
-  // Ranked by JP-preferred THB value so JP market cards surface above EN-only ones.
-  const sorted=flat().filter(c=>jpPreferredPriceThb(c)>0)
-    .sort((a,b)=>jpPreferredPriceThb(b)-jpPreferredPriceThb(a));
+  const ed=S.cardLang==='jp'?'JP':'EN';
+  const sorted=flat()
+    .filter(c=>ed==='JP'?(marketFor(c,'JP')&&jpPreferredPriceThb(c)>0):realPrice(c)>0)
+    .sort((a,b)=>ed==='JP'?(jpPreferredPriceThb(b)-jpPreferredPriceThb(a)):(realPrice(b)-realPrice(a)));
   const c=sorted[rank];
   if(!c)return'';
   // Use imgIndex for O(1) set-code lookup — cardByImgId builds it lazily.
@@ -2832,13 +2840,13 @@ function doSearch(){
   const chars=Object.values(buildCharMap()).filter(ch=>ch.name.toLowerCase().includes(q));
 
   const rarities=[...new Set(cards.map(r=>r.card.rarity).filter(Boolean))];
-  S.srchCards=cards;S.srchShown=cards;S.srchEdition='all';
+  S.srchCards=cards;S.srchShown=cards;S.srchEdition=S.cardLang;
   paintSearch({sets,cards,products,chars},q,rarities);
 }
 // Reset the All/JP/EN filter buttons to "All".
 function resetSrchEditionBtns(){
-  S.srchEdition='all';
-  document.querySelectorAll('#srch-ed-filter .ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed==='all'));
+  S.srchEdition=S.cardLang;
+  document.querySelectorAll('#srch-ed-filter .ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===S.cardLang));
 }
 
 function applySrchFilters(){
@@ -3560,12 +3568,17 @@ function renderSets(){
 
 // Context-aware edition switch: stays in current set if one is open (KI-03)
 function switchEdition(lang){
+  S.cardLang=lang==='jp'?'jp':'en';
+  localStorage.setItem('voyage_edition',S.cardLang);
+  S.srchEdition=S.cardLang;
+  renderHome();
   if(S.setCode)openSet(S.setCode,lang);
   else openAllCards(lang);
 }
 
 function openSet(code,lang){
   S.cardReturn=null;   // entering a set list: card back-button returns here
+  if(!lang)lang=S.cardLang; // inherit global edition context
   // Show toggle scoped to this set so JP↔EN stays within the set (KI-03)
   const tog=document.getElementById('cards-ed-toggle');
   const isEN=lang==='en';
@@ -3609,9 +3622,10 @@ function openSet(code,lang){
 // with the same search / rarity / sort controls. Distinct from "Sets" (the
 // set picker). Prices shown uniformly in the selected currency.
 function openAllCards(lang){
-  lang=lang==='jp'?'jp':'en';
+  lang=(lang==='jp'||lang==='en')?lang:S.cardLang;
   S.setCode=null;
   S.cardLang=lang;
+  localStorage.setItem('voyage_edition',S.cardLang);
   S.cardReturn=()=>show('view-cards');  // back from a card returns here
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='price-desc';
