@@ -4153,40 +4153,49 @@ function whereToBuyHtml(c){
 }
 function relatedCardsHtml(c){
   const L=S.lang;
+  const ver=effectiveVer(c); // 'JP' or 'EN' — drives ALL related sections
+  const isJP=ver==='JP';
+  // Edition-scoped price helpers for this context
+  const hasPrice=x=>isJP?hasJP(x):realPrice(x)>0;
+  const priceFor=x=>isJP?jpPreferredPriceThb(x):realPrice(x);
+  const priceDisplay=x=>isJP?fpL(0,jpPreferredPriceThb(x)):fpL(realPrice(x));
+  const badge=editionBadge(isJP?'JP':'EN');
+
   const setCards=D.cache[S.setCode]||[];
   const num=c.card_set_id;
-  // Other printings of the exact same card_set_id
-  const versions=setCards.filter(x=>x.card_set_id===num&&x.card_image_id!==c.card_image_id);
-  // Top-priced in same set (different card)
-  const more=setCards.filter(x=>x.card_set_id!==num&&realPrice(x)>0)
-    .sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,8);
-  // Same character across ALL sets (cross-set)
+  // Other printings of the exact same card number (parallels, gold stamps, etc.)
+  // Show all variants that exist in the current edition.
+  const versions=setCards.filter(x=>x.card_set_id===num&&x.card_image_id!==c.card_image_id&&(isJP?hasJP(x):true));
+  // Top-priced cards in same set, current edition only
+  const more=setCards.filter(x=>x.card_set_id!==num&&hasPrice(x))
+    .sort((a,b)=>priceFor(b)-priceFor(a)).slice(0,8);
+  // Same character across ALL sets, current edition only
   const baseName=chaseBase(c.card_name).toLowerCase();
   const allCards=flat();
   const sameChar=allCards.filter(x=>
     x.card_image_id!==c.card_image_id&&
     x.card_set_id!==num&&
     chaseBase(x.card_name).toLowerCase()===baseName&&
-    realPrice(x)>0
-  ).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,12);
-  // Same rarity, different card, sorted by price
+    hasPrice(x)
+  ).sort((a,b)=>priceFor(b)-priceFor(a)).slice(0,12);
+  // Same rarity, different card, current edition only
   const sameRar=allCards.filter(x=>
     x.card_image_id!==c.card_image_id&&
     x.card_set_id!==num&&
     x.rarity===c.rarity&&
-    realPrice(x)>0&&
+    hasPrice(x)&&
     chaseBase(x.card_name).toLowerCase()!==baseName
-  ).sort((a,b)=>realPrice(b)-realPrice(a)).slice(0,8);
+  ).sort((a,b)=>priceFor(b)-priceFor(a)).slice(0,8);
 
   const mini=(x,code)=>{
     const hit=D._imgIndex?D._imgIndex[x.card_image_id]:null;
     const sc=code||(hit?hit.code:S.setCode);
     return `<div class="rel-card" onclick="jumpCard('${sc}','${x.card_image_id}')">
       <img src="${x.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div style="margin-bottom:2px">${editionBadge(cardEdition(x,'all'))}</div>
+      <div style="margin-bottom:2px">${badge}</div>
       <div class="rel-card-name">${chaseBase(x.card_name)}</div>
       <div class="rel-card-meta">${x.set_id||x.card_set_id?.slice(0,5)||''} · ${x.rarity||''}</div>
-      <div class="rel-card-price">${fpL(realPrice(x))}</div>
+      <div class="rel-card-price">${priceDisplay(x)}</div>
     </div>`;
   };
   const section=(title,cards,code)=>cards.length?`<div class="rel-sec">
