@@ -4425,9 +4425,10 @@ function _authMsg(elId,type,msg){
 }
 
 async function signOut(){
-  await sb.auth.signOut();
+  if(sb)await sb.auth.signOut();
   _user=null;
   _updateNavAuth();
+  goHome();
 }
 
 function _updateNavAuth(){
