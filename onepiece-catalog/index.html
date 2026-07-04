@@ -2743,7 +2743,7 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
         <div class="char-stats">
           <div class="char-stat"><span class="char-stat-val">${allCards.length}</span><span class="char-stat-lbl">${L==='th'?'การ์ดทั้งหมด':'Cards'}</span></div>
           <div class="char-stat"><span class="char-stat-val">${setCodes.length}</span><span class="char-stat-lbl">${L==='th'?'ชุด':'Sets'}</span></div>
-          ${highestPrice>0?`<div class="char-stat"><span class="char-stat-val">${priceStr}</span><span class="char-stat-lbl">${L==='th'?'ราคาสูงสุด':'Highest Price'}</span></div>`:''}
+          ${highestPriceThb>0?`<div class="char-stat"><span class="char-stat-val">${priceStr}</span><span class="char-stat-lbl">${L==='th'?'ราคาสูงสุด':'Highest Price'}</span></div>`:''}
         </div>
         <div class="char-sets">${setChips}</div>
       </div>
@@ -2754,14 +2754,14 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
     <div class="char-hub-section">
       <div class="char-hub-lbl">${L==='th'?'🏆 การ์ดมูลค่าสูงสุด':'🏆 Most Valuable Cards'}<span class="char-hub-lbl-count">${L==='th'?`top ${topCards.length}`:`top ${topCards.length}`}</span></div>
       <div class="char-top-grid">${topCards.map(c=>{
-        const pr=realPrice(c);
-        const prStr=pr>0?fpL(pr):'—';
+        const prThb=editionPriceThb(c);
+        const prStr=prThb>0?fpL(prThb/activeFx(),prThb):'—';
         const img=c.card_image||'';
         const cid=c.card_number||c.card_image_id||'';
         return`<div class="char-top-card" onclick="jumpCard('${c._setCode}','${c.card_image_id}')">
           ${img?`<img src="${img}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
           <div class="char-top-card-info">
-            <div style="margin-bottom:3px">${editionBadge(cardEdition(c,'all'))}</div>
+            <div style="margin-bottom:3px">${editionBadge(isJP?'JP':'EN')}</div>
             <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
             <div class="char-top-card-price">${prStr}</div>
             <div class="char-top-card-set">${c._setCode} · ${c.rarity||''}</div>
