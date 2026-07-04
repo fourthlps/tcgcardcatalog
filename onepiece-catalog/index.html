@@ -1645,8 +1645,8 @@ async function init(){
   fetch('card-markets.json').then(r=>r.ok?r.json():null).then(d=>{
     if(d&&d.markets){
       D.markets=d.markets;D.marketsMeta=d._meta||{};
-      // Refresh featured card now that verified prices are available
-      renderFC();
+      // Refresh all homepage widgets now that market prices are available
+      renderHome();
       const dv=document.getElementById('view-detail');
       if(dv&&dv.style.display!=='none'&&S.shown&&S.lastIdx!=null)openCard(S.lastIdx);
       const cv=document.getElementById('view-cards');
