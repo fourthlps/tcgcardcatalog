@@ -3621,7 +3621,7 @@ function openSet(code,lang){
   const EN_EXCLUDE=/treasure|wanted poster/i;
   S.cards=isEN
     ?allCards.filter(c=>EN_RARITIES.has(c.rarity||'')&&!EN_EXCLUDE.test(c.card_name||''))
-    :allCards;
+    :allCards.filter(c=>hasJP(c));
   const m=D.index.find(s=>s.code===code);
   const langLabel=isEN?'🇺🇸 EN':'🇯🇵 JP';
   document.getElementById('cards-ttl').textContent=langLabel+' · '+code+' — '+(m?m.name:'');
@@ -3789,8 +3789,8 @@ function applyFilters(){
   if(!isNaN(costMin))list=list.filter(c=>parseInt(c.card_cost,10)>=costMin);
   if(!isNaN(costMax))list=list.filter(c=>parseInt(c.card_cost,10)<=costMax);
   const sort=document.getElementById('sort-sel')?.value||'default';
-  if(sort==='price-desc')list.sort((a,b)=>realPrice(b)-realPrice(a));
-  else if(sort==='price-asc')list.sort((a,b)=>realPrice(a)-realPrice(b));
+  if(sort==='price-desc')list.sort((a,b)=>editionPriceThb(b)-editionPriceThb(a));
+  else if(sort==='price-asc')list.sort((a,b)=>editionPriceThb(a)-editionPriceThb(b));
   paintCards(list);
 }
 
@@ -4207,11 +4207,23 @@ function relatedCardsHtml(c){
 // until at least 2 data points exist.
 function priceHistoryChart(c){
   const L=S.lang;
+  const ver=effectiveVer(c);
+  // Price-history pipeline collects EN/TCGPlayer data only.
+  // Never show EN price history as the primary chart on a JP card detail page.
+  if(ver==='JP'){
+    return `<div class="ph-chart-wrap">
+      <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา JP':'JP Price History'}</span></div>
+      <div class="ph-chart-empty">
+        <div class="ph-chart-empty-ic">📊</div>
+        <div class="ph-chart-empty-lbl">${L==='th'?'กำลังเก็บข้อมูลประวัติราคา JP (Yuyu-Tei) · จะแสดงหลังมีข้อมูลครบ 2 วัน':'Collecting JP price history (Yuyu-Tei) · Will appear after 2+ days of data'}</div>
+      </div>
+    </div>`;
+  }
   const imgId=c.card_image_id;
   const hist=imgId&&D.priceHistory&&D.priceHistory.history?D.priceHistory.history[imgId]:null;
   const entries=hist?hist.slice().sort((a,b)=>a.date<b.date?-1:1):[];
   const emptyState=`<div class="ph-chart-wrap">
-    <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา':'Price History'}</span></div>
+    <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา EN · TCGPlayer':'EN Price History · TCGPlayer'}</span></div>
     <div class="ph-chart-empty">
       <div class="ph-chart-empty-ic">📊</div>
       <div class="ph-chart-empty-lbl">${L==='th'?'ประวัติราคาจะปรากฏหลังเก็บข้อมูลเพิ่มเติม':'Price history will appear after more daily updates'}</div>
@@ -4257,7 +4269,7 @@ function priceHistoryChart(c){
   const sign=up?'+':'';
   const pill=`<span class="trend-pill ${up?'up':'down'}">${up?'▲':'▼'} ${sign}${pct.toFixed(2)}%</span>`;
   return `<div class="ph-chart-wrap">
-    <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา':'Price History'}</span>${pill}</div>
+    <div class="ph-chart-hd"><span>${L==='th'?'ประวัติราคา EN · TCGPlayer':'EN Price History · TCGPlayer'}</span>${pill}</div>
     <div class="ph-chart-sub">${entries.length} ${L==='th'?'วันข้อมูล · เทียบจากราคาแรก':'days of data · vs first recorded price'}</div>
     <div class="ph-chart">${svg}</div>
   </div>`;
