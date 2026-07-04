@@ -2027,12 +2027,12 @@ function renderFC(){
     <div class="fc-body">
       <img class="fc-img" src="${top.card_image||''}" onerror="this.style.visibility='hidden'">
       <div class="fc-details">
-        <div style="margin-bottom:5px">${editionBadge(cardEdition(top,'all'))}</div>
+        <div style="margin-bottom:5px">${editionBadge(ed)}</div>
         <div class="fc-name">${top.card_name.replace(/\s*\(.*\)$/,'').trim()}</div>
         <div class="fc-variant">${top.card_name.match(/\(.*\)/)?.[0]||''}</div>
         <div class="fc-set-badge">${top.card_set_id||''} · ${setName}</div>
         <div class="fc-price-label">${L==='th'?'ราคาสูงสุด':'Highest Price'}</div>
-        <div class="fc-price">${fpL(realPrice(top))}</div>
+        <div class="fc-price">${ed==='JP'?fpL(0,jpPreferredPriceThb(top)):fpL(realPrice(top))}</div>
         <button class="fc-btn" onclick="jumpFC('${setCode}','${top.card_image_id}')">${L==='th'?'ดูรายละเอียดการ์ด →':'View Card Details →'}</button>
       </div>
     </div>`;
