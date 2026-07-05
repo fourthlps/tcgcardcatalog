@@ -1628,27 +1628,30 @@ async function _loadCMS(){
     const r=await fetch(`${_SUPA_URL}/rest/v1/cms_homepage?select=id,content`,{headers:{'apikey':_SUPA_KEY,'Accept':'application/json'}});
     if(!r.ok)return;
     const rows=await r.json();
-    if(!Array.isArray(rows))return;
+    if(!Array.isArray(rows)||!rows.length)return;
     const byId={};rows.forEach(row=>{byId[row.id]=row.content||{};});
     const L=S.lang;
-    // Hero text
+    // Hero text — directly set textContent so it updates without relying on applyLangUI timing
     const hero=byId.hero||{};
     const h1TH=hero.title_th,h1EN=hero.title_en,subTH=hero.subtitle_th,subEN=hero.subtitle_en;
     if(h1TH||h1EN){
-      document.querySelectorAll('.hero-copy h1 .t:first-child').forEach(el=>{
-        if(h1TH)el.setAttribute('data-th',h1TH);
-        if(h1EN)el.setAttribute('data-en',h1EN);
-      });
-      document.querySelectorAll('.hero-copy h1 .gold.t').forEach(el=>{
-        if(h1TH)el.setAttribute('data-th','');
-        if(h1EN)el.setAttribute('data-en','');
-      });
+      const spans=document.querySelectorAll('.hero-copy h1 span.t');
+      if(spans.length){
+        const s1=spans[0];
+        if(h1TH)s1.setAttribute('data-th',h1TH);
+        if(h1EN)s1.setAttribute('data-en',h1EN);
+        s1.textContent=L==='th'?(h1TH||h1EN):(h1EN||h1TH);
+        // Clear the gold second line so CMS title is the full heading
+        if(spans.length>1){spans[1].setAttribute('data-th','');spans[1].setAttribute('data-en','');spans[1].textContent='';}
+      }
     }
     if(subTH||subEN){
-      document.querySelectorAll('.hero-copy .sub.t').forEach(el=>{
-        if(subTH)el.setAttribute('data-th',subTH);
-        if(subEN)el.setAttribute('data-en',subEN);
-      });
+      const subEl=document.querySelector('.hero-copy .sub.t');
+      if(subEl){
+        if(subTH)subEl.setAttribute('data-th',subTH);
+        if(subEN)subEl.setAttribute('data-en',subEN);
+        subEl.textContent=L==='th'?(subTH||subEN):(subEN||subTH);
+      }
     }
     // Announcement banner
     const ann=byId.announcement||{};
@@ -1656,22 +1659,25 @@ async function _loadCMS(){
       const text=L==='th'?(ann.text_th||ann.text_en||''):(ann.text_en||ann.text_th||'');
       const typeColor={info:'#6366f1',promo:'#f59e0b',warning:'#ef4444'}[ann.type||'info']||'#6366f1';
       if(text){
-        let el=document.getElementById('cms-ann-bar');
-        if(!el){
-          el=document.createElement('div');el.id='cms-ann-bar';
-          el.style.cssText=`background:${typeColor}18;border-bottom:1px solid ${typeColor}44;padding:9px 20px;text-align:center;font-size:13px;font-weight:600;color:${typeColor};position:sticky;top:0;z-index:100`;
-          document.body.insertBefore(el,document.body.firstChild);
+        let bar=document.getElementById('cms-ann-bar');
+        if(!bar){
+          bar=document.createElement('div');bar.id='cms-ann-bar';
+          bar.style.cssText='padding:9px 20px;text-align:center;font-size:13px;font-weight:600;z-index:100';
+          const nav=document.querySelector('header')||document.querySelector('.nav-bar')||document.body.firstElementChild;
+          nav.insertAdjacentElement('afterend',bar);
         }
-        el.textContent=text+(ann.url?' →':'');
-        if(ann.url){el.style.cursor='pointer';el.onclick=()=>window.open(ann.url,'_blank');}
+        bar.style.background=typeColor+'18';bar.style.borderBottom=`1px solid ${typeColor}55`;bar.style.color=typeColor;
+        bar.textContent=text+(ann.url?' →':'');
+        if(ann.url){bar.style.cursor='pointer';bar.onclick=()=>window.open(ann.url,'_blank');}
       }
+    }else{
+      const bar=document.getElementById('cms-ann-bar');if(bar)bar.remove();
     }
-    // Featured sets override
+    // Featured sets/cards override
     const featSets=byId.featured_sets||{};
     if(Array.isArray(featSets.codes)&&featSets.codes.length)D.cmsFeaturedSets=featSets.codes;
     const featCards=byId.featured_cards||{};
     if(Array.isArray(featCards.ids)&&featCards.ids.length)D.cmsFeaturedCards=featCards.ids;
-    applyLangUI();
   }catch{}
 }
 
