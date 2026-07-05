@@ -4423,8 +4423,10 @@ function _authMsg(elId,type,msg){
   el.style.display='block';
 }
 
-async function signOut(){
-  try{if(sb)await sb.auth.signOut();}catch(e){console.warn('signOut error',e);}
+function signOut(){
+  // Fire-and-forget: don't await — the network call can hang.
+  // Clear local session state immediately so the UI responds instantly.
+  if(sb)sb.auth.signOut().catch(e=>console.warn('signOut error',e));
   _user=null;
   _updateNavAuth();
   goHome();
