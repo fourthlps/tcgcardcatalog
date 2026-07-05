@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -264,7 +264,7 @@ code{font-family:monospace;font-size:11px;background:var(--bg3);padding:2px 6px;
     <div class="sb-section-lbl">Commerce</div>
     <div class="sb-item" onclick="nav('shops')" id="nav-shops"><span class="sb-item-ic">🏪</span>Shops & Sponsors</div>
     <div class="sb-item phase2" onclick="nav('affiliate')"><span class="sb-item-ic">🔗</span>Affiliate<span class="sb-item-badge">Phase 2</span></div>
-    <div class="sb-item phase2" onclick="nav('price-overrides')"><span class="sb-item-ic">💲</span>Price Overrides<span class="sb-item-badge">Phase 2</span></div>
+    <div class="sb-item" onclick="nav('price-overrides')" id="nav-price-overrides"><span class="sb-item-ic">💲</span>Price Overrides</div>
 
     <div class="sb-section-lbl">Operations</div>
     <div class="sb-item" onclick="nav('pipeline')" id="nav-pipeline"><span class="sb-item-ic">⚙️</span>Pipeline Monitor</div>
@@ -369,7 +369,7 @@ function bootAdmin(){
 // NAVIGATION
 // ═══════════════════════════════
 const NAV_LABELS={dashboard:'Dashboard',cms:'Homepage CMS',cards:'Card Database',shops:'Shops & Sponsors',pipeline:'Pipeline Monitor',quality:'Data Quality',activity:'Activity Log',analytics:'Website Analytics',search_analytics:'Search Analytics',sets:'Set Database',characters:'Character Database',affiliate:'Affiliate',price_overrides:'Price Overrides',seo:'SEO',health:'Website Health',settings:'Settings'};
-const PHASE2_SECTIONS=new Set(['analytics','search-analytics','sets','characters','affiliate','price-overrides','seo','health','settings']);
+const PHASE2_SECTIONS=new Set(['analytics','search-analytics','sets','characters','affiliate','seo','health','settings']);
 
 function nav(section){
   document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
@@ -378,7 +378,7 @@ function nav(section){
   currentNav=section;
   document.getElementById('topbar-title').textContent=NAV_LABELS[section.replace('-','_')]||section;
   if(PHASE2_SECTIONS.has(section)){renderPhase2(section);return;}
-  const fns={dashboard:renderDashboard,cms:renderCMS,cards:renderCards,shops:renderShops,pipeline:renderPipeline,quality:renderQuality,activity:renderActivity};
+  const fns={dashboard:renderDashboard,cms:renderCMS,cards:renderCards,shops:renderShops,'price-overrides':renderPriceOverrides,pipeline:renderPipeline,quality:renderQuality,activity:renderActivity};
   if(fns[section])fns[section]();else renderPhase2(section);
 }
 
@@ -1232,6 +1232,252 @@ function toast(msg,type='ok'){
   el.style.display='block';clearTimeout(_toastT);
   _toastT=setTimeout(()=>el.classList.add('hide'),2800);
   setTimeout(()=>{el.style.display='none';el.classList.remove('hide');},3200);
+}
+
+// ═══════════════════════════════
+// PRICE OVERRIDES
+// ═══════════════════════════════
+let _ovCards=[], _ovPage=0, _ovQuery='', _ovFiltered=[], _ovList=[];
+
+async function renderPriceOverrides(){
+  const ca=document.getElementById('content-area');
+  const ok=await checkSetup();
+  if(!ok){ca.innerHTML=setupBanner();return;}
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Loading…</div>`;
+  await Promise.all([loadCards(),loadMarkets()]);
+  _ovCards=D.cards;_ovFiltered=D.cards;_ovQuery='';_ovPage=0;
+  const {data:overrides}=await sb.from('price_overrides').select('*').order('created_at',{ascending:false});
+  _ovList=overrides||[];
+  paintPriceOverrides();
+}
+
+function paintPriceOverrides(){
+  const ca=document.getElementById('content-area');
+  const PAGE=40;
+  const start=_ovPage*PAGE;
+  const slice=_ovFiltered.slice(start,start+PAGE);
+  const now=new Date();
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Price Overrides</h1>
+        <div class="page-head-sub">Pipeline prices are read-only. Overrides layer on top and expire automatically.</div>
+      </div>
+    </div>
+
+    <div class="section-card" style="margin-bottom:20px">
+      <div class="section-card-head"><div class="section-card-title">✏️ Create or Edit Override</div></div>
+      <div class="section-card-body">
+        <div class="toolbar" style="margin-bottom:12px">
+          <div class="search-wrap" style="max-width:400px">
+            <input id="ov-card-srch" placeholder="Search card name, ID, set…" oninput="ovCardSearch(this.value)">
+          </div>
+          <select class="field-select" style="width:140px" onchange="ovFilterSet(this.value)">
+            <option value="">All Sets</option>
+            ${[...new Set(D.cards.map(c=>c.set_id||'').filter(Boolean))].sort().map(s=>`<option value="${s}">${s}</option>`).join('')}
+          </select>
+        </div>
+        <div style="max-height:280px;overflow-y:auto;border:1px solid var(--bord);border-radius:var(--radius);margin-bottom:12px">
+          <table class="data-table">
+            <thead><tr><th style="width:44px">Img</th><th>Card</th><th>Set</th><th>Pipeline JP</th><th>Pipeline EN</th><th>Override?</th><th style="width:90px">Action</th></tr></thead>
+            <tbody id="ov-card-tbody">
+              ${slice.map(c=>{
+                const mJP=D.markets[c.card_image_id]?.find(m=>m.source_market==='JP');
+                const mEN=D.markets[c.card_image_id]?.find(m=>m.source_market==='EN');
+                const existing=_ovList.find(o=>o.card_image_id===c.card_image_id);
+                const hasOv=!!existing;
+                const isExp=existing?.expires_at&&new Date(existing.expires_at)<now;
+                return `<tr>
+                  <td>${c.card_image?`<img class="img-thumb" src="${esc(c.card_image)}" loading="lazy" onerror="this.style.visibility='hidden'">`:'—'}</td>
+                  <td><div style="font-weight:600;font-size:12px">${esc(c.card_name||'')}</div><div class="td-mono" style="font-size:10px;color:var(--faint)">${esc(c.card_image_id||'')}</div></td>
+                  <td class="td-muted" style="font-size:12px">${esc(c.set_id||'—')}</td>
+                  <td class="td-mono" style="font-size:12px">${mJP?'¥'+Math.round(mJP.source_price).toLocaleString():'—'}</td>
+                  <td class="td-mono" style="font-size:12px">${mEN?'$'+(mEN.source_price||0).toFixed(2):'—'}</td>
+                  <td>${hasOv?`<span class="pill ${isExp?'pill-gray':'pill-gold'}">${isExp?'Expired':'Active'}</span>`:'<span class="pill pill-gray">—</span>'}</td>
+                  <td><button class="btn btn-ghost btn-sm" onclick="openOvModal('${esc(c.card_image_id)}','${esc(c.card_name||'')}','${esc(c.set_id||'')}','${mJP?Math.round(mJP.source_price):0}','${mEN?(mEN.source_price||0).toFixed(2):0}')">
+                    ${hasOv?'Edit Override':'+ Override'}
+                  </button></td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span>${start+1}–${Math.min(start+PAGE,_ovFiltered.length)} of ${_ovFiltered.length.toLocaleString()}</span>
+          <button onclick="ovPage(-1)" ${_ovPage===0?'disabled':''}>← Prev</button>
+          <button onclick="ovPage(1)" ${start+PAGE>=_ovFiltered.length?'disabled':''}>Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card-head">
+        <div class="section-card-title">📋 Active Overrides (${_ovList.filter(o=>!o.expires_at||new Date(o.expires_at)>=now).length})</div>
+        <button class="btn btn-ghost btn-sm" onclick="renderPriceOverrides()">↻ Refresh</button>
+      </div>
+      <div class="section-card-body" style="padding:0">
+        ${_ovList.length?`
+        <table class="data-table">
+          <thead><tr><th>Card ID</th><th>JP Override</th><th>EN Override</th><th>Reason</th><th>Expires</th><th>Status</th><th style="width:80px">Actions</th></tr></thead>
+          <tbody>
+            ${_ovList.map(o=>{
+              const exp=o.expires_at?new Date(o.expires_at):null;
+              const isExp=exp&&exp<now;
+              const card=D.cards.find(c=>c.card_image_id===o.card_image_id);
+              return `<tr>
+                <td>
+                  <div style="font-weight:600;font-size:12px">${esc(card?.card_name||o.card_image_id)}</div>
+                  <div class="td-mono" style="font-size:10px;color:var(--faint)">${esc(o.card_image_id)}</div>
+                </td>
+                <td class="td-mono">${o.override_jp!=null?'¥'+Number(o.override_jp).toLocaleString():'—'}</td>
+                <td class="td-mono">${o.override_en!=null?'$'+Number(o.override_en).toFixed(2):'—'}</td>
+                <td style="font-size:12px;max-width:200px">${esc(o.reason||'—')}</td>
+                <td class="td-muted" style="font-size:11px">${exp?exp.toLocaleDateString():'Never'}</td>
+                <td><span class="pill ${isExp?'pill-gray':'pill-gold'}">${isExp?'Expired':'Active'}</span></td>
+                <td>
+                  <div style="display:flex;gap:6px">
+                    <button class="btn-icon" title="Edit" onclick="openOvEditModal('${o.id}')">✏️</button>
+                    <button class="btn-icon" title="Delete" onclick="deleteOverride('${o.id}','${esc(o.card_image_id)}')">🗑️</button>
+                  </div>
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`
+        :`<div class="empty-state">No price overrides yet. Use the card list above to create one.</div>`}
+      </div>
+    </div>
+
+    <div class="section-card" style="margin-top:20px">
+      <div class="section-card-head"><div class="section-card-title">ℹ️ How Price Overrides Work</div></div>
+      <div class="section-card-body" style="font-size:13px;color:var(--soft);line-height:1.8">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <b style="color:var(--text)">What overrides do</b><br>
+            Override prices layer on top of pipeline prices everywhere on the public site — card detail, search results, chase cards, collection value, compare view, and all rankings. The pipeline data in card-markets.json is never modified.
+          </div>
+          <div>
+            <b style="color:var(--text)">When to use them</b><br>
+            • Pipeline returned a wrong price for a specific card<br>
+            • A card spiked and you want to reflect the current real price before the next pipeline run<br>
+            • A sponsor card needs a specific display price<br>
+            • Temporary promotion pricing with an expiry date
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:10px 14px;background:var(--red-dim);border-radius:7px;font-size:12px;color:var(--red)">
+          ⚠️ Overrides require a reason. All changes are logged to the Activity Log. Expired overrides remain in the database for audit but are not applied to the public site.
+        </div>
+      </div>
+    </div>`;
+}
+
+let _ovSetFilter='';
+function ovCardSearch(q){_ovQuery=q;_ovPage=0;_applyOvFilters();paintPriceOverrides();}
+function ovFilterSet(s){_ovSetFilter=s;_ovPage=0;_applyOvFilters();paintPriceOverrides();}
+function ovPage(d){_ovPage=Math.max(0,_ovPage+d);paintPriceOverrides();}
+function _applyOvFilters(){
+  let list=D.cards;
+  if(_ovQuery){const q=_ovQuery.toLowerCase();list=list.filter(c=>(c.card_name||'').toLowerCase().includes(q)||(c.card_image_id||'').toLowerCase().includes(q)||(c.set_id||'').toLowerCase().includes(q));}
+  if(_ovSetFilter)list=list.filter(c=>c.set_id===_ovSetFilter);
+  _ovFiltered=list;
+}
+
+function openOvModal(cardId,cardName,setId,pipeJP,pipeEN){
+  const existing=_ovList.find(o=>o.card_image_id===cardId);
+  document.getElementById('modal-overlay').style.display='block';
+  const mb=document.getElementById('modal-box');mb.style.display='flex';
+  mb.innerHTML=`
+    <div class="modal-head">
+      <div>
+        <h2>${existing?'Edit':'Create'} Price Override</h2>
+        <div style="font-size:11px;color:var(--faint);margin-top:2px">${esc(cardName)} · ${esc(setId)}</div>
+      </div>
+      <button class="btn-icon" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:var(--bg3);border-radius:7px;padding:12px 16px;margin-bottom:16px;font-size:12px">
+        <div style="display:flex;gap:32px">
+          <div><span style="color:var(--faint)">Pipeline JP</span><br><b style="font-size:15px">${pipeJP>0?'¥'+Number(pipeJP).toLocaleString():'—'}</b></div>
+          <div><span style="color:var(--faint)">Pipeline EN</span><br><b style="font-size:15px">${pipeEN>0?'$'+Number(pipeEN).toFixed(2):'—'}</b></div>
+          <div style="flex:1;font-size:11px;color:var(--faint);align-self:center">Leave a price blank to keep using the pipeline price for that edition.</div>
+        </div>
+      </div>
+      <input type="hidden" id="ov-card-id" value="${esc(cardId)}">
+      <input type="hidden" id="ov-row-id" value="${existing?.id||''}">
+      <div class="form-grid">
+        <div class="field">
+          <label>Override JP Price (¥ JPY)</label>
+          <input class="field-input" id="ov-jp" type="number" min="0" step="1" placeholder="e.g. 3500" value="${existing?.override_jp??''}">
+          <div class="field-hint">Leave blank to use pipeline JP price</div>
+        </div>
+        <div class="field">
+          <label>Override EN Price ($ USD)</label>
+          <input class="field-input" id="ov-en" type="number" min="0" step="0.01" placeholder="e.g. 24.99" value="${existing?.override_en??''}">
+          <div class="field-hint">Leave blank to use pipeline EN price</div>
+        </div>
+        <div class="field form-grid-full">
+          <label>Reason * (required)</label>
+          <input class="field-input" id="ov-reason" placeholder="e.g. Pipeline returned wrong price, corrected to actual market value" value="${esc(existing?.reason||'')}">
+        </div>
+        <div class="field">
+          <label>Expiry Date (optional)</label>
+          <input class="field-input" id="ov-expires" type="date" value="${existing?.expires_at?existing.expires_at.split('T')[0]:''}">
+          <div class="field-hint">Override auto-disables after this date. Leave blank = permanent.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveOverride()">Save Override</button>
+    </div>`;
+}
+
+function openOvEditModal(id){
+  const o=_ovList.find(x=>x.id===id);if(!o)return;
+  const card=D.cards.find(c=>c.card_image_id===o.card_image_id);
+  const mJP=D.markets[o.card_image_id]?.find(m=>m.source_market==='JP');
+  const mEN=D.markets[o.card_image_id]?.find(m=>m.source_market==='EN');
+  openOvModal(o.card_image_id,card?.card_name||o.card_image_id,card?.set_id||'',mJP?Math.round(mJP.source_price):0,mEN?(mEN.source_price||0).toFixed(2):0);
+}
+
+async function saveOverride(){
+  const cardId=v('ov-card-id');
+  const rowId=v('ov-row-id');
+  const reason=v('ov-reason');
+  if(!reason){toast('Reason is required','err');return;}
+  const jpRaw=document.getElementById('ov-jp').value.trim();
+  const enRaw=document.getElementById('ov-en').value.trim();
+  if(!jpRaw&&!enRaw){toast('Set at least one override price (JP or EN)','err');return;}
+  const expiresRaw=document.getElementById('ov-expires').value;
+  const payload={
+    card_image_id:cardId,
+    override_jp:jpRaw?Number(jpRaw):null,
+    override_en:enRaw?Number(enRaw):null,
+    reason,
+    expires_at:expiresRaw?new Date(expiresRaw).toISOString():null
+  };
+  const existing=_ovList.find(o=>o.card_image_id===cardId);
+  let error;
+  if(rowId){
+    ({error}=await sb.from('price_overrides').update(payload).eq('id',rowId));
+  }else{
+    ({error}=await sb.from('price_overrides').insert(payload));
+  }
+  if(error){toast('Save failed: '+error.message,'err');return;}
+  await logActivity('price_overrides',rowId?'update':'create',cardId,existing||null,payload);
+  closeModal();
+  toast((rowId?'Override updated':'Override created')+' ✓','ok');
+  renderPriceOverrides();
+}
+
+async function deleteOverride(id,cardId){
+  if(!confirm('Delete this price override? The pipeline price will be used again immediately.'))return;
+  const old=_ovList.find(o=>o.id===id);
+  const {error}=await sb.from('price_overrides').delete().eq('id',id);
+  if(error){toast('Delete failed: '+error.message,'err');return;}
+  await logActivity('price_overrides','delete',cardId,old,null);
+  toast('Override deleted','ok');
+  renderPriceOverrides();
 }
 </script>
 </body>
