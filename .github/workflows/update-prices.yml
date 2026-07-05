@@ -25,20 +25,21 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests beautifulsoup4
 
       - name: Fetch latest prices
         env:
           APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
           APPS_SCRIPT_SECRET: ${{ secrets.APPS_SCRIPT_SECRET }}
-          # Manual runs respect the dry_run input checkbox.
-          # Scheduled runs default to DRY_RUN=false (real write) because
-          # the pipeline has been manually verified and is now in production.
-          # The boolean false / 'false' edge-case is handled via != 'workflow_dispatch'
-          # to avoid the classic &&/|| ternary pitfall (see previous comment history).
           DRY_RUN: ${{ github.event_name != 'workflow_dispatch' && 'false' || inputs.dry_run }}
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: python scripts/update_prices.py
+
+      - name: Append JP price history snapshot
+        run: python scripts/append_jp_history.py
+
+      - name: Compute JP 7-day trends
+        run: python scripts/compute_jp_trends.py
 
       - name: Commit and push if changed
         run: |
@@ -53,4 +54,4 @@ jobs:
       - name: Notify on failure
         if: failure()
         run: |
-          echo "::error title=Price Update Failed::Daily price update failed on $(date +'%Y-%m-%d'). Check the Fetch latest prices step for details. Price history may have a gap for today."
+          echo "::error title=Price Update Failed::Daily price update failed on $(date +'%Y-%m-%d'). Check the logs for details."
