@@ -1716,6 +1716,9 @@ async function init(){
       if(av&&av.style.display!=='none')openAdmin();
     }
   });
+  // Load price overrides from Supabase — non-blocking. Once loaded, refresh
+  // home widgets so overridden prices appear immediately.
+  _loadOverrides().then(()=>{if(Object.keys(D.overrides).length)renderHome();});
   // Non-blocking parallel fetches: FX rate + trend data + site status.
   // None of these block the initial render -- they refresh the relevant
   // UI sections as soon as their data arrives.
@@ -1754,6 +1757,32 @@ async function init(){
   // Hidden admin route: open via #admin (and react to hash changes).
   if(location.hash==='#admin')openAdmin();
   window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin();});
+}
+
+// Price overrides loaded from Supabase — keyed by card_image_id.
+// Populated by _loadOverrides() on init. Empty object = no overrides active.
+D.overrides={};
+
+function _getOverride(c){
+  if(!c||!D.overrides)return null;
+  const o=D.overrides[c.card_image_id];
+  if(!o)return null;
+  if(o.expires_at&&new Date(o.expires_at)<new Date())return null;
+  return o;
+}
+
+async function _loadOverrides(){
+  try{
+    const now=new Date().toISOString();
+    const url=`${_SUPA_URL}/rest/v1/price_overrides?select=card_image_id,override_jp,override_en,reason,expires_at&or=(expires_at.is.null,expires_at.gt.${now})`;
+    const r=await fetch(url,{headers:{'apikey':_SUPA_KEY,'Accept':'application/json'}});
+    if(!r.ok)return;
+    const rows=await r.json();
+    if(!Array.isArray(rows))return;
+    const map={};
+    rows.forEach(row=>{if(row.card_image_id)map[row.card_image_id]=row;});
+    D.overrides=map;
+  }catch{}
 }
 
 function flat(){return Object.values(D.cache).flat();}
@@ -1865,6 +1894,9 @@ function rc(r){return r?'rtag '+r.replace(/[^A-Z]/g,''):'rtag';}
 // matches the number shown on screen for it.
 function realPrice(c){
   if(!c)return 0;
+  // Check manual override first (admin price_overrides table).
+  const ov=_getOverride(c);
+  if(ov&&ov.override_en!=null&&ov.override_en>0)return Number(ov.override_en);
   // Prefer the normalized market dataset (EN market price, USD) once loaded.
   const en=marketFor(c,'EN');
   if(en&&en.source_price>0)return en.source_price;
@@ -2276,6 +2308,9 @@ function trendAgeLabel(meta,L){
 // Order: JP converted_price → JP source×rate → EN source×fx → legacy field×fx
 function jpPreferredPriceThb(c){
   const jpy_thb=activeJpyFx();
+  // Check manual override first.
+  const ov=_getOverride(c);
+  if(ov&&ov.override_jp!=null&&ov.override_jp>0)return Number(ov.override_jp)*jpy_thb;
   const jp=marketFor(c,'JP');
   if(jp&&jp.source_price>0)return jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
   const en=marketFor(c,'EN');
