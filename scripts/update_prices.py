@@ -22,6 +22,12 @@ import requests
 
 BASE_URL = "https://optcgapi.com/api"
 OUTPUT_PATH = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
+# Multi-game architecture (2026-07-06): the site now reads per-game data from
+# data/one-piece/cards.json. Write BOTH paths during the transition so the
+# legacy file (still referenced by the deployed pre-refactor build and any
+# external consumers) never goes stale. Drop the legacy path once the
+# refactored build has been live for a full cycle.
+OUTPUT_PATH_V2 = "onepiece-catalog/data/one-piece/cards.json"
 
 # --- Phase 3: Trend + status output paths ---
 DATA_DIR = "onepiece-catalog/data"
@@ -759,6 +765,10 @@ def main():
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(combined, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(combined)} sets/decks -> {OUTPUT_PATH}")
+    os.makedirs(os.path.dirname(OUTPUT_PATH_V2), exist_ok=True)
+    with open(OUTPUT_PATH_V2, "w", encoding="utf-8") as f:
+        json.dump(combined, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Saved {len(combined)} sets/decks -> {OUTPUT_PATH_V2}")
 
     # --- Phase 3: Save snapshot (only on full success) ---
     snapshot_saved = save_snapshot(combined, run_date, timestamp, prev_history_days, failed_sets)
