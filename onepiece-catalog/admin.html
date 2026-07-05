@@ -665,6 +665,7 @@ async function renderCMS(){
   const featCards=cms.featured_cards||{};
   const featSets=cms.featured_sets||{};
 
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Homepage CMS</h1><div class="page-head-sub">Edit homepage content without touching code. Changes go live after saving.</div></div>
@@ -800,6 +801,7 @@ async function renderShops(){
 
 function paintShopsTable(){
   const ca=document.getElementById('content-area');
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Shops & Sponsors</h1><div class="page-head-sub">${_shops.length} registered · ${_shops.filter(s=>s.is_active).length} active · ${_shops.filter(s=>s.is_featured).length} featured</div></div>
@@ -905,6 +907,7 @@ function paintCardsView(){
   const start=_cardPage*PAGE;
   const slice=_cardFiltered.slice(start,start+PAGE);
 
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Card Database</h1><div class="page-head-sub">${total.toLocaleString()} cards shown · ${D.cards.length.toLocaleString()} total · Read-only (price overrides in Phase 2)</div></div>
@@ -986,6 +989,7 @@ async function renderPipeline(){
   const p=D.status;
   const ok=p&&p.sets_fetched>0;
 
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Pipeline Monitor</h1><div class="page-head-sub">GitHub Actions runs daily at 01:00 Bangkok time (18:00 UTC). Read-only.</div></div>
@@ -1086,6 +1090,7 @@ function runQualityCheck(){
   const deduct=scored.reduce((s,{key,weight})=>s+(issues[key].length/total)*weight*100,0);
   const score=Math.max(0,Math.round(100-deduct));
 
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Data Quality</h1><div class="page-head-sub">Scanned ${total.toLocaleString()} cards · Score: <b style="color:${score>=80?'var(--green)':score>=60?'var(--gold)':'var(--red)'}">${score}%</b></div></div>
@@ -1167,6 +1172,7 @@ async function renderActivity(){
 
   const {data,error}=await sb.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100);
 
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Activity Log</h1><div class="page-head-sub">All admin actions are recorded here automatically. Last 100 entries.</div></div>
@@ -1253,6 +1259,7 @@ async function renderPriceOverrides(){
 
 function paintPriceOverrides(){
   const ca=document.getElementById('content-area');
+  const now=new Date();
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Price Overrides</h1>
