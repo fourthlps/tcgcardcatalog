@@ -1663,8 +1663,8 @@ async function _loadCMS(){
         if(!bar){
           bar=document.createElement('div');bar.id='cms-ann-bar';
           bar.style.cssText='padding:9px 20px;text-align:center;font-size:13px;font-weight:600;z-index:100';
-          const nav=document.querySelector('header')||document.querySelector('.nav-bar')||document.body.firstElementChild;
-          nav.insertAdjacentElement('afterend',bar);
+          const hdr=document.querySelector('header.hdr');
+          if(hdr)hdr.insertAdjacentElement('beforebegin',bar);else document.body.insertBefore(bar,document.body.firstElementChild);
         }
         bar.style.background=typeColor+'18';bar.style.borderBottom=`1px solid ${typeColor}55`;bar.style.color=typeColor;
         bar.textContent=text+(ann.url?' →':'');
