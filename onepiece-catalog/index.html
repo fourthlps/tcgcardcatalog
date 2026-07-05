@@ -4424,7 +4424,7 @@ function _authMsg(elId,type,msg){
 }
 
 async function signOut(){
-  if(sb)await sb.auth.signOut();
+  try{if(sb)await sb.auth.signOut();}catch(e){console.warn('signOut error',e);}
   _user=null;
   _updateNavAuth();
   goHome();
