@@ -1521,7 +1521,7 @@ const DEBUG_CHASE=false;
 // A panel is live when: confidence !== 'low' AND history_days_collected >= 7
 // AND the cards array is non-empty. No more hardcoded flag.
 function trendsTrustworthy(g){return!!(g&&(g.confidence||'low')!=='low'&&(g.history_days_collected||0)>=7&&(g.cards||[]).length>0);}
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:(localStorage.getItem('voyage_edition')||'jp'),cardLang:(localStorage.getItem('voyage_edition')||'jp')};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:(localStorage.getItem('voyage_edition_v2')||'jp'),cardLang:(localStorage.getItem('voyage_edition_v2')||'jp')};
 
 // Thai → English alias table for typed search (KI-04)
 const THAI_ALIAS={
@@ -3612,7 +3612,7 @@ function renderSets(){
 // Context-aware edition switch: stays in current set if one is open (KI-03)
 function switchEdition(lang){
   S.cardLang=lang==='jp'?'jp':'en';
-  localStorage.setItem('voyage_edition',S.cardLang);
+  localStorage.setItem('voyage_edition_v2',S.cardLang);
   S.srchEdition=S.cardLang;
   renderHome();
   if(S.setCode)openSet(S.setCode,lang);
