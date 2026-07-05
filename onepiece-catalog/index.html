@@ -1317,8 +1317,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
       <div class="footer-bottom">
         <span style="font-size:11.5px;color:var(--faint)">© 2026 Voyage Log</span>
         <div class="footer-legal">
-          <span class="t" data-th="นโยบายความเป็นส่วนตัว" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</span>
-          <span class="t" data-th="ข้อตกลงการใช้งาน" data-en="Terms of Use">ข้อตกลงการใช้งาน</span>
+          <span class="t" data-th="นโยบายความเป็นส่วนตัว" data-en="Privacy Policy" style="cursor:pointer" onclick="comingSoon(S.lang==='th'?'นโยบายความเป็นส่วนตัว':'Privacy Policy')">นโยบายความเป็นส่วนตัว</span>
+          <span class="t" data-th="ข้อตกลงการใช้งาน" data-en="Terms of Use" style="cursor:pointer" onclick="comingSoon(S.lang==='th'?'ข้อตกลงการใช้งาน':'Terms of Use')">ข้อตกลงการใช้งาน</span>
         </div>
       </div>
     </div>
@@ -1344,29 +1344,30 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 <!-- CARDS -->
 <main class="app" id="view-cards" style="display:none">
   <div class="crumb" id="crumb-cards"></div>
-  <button class="back-btn" onclick="renderSets()">← <span class="t" data-th="กลับไปเลือกชุด" data-en="Back to sets">กลับไปเลือกชุด</span></button>
+  <button class="back-btn" id="back-cards-list">← <span class="t" data-th="กลับไปดูชุด" data-en="Back to Set">กลับไปดูชุด</span></button>
   <h1 class="page-ttl serif" id="cards-ttl"></h1>
   <div class="ed-filter" id="cards-ed-toggle" style="display:none;margin-bottom:14px">
     <button class="ed-fbtn on" data-ed="en" onclick="switchEdition('en')">🇺🇸 EN</button>
     <button class="ed-fbtn" data-ed="jp" onclick="switchEdition('jp')">🇯🇵 JP</button>
   </div>
   <div id="cards-lang-note" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;font-size:12px;color:var(--soft);margin-bottom:12px"></div>
-  <input class="search-bar" id="card-srch" placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
+  <input class="search-bar t" id="card-srch" data-th-ph="ค้นหาชื่อการ์ดในชุดนี้..." data-en-ph="Search cards in this set..." placeholder="ค้นหาชื่อการ์ดในชุดนี้..." oninput="applyFilters()">
   <!-- Primary filter row: rarity + category chips + sort/currency -->
   <div class="filter-row" style="flex-wrap:wrap;gap:6px;align-items:center">
     <div class="chip-group" id="rarity-chips" style="flex:1 1 auto;display:flex;flex-wrap:wrap;gap:5px"></div>
     <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
       <button class="cur-btn" id="cur-btn-cards" onclick="toggleCur()">🇹🇭 THB</button>
       <select class="sort-sel" id="sort-sel" onchange="applyFilters()">
-        <option value="default">เรียงตามเลขการ์ด</option>
-        <option value="price-desc">ราคา: สูง → ต่ำ</option>
-        <option value="price-asc">ราคา: ต่ำ → สูง</option>
+        <option value="default" class="t" data-th="เรียงตามเลขการ์ด" data-en="Sort by Number">เรียงตามเลขการ์ด</option>
+        <option value="price-desc" class="t" data-th="ราคา: สูง → ต่ำ" data-en="Price: High → Low">ราคา: สูง → ต่ำ</option>
+        <option value="price-asc" class="t" data-th="ราคา: ต่ำ → สูง" data-en="Price: Low → High">ราคา: ต่ำ → สูง</option>
       </select>
+      <button class="chip t" id="grid-reset-btn" data-th="รีเซ็ต" data-en="Reset" onclick="resetGridFilters()" style="display:none;font-size:11px;padding:4px 10px;background:var(--bg3);border:1px solid var(--bord2)">รีเซ็ต</button>
     </div>
   </div>
   <!-- Advanced filters: color + cost (collapsed by default) -->
   <div style="margin-top:6px">
-    <button class="adv-filter-toggle" id="adv-filter-btn" onclick="toggleAdvFilters()">⚙ ตัวกรองขั้นสูง ▾</button>
+    <button class="adv-filter-toggle t" id="adv-filter-btn" data-th="⚙ ตัวกรองขั้นสูง ▾" data-en="⚙ Advanced Filters ▾" onclick="toggleAdvFilters()">⚙ ตัวกรองขั้นสูง ▾</button>
     <div id="adv-filter-panel" style="display:none;margin-top:8px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px">
       <div style="font-size:11px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">สี / Color</div>
       <div id="color-chips" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px"></div>
@@ -1502,10 +1503,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </div>
     <div class="chip-group" id="srch-rarity-chips"></div>
     <select class="sort-sel" id="srch-sort" onchange="applySrchFilters()">
-      <option value="default">เรียงตามชุด</option>
-      <option value="price-desc">ราคา: สูง → ต่ำ</option>
-      <option value="price-asc">ราคา: ต่ำ → สูง</option>
+      <option value="default" class="t" data-th="เรียงตามชุด" data-en="Sort by Set">เรียงตามชุด</option>
+      <option value="price-desc" class="t" data-th="ราคา: สูง → ต่ำ" data-en="Price: High → Low">ราคา: สูง → ต่ำ</option>
+      <option value="price-asc" class="t" data-th="ราคา: ต่ำ → สูง" data-en="Price: Low → High">ราคา: ต่ำ → สูง</option>
     </select>
+    <button class="chip t" id="srch-reset-btn" data-th="รีเซ็ต" data-en="Reset" onclick="resetSrchFilters()" style="display:none;font-size:11px;padding:4px 10px;background:var(--bg3);border:1px solid var(--bord2)">รีเซ็ต</button>
   </div>
   <div id="srch-results"></div>
 </main>
@@ -1880,8 +1882,10 @@ function _renderChasePage(setFilter){
   const isJP=S.cardLang==='jp';
   const chaseCards=allCards.filter(c=>chaseScore(c)>0&&hasEditionPrice(c))
     .sort((a,b)=>chaseScore(b)-chaseScore(a)||editionPriceThb(b)-editionPriceThb(a));
-  const sets=[...new Set(chaseCards.map(c=>c.set_id||c.card_set_id?.slice(0,5)).filter(Boolean))].sort();
-  const filtered=setFilter?chaseCards.filter(c=>(c.set_id||c.card_set_id?.slice(0,5))===setFilter):chaseCards;
+  // Use D._imgIndex for clean set codes — avoids composite codes like "OP14-EB04"
+  const _getChaseSetCode=c=>{const hit=D._imgIndex?D._imgIndex[c.card_image_id]:null;return hit?hit.code:(c.set_id||'');};
+  const sets=[...new Set(chaseCards.map(_getChaseSetCode).filter(Boolean))].sort();
+  const filtered=setFilter?chaseCards.filter(c=>_getChaseSetCode(c)===setFilter):chaseCards;
   const setOpts=`<option value="">${L==='th'?'ทุกชุด':'All Sets'}</option>`+sets.map(s=>`<option value="${s}"${s===setFilter?' selected':''}>${s}</option>`).join('');
   const grid=filtered.slice(0,200).map(c=>{
     const hit=D._imgIndex?D._imgIndex[c.card_image_id]:null;
@@ -1962,7 +1966,8 @@ function openCompareView(){
   S._lastView=document.querySelector('.app[style*="display: block"],.app:not([style*="none"])')?.id||'view-home';
   setCrumb('crumb-compare',` / ${L==='th'?'เปรียบราคา':'Compare'}`);
   const [a,b]=cards;
-  const prA=realPrice(a.c),prB=realPrice(b.c);
+  const isJPcmp=S.cardLang==='jp';
+  const prA=editionPriceThb(a.c),prB=editionPriceThb(b.c);
   const row=(lbl,vA,vB,highlight)=>{
     const aWin=highlight==='lower'?Number(vA)<Number(vB):Number(vA)>Number(vB);
     const bWin=highlight==='lower'?Number(vB)<Number(vA):Number(vB)>Number(vA);
@@ -1975,8 +1980,8 @@ function openCompareView(){
     ${card.c.card_image?`<img class="cmp-card-img" src="${card.c.card_image}" onerror="this.style.display='none'" onclick="jumpCard('${code}','${card.c.card_image_id}')">`:''}
     <div class="cmp-card-name" onclick="jumpCard('${code}','${card.c.card_image_id}')" style="cursor:pointer">${card.c.card_name}</div>
     <span class="${rc(card.c.rarity)}">${card.c.rarity||'—'}</span>
-    ${row(L==='th'?'ราคา EN':'EN Price',fpL(prA),fpL(prB),'higher')}
-    ${row(L==='th'?'ราคา JP (อ้างอิง)':'JP Price (ref)',fpL(jpRefPrice(a.c)),fpL(jpRefPrice(b.c)),'higher')}
+    ${row(isJPcmp?(L==='th'?'ราคา JP (อ้างอิง)':'JP Ref Price'):(L==='th'?'ราคา EN':'EN Price'),fpL(0,prA),fpL(0,prB),'higher')}
+    ${row(isJPcmp?(L==='th'?'ราคา EN':'EN Price'):(L==='th'?'ราคา JP (อ้างอิง)':'JP Ref Price'),isJPcmp?fpL(realPrice(a.c)):fpL(0,jpPreferredPriceThb(a.c)),isJPcmp?fpL(realPrice(b.c)):fpL(0,jpPreferredPriceThb(b.c)),'higher')}
     ${row(L==='th'?'สี':'Color',a.c.card_color||'—',b.c.card_color||'—','')}
     ${row(L==='th'?'ประเภท':'Type',a.c.card_type||'—',b.c.card_type||'—','')}
     ${row('Cost',a.c.card_cost||'—',b.c.card_cost||'—','lower')}
@@ -2004,7 +2009,7 @@ function renderStats(){
   const hiThb=cards.reduce((m,c)=>Math.max(m,editionPriceThb(c)),0);
   const L=S.lang;
   const st=[
-    {ic:'⚓',v:D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
+    {ic:'⚓',v:D.index.filter(s=>D.setData[s.code]).length||D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
     {ic:'🗂️',v:ttl().toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
     {ic:'⭐',v:fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
   ];
@@ -2233,7 +2238,7 @@ function topValueFallback(rank){
       <div>
         ${editionBadge(ed)}
         <div class="mtrend-name">${chaseBase(c.card_name)}</div>
-        <div class="mtrend-price">${ed==='JP'?fpL(0,jpPreferredPriceThb(c)):fpL(realPrice(c))}</div>
+        <div class="mtrend-price">${fpL(0,editionPriceThb(c))}</div>
         <div style="font-size:10px;color:var(--faint);margin-top:2px">${c.set_id||''} · ${c.rarity||''}</div>
       </div>
     </div>`;
@@ -2976,6 +2981,14 @@ function applySrchFilters(){
   renderSrchCards(list);
   const ct=document.getElementById('srch-cards-count');
   if(ct)ct.textContent=list.filter(r=>cardEdition(r.card,S.srchEdition)).length;
+  // Show reset button only when a non-default filter is active
+  const resetBtn=document.getElementById('srch-reset-btn');
+  if(resetBtn)resetBtn.style.display=(chips.length||sort!=='default')?'inline-block':'none';
+}
+function resetSrchFilters(){
+  document.getElementById('srch-sort').value='default';
+  document.querySelectorAll('#srch-rarity-chips .chip.on').forEach(c=>c.classList.remove('on'));
+  applySrchFilters();
 }
 
 function paintSearch({sets,cards,products,chars},q,rarities){
@@ -3724,6 +3737,8 @@ function openSet(code,lang){
   const langLabel=isEN?'🇺🇸 EN':'🇯🇵 JP';
   document.getElementById('cards-ttl').textContent=langLabel+' · '+code+' — '+(m?m.name:'');
   document.getElementById('back-cards').onclick=()=>openSetOverview(code);
+  const _backList=document.getElementById('back-cards-list');
+  if(_backList)_backList.onclick=()=>openSetOverview(code);
   setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${code}')">${code}</span> / ${isEN?'EN':'JP'} ${S.lang==='th'?'การ์ดทั้งหมด':'Cards'}`);
   const noteEl=document.getElementById('cards-lang-note');
   if(noteEl){
@@ -3889,6 +3904,21 @@ function applyFilters(){
   if(sort==='price-desc')list.sort((a,b)=>editionPriceThb(b)-editionPriceThb(a));
   else if(sort==='price-asc')list.sort((a,b)=>editionPriceThb(a)-editionPriceThb(b));
   paintCards(list);
+  // Show reset button when any filter is active
+  const hasFilter=q||S.rarities.size||S.categories.size||S.colorFilter||sort!=='default'||
+    !isNaN(parseInt(document.getElementById('cost-min')?.value||'',10))||
+    !isNaN(parseInt(document.getElementById('cost-max')?.value||'',10));
+  const rb=document.getElementById('grid-reset-btn');
+  if(rb)rb.style.display=hasFilter?'inline-block':'none';
+}
+function resetGridFilters(){
+  const srch=document.getElementById('card-srch');if(srch)srch.value='';
+  const sel=document.getElementById('sort-sel');if(sel)sel.value='default';
+  const cMin=document.getElementById('cost-min');if(cMin)cMin.value='';
+  const cMax=document.getElementById('cost-max');if(cMax)cMax.value='';
+  S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
+  document.querySelectorAll('#rarity-chips .chip.on,#color-chips .chip.on').forEach(c=>c.classList.remove('on'));
+  applyFilters();
 }
 
 const TILE_PAGE=150; // max tiles per render chunk (KI-05: prevents 4000-tile freeze)
@@ -3970,7 +4000,7 @@ function marketCard(m,L,c){
     return `<div class="mkt-card mkt-jp">
       <div class="mkt-head"><span class="mkt-label">🇯🇵 ${L==='th'?'ราคาอ้างอิงญี่ปุ่น':'JP Retail Reference'}</span>${confBadge(m.confidence)}</div>
       <div class="mkt-val">¥${Math.round(m.source_price).toLocaleString()}</div>
-      ${m.converted_price>0?`<div class="mkt-est">≈ ฿${Math.round(m.converted_price).toLocaleString('th-TH')}<span class="mkt-est-tag">${L==='th'?'ประมาณการ':'Estimated'}</span></div>`:''}
+      ${m.converted_price>0?`<div class="mkt-est">≈ ฿${Math.round(m.converted_price).toLocaleString('th-TH')} <span class="mkt-est-tag">${L==='th'?'ประมาณการ':'Estimated'}</span></div>`:''}
       <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}</div>
       <div class="mkt-note"><span class="mkt-note-ic">ℹ️</span><span>${L==='th'?'แปลงจากราคาขายปลีกในญี่ปุ่น ไม่รวมค่าจัดส่ง ภาษี ค่านำเข้า หรือส่วนต่างราคาตลาดไทย':'Converted from Japanese retail pricing. Does not include shipping, tax, import cost, or Thai market premium.'}</span></div>
     </div>`;
@@ -4082,7 +4112,8 @@ function cardActionsHtml(c){
   </div>`;
 }
 function updateCollCount(){
-  const n=_lsGet(LS_COLLECTION).length+_lsGet(LS_WISHLIST).length;
+  // Count unique card IDs across both lists (a card in both still counts as 1)
+  const n=new Set([..._lsGet(LS_COLLECTION),..._lsGet(LS_WISHLIST)]).size;
   document.querySelectorAll('.coll-nav-count').forEach(el=>{el.textContent=n;el.style.display=n?'inline-block':'none';});
 }
 let _collTab='collection';
