@@ -2021,8 +2021,8 @@ function toggleCompare(id,ev){
   else if(D._compare.length<2){D._compare.push(id);}
   else{D._compare[1]=id;}
   _renderCompareTray();
-  const btn=document.querySelector(`[onclick*="toggleCompare('${id}'"]`);
-  if(btn)btn.classList.toggle('on',D._compare.includes(id));
+  const inCmp=D._compare.includes(id);
+  document.querySelectorAll(`[onclick*="toggleCompare('${id}'"]`).forEach(btn=>btn.classList.toggle('on',inCmp));
   if(ev)_cmpFeedback(ev,adding);
 }
 function _renderCompareTray(){
@@ -2058,31 +2058,41 @@ function openCompareView(){
   setCrumb('crumb-compare',` / ${L==='th'?'เปรียบราคา':'Compare'}`);
   const [a,b]=cards;
   const isJPcmp=S.cardLang==='jp';
-  const prA=editionPriceThb(a.c),prB=editionPriceThb(b.c);
-  const row=(lbl,vA,vB,highlight)=>{
-    const aWin=highlight==='lower'?Number(vA)<Number(vB):Number(vA)>Number(vB);
-    const bWin=highlight==='lower'?Number(vB)<Number(vA):Number(vB)>Number(vA);
-    return `<div class="cmp-row"><span class="cmp-row-lbl">${lbl}</span>
-      <span class="cmp-row-val${aWin?' best':''}">${vA}${aWin?` <span class="cmp-win-badge">✓</span>`:''}</span>
-      <span class="cmp-row-val${bWin?' best':''}">${vB}${bWin?` <span class="cmp-win-badge">✓</span>`:''}</span>
+  // Raw numeric values for winner highlighting
+  const prAthb=editionPriceThb(a.c),prBthb=editionPriceThb(b.c);
+  const prAusd=prAthb/activeFx(),prBusd=prBthb/activeFx();
+  const jpAthb=jpPreferredPriceThb(a.c),jpBthb=jpPreferredPriceThb(b.c);
+  const enAusd=realPrice(a.c),enBusd=realPrice(b.c);
+  // row: lbl, raw numA, raw numB, display strA, display strB, highlight direction
+  const row=(lbl,nA,nB,dA,dB,dir)=>{
+    const aWin=dir==='lower'?(nA>0&&nB>0&&nA<nB):(nA>0&&nB>0&&nA>nB);
+    const bWin=dir==='lower'?(nA>0&&nB>0&&nB<nA):(nA>0&&nB>0&&nB>nA);
+    return `<div class="cmp-row">
+      <span class="cmp-row-lbl">${lbl}</span>
+      <span class="cmp-row-val${aWin?' best':''}">${dA}${aWin?' <span class="cmp-win-badge">✓</span>':''}</span>
+      <span class="cmp-row-val${bWin?' best':''}">${dB}${bWin?' <span class="cmp-win-badge">✓</span>':''}</span>
     </div>`;
   };
-  const cardCol=(card,code)=>`<div class="cmp-card">
-    ${card.c.card_image?`<img class="cmp-card-img" src="${card.c.card_image}" onerror="this.style.display='none'" onclick="jumpCard('${code}','${card.c.card_image_id}')">`:''}
+  const cardHdr=(card,code)=>`<div class="cmp-card" style="align-items:center;text-align:center">
+    ${card.c.card_image?`<img class="cmp-card-img" src="${card.c.card_image}" onerror="this.style.display='none'" onclick="jumpCard('${code}','${card.c.card_image_id}')" style="cursor:pointer">`:''}
     <div class="cmp-card-name" onclick="jumpCard('${code}','${card.c.card_image_id}')" style="cursor:pointer">${card.c.card_name}</div>
     <span class="${rc(card.c.rarity)}">${card.c.rarity||'—'}</span>
-    ${row(isJPcmp?(L==='th'?'ราคา JP (อ้างอิง)':'JP Ref Price'):(L==='th'?'ราคา EN':'EN Price'),fpL(0,prA),fpL(0,prB),'higher')}
-    ${row(isJPcmp?(L==='th'?'ราคา EN':'EN Price'):(L==='th'?'ราคา JP (อ้างอิง)':'JP Ref Price'),isJPcmp?fpL(realPrice(a.c)):fpL(0,jpPreferredPriceThb(a.c)),isJPcmp?fpL(realPrice(b.c)):fpL(0,jpPreferredPriceThb(b.c)),'higher')}
-    ${row(L==='th'?'สี':'Color',a.c.card_color||'—',b.c.card_color||'—','')}
-    ${row(L==='th'?'ประเภท':'Type',a.c.card_type||'—',b.c.card_type||'—','')}
-    ${row('Cost',a.c.card_cost||'—',b.c.card_cost||'—','lower')}
-    ${row('Power',a.c.card_power||'—',b.c.card_power||'—','higher')}
-    ${row(L==='th'?'ชุด':'Set',a.c.set_id||'',b.c.set_id||'','')}
-    ${row(L==='th'?'Chase Score':'Chase Score',chaseScore(a.c),chaseScore(b.c),'higher')}
   </div>`;
+  const mainLbl=isJPcmp?(L==='th'?'ราคา JP (อ้างอิง)':'JP Ref Price'):(L==='th'?'ราคา EN':'EN Price');
+  const altLbl=isJPcmp?(L==='th'?'ราคา EN':'EN Price'):(L==='th'?'ราคา JP (อ้างอิง)':'JP Ref Price');
   document.getElementById('compare-content').innerHTML=`
     <h1 class="page-ttl serif">${L==='th'?'เปรียบเทียบราคาการ์ด':'Card Price Comparison'}</h1>
-    <div class="cmp-grid">${cardCol(a,a.code)}${cardCol(b,b.code)}</div>`;
+    <div class="cmp-grid">${cardHdr(a,a.code)}${cardHdr(b,b.code)}</div>
+    <div style="margin-top:16px">
+      ${row(mainLbl, prAthb,prBthb, fpL(prAusd,prAthb),fpL(prBusd,prBthb),'higher')}
+      ${row(altLbl, isJPcmp?enAusd:jpAthb, isJPcmp?enBusd:jpBthb, isJPcmp?fpL(enAusd):fpL(jpAthb/activeFx(),jpAthb), isJPcmp?fpL(enBusd):fpL(jpBthb/activeFx(),jpBthb),'higher')}
+      ${row(L==='th'?'สี':'Color',0,0,a.c.card_color||'—',b.c.card_color||'—','')}
+      ${row(L==='th'?'ประเภท':'Type',0,0,a.c.card_type||'—',b.c.card_type||'—','')}
+      ${row('Cost',Number(a.c.card_cost)||0,Number(b.c.card_cost)||0,a.c.card_cost||'—',b.c.card_cost||'—','lower')}
+      ${row('Power',Number(a.c.card_power)||0,Number(b.c.card_power)||0,a.c.card_power||'—',b.c.card_power||'—','higher')}
+      ${row(L==='th'?'ชุด':'Set',0,0,a.c.set_id||a.code,b.c.set_id||b.code,'')}
+      ${row('Chase Score',chaseScore(a.c),chaseScore(b.c),String(chaseScore(a.c)),String(chaseScore(b.c)),'higher')}
+    </div>`;
   show('view-compare');
   window.scrollTo(0,0);
 }
@@ -2159,6 +2169,7 @@ const _FALLBACK_SHOPS=[
   {ic:'💎',name_th:'สปอนเซอร์',name_en:'Sponsor',desc_th:'ติดต่อลงโฆษณา',desc_en:'Contact to advertise'},
 ];
 function _paintSpons(shops,L){
+  D._loadedShops=shops; // save for whereToBuyHtml
   const el=document.getElementById('spon-row');if(!el)return;
   el.innerHTML=shops.map(s=>{
     const name=L==='th'?(s.name_th||s.name||s.name_en||''):(s.name_en||s.name||s.name_th||'');
@@ -4380,16 +4391,25 @@ function openAdmin(){
 // then the other most-valuable cards from the same set. Pure existing-data.
 function whereToBuyHtml(c){
   const L=S.lang;
-  const prods=(D.products||[]).filter(p=>p.set_code===S.setCode&&p.affiliate_url);
-  if(!prods.length)return '';
-  const rows=prods.map(p=>`<a class="wtb-row" href="${p.affiliate_url}" target="_blank" rel="noopener sponsored">
+  const prodRows=(D.products||[]).filter(p=>p.set_code===S.setCode&&p.affiliate_url)
+    .map(p=>`<a class="wtb-row" href="${p.affiliate_url}" target="_blank" rel="noopener sponsored">
     <span class="wtb-name">${p.product_name}</span>
     <span class="wtb-cta">${L==='th'?'ดูราคา →':'View Price →'}</span>
   </a>`).join('');
+  const shopRows=(D._loadedShops||[]).filter(s=>s.affiliate_url||s.website||s.facebook)
+    .map(s=>{
+      const href=s.affiliate_url||s.website||s.facebook;
+      const name=L==='th'?(s.name_th||s.name||s.name_en||''):(s.name_en||s.name||s.name_th||'');
+      return `<a class="wtb-row" href="${href}" target="_blank" rel="noopener">
+      <span class="wtb-name">${name}</span>
+      <span class="wtb-cta">${L==='th'?'เยี่ยมชมร้าน →':'Visit Shop →'}</span>
+    </a>`;
+    }).join('');
+  if(!prodRows&&!shopRows)return '';
   return `<div class="wtb-section">
     <div class="rel-lbl">${L==='th'?'ซื้อได้ที่ไหน':'Where to Buy'} <span class="wtb-ad">${L==='th'?'พาร์ทเนอร์':'Partner'}</span></div>
     <div class="wtb-note">${L==='th'?'ลิงก์พาร์ทเนอร์ — ราคาและสต็อกอาจเปลี่ยนแปลงได้':'Partner links — prices and availability may vary'}</div>
-    ${rows}
+    ${prodRows}${shopRows}
   </div>`;
 }
 function relatedCardsHtml(c){
@@ -4399,7 +4419,7 @@ function relatedCardsHtml(c){
   // Edition-scoped price helpers for this context
   const hasPrice=x=>isJP?hasJP(x):realPrice(x)>0;
   const priceFor=x=>isJP?jpPreferredPriceThb(x):realPrice(x);
-  const priceDisplay=x=>isJP?fpL(0,jpPreferredPriceThb(x)):fpL(realPrice(x));
+  const priceDisplay=x=>isJP?fpL(jpPreferredPriceThb(x)/activeFx(),jpPreferredPriceThb(x)):fpL(realPrice(x));
   const badge=editionBadge(isJP?'JP':'EN');
 
   const setCards=D.cache[S.setCode]||[];
