@@ -1362,7 +1362,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 <main class="app" id="view-sets" style="display:none">
   <div class="crumb" id="crumb-sets"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
-  <h1 class="page-ttl serif t" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
+  <h1 class="page-ttl serif t" id="sets-page-ttl" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
   <div class="filter-row" id="sets-filter-row"></div>
   <div class="sets-grid" id="sets-list"></div>
 </main>
@@ -1546,6 +1546,9 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <script>
+// D.index/D.cache/D.products/D.setData/D.marketData are READ-ONLY cross-game
+// views rebuilt by _rebuildViews() from the isolated per-game stores in
+// D.games (see MULTI-GAME CORE). Nothing else may write to them.
 const D={index:[],cache:{},gainers:null,losers:null,jpGainers:null,jpLosers:null,siteStatus:null,products:[],marketData:[],setData:{},priceHistory:null};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
@@ -1556,7 +1559,7 @@ const DEBUG_CHASE=false;
 // A panel is live when: confidence !== 'low' AND history_days_collected >= 7
 // AND the cards array is non-empty. No more hardcoded flag.
 function trendsTrustworthy(g){return!!(g&&(g.confidence||'low')!=='low'&&(g.history_days_collected||0)>=7&&(g.cards||[]).length>0);}
-const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:(localStorage.getItem('voyage_edition_v2')||'jp'),cardLang:(localStorage.getItem('voyage_edition_v2')||'jp')};
+const S={setCode:null,cards:[],shown:[],rarities:new Set(),categories:new Set(),colorFilter:'',typeFilter:'',cur:'THB',fx:32.9,lastIdx:null,lang:(localStorage.getItem('voyage_lang')||'th'),srchCards:[],srchShown:[],setCat:'all',setLang:'all',cardReturn:null,srchEdition:(localStorage.getItem('voyage_edition_v2')||'jp'),cardLang:(localStorage.getItem('voyage_edition_v2')||'jp'),game:'one-piece'};
 
 // Thai → English alias table for typed search (KI-04)
 const THAI_ALIAS={
@@ -1582,6 +1585,22 @@ const THAI_ALIAS={
   'ตัวละคร':'character',
   'อีเว้นท์':'event',
   'เวที':'stage',
+  // Lorcana (Disney) aliases
+  'เอลซ่า':'elsa','เอลซา':'elsa',
+  'อันนา':'anna',
+  'มิกกี้':'mickey','มิกกี้เมาส์':'mickey mouse','มิคกี้':'mickey',
+  'มินนี่':'minnie',
+  'สติทช์':'stitch','สติทช':'stitch',
+  'อะลาดิน':'aladdin','อาละดิน':'aladdin',
+  'เจ้าหญิงเงือก':'ariel','แอเรียล':'ariel',
+  'มาเลฟิเซนต์':'maleficent',
+  'ราพันเซล':'rapunzel',
+  'โมอาน่า':'moana',
+  'มู่หลาน':'mulan',
+  'ซินเดอเรลล่า':'cinderella',
+  'ปีเตอร์แพน':'peter pan',
+  'วินนี่เดอะพูห์':'winnie the pooh','หมีพูห์':'winnie the pooh',
+  'ลอร์คานา':'lorcana',
 };
 function aliasQ(q){
   if(!q)return q;
@@ -1591,44 +1610,39 @@ function aliasQ(q){
   return q;
 }
 
-const BOX={
-  'OP-01':{usd:145,thb:4800,hot:false},
-  'OP-02':{usd:105,thb:3500,hot:false},
-  'OP-03':{usd:85,thb:2800,hot:false},
-  'OP-04':{usd:88,thb:2900,hot:false},
-  'OP-05':{usd:490,thb:16500,hot:true},
-  'OP-06':{usd:85,thb:2800,hot:false},
-  'OP-07':{usd:95,thb:3200,hot:false},
-  'OP-08':{usd:110,thb:3700,hot:false},
-  'OP-09':{usd:135,thb:4500,hot:true},
-  'OP-10':{usd:92,thb:3100,hot:false},
-  'OP-11':{usd:90,thb:3000,hot:false},
-  'OP-12':{usd:100,thb:3400,hot:false},
-  'OP-13':{usd:195,thb:6500,hot:true},
-  'OP-16':{usd:88,thb:2950,hot:false},
-  'EB-01':{usd:95,thb:3200,hot:false},
-  'EB-02':{usd:90,thb:3000,hot:false},
-  'EB-03':{usd:85,thb:2850,hot:false},
-  'PRB-01':{usd:220,thb:7400,hot:false},
-  'PRB-02':{usd:210,thb:7000,hot:false}
-};
+// Curated box prices now live in each game's config (box_prices).
+function boxInfo(code){return (cfg2(gameOf(code)).box_prices||{})[code];}
 
 // Set classification, for filter chips + the official-site-style category
-// badge shown on every set tile. Anything not listed here falls back to
-// 'booster' (main numbered booster) since that's the common case.
-const SET_CAT={};
-['EB-01','EB-02','EB-03','OP14-EB04','OP15-EB04'].forEach(c=>SET_CAT[c]='extra');
-['PRB-01','PRB-02'].forEach(c=>SET_CAT[c]='premium');
-for(let i=1;i<=30;i++)SET_CAT[`ST-${String(i).padStart(2,'0')}`]='deck';
-function setCat(code){return SET_CAT[code]||'booster';}
+// badge shown on every set tile. Built from each game config's
+// set_category_map; anything unlisted falls back to 'booster'.
+let SET_CAT={};
+function _rebuildSetCats(){
+  SET_CAT={};
+  for(const g of Object.values(CONFIG.games)){
+    const m=g.set_category_map||{};
+    for(const [cat,val] of Object.entries(m)){
+      if(cat==='deck_prefix')continue;
+      (Array.isArray(val)?val:[]).forEach(c=>{SET_CAT[c]=cat;});
+    }
+  }
+}
+function setCat(code){
+  if(SET_CAT[code])return SET_CAT[code];
+  // prefix rules (e.g. One Piece ST-xx starter decks)
+  const gc=cfg2(gameOf(code));
+  const pf=(gc.set_category_map||{}).deck_prefix;
+  if(pf&&String(code).indexOf(pf)===0)return 'deck';
+  return 'booster';
+}
 function setCatLabel(code,lang){
   const c=setCat(code);
-  const map={booster:{th:'บูสเตอร์หลัก',en:'Booster'},extra:{th:'เอ็กซ์ตร้า บูสเตอร์',en:'Extra Booster'},premium:{th:'พรีเมียม บูสเตอร์',en:'Premium Booster'},deck:{th:'สตาร์ทเตอร์เด็ค',en:'Starter Deck'}};
+  const map={booster:{th:'บูสเตอร์หลัก',en:'Booster'},extra:{th:'เอ็กซ์ตร้า บูสเตอร์',en:'Extra Booster'},premium:{th:'พรีเมียม บูสเตอร์',en:'Premium Booster'},deck:{th:'สตาร์ทเตอร์เด็ค',en:'Starter Deck'},quest:{th:'อิลลูมิเนียร์ เควสต์',en:"Illumineer's Quest"}};
   return lang==='th'?map[c].th:map[c].en;
 }
 // In-house icon design, used as the fallback tile look whenever a real
 // product photo isn't available or fails to load.
-const CAT_ICON={booster:'⚓',extra:'✨',premium:'👑',deck:'🗡️'};
+const CAT_ICON={booster:'⚓',extra:'✨',premium:'👑',deck:'🗡️',quest:'🧭'};
 
 // Tile art: the highest-market-price ("chase") card pulled from that set,
 // using the same sample card scans (optcgapi.com) already used elsewhere on
@@ -1643,18 +1657,18 @@ function setImgUrl(code){
   return top.card_image||null;
 }
 
-// Announced products with no card data yet (optcgapi hasn't added them).
-// Shown as "coming soon" tiles so the catalog matches the official site's
-// product list instead of silently omitting known, announced sets.
-const COMING_SOON=[
-  {code:'ST-31',nameTh:'สตาร์ทเตอร์เด็ค -แดง มังกี้.ดี.ลูฟี่-',nameEn:'Starter Deck -Red Monkey.D.Luffy-',date:'2026-07-11',cat:'deck'},
-  {code:'ST-32',nameTh:'สตาร์ทเตอร์เด็ค -เขียว โรโรโนอา โซโร-',nameEn:'Starter Deck -Green Roronoa Zoro-',date:'2026-07-11',cat:'deck'},
-  {code:'ST-33',nameTh:'สตาร์ทเตอร์เด็ค -ฟ้า คุซัง-',nameEn:'Starter Deck -Blue Kuzan-',date:'2026-07-11',cat:'deck'},
-  {code:'ST-34',nameTh:'สตาร์ทเตอร์เด็ค -ม่วง ชาร์ลอตต์ คาตาคุริ-',nameEn:'Starter Deck -Purple Charlotte Katakuri-',date:'2026-07-11',cat:'deck'},
-  {code:'ST-35',nameTh:'สตาร์ทเตอร์เด็ค -แดง/ดำ ซาโบ-',nameEn:'Starter Deck -Red/Black Sabo-',date:'2026-07-11',cat:'deck'},
-  {code:'ST-36',nameTh:'สตาร์ทเตอร์เด็ค -เหลือง ยูสตัส "กัปตัน" คิด-',nameEn:'Starter Deck -Yellow Eustass "Captain" Kid-',date:'2026-07-11',cat:'deck'},
-  {code:'EB-05',nameTh:'เอ็กซ์ตร้า บูสเตอร์ -One Piece Heroines Edition vol.2-',nameEn:'Extra Booster -ONE PIECE Heroines Edition vol.2-',date:'2026-10-01',cat:'extra'},
-];
+// Announced sets with no card data yet are "coming soon" tiles. Source is
+// config-driven per game: coming_soon_source 'static' reads the config's
+// coming_soon list; 'sets' derives them from the game's sets.json entries
+// that have no card data yet.
+function comingSoonTiles(slug){
+  const gc=cfg2(slug),g=gd(slug);
+  if(gc.coming_soon_source==='sets'){
+    return (g.sets||[]).filter(s=>!(g.cardsBySet[s.set_code]||[]).length)
+      .map(s=>({code:s.set_code,nameTh:s.set_name,nameEn:s.set_name,date:s.release_date||(S.lang==='th'?'ประกาศแล้ว':'Announced'),cat:setCat(s.set_code)}));
+  }
+  return gc.coming_soon||[];
+}
 
 async function _loadCMS(){
   try{
@@ -1715,60 +1729,43 @@ async function _loadCMS(){
 }
 
 async function init(){
-  try{
-    const r=await fetch('one_piece_OP01-OP16_with_prices.json');
-    const raw=await r.json();
-    D.cache=raw;
-    D.index=Object.keys(raw).map(c=>({code:c,name:raw[c].length?raw[c][0].set_name:'',count:raw[c].length}));
-  }catch(e){D.index=[];}
+  // 1. Config first (embedded DEFAULT_CONFIG is the offline fallback),
+  // 2. then the home game — cards+prices+sets+products+characters+market all
+  //    come from that game's config data_paths in one isolated load.
+  await loadConfig();
+  S.game=CONFIG.home_game;
+  await loadGame(CONFIG.home_game);
+  // Legacy aliases still read by a few OP-scoped surfaces
+  const hg=gd(CONFIG.home_game);
+  D.markets=hg.prices;D.marketsMeta=hg.pricesMeta||{};
   renderHome();
   applyLangUI();
   _loadCMS();
   updateCollCount();
-  fetch('products.json').then(r=>r.ok?r.json():null).then(d=>{
-    if(d){D.products=d;const sv=document.getElementById('view-sets');if(sv&&sv.style.display!=='none')renderSets();}
-  });
-  fetch('market_data.json').then(r=>r.ok?r.json():null).then(d=>{
-    if(d&&Array.isArray(d.records))D.marketData=d.records;
-  });
-  fetch('sets.json').then(r=>r.ok?r.json():null).then(d=>{
-    if(d&&Array.isArray(d.sets))d.sets.forEach(s=>{D.setData[s.set_code]=s;});
-  });
-  // Normalized per-market price dataset. Loaded non-blocking; once it arrives
-  // we refresh whichever price-bearing view is open so prices upgrade in place.
-  fetch('card-markets.json').then(r=>r.ok?r.json():null).then(d=>{
-    if(d&&d.markets){
-      D.markets=d.markets;D.marketsMeta=d._meta||{};
-      // Refresh all homepage widgets now that market prices are available
-      renderHome();
-      const dv=document.getElementById('view-detail');
-      if(dv&&dv.style.display!=='none'&&S.shown&&S.lastIdx!=null)openCard(S.lastIdx);
-      const cv=document.getElementById('view-cards');
-      if(cv&&cv.style.display!=='none'&&S.shown)paintCards(S.shown);
-      const av=document.getElementById('view-admin');
-      if(av&&av.style.display!=='none')openAdmin();
-    }
-  });
   // Load price overrides from Supabase — non-blocking. Once loaded, refresh
   // home widgets so overridden prices appear immediately.
   _loadOverrides().then(()=>{if(Object.keys(D.overrides).length)renderHome();});
   // Non-blocking parallel fetches: FX rate + trend data + site status.
   // None of these block the initial render -- they refresh the relevant
   // UI sections as soon as their data arrives.
+  // Trend/status pipeline outputs: paths come from the home game's config
+  // (they are One Piece pipeline artifacts today; other games add their own
+  // via their config data_paths without touching this code).
+  const tdp=(cfg2(CONFIG.home_game).data_paths)||{};
   Promise.allSettled([
     fetch('https://api.frankfurter.app/latest?from=USD&to=THB')
       .then(r=>r.json()).then(d=>{if(d.rates?.THB){S.fx=d.rates.THB;renderHome();}}),
-    fetch('data/top-gainers.json').then(r=>r.ok?r.json():null)
+    fetch(tdp.trends_gainers||'data/top-gainers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.gainers=d;renderTrend();}}),
-    fetch('data/top-losers.json').then(r=>r.ok?r.json():null)
+    fetch(tdp.trends_losers||'data/top-losers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.losers=d;renderTrend();}}),
-    fetch('data/jp-top-gainers.json').then(r=>r.ok?r.json():null)
+    fetch(tdp.trends_jp_gainers||'data/jp-top-gainers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.jpGainers=d;renderTrend();}}),
-    fetch('data/jp-top-losers.json').then(r=>r.ok?r.json():null)
+    fetch(tdp.trends_jp_losers||'data/jp-top-losers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.jpLosers=d;renderTrend();}}),
-    fetch('data/price-history.json').then(r=>r.ok?r.json():null)
+    fetch(tdp.price_history||'data/price-history.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d)D.priceHistory=d;}),
-    fetch('data/status.json').then(r=>r.ok?r.json():null)
+    fetch(tdp.status||'data/status.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.siteStatus=d;
         const av=document.getElementById('view-admin');
         if(av&&av.style.display!=='none')openAdmin();   // refresh once status arrives
@@ -1790,6 +1787,13 @@ async function init(){
   // Hidden admin route: open via #admin (and react to hash changes).
   if(location.hash==='#admin')openAdmin();
   window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin();});
+  // Other games load lazily: at boot only if saved collection/wishlist/recent
+  // ids reference them; otherwise on game-tile click (openGame) or when the
+  // user explicitly requests global search. Search focus warms the ACTIVE
+  // game only — opening One Piece never downloads Lorcana data & vice versa.
+  _bootGamesNeeded().forEach(slug=>loadGame(slug));
+  const gs=document.getElementById('gsearch');
+  if(gs)gs.addEventListener('focus',()=>{loadGame(S.game);});
 }
 
 // Price overrides loaded from Supabase — keyed by card_image_id.
@@ -1818,8 +1822,162 @@ async function _loadOverrides(){
   }catch{}
 }
 
-function flat(){return Object.values(D.cache).flat();}
-function ttl(){return D.index.reduce((s,x)=>s+x.count,0);}
+// ═══ MULTI-GAME CORE (config-driven — see config/games.json + docs/multi-game-architecture.md) ═══
+// Shared UI never branches on a game slug. All game-specific behavior comes
+// from CONFIG.games[slug]: data paths, price policy, card-detail layout,
+// rarity lists, filter groups, character grouping, set categories.
+
+// Embedded fallback so the site still boots if config/games.json fails to load.
+// config/games.json is the canonical copy — keep them in sync.
+const DEFAULT_CONFIG={
+  home_game:'one-piece',
+  games_order:['one-piece','pokemon','naruto','lorcana'],
+  games:{
+    'one-piece':{slug:'one-piece',display_name:'One Piece Card Game',short_name:'One Piece',tile_name:'ONE PIECE',icon:'⚓',status:'active',
+      id_prefixes:['OP','EB','ST','PRB'],
+      data_paths:{cards:'data/one-piece/cards.json',prices:'data/one-piece/prices.json',sets:'data/one-piece/sets.json',products:'data/one-piece/products.json',characters:'data/one-piece/characters.json',market:'data/one-piece/market.json',search_index:'search/one-piece-index.json',trends_gainers:'data/top-gainers.json',trends_losers:'data/top-losers.json',trends_jp_gainers:'data/jp-top-gainers.json',trends_jp_losers:'data/jp-top-losers.json',price_history:'data/price-history.json',status:'data/status.json'},
+      card_detail_layout:{stats:[{key:'card_cost',label:'Cost'},{key:'card_power',label:'Power'},{key:'life',label:'Life'},{key:'card_color'},{key:'card_type'}],meta_line:[],flavor_key:null},
+      rarity_list:['L','C','UC','R','SR','SEC','SP','TR','P','PR'],
+      rarity_labels:{L:'Leader',C:'Common',UC:'Uncommon',R:'Rare',SR:'SR',SEC:'SEC',SP:'SP',TR:'Treasure',P:'Promo',PR:'Promo'},
+      filter_groups:{categories:['Parallel','Manga','Alt Art','Super Alt Art','SP','Wanted Poster','Leader','Character','Event','Stage','Promo'],
+        set_categories:[{k:'all',th:'ทั้งหมด',en:'All'},{k:'booster',th:'Main Booster',en:'Main Booster'},{k:'extra',th:'Extra Booster',en:'Extra Booster'},{k:'premium',th:'Premium Booster',en:'Premium Booster'},{k:'deck',th:'Starter Deck',en:'Starter Deck'}],
+        show_language_filter:true},
+      price_policy:{type:'edition',editions:['JP','EN'],default_edition:'jp',price_source_label:{th:'ราคาตลาด EN (TCGPlayer)',en:'EN Market Price (TCGPlayer)'}},
+      character_grouping:'character',character_match:'name_base',characters_from_file:false,character_hub_include_unpriced:false,
+      coming_soon_source:'static',
+      coming_soon:[
+        {code:'ST-31',nameTh:'สตาร์ทเตอร์เด็ค -แดง มังกี้.ดี.ลูฟี่-',nameEn:'Starter Deck -Red Monkey.D.Luffy-',date:'2026-07-11',cat:'deck'},
+        {code:'ST-32',nameTh:'สตาร์ทเตอร์เด็ค -เขียว โรโรโนอา โซโร-',nameEn:'Starter Deck -Green Roronoa Zoro-',date:'2026-07-11',cat:'deck'},
+        {code:'ST-33',nameTh:'สตาร์ทเตอร์เด็ค -ฟ้า คุซัง-',nameEn:'Starter Deck -Blue Kuzan-',date:'2026-07-11',cat:'deck'},
+        {code:'ST-34',nameTh:'สตาร์ทเตอร์เด็ค -ม่วง ชาร์ลอตต์ คาตาคุริ-',nameEn:'Starter Deck -Purple Charlotte Katakuri-',date:'2026-07-11',cat:'deck'},
+        {code:'ST-35',nameTh:'สตาร์ทเตอร์เด็ค -แดง/ดำ ซาโบ-',nameEn:'Starter Deck -Red/Black Sabo-',date:'2026-07-11',cat:'deck'},
+        {code:'ST-36',nameTh:'สตาร์ทเตอร์เด็ค -เหลือง ยูสตัส "กัปตัน" คิด-',nameEn:'Starter Deck -Yellow Eustass "Captain" Kid-',date:'2026-07-11',cat:'deck'},
+        {code:'EB-05',nameTh:'เอ็กซ์ตร้า บูสเตอร์ -One Piece Heroines Edition vol.2-',nameEn:'Extra Booster -ONE PIECE Heroines Edition vol.2-',date:'2026-10-01',cat:'extra'}],
+      box_prices:{'OP-01':{usd:145,thb:4800,hot:false},'OP-02':{usd:105,thb:3500,hot:false},'OP-03':{usd:85,thb:2800,hot:false},'OP-04':{usd:88,thb:2900,hot:false},'OP-05':{usd:490,thb:16500,hot:true},'OP-06':{usd:85,thb:2800,hot:false},'OP-07':{usd:95,thb:3200,hot:false},'OP-08':{usd:110,thb:3700,hot:false},'OP-09':{usd:135,thb:4500,hot:true},'OP-10':{usd:92,thb:3100,hot:false},'OP-11':{usd:90,thb:3000,hot:false},'OP-12':{usd:100,thb:3400,hot:false},'OP-13':{usd:195,thb:6500,hot:true},'OP-16':{usd:88,thb:2950,hot:false},'EB-01':{usd:95,thb:3200,hot:false},'EB-02':{usd:90,thb:3000,hot:false},'EB-03':{usd:85,thb:2850,hot:false},'PRB-01':{usd:220,thb:7400,hot:false},'PRB-02':{usd:210,thb:7000,hot:false}},
+      set_category_map:{extra:['EB-01','EB-02','EB-03','OP14-EB04','OP15-EB04'],premium:['PRB-01','PRB-02'],deck_prefix:'ST-'}},
+    lorcana:{slug:'lorcana',display_name:'Disney Lorcana',short_name:'Lorcana',tile_name:'LORCANA',icon:'🌊',status:'active',
+      id_prefixes:['LOR'],
+      data_paths:{cards:'data/lorcana/cards.json',prices:'data/lorcana/prices.json',sets:'data/lorcana/sets.json',products:'data/lorcana/products.json',characters:'data/lorcana/characters.json',search_index:'search/lorcana-index.json'},
+      card_detail_layout:{stats:[{key:'card_cost',label:'Ink Cost'},{key:'strength',label:'⚔ Strength'},{key:'willpower',label:'🛡 Willpower'},{key:'lore',label:'◆ Lore'},{key:'inkwell',type:'boolean',true_label:'⭕ Inkwell',false_label:'∅ No Inkwell'},{key:'card_color'},{key:'card_type'},{key:'rarity_name',skip_if_equals:'rarity'}],meta_line:[{key:'story',icon:'🏰'},{key:'artist',icon:'🎨'}],flavor_key:'flavor_text'},
+      rarity_list:['C','UC','R','SR','LG','EN','EP','IC','SP'],
+      rarity_labels:{C:'Common',UC:'Uncommon',R:'Rare',SR:'Super Rare',LG:'Legendary',EN:'Enchanted',EP:'Epic',IC:'Iconic',SP:'Special'},
+      filter_groups:{categories:['Character','Enchanted'],
+        set_categories:[{k:'all',th:'ทั้งหมด',en:'All'},{k:'booster',th:'Main Expansion',en:'Main Expansion'},{k:'quest',th:"Illumineer's Quest",en:"Illumineer's Quest"}],
+        show_language_filter:false},
+      price_policy:{type:'finish',edition_badge:'EN',fallback_order:['normal','cold-foil','holofoil'],finish_labels:{'normal':'Normal','cold-foil':'Cold Foil','holofoil':'Holofoil'},price_source_label:{th:'ราคาตลาด EN (TCGPlayer)',en:'EN Market Price (TCGPlayer)'}},
+      character_grouping:'character_and_franchise',character_match:'character_name',characters_from_file:true,character_hub_include_unpriced:true,
+      coming_soon_source:'sets',box_prices:{},
+      set_category_map:{quest:['LOR-Q1','LOR-Q2','LOR-Q3']},
+      list_note:{th:'🌊 <strong>Disney Lorcana</strong> · {count} ใบ · ราคาจาก <strong>TCGPlayer</strong> (EN) · ราคาไล่จาก Normal → Cold Foil → Holofoil',en:'🌊 <strong>Disney Lorcana</strong> · {count} cards · Prices from <strong>TCGPlayer</strong> (EN) · Price finish fallback: Normal → Cold Foil → Holofoil'}},
+    pokemon:{slug:'pokemon',display_name:'Pokémon Trading Card Game',short_name:'Pokémon',tile_name:'POKÉMON',icon:'✦',status:'coming_soon'},
+    naruto:{slug:'naruto',display_name:'Naruto Card Game',short_name:'Naruto',tile_name:'NARUTO',icon:'🔥',status:'coming_soon'}
+  }
+};
+let CONFIG=DEFAULT_CONFIG;
+async function loadConfig(){
+  try{
+    const r=await fetch('config/games.json');
+    if(r.ok){const j=await r.json();if(j&&j.games)CONFIG=j;}
+  }catch(e){}
+  _rebuildSetCats();
+}
+function cfg2(slug){return CONFIG.games[slug]||CONFIG.games[CONFIG.home_game];}
+function cfgActive(){return cfg2(S.game);}
+// Resolve which game a set code / card id belongs to, via config id_prefixes.
+function gameOf(code){
+  const s=String(code||'');
+  for(const g of Object.values(CONFIG.games)){
+    if((g.id_prefixes||[]).some(p=>s.indexOf(p)===0))return g.slug;
+  }
+  return CONFIG.home_game;
+}
+function cfgOfCard(c){return cfg2(gameOf(c&&(c.card_set_id||c.set_id)));}
+function _pp(c){return (cfgOfCard(c)||{}).price_policy||{type:'edition'};}
+// Non-edition games (finish-priced etc.) render as one fixed edition badge.
+function singleEdition(c){const pp=_pp(c);return pp.type!=='edition'?(pp.edition_badge||'EN'):null;}
+function gameLabel(g){return cfg2(g||S.game).short_name||'';}
+
+// ── Isolated per-game state (Requirement 7). Loaders write ONLY here; the
+// cross-game read views (D.cache/D.products/D.setData) are rebuilt wholesale
+// from these stores, so one game's fetch can never clobber another's data. ──
+D.games={};
+function gd(slug){
+  slug=slug||S.game;
+  if(!D.games[slug])D.games[slug]={slug,setIndex:[],cardsBySet:{},sets:[],products:[],prices:{},pricesMeta:null,characters:[],setData:{},marketData:[],loaded:false,_promise:null};
+  return D.games[slug];
+}
+function _rebuildViews(){
+  const cache={},setData={};let products=[],marketData=[];
+  for(const slug of Object.keys(CONFIG.games)){
+    const g=D.games[slug];if(!g)continue;
+    Object.assign(cache,g.cardsBySet);
+    Object.assign(setData,g.setData);
+    products=products.concat(g.products);
+    marketData=marketData.concat(g.marketData);
+  }
+  D.cache=cache;D.setData=setData;D.products=products;D.marketData=marketData;
+  D.index=gd(CONFIG.home_game).setIndex;   // legacy view: home-game sets (homepage widgets)
+  D._imgIndex=null;
+}
+function gameFlat(slug){const g=gd(slug);return g.setIndex.map(s=>g.cardsBySet[s.code]||[]).flat();}
+// flat(): the home game's corpus — homepage rankings/chase/stats surfaces.
+function flat(){return gameFlat(CONFIG.home_game);}
+function allFlat(){return Object.values(D.cache).flat();}
+function ttl(){return gd(CONFIG.home_game).setIndex.reduce((s,x)=>s+x.count,0);}
+function gameTtl(slug){return gd(slug).setIndex.reduce((s,x)=>s+x.count,0);}
+
+// ── Game loader (Requirement 6): config-driven, cached, lazy, overwrite-safe ──
+function loadGame(slug){
+  const g=gd(slug);
+  if(g.loaded)return Promise.resolve(g);
+  if(g._promise)return g._promise;
+  const gc=CONFIG.games[slug];
+  if(!gc||gc.status!=='active')return Promise.resolve(g);
+  const dp=gc.data_paths||{};
+  const j=u=>fetch(u).then(r=>r.ok?r.json():null).catch(()=>null);
+  g._promise=(async()=>{
+    const [cards,prices,sets,products,characters,market]=await Promise.all([
+      dp.cards?j(dp.cards):null,dp.prices?j(dp.prices):null,dp.sets?j(dp.sets):null,
+      dp.products?j(dp.products):null,dp.characters?j(dp.characters):null,dp.market?j(dp.market):null,
+    ]);
+    if(!cards){g._promise=null;return g;}
+    g.cardsBySet=cards;
+    g.setIndex=Object.keys(cards).map(c=>({code:c,name:cards[c].length?cards[c][0].set_name:'',count:cards[c].length}));
+    if(sets&&Array.isArray(sets.sets)){
+      g.sets=sets.sets;
+      sets.sets.forEach(s=>{g.setData[s.set_code]=s;});
+      // Use sets.json ordering when it fully covers the card data (Lorcana);
+      // otherwise keep the card-derived index (One Piece sets.json is a
+      // partial editorial layer, not a set list).
+      const ordered=sets.sets.filter(s=>(cards[s.set_code]||[]).length)
+        .map(s=>({code:s.set_code,name:s.set_name||(cards[s.set_code][0]||{}).set_name||'',count:cards[s.set_code].length}));
+      if(ordered.length===Object.keys(cards).length)g.setIndex=ordered;
+    }
+    if(prices&&prices.markets){g.prices=prices.markets;g.pricesMeta=prices._meta||{};}
+    if(products){
+      const arr=Array.isArray(products)?products:(products.products||[]);
+      g.products=arr.map(p=>p.status?p:{status:'live',...p});
+    }
+    if(characters&&Array.isArray(characters.characters))g.characters=characters.characters;
+    if(market&&Array.isArray(market.records))g.marketData=market.records;
+    g.loaded=true;
+    _rebuildViews();
+    renderGames&&renderGames();
+    return g;
+  })();
+  return g._promise;
+}
+function ensureAllGames(){
+  return Promise.all(Object.values(CONFIG.games).filter(g=>g.status==='active').map(g=>loadGame(g.slug)));
+}
+// Games referenced by saved collection/wishlist/recently-viewed ids must load
+// at boot so those views can render.
+function _bootGamesNeeded(){
+  try{
+    const ids=[..._lsGet(LS_COLLECTION),..._lsGet(LS_WISHLIST),..._recentGet()];
+    return [...new Set(ids.map(id=>gameOf(id)))].filter(s=>s!==CONFIG.home_game);
+  }catch(e){return [];}
+}
 function activeFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.usd_to_thb)||S.fx;}
 function activeJpyFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;}
 function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*activeFx()).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
@@ -1827,8 +1985,33 @@ function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*activeFx()).toLocal
 // Prices live in their own dataset now, NOT on the card object. Each card may
 // have several market records (EN/TCGPlayer, JP/Yuyu-Tei, future TH). The card
 // describes the card; the market describes the price.
-function marketsFor(c){return (c&&D.markets&&D.markets[c.card_image_id])||[];}
-function marketFor(c,lang){return marketsFor(c).find(m=>m.source_market===lang)||null;}
+// Prices are read from the owning game's isolated store (never a shared map).
+function marketsFor(c){
+  if(!c)return [];
+  const g=D.games[gameOf(c.card_set_id||c.set_id)];
+  return (g&&g.prices&&g.prices[c.card_image_id])||[];
+}
+// Finish-priced games (config price_policy.type === 'finish') resolve the
+// headline price through the config fallback order (e.g. Normal → Cold Foil
+// → Holofoil). Edition-priced games have one record per market and are
+// returned unchanged. This is the single price choke point (Requirement 8):
+// every tile/detail/ranking/collection surface resolves prices through here.
+function _finishRank(c,m){
+  const order=(_pp(c).fallback_order)||[];
+  if(!m||m.finish==null)return 0;
+  const i=order.indexOf(m.finish);
+  return i<0?order.length:i;
+}
+function finishLabel(c,f){
+  const labels=(_pp(c).finish_labels)||{};
+  return labels[f]||f||'';
+}
+function marketFor(c,lang){
+  const recs=marketsFor(c).filter(m=>m.source_market===lang);
+  if(!recs.length)return null;
+  if(recs.length===1||_pp(c).type!=='finish')return recs[0];
+  return recs.slice().sort((a,b)=>_finishRank(c,a)-_finishRank(c,b))[0];
+}
 
 // ─── EDITION (JP/EN) LANGUAGE-CONTEXT PRIMITIVES ─────────────────────────────
 // The single source of truth for "which edition is this, and what's its price".
@@ -1845,6 +2028,7 @@ function editionBadge(ed){
 // Resolve which edition a card is shown as in a given context/filter.
 // filter: 'all' | 'jp' | 'en'. Returns 'JP', 'EN', or null (filtered out).
 function cardEdition(c,filter){
+  const se=singleEdition(c);if(se)return se;   // single-edition games: fixed badge, never filtered out
   const e=hasEN(c),j=hasJP(c);
   if(filter==='jp')return j?'JP':null;
   if(filter==='en')return e?'EN':null;
@@ -1865,14 +2049,17 @@ function editionPrice(c,ed){
 }
 // Compact price for edition-scoped card tiles (Card Database): follows S.cardLang.
 function tilePrice(c){
-  if(S.cardLang==='jp'){
+  if(S.cardLang==='jp'&&!singleEdition(c)){
     const jp=marketFor(c,'JP');
     if(jp){
       if(S.cur==='THB'&&jp.converted_price>0)return '฿'+Math.round(jp.converted_price).toLocaleString('th-TH')+' <span class="ed-ref">อ้างอิง</span>';
       return '¥'+Math.round(jp.source_price).toLocaleString();
     }
   }
-  return fp(realPrice(c));
+  const v=realPrice(c);
+  // Requirement 8: never show a fabricated ฿0/$0 — say the price is unavailable.
+  if(!(v>0))return `<span style="color:var(--faint)">${S.lang==='th'?'ไม่มีข้อมูลราคา':'Price unavailable'}</span>`;
+  return fp(v);
 }
 // Switch the open card to its other language version (flips which version's
 // price the detail page shows) and re-render in place.
@@ -1885,6 +2072,7 @@ function switchCardVer(lang){
 // price, otherwise whichever single version this card has. Keeps the name
 // badge in sync with the price shown (e.g. EN-only parallels).
 function effectiveVer(c){
+  const se=singleEdition(c);if(se)return se;   // single-edition games have no JP/EN split
   const want=S.cardLang==='jp'?'JP':'EN';
   if(marketFor(c,want))return want;
   if(marketFor(c,'EN')||Number(c.market_price)>0)return 'EN';
@@ -1908,9 +2096,11 @@ function fpL(usd,thbReal){
 // Edition-aware price helpers — all homepage widgets must use these so JP
 // and EN are never mixed on the same surface.
 function editionPriceThb(c){
+  if(singleEdition(c))return realPrice(c)*activeFx();   // ignore JP/EN edition context
   return S.cardLang==='jp'?jpPreferredPriceThb(c):realPrice(c)*activeFx();
 }
 function hasEditionPrice(c){
+  if(singleEdition(c))return realPrice(c)>0;
   return S.cardLang==='jp'?(marketFor(c,'JP')&&jpPreferredPriceThb(c)>0):realPrice(c)>0;
 }
 function fpEdition(c){
@@ -2122,7 +2312,15 @@ function openCompareView(){
       ${row(L==='th'?'สี':'Color',0,0,a.c.card_color||'—',b.c.card_color||'—','')}
       ${row(L==='th'?'ประเภท':'Type',0,0,a.c.card_type||'—',b.c.card_type||'—','')}
       ${row('Cost',Number(a.c.card_cost)||0,Number(b.c.card_cost)||0,a.c.card_cost||'—',b.c.card_cost||'—','lower')}
-      ${row('Power',Number(a.c.card_power)||0,Number(b.c.card_power)||0,a.c.card_power||'—',b.c.card_power||'—','higher')}
+      ${(()=>{
+        // Game-stat rows are config-driven (card_detail_layout of each card's
+        // game): only stats at least one compared card actually has render.
+        const statDefs=[...((cfgOfCard(a.c).card_detail_layout||{}).stats||[]),...((cfgOfCard(b.c).card_detail_layout||{}).stats||[])]
+          .filter(f=>!f.type&&f.label&&!['card_cost','card_color','card_type'].includes(f.key));
+        const seen=new Set();
+        return statDefs.filter(f=>{if(seen.has(f.key))return false;seen.add(f.key);return a.c[f.key]!=null||b.c[f.key]!=null;})
+          .map(f=>row(f.label,Number(a.c[f.key])||0,Number(b.c[f.key])||0,a.c[f.key]??'—',b.c[f.key]??'—','higher')).join('');
+      })()}
       ${row(L==='th'?'ชุด':'Set',0,0,a.c.set_id||a.code,b.c.set_id||b.code,'')}
       ${row('Chase Score',chaseScore(a.c),chaseScore(b.c),String(chaseScore(a.c)),String(chaseScore(b.c)),'higher')}
     </div>`;
@@ -2230,24 +2428,31 @@ function renderGames(){
   const pkmSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="50" stroke="#64748b" stroke-width="1.5" opacity="0.5"/><path d="M30 55 L55 55 L60 40 L65 55 L90 55 L70 70 L78 95 L60 80 L42 95 L50 70 Z" fill="#64748b" opacity="0.4"/><circle cx="60" cy="60" r="10" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.6"/></svg>`;
   const nrtSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M60 15 Q95 60 60 105 Q25 60 60 15Z" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.4"/><path d="M60 25 Q88 60 60 95 Q32 60 60 25Z" stroke="#64748b" stroke-width="1" fill="#64748b" opacity="0.06"/><circle cx="60" cy="60" r="12" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.5"/><path d="M60 48 Q68 60 60 72 Q52 60 60 48Z" fill="#64748b" opacity="0.3"/></svg>`;
   const lrcSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M60 20 L95 45 L82 90 L38 90 L25 45 Z" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.4"/><circle cx="60" cy="58" r="14" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.5"/></svg>`;
-  document.getElementById('games-row').innerHTML=`
-    <div class="game-tile op" onclick="openOnePiece()">${opSVG}
-      <div class="tile-icon">⚓</div><div class="tile-name">ONE PIECE</div><div class="tile-sub">CARD GAME</div>
-      <div class="tile-meta">${D.index.length} ${L==='th'?'ชุด':'Sets'} · ${ttl().toLocaleString()} ${L==='th'?'ใบ':'Cards'}</div>
+  // Game tiles are generated from CONFIG (Requirement 4/14): a new game
+  // appears here by adding a config entry — no code change. SVG art is an
+  // optional presentation asset keyed by slug.
+  const GAME_SVG={'one-piece':opSVG,'pokemon':pkmSVG,'naruto':nrtSVG,'lorcana':lrcSVG};
+  const GAME_CLS={'one-piece':'op','pokemon':'pkm','naruto':'nrt','lorcana':'lrc'};
+  const order=CONFIG.games_order||Object.keys(CONFIG.games);
+  document.getElementById('games-row').innerHTML=order.map(slug=>{
+    const gc=CONFIG.games[slug];if(!gc)return '';
+    const svg=GAME_SVG[slug]||'',cls=GAME_CLS[slug]||slug;
+    if(gc.status!=='active'){
+      return `<div class="game-tile disabled ${cls}" onclick="">${svg}
+        <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
+        <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
+      </div>`;
+    }
+    const g=D.games[slug];
+    const meta=(g&&g.loaded)
+      ?`${g.setIndex.length} ${L==='th'?'ชุด':'Sets'} · ${gameTtl(slug).toLocaleString()} ${L==='th'?'ใบ':'Cards'}`
+      :(L==='th'?`ใหม่! ${gc.display_name}`:`NEW! ${gc.display_name}`);
+    return `<div class="game-tile ${cls}" onclick="openGame('${slug}')">${svg}
+      <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
+      <div class="tile-meta">${meta}</div>
       <button class="tile-btn active">${L==='th'?'สำรวจตอนนี้ →':'Explore →'}</button>
-    </div>
-    <div class="game-tile disabled pkm" onclick="">${pkmSVG}
-      <div class="tile-icon">✦</div><div class="tile-name">POKÉMON</div><div class="tile-sub">CARD GAME</div>
-      <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
-    </div>
-    <div class="game-tile disabled nrt" onclick="">${nrtSVG}
-      <div class="tile-icon">🔥</div><div class="tile-name">NARUTO</div><div class="tile-sub">CARD GAME</div>
-      <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
-    </div>
-    <div class="game-tile disabled lrc" onclick="">${lrcSVG}
-      <div class="tile-icon">🌊</div><div class="tile-name">LORCANA</div><div class="tile-sub">CARD GAME</div>
-      <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
     </div>`;
+  }).join('');
 }
 
 function renderHL(){
@@ -2546,7 +2751,7 @@ const BOX_SCORE_CFG={
 // Step 1: compute raw (un-normalised) signals for a single set.
 function _boxRawSignals(code){
   const cards=D.cache[code]||[];
-  const box=BOX[code];
+  const box=boxInfo(code);
   if(!box||!cards.length)return null;
   // Use THB throughout so JP and EN editions compare apples-to-apples.
   const boxThb=(S.cardLang==='jp'?(box.thb||box.usd*activeFx()):box.usd*activeFx())||1;
@@ -2579,7 +2784,8 @@ function _boxRawSignals(code){
 // Step 2: normalise across all ranked sets → final scored + sorted list.
 // Returns array sorted descending by score, or [] when no data is ready.
 function computeBoxRankings(){
-  const allRaw=Object.keys(BOX).map(_boxRawSignals).filter(Boolean);
+  // Rank every set with a curated box price in the home game's config.
+  const allRaw=Object.keys(cfg2(CONFIG.home_game).box_prices||{}).map(_boxRawSignals).filter(Boolean);
   if(!allRaw.length)return[];
 
   // Min/max of each raw signal across all eligible sets
@@ -2658,7 +2864,7 @@ function renderBoxes(){
   const ranked=computeBoxRankings();
   const rows=ranked.slice(0,5).map(d=>{
     const meta=D.index.find(s=>s.code===d.code)||{code:d.code,name:'',count:0};
-    return{...meta,box:BOX[d.code],score:d.score,boxData:d};
+    return{...meta,box:boxInfo(d.code),score:d.score,boxData:d};
   });
   document.getElementById('box-row').innerHTML=rows.map((s,i)=>{
     const cat=setCat(s.code);
@@ -2727,6 +2933,7 @@ function renderChars(){
   const isJP=S.cardLang==='jp';
   // Sort by card count in current edition, take top 20
   const sorted=Object.values(charMap)
+    .filter(ch=>!ch.game||ch.game===CONFIG.home_game)   // homepage strip = home game
     .filter(ch=>isJP?ch.jpCount>0:ch.enCount>0)
     .sort((a,b)=>(isJP?b.jpCount-a.jpCount:b.enCount-a.enCount))
     .slice(0,20);
@@ -2952,6 +3159,20 @@ function buildCharMap(){
       m[key].enCount=Math.max(m[key].enCount,counts.enCount);
     });
   });
+  // Games with a structured characters file (config characters_from_file)
+  // contribute canonical characters directly. Entries carry their game slug
+  // so scoped surfaces (homepage strip, per-game search) can filter.
+  for(const slug of Object.keys(CONFIG.games)){
+    if(!cfg2(slug).characters_from_file)continue;
+    (gd(slug).characters||[]).forEach(ch=>{
+      const key=ch.name.toLowerCase();
+      if(!m[key])m[key]={name:ch.name,sets:[],jpCount:0,enCount:0};
+      m[key].game=slug;
+      (ch.sets||[]).forEach(s=>{if(!m[key].sets.includes(s))m[key].sets.push(s);});
+      m[key].enCount=Math.max(m[key].enCount,ch.card_count||0);
+      m[key].franchise=(ch.franchise||[]).join(', ');
+    });
+  }
   return m;
 }
 
@@ -2971,11 +3192,18 @@ function openCharacter(name){
   // Gather cards in the current edition that match this character.
   // Normalized matching handles "Monkey D. Luffy" (featured_characters) ↔
   // "Monkey.D.Luffy" (card_name field) without requiring exact dot/space format.
-  const hasEdCard=c=>isJP?hasJP(c):realPrice(c)>0;
+  // Single-edition games ignore the JP/EN toggle; games whose config sets
+  // character_hub_include_unpriced also keep unpriced (pre-release) cards.
+  const hasEdCard=c=>{
+    if(singleEdition(c))return cfgOfCard(c).character_hub_include_unpriced?true:realPrice(c)>0;
+    return isJP?hasJP(c):realPrice(c)>0;
+  };
   const allCards=[];
   Object.entries(D.cache).forEach(([code,cards])=>{
     cards.forEach(c=>{
-      if(_normName(chaseBase(c.card_name||'')).includes(normKey)&&hasEdCard(c))
+      const nm=_normName(chaseBase(c.card_name||''));
+      const structName=c.character_name?_normName(c.character_name):'';
+      if((nm.includes(normKey)||(structName&&structName===normKey))&&hasEdCard(c))
         allCards.push({...c,_setCode:code});
     });
   });
@@ -3000,11 +3228,25 @@ function openCharacter(name){
       if(c.toLowerCase()!==key)relatedSet.add(c);
     });
   });
+  // Franchise-grouped games (config character_grouping) relate characters by
+  // shared franchise from the game's characters file.
+  const charGame=allCards.length?gameOf(allCards[0].card_set_id):CONFIG.home_game;
+  const charList=gd(charGame).characters||[];
+  if(cfg2(charGame).character_grouping==='character_and_franchise'&&charList.length){
+    const me=charList.find(ch=>ch.name.toLowerCase()===key||_normName(ch.name)===normKey);
+    if(me&&me.franchise&&me.franchise.length){
+      charList
+        .filter(ch=>ch.name!==me.name&&(ch.franchise||[]).some(f=>me.franchise.includes(f)))
+        .sort((a,b)=>(b.card_count||0)-(a.card_count||0))
+        .slice(0,12)
+        .forEach(ch=>relatedSet.add(ch.name));
+    }
+  }
   const related=[...relatedSet].slice(0,12);
 
   _charFilter='';
   window._charAllCards=allCards;
-  setCrumb('crumb-char',` / <span class="live" onclick="renderSets()">One Piece</span> / ${L==='th'?'ตัวละคร':'Characters'} / ${charEntry.name}`);
+  setCrumb('crumb-char',` / <span class="live" onclick="openGame('${charGame}')">${gameLabel(charGame)}</span> / ${L==='th'?'ตัวละคร':'Characters'} / ${charEntry.name}`);
   document.getElementById('back-char').onclick=()=>{
     if(window._charPrevView)show(window._charPrevView);else goHome();
   };
@@ -3049,7 +3291,7 @@ function buildCharHubHtml(charEntry,allCards,setCodes,prods,related,L){
         return`<div class="char-top-card" onclick="jumpCard('${c._setCode}','${c.card_image_id}')">
           ${img?`<img src="${img}" loading="lazy" onerror="this.style.display='none'">`:'<div style="aspect-ratio:0.72;background:var(--bg3)"></div>'}
           <div class="char-top-card-info">
-            <div style="margin-bottom:3px">${editionBadge(isJP?'JP':'EN')}</div>
+            <div style="margin-bottom:3px">${editionBadge(effectiveVer(c))}</div>
             <div class="char-top-card-name">${chaseBase(c.card_name)}</div>
             <div class="char-top-card-price">${prStr}</div>
             <div class="char-top-card-set">${c._setCode} · ${c.rarity||''}</div>
@@ -3129,13 +3371,22 @@ function charSetFilter(code){
   }
 }
 
-function doSearch(){
+// Game-aware search (Requirement 3): default scope is the ACTIVE game only.
+// Global search across every game is explicit — the results page offers a
+// "Search all games" action which lazy-loads the other games' data first.
+let _srchScope='game';
+function searchAllGames(){
+  ensureAllGames().then(()=>doSearch('all'));
+}
+function doSearch(scope){
+  _srchScope=scope==='all'?'all':'game';
   const q=aliasQ(document.getElementById('gsearch').value.trim().toLowerCase());
   if(!q)return;
   closeSrchDrop();
   const qNorm=q.replace(/[^a-z0-9]/g,'');
+  const scopedCache=_srchScope==='all'?D.cache:gd().cardsBySet;
 
-  // Direct card-code jump (exact match)
+  // Direct card-code jump (exact match — always cross-game, ids are unique)
   if(qNorm.length>=4){
     const exact=[];
     Object.entries(D.cache).forEach(([code,cards])=>{cards.forEach(c=>{
@@ -3145,12 +3396,15 @@ function doSearch(){
     if(exact.length===1){jumpCard(exact[0].code,exact[0].card.card_image_id);return;}
   }
 
-  // Sets
-  const sets=D.index.filter(s=>s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q));
+  // Sets — active game, or every loaded game in global scope
+  const setPool=_srchScope==='all'
+    ?Object.keys(CONFIG.games).map(sl=>gd(sl).setIndex).flat()
+    :gd().setIndex;
+  const sets=setPool.filter(s=>s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q));
 
   // Cards — ranked: name starts-with > word starts-with > code match > name contains
   const cardRaw=[];
-  Object.entries(D.cache).forEach(([code,cardList])=>{cardList.forEach(c=>{
+  Object.entries(scopedCache).forEach(([code,cardList])=>{cardList.forEach(c=>{
     const n=c.card_name.toLowerCase();
     const setId=(c.card_set_id||'').toLowerCase();
     const nameStarts=n.startsWith(q)?0:null;
@@ -3163,16 +3417,21 @@ function doSearch(){
   cardRaw.sort((a,b)=>a.rank-b.rank);
   const cards=cardRaw.map(({code,card})=>({code,card}));
 
-  // Products
-  const _t=f=>f?(S.lang==='th'?f.th:f.en)||f.en||f.th||'':'';
+  // Products (product_name may be a plain string or a {th,en} object)
+  const _t=f=>{if(!f)return '';if(typeof f==='string')return f;return (S.lang==='th'?f.th:f.en)||f.en||f.th||'';};
   const products=D.products.filter(p=>{
     if(p.status!=='live')return false;
+    if(_srchScope!=='all'&&(p.game||CONFIG.home_game)!==S.game)return false;
     return _t(p.product_name).toLowerCase().includes(q)||(p.set_code||'').toLowerCase().includes(q)||(p.language||'').toLowerCase()===q;
   });
 
-  // Characters — only show entries that have cards in the current edition
+  // Characters — only entries with cards in the current edition. Games whose
+  // config price policy has no editions ignore the JP/EN context.
   const chars=Object.values(buildCharMap()).filter(ch=>{
     if(!ch.name.toLowerCase().includes(q))return false;
+    const chGame=ch.game||CONFIG.home_game;
+    if(_srchScope!=='all'&&chGame!==S.game)return false;
+    if((cfg2(chGame).price_policy||{}).type!=='edition')return ch.enCount>0;
     return S.cardLang==='jp'?ch.jpCount>0:ch.enCount>0;
   });
 
@@ -3214,14 +3473,21 @@ function paintSearch({sets,cards,products,chars},q,rarities){
   document.getElementById('srch-ttl').textContent=(L==='th'?'ค้นหา: ':'Search: ')+q;
 
   const total=cards.length+sets.length+products.length+chars.length;
-  document.getElementById('srch-count').textContent=total===0
+  const countTxt=total===0
     ?(L==='th'?'ไม่พบผลลัพธ์':'No results found')
     :(L==='th'
       ?`พบ ${cards.length} การ์ด · ${sets.length} ชุด · ${products.length} สินค้า · ${chars.length} ตัวละคร`
       :`${cards.length} cards · ${sets.length} sets · ${products.length} products · ${chars.length} characters`);
+  // Scope indicator + explicit global-search action (Requirement 3): the
+  // other games' data only downloads when the user asks for it.
+  const otherGames=Object.values(CONFIG.games).filter(g=>g.status==='active'&&g.slug!==S.game);
+  const scopeHtml=_srchScope==='all'
+    ?` <span style="color:var(--faint)">· ${L==='th'?'ค้นหาทุกเกม':'all games'}</span>`
+    :(otherGames.length?` <span style="color:var(--faint)">· ${gameLabel()}</span> <span class="live" style="color:var(--gold);cursor:pointer;font-weight:600" onclick="searchAllGames()">🌐 ${L==='th'?'ค้นหาทุกเกม →':'Search all games →'}</span>`:'');
+  document.getElementById('srch-count').innerHTML=countTxt+scopeHtml;
 
   // Rarity filter chips (cards section only)
-  const order=['L','C','UC','R','SR','SEC','SP','TR','P'];
+  const order=['L','C','UC','R','SR','SEC','LG','EN','EP','IC','SP','TR','P'];
   const sorted=[...rarities].sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
   // Show the filter row (incl. the All/JP/EN edition filter) whenever there are
   // card results, even if there's only one rarity.
@@ -3436,7 +3702,24 @@ function comingSoon(feature){
   closeMobileMenu&&closeMobileMenu();
 }
 
-function openOnePiece(){show('view-sets');setCrumb('crumb-sets',' / One Piece');renderSets();}
+// Open a game's catalog: lazy-load its data (config data_paths), then reuse
+// the shared set-picker view. Generic for every game in CONFIG.
+function openGame(slug){
+  if(!CONFIG.games[slug]||CONFIG.games[slug].status!=='active')return;
+  S.game=slug;S.setCat='all';S.setLang='all';
+  show('view-sets');setCrumb('crumb-sets',' / '+gameLabel(slug));
+  const list=document.getElementById('sets-list');
+  const g=D.games[slug];
+  if(!(g&&g.loaded)&&list)list.innerHTML='<div class="empty">⏳ '+(S.lang==='th'?'กำลังโหลดข้อมูล...':'Loading data...')+'</div>';
+  loadGame(slug).then(gg=>{
+    if(!(gg&&gg.loaded)&&list){list.innerHTML='<div class="empty">⚠️ '+(S.lang==='th'?'โหลดข้อมูลไม่สำเร็จ ลองรีเฟรชหน้า':'Could not load data — try refreshing')+'</div>';return;}
+    if(S.game===slug)renderSets();
+  });
+  closeMobileMenu&&closeMobileMenu();
+}
+// Legacy nav entry points (header/footer links reference openOnePiece).
+function openOnePiece(){openGame(CONFIG.home_game);}
+function openLorcana(){openGame('lorcana');}
 
 // ─── PRODUCT DETAIL / BUYING GUIDE ───────────────────────────────────────────
 // Resolve bilingual text: field can be a plain string or {th,en} object
@@ -3503,7 +3786,7 @@ function openProduct(productId){
         <div style="margin-top:20px;font-size:12px;color:var(--faint)">${p.release_date?`${L==='th'?'วางจำหน่าย':'Released'} ${p.release_date}`:''}</div>
       </div>`;
     document.getElementById('back-product').onclick=()=>openSetOverview(p.set_code);
-    setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${p.set_code}')">${p.set_code}</span> / ${p.product_name}`);
+    setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">${gameLabel(gameOf(p.set_code))}</span> / <span class="live" onclick="openSetOverview('${p.set_code}')">${p.set_code}</span> / ${p.product_name}`);
     show('view-product');window.scrollTo(0,0);
     return;
   }
@@ -3556,7 +3839,7 @@ function openProduct(productId){
     ?topChase.map(c=>`<div class="chase-preview-card" onclick="jumpCard('${p.set_code}','${c.card_image_id}')">
         <div class="chase-preview-img"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
         <div class="chase-preview-body">
-          <div style="margin-bottom:2px">${editionBadge(S.cardLang==='jp'?'JP':'EN')}</div>
+          <div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div>
           <div class="chase-preview-name">${chaseBase(c.card_name)}</div>
           <div class="chase-preview-price">${fpL(0,editionPriceThb(c))}</div>
           <div class="chase-preview-rar">${c.rarity||''}</div>
@@ -3650,39 +3933,42 @@ function openProduct(productId){
 
   const pc=document.getElementById('product-content');pc.dataset.pid=productId;pc.innerHTML=html;
   document.getElementById('back-product').onclick=()=>openSetOverview(p.set_code);
-  setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSetOverview('${p.set_code}')">${p.set_code}</span> / ${p.product_name}`);
+  setCrumb('crumb-product',` / <span class="live" onclick="renderSets()">${gameLabel(gameOf(p.set_code))}</span> / <span class="live" onclick="openSetOverview('${p.set_code}')">${p.set_code}</span> / ${p.product_name}`);
   show('view-product');
   window.scrollTo(0,0);
 }
 
 function setCatChips(){
   const L=S.lang;
-  const cats=[
-    {k:'all',th:'ทั้งหมด',en:'All'},
-    {k:'booster',th:'Main Booster',en:'Main Booster'},
-    {k:'extra',th:'Extra Booster',en:'Extra Booster'},
-    {k:'premium',th:'Premium Booster',en:'Premium Booster'},
-    {k:'deck',th:'Starter Deck',en:'Starter Deck'},
-  ];
+  const fg=cfgActive().filter_groups||{};
+  // Set-category chips come straight from the game config (Requirement 9).
+  const cats=fg.set_categories||[{k:'all',th:'ทั้งหมด',en:'All'}];
   const langs=[
     {k:'all',th:'ทุกภาษา',en:'All'},
     {k:'JP',th:'🇯🇵 JP',en:'🇯🇵 JP'},
     {k:'EN',th:'🇺🇸 EN',en:'🇺🇸 EN'},
   ];
-  document.getElementById('sets-filter-row').innerHTML=
-    `<div class="chip-group">`+cats.map(c=>`<button class="chip${S.setCat===c.k?' on':''}" onclick="setSetCat('${c.k}')">${L==='th'?c.th:c.en}</button>`).join('')+`</div>`+
+  // The JP/EN product-language filter renders only for games whose config
+  // declares it (single-language games have no use for it).
+  const langHtml=fg.show_language_filter===false?'':
     `<div class="lang-sep"></div>`+
     `<div class="chip-group">`+langs.map(l=>`<button class="chip${S.setLang===l.k?' on':''}" onclick="setSetLang('${l.k}')">${L==='th'?l.th:l.en}</button>`).join('')+`</div>`;
+  document.getElementById('sets-filter-row').innerHTML=
+    `<div class="chip-group">`+cats.map(c=>`<button class="chip${S.setCat===c.k?' on':''}" onclick="setSetCat('${c.k}')">${L==='th'?c.th:c.en}</button>`).join('')+`</div>`+langHtml;
 }
 function setSetCat(k){S.setCat=k;renderSets();}
 function setSetLang(k){S.setLang=k;renderSets();}
 
 function openSetOverview(code){
   S.setCode=code;
+  S.game=gameOf(code);
   const L=S.lang;
-  const m=D.index.find(s=>s.code===code)||{};
+  const _gcfg=cfgActive();
+  // Single-edition games (config price policy) get one DB card, no JP/EN split.
+  const _singleEd=(_gcfg.price_policy||{}).type!=='edition';
+  const m=gd(S.game).setIndex.find(s=>s.code===code)||{};
   const cards=D.cache[code]||[];
-  const box=BOX[code];
+  const box=boxInfo(code);
   const prods=D.products.filter(p=>p.set_code===code);
   const imgUrl=setImgUrl(code);
   const cat=setCat(code);
@@ -3749,23 +4035,31 @@ function openSetOverview(code){
     <div class="set-ov-db-price-type">${hasEN?(L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price (TCGPlayer)'):(L==='th'?'ยังไม่มีข้อมูล EN':'EN data not yet available')}</div>
     ${hasEN?`<button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}','en')">${L==='th'?'ดูการ์ด EN →':'Browse EN Cards →'}<span>→</span></button>`:`<button class="set-ov-db-btn" disabled style="opacity:.45">${L==='th'?'เร็วๆ นี้':'Coming Soon'}<span></span></button>`}
   </div>`;
-  const dbSelectorHtml=(jpCard||enCard)?`
+  // Single-edition games: one database card (no JP/EN split exists).
+  const lorDbCard=_singleEd&&cards.length?`<div class="set-ov-db-card en" onclick="openSet('${code}')" style="cursor:pointer">
+    <div class="set-ov-db-flag">🇺🇸</div>
+    <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ด (EN)':'Card Database (EN)'}</div>
+    <div class="set-ov-db-count">${totalCards} ${L==='th'?'ใบ':'cards'}</div>
+    <div class="set-ov-db-price-type">${L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price (TCGPlayer)'}</div>
+    <button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}')">${L==='th'?'ดูการ์ด →':'Browse Cards →'}<span>→</span></button>
+  </div>`:'';
+  const dbSelectorHtml=_singleEd
+    ?(lorDbCard?`
     <div class="set-ov-section-label">${L==='th'?'เลือกฐานข้อมูลการ์ด':'Browse Card Database'}</div>
-    <div class="set-ov-db-grid">${jpCard}${enCard}</div>`:'';
+    <div class="set-ov-db-grid">${lorDbCard}</div>`:'')
+    :((jpCard||enCard)?`
+    <div class="set-ov-section-label">${L==='th'?'เลือกฐานข้อมูลการ์ด':'Browse Card Database'}</div>
+    <div class="set-ov-db-grid">${jpCard}${enCard}</div>`:'');
 
   // ── 3. CARD DISTRIBUTION ───────────────────────────────────────────────────
   let distHtml='';
   if(cards.length){
-    const RARITY_GROUPS=[
-      {key:'L',  label:'Leader', test:r=>r==='L'},
-      {key:'C',  label:'Common', test:r=>r==='C'},
-      {key:'UC', label:'Uncommon',test:r=>r==='UC'},
-      {key:'R',  label:'Rare',   test:r=>r==='R'},
-      {key:'SR', label:'SR',     test:r=>r==='SR'},
-      {key:'SEC',label:'SEC',    test:r=>r==='SEC'},
-      {key:'SP', label:'SP',     test:r=>r==='SP'},
-      {key:'P',  label:'Promo',  test:r=>r==='P'||r==='PR'},
-    ];
+    // Rarity distribution comes from the game config's rarity_list/labels
+    // (Requirement 9/10). Zero-count tiers are filtered out below, so a
+    // config may safely list every tier the game has ever printed.
+    const RARITY_GROUPS=(_gcfg.rarity_list||[]).map(r=>({
+      key:r,label:(_gcfg.rarity_labels||{})[r]||r,test:x=>x===r,
+    }));
     const groups=RARITY_GROUPS.map(g=>({...g,count:cards.filter(c=>g.test(c.rarity||'')).length})).filter(g=>g.count>0);
     if(groups.length>0){
       distHtml=`<div class="set-ov-section-label">${L==='th'?'การแจกแจงตามระดับ':'Card Distribution'}</div>
@@ -3823,7 +4117,13 @@ function openSetOverview(code){
     const langName=isJP?(L==='th'?'ฉบับภาษาญี่ปุ่น':'Japanese Version'):(L==='th'?'ฉบับภาษาอังกฤษ':'English Version');
 
     let priceHtml='—';
-    if(isJP&&box){
+    // Data-driven price resolution: product's own market price → product MSRP
+    // → curated box price (JP) → verified market_data records. No game checks.
+    if(p.market_price_usd>0){
+      priceHtml=S.cur==='THB'?`฿ ${Math.round(p.market_price_usd*activeFx()).toLocaleString('th-TH')}`:`$${p.market_price_usd.toFixed(2)}`;
+    } else if(p.msrp_usd>0){
+      priceHtml=`<span style="font-size:10px;color:var(--faint)">MSRP </span>${S.cur==='THB'?`฿ ${Math.round(p.msrp_usd*activeFx()).toLocaleString('th-TH')}`:`$${p.msrp_usd}`}`;
+    } else if(isJP&&box){
       priceHtml=S.cur==='THB'?`฿ ${box.thb.toLocaleString()}`:`$${box.usd}`;
     } else {
       const mdSealed=D.marketData.find(r=>r.product_id===p.product_id&&r.data_type==='Sealed Box Price'&&r.verification_status==='Verified');
@@ -3862,25 +4162,47 @@ function openSetOverview(code){
     factsHtml + notesHtml + prodsSection;
 
   document.getElementById('back-set-ov').onclick=()=>renderSets();
-  setCrumb('crumb-set-ov',` / <span class="live" onclick="renderSets()">One Piece</span> / ${code} ${m.name||''}`);
+  setCrumb('crumb-set-ov',` / <span class="live" onclick="renderSets()">${gameLabel()}</span> / ${code} ${m.name||''}`);
   show('view-set-overview');
   window.scrollTo(0,0);
 }
 
+// Box price string for a set tile. Data-driven, no game branching:
+// 1) curated box_prices from the game config, else
+// 2) the set's Booster Box product record's market price.
+function setBoxPrice(code){
+  const bp=boxInfo(code);
+  if(bp)return S.cur==='THB'?'฿ '+bp.thb.toLocaleString():'$'+bp.usd;
+  const p=(D.products||[]).find(x=>x.set_code===code&&x.product_type==='Booster Box'&&x.market_price_usd>0);
+  if(p)return S.cur==='THB'?'฿ '+Math.round(p.market_price_usd*activeFx()).toLocaleString('th-TH'):'$'+p.market_price_usd.toFixed(0);
+  return null;
+}
 function renderSets(){
-  show('view-sets');setCrumb('crumb-sets',' / One Piece');
+  show('view-sets');setCrumb('crumb-sets',' / '+gameLabel());
   const L=S.lang;
+  // Game-aware page title. data-th/data-en are updated too because
+  // applyLangUI() rewrites any .t element's text from those attributes.
+  const ttlEl=document.getElementById('sets-page-ttl');
+  if(ttlEl){
+    const g=gameLabel();
+    ttlEl.dataset.th=g+' — รายชื่อชุด';ttlEl.dataset.en=g+' — Sets';
+    ttlEl.textContent=L==='th'?ttlEl.dataset.th:ttlEl.dataset.en;
+  }
   setCatChips();
-  const liveTiles=D.index.map(s=>{
+  const idx=gd().setIndex;
+  const showLangFilter=(cfgActive().filter_groups||{}).show_language_filter!==false;
+  const liveTiles=idx.map(s=>{
     const cat=setCat(s.code);
     if(S.setCat!=='all'&&S.setCat!==cat)return null;
     // language filter: hide tile if selected language has no product for this set
-    if(S.setLang!=='all'&&!D.products.some(x=>x.set_code===s.code&&x.language===S.setLang))return null;
-    const box=BOX[s.code];
-    const price=box?(S.cur==='THB'?'฿ '+box.thb.toLocaleString():'$'+box.usd):'—';
+    if(showLangFilter&&S.setLang!=='all'&&!D.products.some(x=>x.set_code===s.code&&x.language===S.setLang))return null;
+    const box=boxInfo(s.code);
+    const price=setBoxPrice(s.code)||'—';
     const imgUrl=setImgUrl(s.code);
     const vers=D.products.filter(x=>x.set_code===s.code&&(S.setLang==='all'||x.language===S.setLang));
-    const verBadge=vers.length?vers.map(p=>`<span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:${p.language==='EN'?'rgba(74,222,128,.12)':'rgba(250,204,21,.1)'};color:${p.language==='EN'?'#4ade80':'var(--gold)'}">${p.language==='EN'?'🇺🇸 EN':'🇯🇵 JP'}</span>`).join(' '):'';
+    // One badge per language (a set with 7 EN products gets one EN badge, not 7)
+    const verLangs=[...new Set(vers.map(p=>p.language))];
+    const verBadge=verLangs.length?verLangs.map(lg=>`<span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:${lg==='EN'?'rgba(74,222,128,.12)':'rgba(250,204,21,.1)'};color:${lg==='EN'?'#4ade80':'var(--gold)'}">${lg==='EN'?'🇺🇸 EN':'🇯🇵 JP'}</span>`).join(' '):'';
     return `<div class="set-card${box?.hot?' is-hot':''}" onclick="openSetOverview('${s.code}')">
       <div class="set-img-wrap cat-${cat}">
         <div class="set-tile-pattern"></div>
@@ -3899,7 +4221,8 @@ function renderSets(){
       </div>
     </div>`;
   }).filter(Boolean);
-  const soonTiles=COMING_SOON.filter(s=>S.setCat==='all'||S.setCat===s.cat).map(s=>{
+  // "Coming soon" tiles come from the active game's config-declared source.
+  const soonTiles=comingSoonTiles(S.game).filter(s=>S.setCat==='all'||S.setCat===s.cat).map(s=>{
     const imgUrl=setImgUrl(s.code);
     return `
     <div class="set-card soon">
@@ -3933,6 +4256,36 @@ function switchEdition(lang){
 
 function openSet(code,lang){
   S.cardReturn=null;   // entering a set list: card back-button returns here
+  S.game=gameOf(code);
+  const _gc=cfgActive();
+  // ── Single-edition games (config price_policy.type !== 'edition'): no JP/EN
+  // toggle, no edition filtering; every card shows its market pricing. ──
+  if((_gc.price_policy||{}).type!=='edition'){
+    const badge=(_gc.price_policy||{}).edition_badge||'EN';
+    const tog0=document.getElementById('cards-ed-toggle');
+    if(tog0)tog0.style.display='none';
+    S.setCode=code;
+    document.getElementById('card-srch').value='';
+    document.getElementById('sort-sel').value='default';
+    S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
+    S.cards=D.cache[code]||[];
+    const mL=gd(S.game).setIndex.find(s=>s.code===code);
+    document.getElementById('cards-ttl').textContent=(badge==='EN'?'🇺🇸 EN · ':'')+code+' — '+(mL?mL.name:'');
+    document.getElementById('back-cards').onclick=()=>openSetOverview(code);
+    const _bl=document.getElementById('back-cards-list');
+    if(_bl)_bl.onclick=()=>openSetOverview(code);
+    setCrumb('crumb-cards',` / <span class="live" onclick="openGame('${S.game}')">${gameLabel()}</span> / <span class="live" onclick="openSetOverview('${code}')">${code}</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'Cards'}`);
+    const ne=document.getElementById('cards-lang-note');
+    if(ne){
+      const note=_gc.list_note;
+      if(note){
+        ne.style.display='block';
+        ne.innerHTML=((S.lang==='th'?note.th:note.en)||'').replace('{count}',S.cards.length);
+      }else ne.style.display='none';
+    }
+    show('view-cards');buildRarityChips();applyFilters();
+    return;
+  }
   if(!lang)lang=S.cardLang; // inherit global edition context
   // Show toggle scoped to this set so JP↔EN stays within the set (KI-03)
   const tog=document.getElementById('cards-ed-toggle');
@@ -3982,19 +4335,30 @@ function openSet(code,lang){
 function openAllCards(lang){
   lang=(lang==='jp'||lang==='en')?lang:S.cardLang;
   S.setCode=null;
-  S.cardLang=lang;
   S.cardReturn=()=>show('view-cards');  // back from a card returns here
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='price-desc';
   S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
+  const tog=document.getElementById('cards-ed-toggle');
+  const noteEl=document.getElementById('cards-lang-note');if(noteEl)noteEl.style.display='none';
+  if((cfgActive().price_policy||{}).type!=='edition'){
+    // Single-edition game catalog: no edition toggle.
+    S.cards=gameFlat(S.game);
+    document.getElementById('cards-ttl').textContent=gameLabel()+' · '+(S.lang==='th'?'การ์ดทั้งหมด':'All Cards')+' · '+S.cards.length.toLocaleString();
+    document.getElementById('back-cards').onclick=()=>goHome();
+    setCrumb('crumb-cards',` / <span class="live" onclick="openGame('${S.game}')">${gameLabel()}</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'All Cards'}`);
+    if(tog)tog.style.display='none';
+    show('view-cards');buildRarityChips();applyFilters();
+    closeMobileMenu&&closeMobileMenu();
+    return;
+  }
+  S.cardLang=lang;
   // EN edition = all cards; JP edition = only cards that have a JP reference price.
   S.cards=lang==='jp'?flat().filter(c=>hasJP(c)):flat();
   document.getElementById('cards-ttl').textContent=(S.lang==='th'?'การ์ดทั้งหมด':'All Cards')+' · '+S.cards.length.toLocaleString();
   document.getElementById('back-cards').onclick=()=>goHome();
   setCrumb('crumb-cards',` / <span class="live" onclick="renderSets()">One Piece</span> / ${S.lang==='th'?'การ์ดทั้งหมด':'All Cards'}`);
-  const noteEl=document.getElementById('cards-lang-note');if(noteEl)noteEl.style.display='none';
   // Edition toggle on All Cards: shows EN/JP global switch
-  const tog=document.getElementById('cards-ed-toggle');
   if(tog){tog.style.display='inline-flex';tog.querySelectorAll('.ed-fbtn').forEach(b=>b.classList.toggle('on',b.dataset.ed===lang));}
   show('view-cards');buildRarityChips();applyFilters();
   closeMobileMenu&&closeMobileMenu();
@@ -4040,22 +4404,23 @@ function chaseIdSet(){
 }
 
 // Primary chip order: rarity first, then variant/type categories
-const PRIMARY_CHIP_ORDER=['L','C','UC','R','SR','SEC','TR','Manga','Alt Art','SP','Leader','Character','Event','Stage','Full Art','Parallel','Super Alt Art','Wanted Poster','Holo','Enchanted','Promo'];
+const PRIMARY_CHIP_ORDER=['L','C','UC','R','SR','SEC','LG','EN','EP','IC','TR','Manga','Alt Art','SP','Leader','Character','Event','Stage','Full Art','Parallel','Super Alt Art','Wanted Poster','Holo','Enchanted','Promo'];
 
 function buildRarityChips(){
+  // Chip order and allowed category filters come from the active game's
+  // config (Requirement 9); chips only render when matching cards exist.
+  const gcf=cfgActive();
+  const chipOrder=(gcf.rarity_list||[]).concat((gcf.filter_groups||{}).categories||[]);
+  const ord=x=>{const i=chipOrder.indexOf(x);return i<0?99:i;};
+  const allowedCats=new Set((gcf.filter_groups||{}).categories||CATEGORY_DEFS.map(d=>d.key));
+  const catDefs=CATEGORY_DEFS.filter(d=>allowedCats.has(d.key));
   const catKeys=new Set(CATEGORY_DEFS.map(d=>d.key));
   const presentRar=new Set(S.cards.map(c=>c.rarity).filter(r=>r&&!catKeys.has(r)));
-  const presentCat=CATEGORY_DEFS.filter(d=>S.cards.some(d.test)).map(d=>d.key);
+  const presentCat=catDefs.filter(d=>S.cards.some(d.test)).map(d=>d.key);
   // Rarity group (left of separator)
-  const rarArr=[...presentRar].sort((a,b)=>{
-    const ai=PRIMARY_CHIP_ORDER.indexOf(a),bi=PRIMARY_CHIP_ORDER.indexOf(b);
-    return (ai<0?99:ai)-(bi<0?99:bi);
-  });
+  const rarArr=[...presentRar].sort((a,b)=>ord(a)-ord(b));
   // Category group (right of separator)
-  const catArr=presentCat.sort((a,b)=>{
-    const ai=PRIMARY_CHIP_ORDER.indexOf(a),bi=PRIMARY_CHIP_ORDER.indexOf(b);
-    return (ai<0?99:ai)-(bi<0?99:bi);
-  });
+  const catArr=presentCat.sort((a,b)=>ord(a)-ord(b));
   const rarHtml=rarArr.map(r=>`<button class="chip${S.rarities.has(r)?' on':''}" onclick="toggleChip(this,'${r}','rar')">${r}</button>`).join('');
   const catHtml=catArr.map(r=>`<button class="chip${S.categories.has(r)?' on':''}" onclick="toggleChip(this,'${r}','cat')">${r}</button>`).join('');
   const sep=(rarArr.length&&catArr.length)?'<span class="chip-sep">|</span>':'';
@@ -4210,11 +4575,17 @@ function confBadge(conf){
 // Thai market price. We never relabel a converted JP price as a Thai price.
 function marketCard(m,L,c){
   if(m.source_market==='EN'){
+    // Lorcana records carry a finish (Normal / Cold Foil / Holofoil) and a
+    // low–high market range; both render only when present (One Piece
+    // records have neither, so OP output is unchanged).
+    const finChip=m.finish?` <span class="mkt-badge" style="margin-left:6px">${finishLabel(c,m.finish)}</span>`:'';
+    const range=(m.low_price>0&&m.high_price>0)?`<div style="font-size:11px;color:var(--faint);margin-top:2px">${L==='th'?'ช่วงราคา':'Range'}: ${fp(m.low_price)} – ${fp(m.high_price)}</div>`:'';
     return `<div class="mkt-card mkt-en">
-      <div class="mkt-head"><span class="mkt-label">🇺🇸 ${L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price'}</span>${confBadge(m.confidence)}</div>
+      <div class="mkt-head"><span class="mkt-label">🇺🇸 ${L==='th'?'ราคาตลาด EN (TCGPlayer)':'EN Market Price'}${finChip}</span>${confBadge(m.confidence)}</div>
       <div class="mkt-val">${fp(m.source_price)}</div>
+      ${range}
       ${marketTrendStrip(c,L)}
-      <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}</div>
+      <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}${m.last_updated?` · ${m.last_updated}`:''}</div>
     </div>`;
   }
   if(m.source_market==='JP'){
@@ -4266,6 +4637,13 @@ function langSwitchLink(m,L){
 }
 function renderMarkets(c){
   const L=S.lang;
+  // ── Single-edition games (config price_policy.type !== 'edition'): render
+  // every available finish in config fallback order; no JP/EN version switch. ──
+  if(singleEdition(c)){
+    const recs=marketsFor(c).slice().sort((a,b)=>_finishRank(c,a)-_finishRank(c,b));
+    if(!recs.length)return `<div class="mkt-card"><div class="mkt-label">${L==='th'?'ไม่มีข้อมูลราคา':'Price unavailable'}</div></div>`;
+    return recs.map(m=>marketCard(m,L,c)).join('');
+  }
   let entries=marketsFor(c).slice();
   // Transition fallback: synthesize an EN version from the legacy field if the
   // market dataset hasn't loaded (or this card isn't in it yet).
@@ -4387,7 +4765,7 @@ function renderCollectionView(tab){
   const grid=tab==='sets'?setProgHtml:(items.length?`<div class="card-grid">${items.map(({card:c,code})=>`
     <div class="card-tile" onclick="jumpCard('${code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><div style="margin-bottom:2px">${editionBadge(S.cardLang==='jp'?'JP':'EN')}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(0,editionPriceThb(c))}</p></div>
+      <div><div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(0,editionPriceThb(c))}</p></div>
       <button class="coll-remove" title="${L==='th'?'นำออก':'Remove'}" onclick="event.stopPropagation();${tab==='wishlist'?'toggleWishlist':'toggleCollection'}('${c.card_image_id}',event)">✕</button>
     </div>`).join('')}</div>`
     :`<div class="coll-empty"><div class="coll-empty-ic">${tab==='wishlist'?'♡':'📦'}</div>
@@ -4558,13 +4936,19 @@ function relatedCardsHtml(c){
   // Top-priced cards in same set, current edition only
   const more=setCards.filter(x=>x.card_set_id!==num&&hasPrice(x))
     .sort((a,b)=>priceFor(b)-priceFor(a)).slice(0,8);
-  // Same character across ALL sets, current edition only
+  // Same character across ALL sets, current edition only — corpus scoped to
+  // the card's own game; matching strategy from config character_match
+  // ('character_name' = structured field, 'name_base' = name-prefix match).
   const baseName=chaseBase(c.card_name).toLowerCase();
-  const allCards=flat();
+  const _cGame=gameOf(c.card_set_id);
+  const allCards=gameFlat(_cGame);
+  const _byStruct=cfg2(_cGame).character_match==='character_name';
   const sameChar=allCards.filter(x=>
     x.card_image_id!==c.card_image_id&&
     x.card_set_id!==num&&
-    chaseBase(x.card_name).toLowerCase()===baseName&&
+    (_byStruct
+      ?(x.character_name&&x.character_name===c.character_name)
+      :chaseBase(x.card_name).toLowerCase()===baseName)&&
     hasPrice(x)
   ).sort((a,b)=>priceFor(b)-priceFor(a)).slice(0,12);
   // Same rarity, different card, current edition only
@@ -4681,12 +5065,22 @@ function openCard(idx){
   // Back returns to wherever the card was opened from (search results, etc.);
   // defaults to the set card-list when there's no special origin.
   document.getElementById('back-cards').onclick=S.cardReturn||(()=>openSet(S.setCode));
+  // Card stats render from the game config's card_detail_layout (Requirement
+  // 10): the renderer loops configured fields and knows nothing about which
+  // game it is drawing. Absent fields are skipped automatically.
+  const _layout=(cfgOfCard(c)||{}).card_detail_layout||{};
   const stats=[];
-  if(c.card_cost!=null)stats.push('Cost '+c.card_cost);
-  if(c.card_power)stats.push('Power '+c.card_power);
-  if(c.life)stats.push('Life '+c.life);
-  if(c.card_color)stats.push(c.card_color);
-  if(c.card_type)stats.push(c.card_type);
+  (_layout.stats||[]).forEach(f=>{
+    const v=c[f.key];
+    if(f.type==='boolean'){
+      if(v===true&&f.true_label)stats.push(f.true_label);
+      else if(v===false&&f.false_label)stats.push(f.false_label);
+      return;
+    }
+    if(v==null||v==='')return;
+    if(f.skip_if_equals&&c[f.skip_if_equals]===v)return;
+    stats.push((f.label?f.label+' ':'')+v);
+  });
   const ver=effectiveVer(c);
   const verIsEN=ver==='EN';
   const verLabel=verIsEN?(L==='th'?'เวอร์ชันอังกฤษ (EN)':'English Version'):(L==='th'?'เวอร์ชันญี่ปุ่น (JP)':'Japanese Version');
@@ -4701,6 +5095,8 @@ function openCard(idx){
     </div>
     ${cardActionsHtml(c)}
     <p class="det-text">${c.card_text||''}</p>
+    ${(_layout.flavor_key&&c[_layout.flavor_key])?`<p class="det-text" style="font-style:italic;color:var(--faint);margin-top:-6px">${c[_layout.flavor_key]}</p>`:''}
+    ${(()=>{const bits=(_layout.meta_line||[]).map(f=>({icon:f.icon||'',v:c[f.key]})).filter(x=>x.v);return bits.length?`<div style="font-size:12px;color:var(--soft);margin:4px 0 10px">${bits.map(x=>`${x.icon} ${x.v}`).join(' · ')}</div>`:'';})()}
     <div class="price-hd"><span style="font-size:15px;font-weight:700">${L==='th'?'ราคา':'Price'} <span style="color:var(--soft);font-weight:600">· ${verLabel}</span></span><button class="cur-btn" id="cur-det" onclick="toggleCur()">${S.cur==='USD'?'🇺🇸 USD':'🇹🇭 THB'}</button></div>
     ${renderMarkets(c)}
     <div class="mkt-note neutral"><span class="mkt-note-ic">⚠️</span><span>${L==='th'?'ราคาการ์ดดิบ ยังไม่ได้ส่งเกรด PSA':'Raw card price — ungraded, not PSA graded.'}</span></div>
@@ -4709,9 +5105,9 @@ function openCard(idx){
     ${whereToBuyHtml(c)}
     <div id="trade-section"></div>
     <div id="comments-section"></div>
-    <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(D.marketsMeta&&D.marketsMeta.generated)||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
+    <p class="footnote">${L==='th'?'ข้อมูล ณ':'Data as of'} ${(gd(gameOf(c.card_set_id)).pricesMeta||{}).generated||c.date_scraped||'—'} · ${c.card_set_id||''}</p>`;
   document.getElementById('detail-card').dataset.cardId=c.card_image_id;
-  setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">One Piece</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
+  setCrumb('crumb-detail',' / <span class="live" onclick="renderSets()">'+gameLabel(gameOf(c.card_set_id))+'</span> / <span class="live" onclick="openSet(\''+S.setCode+'\')">'+S.setCode+'</span> / '+c.card_name);
   show('view-detail');
   _loadComments(c.card_image_id);
   _loadTradeList(c.card_image_id);
@@ -5024,7 +5420,7 @@ function _renderProfileContent(el,userId,isOwn,uname,color,collIds,haveIds,L){
     html+=`<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">${L==='th'?'คอลเลคชั่น':'Collection'} (${collIds.length})</div>`;
     if(cards.length){
       const setCode=c=>c.card_image_id.replace(/-\d{3}.*$/,'');
-      html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${setCode(c)}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><div style="margin-bottom:2px">${editionBadge(S.cardLang==='jp'?'JP':'EN')}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(0,editionPriceThb(c))}</p></div></div>`).join('')}</div>`;
+      html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${setCode(c)}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(0,editionPriceThb(c))}</p></div></div>`).join('')}</div>`;
     }
   }else{
     html+=`<div style="text-align:center;padding:48px 0;color:var(--faint)">${L==='th'?'ยังไม่มีการ์ดในคอลเลคชั่น':'No cards in collection yet'}</div>`;
