@@ -2059,15 +2059,34 @@ function renderPops(){
   document.getElementById('pop-chips').innerHTML=`<span>${L==='th'?'ค้นหายอดนิยม:':'Popular:'}</span>`+chips.map(c=>`<button class="pop-chip" onclick="quickSearch('${c.q.replace(/'/g,"\\'")}')">${c.label}</button>`).join('');
 }
 
-function renderSpons(){
+const _SUPA_URL='https://llelqoscomzlbuiynvys.supabase.co';
+const _SUPA_KEY='sb_publishable_BZTS4R6jwQ7wVnlq_N28Xw_xTmBpo-l';
+const _FALLBACK_SHOPS=[
+  {ic:'🏪',name_th:'ร้านค้าของคุณ',name_en:'Your Shop',desc_th:'ลงโฆษณาที่นี่',desc_en:'Advertise here'},
+  {ic:'🃏',name_th:'ร้านการ์ด',name_en:'Card Shop',desc_th:'ติดต่อลงโฆษณา',desc_en:'Contact to advertise'},
+  {ic:'📦',name_th:'พื้นที่โฆษณา',name_en:'Ad Space',desc_th:'ติดต่อลงโฆษณา',desc_en:'Contact to advertise'},
+  {ic:'💎',name_th:'สปอนเซอร์',name_en:'Sponsor',desc_th:'ติดต่อลงโฆษณา',desc_en:'Contact to advertise'},
+];
+function _paintSpons(shops,L){
+  const el=document.getElementById('spon-row');if(!el)return;
+  el.innerHTML=shops.map(s=>{
+    const name=L==='th'?(s.name_th||s.name||s.name_en||''):(s.name_en||s.name||s.name_th||'');
+    const desc=L==='th'?(s.desc_th||s.location||''):(s.desc_en||s.location||'');
+    const ic=s.logo_url?`<img src="${s.logo_url}" style="width:36px;height:36px;border-radius:6px;object-fit:contain" onerror="this.replaceWith(document.createTextNode('🏪'))">`:(s.ic||'🏪');
+    const href=s.affiliate_url||s.website||s.facebook||null;
+    const inner=`<div class="spon-icon">${ic}</div><div class="spon-name">${name}</div><div class="spon-desc">${desc}</div><div class="spon-link">${L==='th'?'ติดต่อสปอนเซอร์ →':'Contact →'}</div>`;
+    return href?`<a class="spon-card" href="${href}" target="_blank" rel="noopener">${inner}</a>`:`<div class="spon-card">${inner}</div>`;
+  }).join('');
+}
+async function renderSpons(){
   const L=S.lang;
-  const shops=[
-    {ic:'🏪',name:L==='th'?'ร้านค้าของคุณ':'Your Shop',desc:L==='th'?'ลงโฆษณาที่นี่':'Advertise here'},
-    {ic:'🃏',name:L==='th'?'ร้านการ์ด':'Card Shop',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
-    {ic:'📦',name:L==='th'?'พื้นที่โฆษณา':'Ad Space',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
-    {ic:'💎',name:L==='th'?'สปอนเซอร์':'Sponsor',desc:L==='th'?'ติดต่อลงโฆษณา':'Contact to advertise'},
-  ];
-  document.getElementById('spon-row').innerHTML=shops.map(s=>`<div class="spon-card"><div class="spon-icon">${s.ic}</div><div class="spon-name">${s.name}</div><div class="spon-desc">${s.desc}</div><div class="spon-link">${L==='th'?'ติดต่อสปอนเซอร์ →':'Contact →'}</div></div>`).join('');
+  _paintSpons(_FALLBACK_SHOPS,L);
+  try{
+    const r=await fetch(`${_SUPA_URL}/rest/v1/shops?is_active=eq.true&order=priority.desc,name.asc&limit=8`,{headers:{'apikey':_SUPA_KEY,'Accept':'application/json'}});
+    if(!r.ok)return;
+    const data=await r.json();
+    if(Array.isArray(data)&&data.length)_paintSpons(data,L);
+  }catch{}
 }
 
 function renderGames(){
