@@ -1633,7 +1633,7 @@ async function _loadCMS(){
     const L=S.lang;
     // Hero text — directly set textContent so it updates without relying on applyLangUI timing
     const hero=byId.hero||{};
-    const h1TH=hero.title_th,h1EN=hero.title_en,subTH=hero.subtitle_th,subEN=hero.subtitle_en;
+    const h1TH=(hero.title_th||'').trim(),h1EN=(hero.title_en||'').trim(),subTH=(hero.subtitle_th||'').trim(),subEN=(hero.subtitle_en||'').trim();
     if(h1TH||h1EN){
       const spans=document.querySelectorAll('.hero-copy h1 span.t');
       if(spans.length){
