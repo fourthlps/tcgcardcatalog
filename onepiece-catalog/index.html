@@ -1511,7 +1511,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 </main>
 
 <script>
-const D={index:[],cache:{},gainers:null,losers:null,siteStatus:null,products:[],marketData:[],setData:{},priceHistory:null};
+const D={index:[],cache:{},gainers:null,losers:null,jpGainers:null,jpLosers:null,siteStatus:null,products:[],marketData:[],setData:{},priceHistory:null};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
@@ -1665,6 +1665,10 @@ async function init(){
       .then(d=>{if(d){D.gainers=d;renderTrend();}}),
     fetch('data/top-losers.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d){D.losers=d;renderTrend();}}),
+    fetch('data/jp-top-gainers.json').then(r=>r.ok?r.json():null)
+      .then(d=>{if(d){D.jpGainers=d;renderTrend();}}),
+    fetch('data/jp-top-losers.json').then(r=>r.ok?r.json():null)
+      .then(d=>{if(d){D.jpLosers=d;renderTrend();}}),
     fetch('data/price-history.json').then(r=>r.ok?r.json():null)
       .then(d=>{if(d)D.priceHistory=d;}),
     fetch('data/status.json').then(r=>r.ok?r.json():null)
@@ -2242,40 +2246,83 @@ function trendPlaceholder(L){
     <div class="mtrend-ph-sub">${L==='th'?'พร้อมแสดงหลังเก็บข้อมูลครบ 7 วัน':'Available after 7 days of data'}</div>
   </div>`;
 }
+function jpTrendPlaceholder(meta,L){
+  const days=(meta&&meta.history_days_collected)||0;
+  const rem=Math.max(0,7-days);
+  if(L==='th')return`<div class="mtrend-ph">
+    <div class="mtrend-ph-ic">📊</div>
+    <div class="mtrend-ph-hd">กำลังเก็บข้อมูลราคา JP</div>
+    <div class="mtrend-ph-sub">เก็บแล้ว ${days}/7 วัน · แนวโน้มจะแสดงใน ${rem} วัน</div>
+  </div>`;
+  return`<div class="mtrend-ph">
+    <div class="mtrend-ph-ic">📊</div>
+    <div class="mtrend-ph-hd">Collecting JP price history…</div>
+    <div class="mtrend-ph-sub">${days}/7 days collected · Trends appear in ${rem} day${rem!==1?'s':''}</div>
+  </div>`;
+}
+function trendEntryFromJsonJP(card,L,rank){
+  const pct=card.price_change_percent;
+  const up=pct>=0;
+  const sign=up?'+':'';
+  const pill=`<span class="trend-pill ${up?'up':'down'}">${up?'▲':'▼'} ${sign}${pct.toFixed(2)}%</span>`;
+  const priceDisplay=fpL(0,card.today_price_thb);
+  const rk=rank!=null?`<span class="mtrend-rank">${rank}</span>`:'';
+  const imgId=card.card_id||'';
+  const hit=imgId&&D._imgIndex?D._imgIndex[imgId]:null;
+  const clickAttr=hit?`onclick="jumpCard('${hit.code}','${imgId}')" style="cursor:pointer"`:'';
+  return`<div class="mtrend-body" ${clickAttr}>${rk}
+      <img class="mtrend-img" src="${card.card_image||''}" onerror="this.style.visibility='hidden'">
+      <div>
+        ${editionBadge('JP')}
+        <div class="mtrend-name">${chaseBase(card.card_name)}</div>
+        <div class="mtrend-price">${priceDisplay} ${pill}</div>
+      </div>
+    </div>`;
+}
 // Permanent market-intelligence layout: 💎 Highest Value · 📈 Biggest Gainers
 // (7d) · 📉 Biggest Losers (7d). Gainers/Losers use REAL verified price history
 // once it exists; until then they show an honest "building history" placeholder
 // (never a substitute ranking).
 function renderTrend(){
   const L=S.lang;
-  const useGainers=trendsTrustworthy(D.gainers);
-  const useLosers=trendsTrustworthy(D.losers);
-  const gainers=useGainers?D.gainers.cards:[];
-  const losers=useLosers?D.losers.cards:[];
+  const jpMode=S.cardLang==='jp';
 
-  // Panel 1 — Highest Value (always real: current top prices)
+  // Panel 1 — Highest Value (always real, edition-aware)
   let valHtml=Array.from({length:5},(_,i)=>topValueFallback(i)).join('');
   if(!valHtml)valHtml=`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
-  // Panels 2 & 3 — 7-day movers or placeholder
-  // Trend pipeline collects EN (TCGPlayer) data only. In JP mode show a
-  // holding message rather than mixing EN cards into a JP-mode homepage.
-  const jpMode=S.cardLang==='jp';
-  const jpTrendNote=`<div class="mtrend-note">${L==='th'?'กำลังเก็บข้อมูลแนวโน้มราคา JP':'JP price trend data coming soon'}</div>`;
-  const gainHtml=jpMode?jpTrendNote:(gainers.length?gainers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L));
-  const loseHtml=jpMode?jpTrendNote:(losers.length?losers.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L));
+  let gainHtml,loseHtml,useGainers,useLosers,gainMeta,loseMeta;
+  if(jpMode){
+    // JP: use jp-top-gainers/losers; show dynamic placeholder with days count
+    useGainers=trendsTrustworthy(D.jpGainers);
+    useLosers=trendsTrustworthy(D.jpLosers);
+    gainMeta=D.jpGainers; loseMeta=D.jpLosers;
+    const gc=useGainers?D.jpGainers.cards:[];
+    const lc=useLosers?D.jpLosers.cards:[];
+    gainHtml=gc.length?gc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpGainers,L);
+    loseHtml=lc.length?lc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpLosers,L);
+  }else{
+    // EN: use TCGPlayer top-gainers/losers
+    useGainers=trendsTrustworthy(D.gainers);
+    useLosers=trendsTrustworthy(D.losers);
+    gainMeta=D.gainers; loseMeta=D.losers;
+    const gc=useGainers?D.gainers.cards:[];
+    const lc=useLosers?D.losers.cards:[];
+    gainHtml=gc.length?gc.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
+    loseHtml=lc.length?lc.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
+  }
 
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
       <div class="mtrend-head"><span class="mtrend-ic">💎</span><span class="mtrend-ttl">${L==='th'?'การ์ดมูลค่าสูงสุด':'Highest Value Cards'}</span></div>
       ${valHtml}
     </div>
-    <div class="mtrend-card${gainers.length?' live':''}">
-      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'}</span>${useGainers?trendAgeLabel(D.gainers,L):''}</div>
+    <div class="mtrend-card${useGainers?' live':''}">
+      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'}</span>${useGainers?trendAgeLabel(gainMeta,L):''}</div>
       ${gainHtml}
     </div>
-    <div class="mtrend-card${losers.length?' live':''}">
-      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'}</span>${useLosers?trendAgeLabel(D.losers,L):''}</div>
+    <div class="mtrend-card${useLosers?' live':''}">
+      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'}</span>${useLosers?trendAgeLabel(loseMeta,L):''}</div>
       ${loseHtml}
     </div>`;
 }
