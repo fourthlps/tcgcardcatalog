@@ -1253,11 +1253,6 @@ async function renderPriceOverrides(){
 
 function paintPriceOverrides(){
   const ca=document.getElementById('content-area');
-  const PAGE=40;
-  const start=_ovPage*PAGE;
-  const slice=_ovFiltered.slice(start,start+PAGE);
-  const now=new Date();
-
   ca.innerHTML=`
     <div class="page-head">
       <div><h1>Price Overrides</h1>
@@ -1280,33 +1275,10 @@ function paintPriceOverrides(){
         <div style="max-height:280px;overflow-y:auto;border:1px solid var(--bord);border-radius:var(--radius);margin-bottom:12px">
           <table class="data-table">
             <thead><tr><th style="width:44px">Img</th><th>Card</th><th>Set</th><th>Pipeline JP</th><th>Pipeline EN</th><th>Override?</th><th style="width:90px">Action</th></tr></thead>
-            <tbody id="ov-card-tbody">
-              ${slice.map(c=>{
-                const mJP=D.markets[c.card_image_id]?.find(m=>m.source_market==='JP');
-                const mEN=D.markets[c.card_image_id]?.find(m=>m.source_market==='EN');
-                const existing=_ovList.find(o=>o.card_image_id===c.card_image_id);
-                const hasOv=!!existing;
-                const isExp=existing?.expires_at&&new Date(existing.expires_at)<now;
-                return `<tr>
-                  <td>${c.card_image?`<img class="img-thumb" src="${esc(c.card_image)}" loading="lazy" onerror="this.style.visibility='hidden'">`:'—'}</td>
-                  <td><div style="font-weight:600;font-size:12px">${esc(c.card_name||'')}</div><div class="td-mono" style="font-size:10px;color:var(--faint)">${esc(c.card_image_id||'')}</div></td>
-                  <td class="td-muted" style="font-size:12px">${esc(c.set_id||'—')}</td>
-                  <td class="td-mono" style="font-size:12px">${mJP?'¥'+Math.round(mJP.source_price).toLocaleString():'—'}</td>
-                  <td class="td-mono" style="font-size:12px">${mEN?'$'+(mEN.source_price||0).toFixed(2):'—'}</td>
-                  <td>${hasOv?`<span class="pill ${isExp?'pill-gray':'pill-gold'}">${isExp?'Expired':'Active'}</span>`:'<span class="pill pill-gray">—</span>'}</td>
-                  <td><button class="btn btn-ghost btn-sm" onclick="openOvModal('${esc(c.card_image_id)}','${esc(c.card_name||'')}','${esc(c.set_id||'')}','${mJP?Math.round(mJP.source_price):0}','${mEN?(mEN.source_price||0).toFixed(2):0}')">
-                    ${hasOv?'Edit Override':'+ Override'}
-                  </button></td>
-                </tr>`;
-              }).join('')}
-            </tbody>
+            <tbody id="ov-card-tbody"></tbody>
           </table>
         </div>
-        <div class="pagination">
-          <span>${start+1}–${Math.min(start+PAGE,_ovFiltered.length)} of ${_ovFiltered.length.toLocaleString()}</span>
-          <button onclick="ovPage(-1)" ${_ovPage===0?'disabled':''}>← Prev</button>
-          <button onclick="ovPage(1)" ${start+PAGE>=_ovFiltered.length?'disabled':''}>Next →</button>
-        </div>
+        <div class="pagination" id="ov-pagination"></div>
       </div>
     </div>
 
@@ -1369,17 +1341,48 @@ function paintPriceOverrides(){
         </div>
       </div>
     </div>`;
+  refreshOvTable();
 }
 
 let _ovSetFilter='';
-function ovCardSearch(q){_ovQuery=q;_ovPage=0;_applyOvFilters();paintPriceOverrides();}
-function ovFilterSet(s){_ovSetFilter=s;_ovPage=0;_applyOvFilters();paintPriceOverrides();}
-function ovPage(d){_ovPage=Math.max(0,_ovPage+d);paintPriceOverrides();}
+function ovCardSearch(q){_ovQuery=q;_ovPage=0;_applyOvFilters();refreshOvTable();}
+function ovFilterSet(s){_ovSetFilter=s;_ovPage=0;_applyOvFilters();refreshOvTable();}
+function ovPage(d){_ovPage=Math.max(0,_ovPage+d);refreshOvTable();}
 function _applyOvFilters(){
   let list=D.cards;
   if(_ovQuery){const q=_ovQuery.toLowerCase();list=list.filter(c=>(c.card_name||'').toLowerCase().includes(q)||(c.card_image_id||'').toLowerCase().includes(q)||(c.set_id||'').toLowerCase().includes(q));}
   if(_ovSetFilter)list=list.filter(c=>c.set_id===_ovSetFilter);
   _ovFiltered=list;
+}
+function refreshOvTable(){
+  const tbody=document.getElementById('ov-card-tbody');
+  const pgEl=document.getElementById('ov-pagination');
+  if(!tbody)return;
+  const PAGE=40;const now=new Date();
+  const start=_ovPage*PAGE;
+  const slice=_ovFiltered.slice(start,start+PAGE);
+  tbody.innerHTML=slice.map(c=>{
+    const mJP=D.markets[c.card_image_id]?.find(m=>m.source_market==='JP');
+    const mEN=D.markets[c.card_image_id]?.find(m=>m.source_market==='EN');
+    const existing=_ovList.find(o=>o.card_image_id===c.card_image_id);
+    const hasOv=!!existing;
+    const isExp=existing?.expires_at&&new Date(existing.expires_at)<now;
+    return `<tr>
+      <td>${c.card_image?`<img class="img-thumb" src="${esc(c.card_image)}" loading="lazy" onerror="this.style.visibility='hidden'">`:'—'}</td>
+      <td><div style="font-weight:600;font-size:12px">${esc(c.card_name||'')}</div><div class="td-mono" style="font-size:10px;color:var(--faint)">${esc(c.card_image_id||'')}</div></td>
+      <td class="td-muted" style="font-size:12px">${esc(c.set_id||'—')}</td>
+      <td class="td-mono" style="font-size:12px">${mJP?'¥'+Math.round(mJP.source_price).toLocaleString():'—'}</td>
+      <td class="td-mono" style="font-size:12px">${mEN?'$'+(mEN.source_price||0).toFixed(2):'—'}</td>
+      <td>${hasOv?`<span class="pill ${isExp?'pill-gray':'pill-gold'}">${isExp?'Expired':'Active'}</span>`:'<span class="pill pill-gray">—</span>'}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="openOvModal('${esc(c.card_image_id)}','${esc(c.card_name||'')}','${esc(c.set_id||'')}','${mJP?Math.round(mJP.source_price):0}','${mEN?(mEN.source_price||0).toFixed(2):0}')">
+        ${hasOv?'Edit Override':'+ Override'}
+      </button></td>
+    </tr>`;
+  }).join('');
+  if(pgEl)pgEl.innerHTML=`
+    <span>${start+1}–${Math.min(start+PAGE,_ovFiltered.length)} of ${_ovFiltered.length.toLocaleString()}</span>
+    <button onclick="ovPage(-1)" ${_ovPage===0?'disabled':''}>← Prev</button>
+    <button onclick="ovPage(1)" ${start+PAGE>=_ovFiltered.length?'disabled':''}>Next →</button>`;
 }
 
 function openOvModal(cardId,cardName,setId,pipeJP,pipeEN){
