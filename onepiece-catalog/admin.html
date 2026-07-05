@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Voyage Log — Founder Control Center</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>⚓</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#09090b;--bg1:#0d0d11;--bg2:#111117;--bg3:#17171f;--bg4:#1e1e28;
+  --bord:#24242e;--bord2:#2e2e3d;
+  --text:#f0f0f5;--soft:#aaa8c0;--faint:#55546a;--muted:#38374a;
+  --gold:#f59e0b;--gold-dim:rgba(245,158,11,.12);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.1);
+  --red:#ef4444;--red-dim:rgba(239,68,68,.1);
+  --blue:#6366f1;--blue-dim:rgba(99,102,241,.1);
+  --orange:#f97316;
+  --sb-w:220px;--top-h:56px;
+  --radius:8px;--radius-lg:12px;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+body{background:var(--bg0);color:var(--text);font-size:14px;line-height:1.5;height:100vh;overflow:hidden}
+
+/* ── AUTH WALL ── */
+#auth-wall{display:flex;align-items:center;justify-content:center;height:100vh;background:var(--bg0)}
+.auth-box{width:360px;background:var(--bg2);border:1px solid var(--bord);border-radius:16px;padding:40px 36px}
+.auth-logo{font-size:28px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.auth-logo span{color:var(--gold)}
+.auth-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px}
+.auth-sub{font-size:12px;color:var(--faint);margin-bottom:28px;line-height:1.5}
+.auth-field{margin-bottom:12px}
+.auth-field label{font-size:11px;font-weight:600;color:var(--soft);letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:5px}
+.auth-input{width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;padding:10px 12px;font-size:14px;color:var(--text);outline:none;transition:border .15s}
+.auth-input:focus{border-color:var(--gold)}
+.auth-btn{width:100%;margin-top:20px;background:var(--gold);color:#000;font-weight:700;font-size:14px;border:none;border-radius:7px;padding:11px;cursor:pointer;transition:opacity .15s}
+.auth-btn:hover{opacity:.9}
+.auth-err{margin-top:12px;font-size:12px;color:var(--red);min-height:18px;text-align:center}
+
+/* ── LAYOUT ── */
+#admin-app{display:flex;height:100vh;overflow:hidden}
+#sidebar{width:var(--sb-w);min-width:var(--sb-w);background:var(--bg1);border-right:1px solid var(--bord);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+#main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{height:var(--top-h);min-height:var(--top-h);border-bottom:1px solid var(--bord);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:var(--bg1)}
+#topbar-title{font-size:15px;font-weight:600;color:var(--text)}
+#topbar-right{display:flex;align-items:center;gap:10px}
+#content-area{flex:1;overflow-y:auto;padding:24px}
+
+/* ── SIDEBAR ── */
+.sb-logo{padding:18px 16px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bord);margin-bottom:8px}
+.sb-logo-anchor{font-size:22px}
+.sb-brand{font-size:14px;font-weight:700;color:var(--text)}
+.sb-sub{font-size:10px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase}
+.sb-section-lbl{font-size:10px;font-weight:700;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;padding:14px 16px 4px}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 16px;border-radius:6px;margin:1px 8px;cursor:pointer;transition:background .12s,color .12s;color:var(--soft);font-size:13px;font-weight:500;position:relative}
+.sb-item:hover{background:var(--bg3);color:var(--text)}
+.sb-item.active{background:var(--bg4);color:var(--text)}
+.sb-item.active::before{content:'';position:absolute;left:-8px;top:6px;bottom:6px;width:2px;background:var(--gold);border-radius:2px}
+.sb-item-ic{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.sb-item-badge{margin-left:auto;font-size:9px;font-weight:700;background:var(--bg3);color:var(--faint);padding:2px 6px;border-radius:99px;border:1px solid var(--bord)}
+.sb-item.phase2 .sb-item-badge{background:var(--blue-dim);color:var(--blue);border-color:transparent}
+.sb-footer{margin-top:auto;padding:12px;border-top:1px solid var(--bord)}
+.sb-user-info{font-size:11px;color:var(--faint);margin-bottom:8px;word-break:break-all}
+.sb-signout{width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:6px;padding:7px;font-size:12px;color:var(--soft);cursor:pointer;transition:background .12s}
+.sb-signout:hover{background:var(--bg4);color:var(--text)}
+
+/* ── SETUP BANNER ── */
+.setup-banner{background:var(--blue-dim);border:1px solid var(--blue);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+.setup-banner h3{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:6px}
+.setup-banner p{font-size:12px;color:var(--soft);margin-bottom:12px}
+.setup-sql{background:var(--bg0);border:1px solid var(--bord);border-radius:6px;padding:12px;font-family:monospace;font-size:11px;color:var(--soft);overflow-x:auto;white-space:pre;max-height:200px;overflow-y:auto}
+
+/* ── METRIC CARDS ── */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.metric-card{background:var(--bg2);border:1px solid var(--bord);border-radius:var(--radius-lg);padding:18px 20px}
+.metric-label{font-size:11px;font-weight:600;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.metric-value{font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px;line-height:1.1}
+.metric-sub{font-size:11px;color:var(--faint);margin-top:4px}
+.metric-card.gold .metric-value{color:var(--gold)}
+.metric-card.green .metric-value{color:var(--green)}
+.metric-card.red .metric-value{color:var(--red)}
+.metric-card.blue .metric-value{color:var(--blue)}
+
+/* ── SECTION CARDS ── */
+.section-card{background:var(--bg2);border:1px solid var(--bord);border-radius:var(--radius-lg);margin-bottom:20px;overflow:hidden}
+.section-card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--bord)}
+.section-card-title{font-size:13px;font-weight:700;color:var(--text)}
+.section-card-body{padding:20px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+/* ── STATUS PILLS ── */
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px}
+.pill-green{background:var(--green-dim);color:var(--green)}
+.pill-red{background:var(--red-dim);color:var(--red)}
+.pill-gold{background:var(--gold-dim);color:var(--gold)}
+.pill-blue{background:var(--blue-dim);color:var(--blue)}
+.pill-gray{background:var(--bg4);color:var(--faint)}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* ── TABLES ── */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{text-align:left;font-size:11px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;border-bottom:1px solid var(--bord)}
+.data-table td{padding:11px 14px;border-bottom:1px solid var(--bord);font-size:13px;color:var(--text);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table .td-muted{color:var(--faint)}
+.data-table .td-mono{font-family:monospace;font-size:12px}
+
+/* ── FORMS ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid-full{grid-column:1/-1}
+.field{margin-bottom:14px}
+.field label{font-size:11px;font-weight:700;color:var(--soft);letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:5px}
+.field-input,.field-select,.field-textarea{width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;padding:9px 12px;font-size:13px;color:var(--text);outline:none;transition:border .15s;font-family:inherit}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--gold)}
+.field-textarea{resize:vertical;min-height:80px}
+.field-select option{background:var(--bg3)}
+.field-checkbox{display:flex;align-items:center;gap:8px;cursor:pointer}
+.field-checkbox input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer}
+.field-checkbox span{font-size:13px;color:var(--text)}
+.field-hint{font-size:11px;color:var(--faint);margin-top:4px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:8px 16px;border-radius:7px;cursor:pointer;transition:opacity .12s,background .12s;border:none;font-family:inherit}
+.btn-primary{background:var(--gold);color:#000}
+.btn-primary:hover{opacity:.88}
+.btn-ghost{background:var(--bg3);color:var(--soft);border:1px solid var(--bord2)}
+.btn-ghost:hover{background:var(--bg4);color:var(--text)}
+.btn-danger{background:var(--red-dim);color:var(--red);border:1px solid transparent}
+.btn-danger:hover{background:rgba(239,68,68,.18)}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-icon{width:30px;height:30px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;background:var(--bg3);border:1px solid var(--bord2);cursor:pointer;font-size:14px;color:var(--soft);transition:background .12s}
+.btn-icon:hover{background:var(--bg4);color:var(--text)}
+
+/* ── SEARCH BAR ── */
+.search-wrap{position:relative;flex:1}
+.search-wrap input{width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;padding:8px 12px 8px 36px;font-size:13px;color:var(--text);outline:none;transition:border .15s}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-wrap::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:12px;pointer-events:none}
+
+/* ── MODAL ── */
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:900;display:none}
+#modal-box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:901;width:560px;max-width:95vw;max-height:90vh;background:var(--bg2);border:1px solid var(--bord2);border-radius:var(--radius-lg);display:none;overflow:hidden;flex-direction:column}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--bord)}
+.modal-head h2{font-size:15px;font-weight:700}
+.modal-body{padding:24px;overflow-y:auto;flex:1}
+.modal-foot{padding:14px 24px;border-top:1px solid var(--bord);display:flex;justify-content:flex-end;gap:10px;background:var(--bg2)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--bg3);border:1px solid var(--bord2);border-radius:8px;padding:12px 18px;font-size:13px;font-weight:600;color:var(--text);box-shadow:0 8px 30px rgba(0,0,0,.4);transition:opacity .3s}
+#toast.hide{opacity:0;pointer-events:none}
+#toast.ok{border-color:var(--green);color:var(--green)}
+#toast.err{border-color:var(--red);color:var(--red)}
+
+/* ── CMS TABS ── */
+.tab-row{display:flex;gap:0;border-bottom:1px solid var(--bord);margin-bottom:24px}
+.tab-btn{padding:10px 18px;font-size:13px;font-weight:600;color:var(--faint);cursor:pointer;border-bottom:2px solid transparent;transition:color .12s,border .12s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* ── PLACEHOLDER ── */
+.placeholder-section{text-align:center;padding:60px 24px;color:var(--faint)}
+.placeholder-section .ph-icon{font-size:40px;margin-bottom:16px;opacity:.5}
+.placeholder-section h2{font-size:15px;font-weight:700;color:var(--soft);margin-bottom:8px}
+.placeholder-section p{font-size:13px;line-height:1.6;max-width:360px;margin:0 auto 20px}
+.placeholder-section .ph-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-dim);color:var(--blue);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:700;border:1px solid var(--blue);border-opacity:.3}
+
+/* ── DATA QUALITY ── */
+.dq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.dq-card{background:var(--bg3);border:1px solid var(--bord);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.dq-count{font-size:22px;font-weight:800;min-width:40px}
+.dq-count.ok{color:var(--green)}
+.dq-count.warn{color:var(--gold)}
+.dq-count.bad{color:var(--red)}
+.dq-label{font-size:12px;color:var(--soft);line-height:1.3}
+.dq-list{background:var(--bg3);border:1px solid var(--bord);border-radius:var(--radius);overflow:hidden}
+.dq-list-item{padding:10px 14px;border-bottom:1px solid var(--bord);font-size:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .1s}
+.dq-list-item:last-child{border-bottom:none}
+.dq-list-item:hover{background:var(--bg4)}
+.dq-ic{font-size:14px;width:20px;text-align:center}
+
+/* ── PIPELINE ── */
+.pipe-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bord)}
+.pipe-row:last-child{border-bottom:none}
+.pipe-label{font-size:13px;font-weight:600;color:var(--text)}
+.pipe-val{font-size:13px;color:var(--soft);text-align:right}
+.gh-run{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bord);font-size:12px}
+.gh-run:last-child{border-bottom:none}
+.gh-run-name{font-weight:600;color:var(--text);flex:1}
+.gh-run-time{color:var(--faint);font-size:11px}
+
+/* ── ACTIVITY LOG ── */
+.log-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--bord)}
+.log-item:last-child{border-bottom:none}
+.log-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:5px}
+.log-meta{font-size:11px;color:var(--faint)}
+.log-desc{font-size:13px;color:var(--text);margin-bottom:2px}
+
+/* ── HEALTH ── */
+.health-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.health-item{background:var(--bg3);border:1px solid var(--bord);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+.health-name{font-size:12px;font-weight:600;color:var(--soft)}
+
+/* ── MISC ── */
+.page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.page-head h1{font-size:18px;font-weight:700}
+.page-head-sub{font-size:12px;color:var(--faint);margin-top:2px}
+.empty-state{text-align:center;padding:40px;color:var(--faint);font-size:13px}
+.img-thumb{width:36px;height:36px;border-radius:4px;object-fit:contain;background:var(--bg3)}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.pagination{display:flex;align-items:center;gap:8px;margin-top:16px;justify-content:flex-end;font-size:12px;color:var(--faint)}
+.pagination button{background:var(--bg3);border:1px solid var(--bord2);border-radius:5px;padding:4px 10px;font-size:12px;color:var(--soft);cursor:pointer}
+.pagination button:disabled{opacity:.4;cursor:default}
+.pagination button:not(:disabled):hover{background:var(--bg4)}
+.score-bar{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-top:6px}
+.score-fill{height:100%;border-radius:99px;transition:width .6s}
+.shop-logo{width:32px;height:32px;border-radius:6px;object-fit:contain;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px}
+.divider{height:1px;background:var(--bord);margin:20px 0}
+code{font-family:monospace;font-size:11px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--soft)}
+</style>
+</head>
+<body>
+
+<!-- AUTH WALL -->
+<div id="auth-wall">
+  <div class="auth-box">
+    <div class="auth-logo">⚓ <span>Voyage Log</span></div>
+    <div class="auth-title">Founder Control Center</div>
+    <div class="auth-sub">Restricted access — authorised personnel only.<br>All actions are logged.</div>
+    <div class="auth-field"><label>Email</label><input class="auth-input" id="auth-email" type="email" placeholder="fourthlps@gmail.com" autocomplete="email"></div>
+    <div class="auth-field"><label>Password</label><input class="auth-input" id="auth-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+    <button class="auth-btn" onclick="adminLogin()">Sign In →</button>
+    <div class="auth-err" id="auth-err"></div>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app" style="display:none">
+  <nav id="sidebar">
+    <div class="sb-logo">
+      <span class="sb-logo-anchor">⚓</span>
+      <div><div class="sb-brand">Voyage Log</div><div class="sb-sub">Control Center</div></div>
+    </div>
+
+    <div class="sb-section-lbl">Overview</div>
+    <div class="sb-item active" onclick="nav('dashboard')" id="nav-dashboard"><span class="sb-item-ic">🏠</span>Dashboard</div>
+
+    <div class="sb-section-lbl">Analytics</div>
+    <div class="sb-item phase2" onclick="nav('analytics')"><span class="sb-item-ic">📊</span>Website Analytics<span class="sb-item-badge">Phase 2</span></div>
+    <div class="sb-item phase2" onclick="nav('search-analytics')"><span class="sb-item-ic">🔍</span>Search Analytics<span class="sb-item-badge">Phase 2</span></div>
+
+    <div class="sb-section-lbl">Content</div>
+    <div class="sb-item" onclick="nav('cms')" id="nav-cms"><span class="sb-item-ic">✏️</span>Homepage CMS</div>
+
+    <div class="sb-section-lbl">Database</div>
+    <div class="sb-item" onclick="nav('cards')" id="nav-cards"><span class="sb-item-ic">🃏</span>Card Database</div>
+    <div class="sb-item phase2" onclick="nav('sets')"><span class="sb-item-ic">📦</span>Set Database<span class="sb-item-badge">Phase 2</span></div>
+    <div class="sb-item phase2" onclick="nav('characters')"><span class="sb-item-ic">👥</span>Character Database<span class="sb-item-badge">Phase 2</span></div>
+
+    <div class="sb-section-lbl">Commerce</div>
+    <div class="sb-item" onclick="nav('shops')" id="nav-shops"><span class="sb-item-ic">🏪</span>Shops & Sponsors</div>
+    <div class="sb-item phase2" onclick="nav('affiliate')"><span class="sb-item-ic">🔗</span>Affiliate<span class="sb-item-badge">Phase 2</span></div>
+    <div class="sb-item phase2" onclick="nav('price-overrides')"><span class="sb-item-ic">💲</span>Price Overrides<span class="sb-item-badge">Phase 2</span></div>
+
+    <div class="sb-section-lbl">Operations</div>
+    <div class="sb-item" onclick="nav('pipeline')" id="nav-pipeline"><span class="sb-item-ic">⚙️</span>Pipeline Monitor</div>
+    <div class="sb-item" onclick="nav('quality')" id="nav-quality"><span class="sb-item-ic">🛡️</span>Data Quality</div>
+
+    <div class="sb-section-lbl">System</div>
+    <div class="sb-item phase2" onclick="nav('seo')"><span class="sb-item-ic">🌐</span>SEO<span class="sb-item-badge">Phase 2</span></div>
+    <div class="sb-item phase2" onclick="nav('health')"><span class="sb-item-ic">💚</span>Website Health<span class="sb-item-badge">Phase 2</span></div>
+    <div class="sb-item" onclick="nav('activity')" id="nav-activity"><span class="sb-item-ic">📋</span>Activity Log</div>
+    <div class="sb-item phase2" onclick="nav('settings')"><span class="sb-item-ic">⚙</span>Settings<span class="sb-item-badge">Phase 2</span></div>
+
+    <div class="sb-footer">
+      <div class="sb-user-info" id="sb-user-info"></div>
+      <button class="sb-signout" onclick="adminSignOut()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div id="main-area">
+    <div id="topbar">
+      <div id="topbar-title">Dashboard</div>
+      <div id="topbar-right">
+        <span style="font-size:11px;color:var(--faint)" id="topbar-time"></span>
+      </div>
+    </div>
+    <div id="content-area"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="closeModal()"></div>
+<div id="modal-box"></div>
+
+<!-- TOAST -->
+<div id="toast" class="hide"></div>
+
+<script>
+// ═══════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════
+const SUPA_URL='https://llelqoscomzlbuiynvys.supabase.co';
+const SUPA_KEY='sb_publishable_BZTS4R6jwQ7wVnlq_N28Xw_xTmBpo-l';
+const ADMIN_EMAILS=['fourthlps@gmail.com','varit.pkt@gmail.com'];
+const REPO='fourthlps/tcgcardcatalog';
+const DATA_PATH='./';  // relative to admin.html location
+
+// ═══════════════════════════════
+// STATE
+// ═══════════════════════════════
+let sb, currentUser;
+let currentNav='dashboard';
+let D={cards:[],markets:{},sets:[],products:[],status:null};
+let _cardsLoaded=false,_cardPage=0,_cardQuery='',_cardFiltered=[];
+let _toastTimer=null;
+
+// ═══════════════════════════════
+// INIT
+// ═══════════════════════════════
+window.addEventListener('DOMContentLoaded',async()=>{
+  sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+  const {data:{session}}=await sb.auth.getSession();
+  if(session&&ADMIN_EMAILS.includes(session.user.email)){
+    currentUser=session.user;
+    bootAdmin();
+  }
+  setInterval(()=>{
+    const el=document.getElementById('topbar-time');
+    if(el)el.textContent=new Date().toLocaleString('en-GB',{hour12:false,day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  },1000);
+});
+
+// ═══════════════════════════════
+// AUTH
+// ═══════════════════════════════
+async function adminLogin(){
+  const email=document.getElementById('auth-email').value.trim();
+  const pass=document.getElementById('auth-pass').value;
+  const errEl=document.getElementById('auth-err');
+  errEl.textContent='';
+  if(!ADMIN_EMAILS.includes(email)){errEl.textContent='Access denied: this email is not authorised.';return;}
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){errEl.textContent=error.message;return;}
+  if(!ADMIN_EMAILS.includes(data.user.email)){await sb.auth.signOut();errEl.textContent='Access denied.';return;}
+  currentUser=data.user;
+  bootAdmin();
+}
+
+async function adminSignOut(){
+  await sb.auth.signOut();
+  document.getElementById('admin-app').style.display='none';
+  document.getElementById('auth-wall').style.display='flex';
+  document.getElementById('auth-pass').value='';
+}
+
+function bootAdmin(){
+  document.getElementById('auth-wall').style.display='none';
+  document.getElementById('admin-app').style.display='flex';
+  document.getElementById('sb-user-info').textContent=currentUser.email;
+  nav('dashboard');
+}
+
+// ═══════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════
+const NAV_LABELS={dashboard:'Dashboard',cms:'Homepage CMS',cards:'Card Database',shops:'Shops & Sponsors',pipeline:'Pipeline Monitor',quality:'Data Quality',activity:'Activity Log',analytics:'Website Analytics',search_analytics:'Search Analytics',sets:'Set Database',characters:'Character Database',affiliate:'Affiliate',price_overrides:'Price Overrides',seo:'SEO',health:'Website Health',settings:'Settings'};
+const PHASE2_SECTIONS=new Set(['analytics','search-analytics','sets','characters','affiliate','price-overrides','seo','health','settings']);
+
+function nav(section){
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
+  const navEl=document.getElementById('nav-'+section);
+  if(navEl)navEl.classList.add('active');
+  currentNav=section;
+  document.getElementById('topbar-title').textContent=NAV_LABELS[section.replace('-','_')]||section;
+  if(PHASE2_SECTIONS.has(section)){renderPhase2(section);return;}
+  const fns={dashboard:renderDashboard,cms:renderCMS,cards:renderCards,shops:renderShops,pipeline:renderPipeline,quality:renderQuality,activity:renderActivity};
+  if(fns[section])fns[section]();else renderPhase2(section);
+}
+
+// ═══════════════════════════════
+// SETUP CHECK
+// ═══════════════════════════════
+const SETUP_SQL=`-- Run this in your Supabase SQL Editor (https://app.supabase.com)
+
+create table if not exists cms_homepage (
+  id text primary key,
+  content jsonb,
+  updated_at timestamptz default now(),
+  updated_by text
+);
+
+create table if not exists shops (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  logo_url text,
+  website text,
+  affiliate_url text,
+  facebook text,
+  line_id text,
+  location text,
+  tags text[],
+  priority int default 0,
+  is_featured bool default false,
+  is_active bool default true,
+  notes text,
+  created_at timestamptz default now()
+);
+
+create table if not exists price_overrides (
+  id uuid primary key default gen_random_uuid(),
+  card_image_id text not null,
+  override_jp numeric,
+  override_en numeric,
+  reason text,
+  expires_at timestamptz,
+  created_at timestamptz default now()
+);
+
+create table if not exists character_meta (
+  id uuid primary key default gen_random_uuid(),
+  name_key text unique not null,
+  display_name text,
+  image_url text,
+  description_th text,
+  description_en text,
+  aliases text[],
+  is_featured bool default false,
+  is_hidden bool default false,
+  related text[]
+);
+
+create table if not exists affiliate_clicks (
+  id uuid primary key default gen_random_uuid(),
+  shop_id uuid references shops(id),
+  card_id text,
+  set_code text,
+  clicked_at timestamptz default now()
+);
+
+create table if not exists search_events (
+  id uuid primary key default gen_random_uuid(),
+  query text,
+  result_count int,
+  searched_at timestamptz default now()
+);
+
+create table if not exists activity_log (
+  id uuid primary key default gen_random_uuid(),
+  section text,
+  action text,
+  record_id text,
+  old_value jsonb,
+  new_value jsonb,
+  created_by text,
+  created_at timestamptz default now()
+);
+
+create table if not exists admin_settings (
+  id text primary key default 'global',
+  default_edition text default 'jp',
+  default_currency text default 'THB',
+  feature_flags jsonb default '{}',
+  updated_at timestamptz default now()
+);
+
+-- Enable RLS + allow authenticated users to read/write (adjust policies as needed)
+alter table cms_homepage enable row level security;
+alter table shops enable row level security;
+alter table price_overrides enable row level security;
+alter table character_meta enable row level security;
+alter table affiliate_clicks enable row level security;
+alter table search_events enable row level security;
+alter table activity_log enable row level security;
+alter table admin_settings enable row level security;
+
+create policy "admin_all" on cms_homepage for all using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));
+create policy "admin_all" on shops for all using (true);
+create policy "admin_all" on price_overrides for all using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));
+create policy "admin_all" on character_meta for all using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));
+create policy "anon_insert" on affiliate_clicks for insert using (true);
+create policy "anon_insert" on search_events for insert using (true);
+create policy "admin_read" on affiliate_clicks for select using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));
+create policy "admin_read" on search_events for select using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));
+create policy "admin_all" on activity_log for all using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));
+create policy "admin_all" on admin_settings for all using (auth.email() in ('fourthlps@gmail.com','varit.pkt@gmail.com'));`;
+
+async function checkSetup(){
+  const {error}=await sb.from('shops').select('id',{count:'exact',head:true});
+  return !error;
+}
+
+function setupBanner(){
+  return `<div class="setup-banner">
+    <h3>⚠️ First-time Setup Required</h3>
+    <p>The Supabase tables don't exist yet. Copy the SQL below and run it in your <a href="https://app.supabase.com" target="_blank" style="color:var(--blue)">Supabase SQL Editor</a>, then refresh this page.</p>
+    <div class="setup-sql">${SETUP_SQL}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════
+async function loadStatus(){
+  try{const r=await fetch(DATA_PATH+'data/status.json?_='+Date.now());D.status=r.ok?await r.json():null;}catch{D.status=null;}
+}
+async function loadCards(){
+  if(_cardsLoaded)return;
+  try{
+    const r=await fetch(DATA_PATH+'one_piece_OP01-OP16_with_prices.json?_='+Date.now());
+    const raw=await r.json();
+    D.cards=Object.values(raw).flat();
+    _cardsLoaded=true;
+  }catch{D.cards=[];}
+}
+async function loadMarkets(){
+  if(D._marketsLoaded)return;
+  try{const r=await fetch(DATA_PATH+'card-markets.json?_='+Date.now());const j=await r.json();D.markets=j.markets||{};D._marketsLoaded=true;}catch{D.markets={};}
+}
+async function loadSets(){
+  if(D.sets.length)return;
+  try{const r=await fetch(DATA_PATH+'data/sets.json?_='+Date.now());const j=await r.json();D.sets=Array.isArray(j)?j:Object.values(j).flat();}catch{D.sets=[];}
+}
+
+// ═══════════════════════════════
+// ACTIVITY LOG
+// ═══════════════════════════════
+async function logActivity(section,action,recordId,oldVal,newVal){
+  try{
+    await sb.from('activity_log').insert({section,action,record_id:String(recordId||''),old_value:oldVal||null,new_value:newVal||null,created_by:currentUser.email});
+  }catch{}
+}
+
+// ═══════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════
+async function renderDashboard(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Loading dashboard…</div>`;
+  const ok=await checkSetup();
+  await Promise.all([loadStatus(),loadCards(),loadMarkets()]);
+
+  const totalCards=D.cards.length;
+  const cardsWithPrice=D.cards.filter(c=>{
+    const m=D.markets[c.card_image_id];
+    return m&&m.length>0;
+  }).length;
+  const pricePct=totalCards?Math.round(cardsWithPrice/totalCards*100):0;
+
+  const {data:shopsData}=ok?await sb.from('shops').select('id,is_active,is_featured'):{data:[]};
+  const activeShops=(shopsData||[]).filter(s=>s.is_active).length;
+
+  const missingImg=D.cards.filter(c=>!c.card_image).length;
+  const missingPrice=D.cards.filter(c=>{const m=D.markets[c.card_image_id];return!m||!m.length;}).length;
+  const qualScore=Math.max(0,100-Math.round(missingImg/totalCards*40)-Math.round(missingPrice/totalCards*60));
+
+  const {data:recentActivity}=ok?await sb.from('activity_log').select('*').order('created_at',{ascending:false}).limit(5):{data:[]};
+
+  const pipeStatus=D.status;
+  const pipeOk=pipeStatus&&pipeStatus.sets_fetched>0;
+  const lastRun=pipeStatus?.last_run_at||pipeStatus?.generated_at||'Unknown';
+
+  ca.innerHTML=`
+    ${!ok?setupBanner():''}
+    <div class="metrics-grid">
+      <div class="metric-card gold">
+        <div class="metric-label">Cards Indexed</div>
+        <div class="metric-value">${totalCards.toLocaleString()}</div>
+        <div class="metric-sub">${pricePct}% have price data</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Active Shops</div>
+        <div class="metric-value">${activeShops}</div>
+        <div class="metric-sub">${(shopsData||[]).length} total registered</div>
+      </div>
+      <div class="metric-card ${qualScore>=80?'green':qualScore>=60?'gold':'red'}">
+        <div class="metric-label">Data Quality</div>
+        <div class="metric-value">${qualScore}%</div>
+        <div class="score-bar"><div class="score-fill" style="width:${qualScore}%;background:${qualScore>=80?'var(--green)':qualScore>=60?'var(--gold)':'var(--red)'}"></div></div>
+      </div>
+      <div class="metric-card ${pipeOk?'green':'red'}">
+        <div class="metric-label">Pipeline</div>
+        <div class="metric-value">${pipeOk?'✓ OK':'✗ Issue'}</div>
+        <div class="metric-sub">${pipeStatus?`${pipeStatus.sets_fetched||0} sets fetched`:'No status file'}</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">⚙️ Pipeline Status</div><button class="btn btn-ghost btn-sm" onclick="nav('pipeline')">View →</button></div>
+        <div class="section-card-body">
+          ${pipeStatus?`
+            <div class="pipe-row"><span class="pipe-label">Last Run</span><span class="pipe-val">${lastRun}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Sets Fetched</span><span class="pipe-val">${pipeStatus.sets_fetched??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Sets Failed</span><span class="pipe-val" style="${(pipeStatus.sets_failed||0)>0?'color:var(--red)':''}">${pipeStatus.sets_failed??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Cards w/ Price</span><span class="pipe-val">${pipeStatus.cards_with_price??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Status</span><span class="pipe-val"><span class="pill ${pipeOk?'pill-green':'pill-red'}"><span class="pill-dot"></span>${pipeOk?'Healthy':'Failing'}</span></span></div>
+          `:`<div class="empty-state">status.json not found — pipeline may not have run yet.</div>`}
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">🛡️ Data Quality Summary</div><button class="btn btn-ghost btn-sm" onclick="nav('quality')">Full Report →</button></div>
+        <div class="section-card-body">
+          <div class="pipe-row"><span class="pipe-label">Missing Images</span><span class="pipe-val" style="${missingImg?'color:var(--red)':''}">${missingImg.toLocaleString()} cards</span></div>
+          <div class="pipe-row"><span class="pipe-label">Missing Prices</span><span class="pipe-val" style="${missingPrice>500?'color:var(--red)':missingPrice>0?'color:var(--gold)':''}">${missingPrice.toLocaleString()} cards</span></div>
+          <div class="pipe-row"><span class="pipe-label">Cards with JP Price</span><span class="pipe-val">${D.cards.filter(c=>{const m=D.markets[c.card_image_id];return m&&m.some(e=>e.source_market==='JP');}).length.toLocaleString()}</span></div>
+          <div class="pipe-row"><span class="pipe-label">Cards with EN Price</span><span class="pipe-val">${D.cards.filter(c=>{const m=D.markets[c.card_image_id];return m&&m.some(e=>e.source_market==='EN');}).length.toLocaleString()}</span></div>
+          <div class="pipe-row"><span class="pipe-label">Quality Score</span><span class="pipe-val"><b style="color:${qualScore>=80?'var(--green)':qualScore>=60?'var(--gold)':'var(--red)'}">${qualScore}%</b></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card-head"><div class="section-card-title">📋 Recent Activity</div><button class="btn btn-ghost btn-sm" onclick="nav('activity')">View All →</button></div>
+      <div class="section-card-body">
+        ${(recentActivity&&recentActivity.length)?recentActivity.map(a=>`
+          <div class="log-item">
+            <div class="log-dot"></div>
+            <div>
+              <div class="log-desc">${a.action} in <b>${a.section}</b>${a.record_id?' — '+a.record_id:''}</div>
+              <div class="log-meta">${a.created_by} · ${new Date(a.created_at).toLocaleString()}</div>
+            </div>
+          </div>`).join('')
+          :`<div class="empty-state">No activity yet. Changes you make here will appear in this log.</div>`}
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card-head"><div class="section-card-title">📊 Analytics</div></div>
+      <div class="section-card-body">
+        <div class="metrics-grid" style="margin-bottom:0">
+          ${['Today\'s Visitors','This Week','Total Page Views','Unique Visitors','Google Clicks','Google Impressions','Top Searched Card','Affiliate Clicks'].map(l=>`
+            <div class="metric-card">
+              <div class="metric-label">${l}</div>
+              <div class="metric-value" style="font-size:18px;color:var(--faint)">—</div>
+              <div class="metric-sub" style="color:var(--muted)">Connect Google Analytics</div>
+            </div>`).join('')}
+        </div>
+        <div style="margin-top:16px;padding:12px 16px;background:var(--bg3);border-radius:7px;font-size:12px;color:var(--faint)">
+          💡 Analytics will appear here once Google Analytics / Search Console is connected. No data is faked — placeholders only.
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════
+// HOMEPAGE CMS
+// ═══════════════════════════════
+async function renderCMS(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Loading CMS…</div>`;
+  const ok=await checkSetup();
+  if(!ok){ca.innerHTML=setupBanner();return;}
+
+  const {data:rows}=await sb.from('cms_homepage').select('*');
+  const cms={};(rows||[]).forEach(r=>cms[r.id]=r.content||{});
+
+  const hero=cms.hero||{};
+  const ann=cms.announcement||{};
+  const featCards=cms.featured_cards||{};
+  const featSets=cms.featured_sets||{};
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Homepage CMS</h1><div class="page-head-sub">Edit homepage content without touching code. Changes go live after saving.</div></div>
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="cmsTab('hero',this)">Hero Section</button>
+      <button class="tab-btn" onclick="cmsTab('announcement',this)">Announcement Banner</button>
+      <button class="tab-btn" onclick="cmsTab('featured',this)">Featured Content</button>
+      <button class="tab-btn" onclick="cmsTab('info',this)">About This Page</button>
+    </div>
+
+    <div class="tab-pane active" id="cms-tab-hero">
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">Hero Section</div></div>
+        <div class="section-card-body">
+          <div class="form-grid">
+            <div class="field"><label>Title (Thai)</label><input class="field-input" id="cms-hero-title-th" value="${esc(hero.title_th||'')}"></div>
+            <div class="field"><label>Title (English)</label><input class="field-input" id="cms-hero-title-en" value="${esc(hero.title_en||'')}"></div>
+            <div class="field"><label>Subtitle (Thai)</label><input class="field-input" id="cms-hero-sub-th" value="${esc(hero.subtitle_th||'')}"></div>
+            <div class="field"><label>Subtitle (English)</label><input class="field-input" id="cms-hero-sub-en" value="${esc(hero.subtitle_en||'')}"></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <button class="btn btn-primary" onclick="saveCMSHero()">Save Hero Section</button>
+            <button class="btn btn-ghost" onclick="renderCMS()">Discard Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="cms-tab-announcement">
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">Announcement Banner</div><label class="field-checkbox" style="margin:0"><input type="checkbox" id="cms-ann-active" ${ann.active?'checked':''}><span>Active</span></label></div>
+        <div class="section-card-body">
+          <div class="form-grid">
+            <div class="field"><label>Message (Thai)</label><input class="field-input" id="cms-ann-th" value="${esc(ann.text_th||'')}"></div>
+            <div class="field"><label>Message (English)</label><input class="field-input" id="cms-ann-en" value="${esc(ann.text_en||'')}"></div>
+            <div class="field"><label>Type</label>
+              <select class="field-select" id="cms-ann-type">
+                <option value="info" ${ann.type==='info'?'selected':''}>Info (blue)</option>
+                <option value="promo" ${ann.type==='promo'?'selected':''}>Promo (gold)</option>
+                <option value="warning" ${ann.type==='warning'?'selected':''}>Warning (red)</option>
+              </select>
+            </div>
+            <div class="field"><label>Link URL (optional)</label><input class="field-input" id="cms-ann-url" value="${esc(ann.url||'')}"></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <button class="btn btn-primary" onclick="saveCMSAnnouncement()">Save Announcement</button>
+            <button class="btn btn-ghost" onclick="renderCMS()">Discard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="cms-tab-featured">
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">Featured Sets (Homepage)</div></div>
+        <div class="section-card-body">
+          <div class="field">
+            <label>Set Codes (comma separated, e.g. OP-01,OP-02)</label>
+            <input class="field-input" id="cms-feat-sets" value="${esc((featSets.codes||[]).join(','))}">
+            <div class="field-hint">These sets appear in the "Popular Sets" section. Leave empty to use automatic selection.</div>
+          </div>
+          <div class="field">
+            <label>Featured Card IDs (comma separated card_image_id)</label>
+            <textarea class="field-textarea" id="cms-feat-cards">${esc((featCards.ids||[]).join(','))}</textarea>
+            <div class="field-hint">Card IDs for the homepage featured card slots. Leave empty for automatic top-value selection.</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:4px">
+            <button class="btn btn-primary" onclick="saveCMSFeatured()">Save Featured Content</button>
+            <button class="btn btn-ghost" onclick="renderCMS()">Discard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="cms-tab-info">
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">About This Page</div></div>
+        <div class="section-card-body" style="font-size:13px;color:var(--soft);line-height:1.8">
+          <p style="margin-bottom:12px">The <b>Homepage CMS</b> lets you edit public-facing homepage content without code.</p>
+          <p style="margin-bottom:12px"><b>Hero Section</b> — controls the large headline and subtitle text. If empty, the site uses its built-in default text.</p>
+          <p style="margin-bottom:12px"><b>Announcement Banner</b> — optional colored banner displayed at the top of the homepage. Toggle active/inactive without deleting.</p>
+          <p style="margin-bottom:12px"><b>Featured Content</b> — override which sets and cards appear in homepage sections. Empty = automatic (best value / newest).</p>
+          <div style="background:var(--gold-dim);border:1px solid var(--gold);border-radius:7px;padding:12px;margin-top:16px;color:var(--gold);font-size:12px">
+            ⚠️ The public site reads from Supabase on each load. Changes are live immediately after saving. No redeploy needed.
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function cmsTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const pane=document.getElementById('cms-tab-'+name);
+  if(pane)pane.classList.add('active');
+}
+
+async function saveCMSSection(id,content){
+  const {error}=await sb.from('cms_homepage').upsert({id,content,updated_at:new Date().toISOString(),updated_by:currentUser.email});
+  if(error){toast('Save failed: '+error.message,'err');return false;}
+  await logActivity('cms','update',id,null,content);
+  toast('Saved ✓','ok');
+  return true;
+}
+async function saveCMSHero(){
+  await saveCMSSection('hero',{title_th:v('cms-hero-title-th'),title_en:v('cms-hero-title-en'),subtitle_th:v('cms-hero-sub-th'),subtitle_en:v('cms-hero-sub-en')});
+}
+async function saveCMSAnnouncement(){
+  await saveCMSSection('announcement',{text_th:v('cms-ann-th'),text_en:v('cms-ann-en'),type:v('cms-ann-type'),url:v('cms-ann-url'),active:document.getElementById('cms-ann-active').checked});
+}
+async function saveCMSFeatured(){
+  const setCodes=v('cms-feat-sets').split(',').map(s=>s.trim()).filter(Boolean);
+  const cardIds=v('cms-feat-cards').split(',').map(s=>s.trim()).filter(Boolean);
+  await saveCMSSection('featured_sets',{codes:setCodes});
+  await saveCMSSection('featured_cards',{ids:cardIds});
+}
+
+// ═══════════════════════════════
+// SHOPS & SPONSORS
+// ═══════════════════════════════
+let _shops=[];
+
+async function renderShops(){
+  const ca=document.getElementById('content-area');
+  const ok=await checkSetup();
+  if(!ok){ca.innerHTML=setupBanner();return;}
+  const {data,error}=await sb.from('shops').select('*').order('priority',{ascending:false}).order('name');
+  _shops=data||[];
+  paintShopsTable();
+}
+
+function paintShopsTable(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Shops & Sponsors</h1><div class="page-head-sub">${_shops.length} registered · ${_shops.filter(s=>s.is_active).length} active · ${_shops.filter(s=>s.is_featured).length} featured</div></div>
+      <button class="btn btn-primary" onclick="openShopModal(null)">+ Add Shop</button>
+    </div>
+    ${_shops.length===0?`<div class="section-card"><div class="section-card-body"><div class="empty-state">No shops yet. Add your first partner shop or sponsor.</div></div></div>`:`
+    <div class="section-card">
+      <div class="section-card-body" style="padding:0">
+        <table class="data-table">
+          <thead><tr>
+            <th style="width:40px"></th>
+            <th>Name</th><th>Location</th><th>Priority</th>
+            <th>Active</th><th>Featured</th><th>Website</th><th style="width:100px">Actions</th>
+          </tr></thead>
+          <tbody>${_shops.map(s=>`<tr>
+            <td>${s.logo_url?`<img class="img-thumb" src="${esc(s.logo_url)}" alt="">`:``}</td>
+            <td><b>${esc(s.name)}</b>${s.notes?`<div style="font-size:11px;color:var(--faint)">${esc(s.notes)}</div>`:''}</td>
+            <td class="td-muted">${esc(s.location||'—')}</td>
+            <td class="td-muted">${s.priority||0}</td>
+            <td><span class="pill ${s.is_active?'pill-green':'pill-gray'}">${s.is_active?'Active':'Inactive'}</span></td>
+            <td><span class="pill ${s.is_featured?'pill-gold':'pill-gray'}">${s.is_featured?'⭐ Featured':'—'}</span></td>
+            <td class="td-muted" style="font-size:12px">${s.website?`<a href="${esc(s.website)}" target="_blank" style="color:var(--blue)">${esc(s.website.replace(/^https?:\/\//,'').split('/')[0])}</a>`:'—'}</td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn-icon" title="Edit" onclick="openShopModal('${s.id}')">✏️</button>
+                <button class="btn-icon" title="Delete" onclick="deleteShop('${s.id}','${esc(s.name)}')">🗑️</button>
+              </div>
+            </td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </div>`}`;
+}
+
+function openShopModal(id){
+  const s=id?_shops.find(x=>x.id===id):null;
+  document.getElementById('modal-overlay').style.display='block';
+  const mb=document.getElementById('modal-box');
+  mb.style.display='flex';
+  mb.innerHTML=`
+    <div class="modal-head"><h2>${s?'Edit Shop':'Add New Shop'}</h2><button class="btn-icon" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field form-grid-full"><label>Shop Name *</label><input class="field-input" id="sh-name" value="${esc(s?.name||'')}"></div>
+        <div class="field"><label>Logo URL</label><input class="field-input" id="sh-logo" value="${esc(s?.logo_url||'')}"></div>
+        <div class="field"><label>Location</label><input class="field-input" id="sh-loc" value="${esc(s?.location||'')}"></div>
+        <div class="field"><label>Website</label><input class="field-input" id="sh-web" value="${esc(s?.website||'')}" placeholder="https://"></div>
+        <div class="field"><label>Affiliate Link</label><input class="field-input" id="sh-aff" value="${esc(s?.affiliate_url||'')}" placeholder="https://"></div>
+        <div class="field"><label>Facebook Page URL</label><input class="field-input" id="sh-fb" value="${esc(s?.facebook||'')}"></div>
+        <div class="field"><label>LINE ID</label><input class="field-input" id="sh-line" value="${esc(s?.line_id||'')}"></div>
+        <div class="field"><label>Priority (higher = first)</label><input class="field-input" id="sh-pri" type="number" value="${s?.priority||0}"></div>
+        <div class="field form-grid-full"><label>Notes (internal only)</label><textarea class="field-textarea" id="sh-notes">${esc(s?.notes||'')}</textarea></div>
+        <div class="field"><label class="field-checkbox"><input type="checkbox" id="sh-active" ${s===null||s?.is_active?'checked':''}><span>Active (show on public site)</span></label></div>
+        <div class="field"><label class="field-checkbox"><input type="checkbox" id="sh-feat" ${s?.is_featured?'checked':''}><span>Featured Sponsor</span></label></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveShop(${s?`'${s.id}'`:'null'})">${s?'Save Changes':'Add Shop'}</button>
+    </div>`;
+}
+
+async function saveShop(id){
+  const name=v('sh-name').trim();
+  if(!name){toast('Shop name is required','err');return;}
+  const payload={name,logo_url:v('sh-logo')||null,location:v('sh-loc')||null,website:v('sh-web')||null,affiliate_url:v('sh-aff')||null,facebook:v('sh-fb')||null,line_id:v('sh-line')||null,priority:parseInt(v('sh-pri')||'0'),notes:v('sh-notes')||null,is_active:document.getElementById('sh-active').checked,is_featured:document.getElementById('sh-feat').checked};
+  const old=id?_shops.find(x=>x.id===id):null;
+  let error;
+  if(id){({error}=await sb.from('shops').update(payload).eq('id',id));}
+  else{({error}=await sb.from('shops').insert(payload));}
+  if(error){toast('Save failed: '+error.message,'err');return;}
+  await logActivity('shops',id?'update':'create',id||name,old,payload);
+  closeModal();
+  toast((id?'Shop updated':'Shop added')+' ✓','ok');
+  renderShops();
+}
+
+async function deleteShop(id,name){
+  if(!confirm(`Delete "${name}"? This cannot be undone.`))return;
+  const {error}=await sb.from('shops').delete().eq('id',id);
+  if(error){toast('Delete failed: '+error.message,'err');return;}
+  await logActivity('shops','delete',id,{name},null);
+  toast('Shop deleted','ok');
+  renderShops();
+}
+
+// ═══════════════════════════════
+// CARD DATABASE VIEWER
+// ═══════════════════════════════
+async function renderCards(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Loading card database…</div>`;
+  await Promise.all([loadCards(),loadMarkets()]);
+  _cardQuery='';_cardPage=0;
+  _cardFiltered=D.cards.slice();
+  paintCardsView();
+}
+
+function paintCardsView(){
+  const ca=document.getElementById('content-area');
+  const PAGE=50;
+  const total=_cardFiltered.length;
+  const start=_cardPage*PAGE;
+  const slice=_cardFiltered.slice(start,start+PAGE);
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Card Database</h1><div class="page-head-sub">${total.toLocaleString()} cards shown · ${D.cards.length.toLocaleString()} total · Read-only (price overrides in Phase 2)</div></div>
+    </div>
+    <div class="toolbar">
+      <div class="search-wrap" style="max-width:360px"><input id="card-srch-admin" placeholder="Search name, set, card number…" value="${esc(_cardQuery)}" oninput="cardSearch(this.value)"></div>
+      <select class="field-select" style="width:140px" onchange="cardFilterSet(this.value)" id="card-set-filter">
+        <option value="">All Sets</option>
+        ${[...new Set(D.cards.map(c=>c.set_id||'').filter(Boolean))].sort().map(s=>`<option value="${s}">${s}</option>`).join('')}
+      </select>
+      <select class="field-select" style="width:120px" onchange="cardFilterRarity(this.value)">
+        <option value="">All Rarities</option>
+        ${[...new Set(D.cards.map(c=>c.rarity||'').filter(Boolean))].sort().map(r=>`<option value="${r}">${r}</option>`).join('')}
+      </select>
+    </div>
+    <div class="section-card">
+      <div class="section-card-body" style="padding:0">
+        <table class="data-table">
+          <thead><tr><th style="width:44px">Image</th><th>Card Name</th><th>Set</th><th>Rarity</th><th>JP Price</th><th>EN Price</th><th>Status</th></tr></thead>
+          <tbody>${slice.map(c=>{
+            const mEntries=D.markets[c.card_image_id]||[];
+            const jp=mEntries.find(e=>e.source_market==='JP');
+            const en=mEntries.find(e=>e.source_market==='EN');
+            const hasImg=!!c.card_image;
+            const jpPr=jp?'¥'+Math.round(jp.source_price).toLocaleString():'—';
+            const enPr=en?'$'+(en.source_price||0).toFixed(2):'—';
+            return `<tr>
+              <td>${hasImg?`<img class="img-thumb" src="${esc(c.card_image)}" loading="lazy" onerror="this.style.visibility='hidden'">`:'<span style="color:var(--faint);font-size:10px">No img</span>'}</td>
+              <td><div style="font-weight:600;font-size:13px">${esc(c.card_name||'')}</div><div class="td-mono" style="font-size:10px;color:var(--faint)">${esc(c.card_image_id||'')}</div></td>
+              <td class="td-muted">${esc(c.set_id||'')}</td>
+              <td><span class="pill ${rarityPill(c.rarity)}">${esc(c.rarity||'—')}</span></td>
+              <td class="td-mono" style="font-size:12px">${jpPr}</td>
+              <td class="td-mono" style="font-size:12px">${enPr}</td>
+              <td>${!hasImg&&!jp&&!en?`<span class="pill pill-red">Missing data</span>`:!hasImg?`<span class="pill pill-gold">No image</span>`:!jp&&!en?`<span class="pill pill-gold">No price</span>`:`<span class="pill pill-green">OK</span>`}</td>
+            </tr>`;}).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="pagination">
+      <span>${start+1}–${Math.min(start+PAGE,total)} of ${total.toLocaleString()}</span>
+      <button onclick="cardPage(-1)" ${_cardPage===0?'disabled':''}>← Prev</button>
+      <button onclick="cardPage(1)" ${start+PAGE>=total?'disabled':''}>Next →</button>
+    </div>`;
+}
+
+let _cardSetFilter='',_cardRarFilter='';
+function cardSearch(q){_cardQuery=q;_cardPage=0;_applyCardFilters();paintCardsView();}
+function cardFilterSet(s){_cardSetFilter=s;_cardPage=0;_applyCardFilters();paintCardsView();}
+function cardFilterRarity(r){_cardRarFilter=r;_cardPage=0;_applyCardFilters();paintCardsView();}
+function cardPage(d){_cardPage=Math.max(0,_cardPage+d);paintCardsView();}
+function _applyCardFilters(){
+  let list=D.cards;
+  if(_cardQuery){const q=_cardQuery.toLowerCase();list=list.filter(c=>(c.card_name||'').toLowerCase().includes(q)||(c.card_image_id||'').toLowerCase().includes(q)||(c.set_id||'').toLowerCase().includes(q));}
+  if(_cardSetFilter)list=list.filter(c=>c.set_id===_cardSetFilter);
+  if(_cardRarFilter)list=list.filter(c=>c.rarity===_cardRarFilter);
+  _cardFiltered=list;
+}
+function rarityPill(r){
+  const map={L:'pill-gold',SEC:'pill-gold',SP:'pill-blue','P-SR':'pill-blue',Manga:'pill-blue'};
+  return map[r]||'pill-gray';
+}
+
+// ═══════════════════════════════
+// PIPELINE MONITOR
+// ═══════════════════════════════
+async function renderPipeline(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Loading pipeline data…</div>`;
+  await loadStatus();
+
+  let ghRuns=[];
+  try{
+    const r=await fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=8`,{headers:{Accept:'application/vnd.github+json'}});
+    const j=await r.json();
+    ghRuns=j.workflow_runs||[];
+  }catch{}
+
+  const p=D.status;
+  const ok=p&&p.sets_fetched>0;
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Pipeline Monitor</h1><div class="page-head-sub">GitHub Actions runs daily at 01:00 Bangkok time (18:00 UTC). Read-only.</div></div>
+      <button class="btn btn-ghost" onclick="renderPipeline()">↻ Refresh</button>
+    </div>
+
+    <div class="two-col">
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">⚙️ Last Pipeline Run (status.json)</div></div>
+        <div class="section-card-body">
+          ${p?`
+            <div class="pipe-row"><span class="pipe-label">Run At</span><span class="pipe-val">${p.last_run_at||p.generated_at||'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Sets Fetched</span><span class="pipe-val">${p.sets_fetched??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Sets Failed</span><span class="pipe-val" style="${(p.sets_failed||0)>0?'color:var(--red)':''}">${p.sets_failed??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Cards w/ Price</span><span class="pipe-val">${p.cards_with_price??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">JP History Appended</span><span class="pipe-val">${p.jp_history_snapshots||'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">JP Gainers</span><span class="pipe-val">${p.jp_gainers_count??'—'}</span></div>
+            <div class="pipe-row"><span class="pipe-label">Overall Status</span><span class="pipe-val"><span class="pill ${ok?'pill-green':'pill-red'}"><span class="pill-dot"></span>${ok?'Healthy':'Failing'}</span></span></div>
+          `:`<div class="empty-state">status.json not found. Pipeline may not have run yet.</div>`}
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-head"><div class="section-card-title">🐙 GitHub Actions — Recent Runs</div></div>
+        <div class="section-card-body" style="padding:${ghRuns.length?'8px 20px':'20px'}">
+          ${ghRuns.length?ghRuns.slice(0,8).map(r=>{
+            const isOk=r.conclusion==='success';
+            const isRun=r.status==='in_progress'||r.status==='queued';
+            const pill=isRun?'pill-gold':isOk?'pill-green':'pill-red';
+            const label=isRun?'Running':r.conclusion||r.status;
+            const d=new Date(r.created_at);
+            return`<div class="gh-run">
+              <span class="pill ${pill}" style="flex-shrink:0"><span class="pill-dot"></span>${label}</span>
+              <div style="flex:1;min-width:0">
+                <div class="gh-run-name">${r.name||r.event}</div>
+                <div class="gh-run-time">${d.toLocaleDateString()} ${d.toLocaleTimeString()}</div>
+              </div>
+              <a href="${r.html_url}" target="_blank" style="color:var(--blue);font-size:11px">View →</a>
+            </div>`;}).join('')
+          :`<div class="empty-state">Could not load GitHub Actions runs.<br>This may be due to API rate limiting (no token).</div>`}
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card-head"><div class="section-card-title">📅 Pipeline Schedule</div></div>
+      <div class="section-card-body" style="font-size:13px;color:var(--soft);line-height:1.8">
+        <div class="three-col">
+          <div><b style="color:var(--text)">EN Prices</b><br>update_prices.py runs daily via GitHub Actions. Fetches from optcgapi for all OP/EB sets.</div>
+          <div><b style="color:var(--text)">JP History Snapshot</b><br>append_jp_history.py appends today's JP prices to jp-price-history.json. Idempotent — runs safely if triggered twice.</div>
+          <div><b style="color:var(--text)">JP Trend Computation</b><br>compute_jp_trends.py compares today vs 7 days ago. Writes jp-top-gainers.json and jp-top-losers.json.</div>
+        </div>
+        <div style="margin-top:16px;padding:10px 14px;background:var(--bg3);border-radius:7px;font-size:12px;color:var(--faint)">
+          ⚠️ "Run Pipeline Now" is not available in Phase 1 — it would require exposing a GitHub token in the frontend. Use the GitHub Actions UI to trigger manually if needed.
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════
+// DATA QUALITY
+// ═══════════════════════════════
+async function renderQuality(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Scanning card database… this takes a moment.</div>`;
+  await Promise.all([loadCards(),loadMarkets()]);
+  runQualityCheck();
+}
+
+function runQualityCheck(){
+  const ca=document.getElementById('content-area');
+  const cards=D.cards;
+  const markets=D.markets;
+
+  const issues={
+    noImage:[],noPrice:[],noRarity:[],noEffect:[],noSetId:[],dupIds:[]
+  };
+
+  const idCount={};
+  cards.forEach(c=>{
+    if(!c.card_image)issues.noImage.push(c);
+    const m=markets[c.card_image_id]||[];
+    if(!m.length)issues.noPrice.push(c);
+    if(!c.rarity)issues.noRarity.push(c);
+    if(!c.card_text&&!c.effect)issues.noEffect.push(c);
+    if(!c.set_id)issues.noSetId.push(c);
+    idCount[c.card_image_id]=(idCount[c.card_image_id]||0)+1;
+  });
+  Object.entries(idCount).forEach(([id,n])=>{if(n>1)issues.dupIds.push(id);});
+
+  const total=cards.length;
+  const scored=[
+    {key:'noImage',weight:.4},
+    {key:'noPrice',weight:.4},
+    {key:'noRarity',weight:.1},
+    {key:'noSetId',weight:.1}
+  ];
+  const deduct=scored.reduce((s,{key,weight})=>s+(issues[key].length/total)*weight*100,0);
+  const score=Math.max(0,Math.round(100-deduct));
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Data Quality</h1><div class="page-head-sub">Scanned ${total.toLocaleString()} cards · Score: <b style="color:${score>=80?'var(--green)':score>=60?'var(--gold)':'var(--red)'}">${score}%</b></div></div>
+      <button class="btn btn-ghost" onclick="renderQuality()">↻ Re-scan</button>
+    </div>
+
+    <div class="section-card" style="margin-bottom:20px">
+      <div class="section-card-head"><div class="section-card-title">Overall Score</div></div>
+      <div class="section-card-body">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+          <div style="font-size:48px;font-weight:800;color:${score>=80?'var(--green)':score>=60?'var(--gold)':'var(--red)'}">${score}%</div>
+          <div style="flex:1">
+            <div class="score-bar" style="height:12px;border-radius:99px"><div class="score-fill" style="width:${score}%;background:${score>=80?'var(--green)':score>=60?'var(--gold)':'var(--red)'}"></div></div>
+            <div style="font-size:12px;color:var(--faint);margin-top:6px">${score>=90?'Excellent — data is nearly complete.':score>=70?'Good — a few gaps to address.':score>=50?'Needs attention — significant data gaps.':'Poor — major data issues.'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dq-grid">
+      ${[
+        {k:'noImage',label:'Missing Images',icon:'🖼️'},
+        {k:'noPrice',label:'No Price Data',icon:'💲'},
+        {k:'noRarity',label:'Missing Rarity',icon:'⭐'},
+        {k:'noEffect',label:'No Effect Text',icon:'📝'},
+        {k:'noSetId',label:'Missing Set ID',icon:'📦'},
+        {k:'dupIds',label:'Duplicate IDs',icon:'⚠️'}
+      ].map(({k,icon,label})=>{
+        const n=issues[k].length;
+        const cls=n===0?'ok':n<50?'warn':'bad';
+        return`<div class="dq-card"><div class="dq-count ${cls}">${n.toLocaleString()}</div><div><div style="font-weight:700;font-size:13px;color:var(--text)">${icon} ${label}</div><div class="dq-label">${n===0?'All good':'cards affected'}</div></div></div>`;
+      }).join('')}
+    </div>
+
+    ${[
+      {k:'noImage',title:'Cards Missing Images',help:'These cards have no card_image URL. Images come from the card data JSON.'},
+      {k:'noPrice',title:'Cards With No Price',help:'No JP or EN price found in card-markets.json.'},
+      {k:'noRarity',title:'Cards Missing Rarity',help:'These cards have no rarity field.'},
+      {k:'dupIds',title:'Duplicate card_image_id',help:'Multiple cards share the same ID. This can cause display bugs.',isStr:true}
+    ].filter(({k})=>issues[k].length>0).map(({k,title,help,isStr})=>`
+      <div class="section-card">
+        <div class="section-card-head">
+          <div>
+            <div class="section-card-title">${title}</div>
+            <div style="font-size:11px;color:var(--faint);margin-top:2px">${help}</div>
+          </div>
+          <span class="pill pill-red">${issues[k].length}</span>
+        </div>
+        <div class="dq-list">
+          ${(isStr?issues[k]:issues[k]).slice(0,30).map(item=>{
+            const c=isStr?null:item;
+            const id=isStr?item:(c.card_image_id||'');
+            const name=isStr?id:(c.card_name||id);
+            const set=isStr?'':(c.set_id||'');
+            return`<div class="dq-list-item" onclick="cardJumpFromQuality('${esc(id)}')">
+              <span class="dq-ic">${isStr?'⚠️':'📋'}</span>
+              <div style="flex:1"><b style="font-size:12px">${esc(name)}</b>${set?` <span style="color:var(--faint);font-size:11px">${esc(set)}</span>`:''}</div>
+              <code>${esc(id)}</code>
+            </div>`;
+          }).join('')}
+          ${issues[k].length>30?`<div style="padding:10px 14px;font-size:12px;color:var(--faint)">… and ${issues[k].length-30} more</div>`:''}
+        </div>
+      </div>`).join('')}`;
+}
+
+function cardJumpFromQuality(id){
+  _cardQuery=id;_cardPage=0;_applyCardFilters();
+  nav('cards');
+}
+
+// ═══════════════════════════════
+// ACTIVITY LOG
+// ═══════════════════════════════
+async function renderActivity(){
+  const ca=document.getElementById('content-area');
+  const ok=await checkSetup();
+  if(!ok){ca.innerHTML=setupBanner();return;}
+  ca.innerHTML=`<div style="color:var(--faint);font-size:13px;padding:20px">Loading activity log…</div>`;
+
+  const {data,error}=await sb.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100);
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Activity Log</h1><div class="page-head-sub">All admin actions are recorded here automatically. Last 100 entries.</div></div>
+      <button class="btn btn-ghost" onclick="renderActivity()">↻ Refresh</button>
+    </div>
+    <div class="section-card">
+      <div class="section-card-body" style="padding:${(data||[]).length?'8px 20px':'20px'}">
+        ${(data&&data.length)?data.map(a=>`
+          <div class="log-item">
+            <div class="log-dot" style="background:${a.action==='delete'?'var(--red)':a.action==='create'?'var(--green)':'var(--blue)'}"></div>
+            <div style="flex:1">
+              <div class="log-desc">
+                <span class="pill ${a.action==='delete'?'pill-red':a.action==='create'?'pill-green':'pill-blue'}" style="margin-right:6px">${a.action}</span>
+                <b>${a.section}</b>${a.record_id?' · '+a.record_id:''}
+              </div>
+              ${a.new_value?`<div style="font-size:11px;color:var(--faint);font-family:monospace;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px">${JSON.stringify(a.new_value).substring(0,120)}</div>`:''}
+              <div class="log-meta">${a.created_by} · ${new Date(a.created_at).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+            </div>
+          </div>`).join('')
+        :`<div class="empty-state">No activity yet. Changes made in this admin panel will appear here.</div>`}
+        ${error?`<div style="color:var(--red);font-size:12px;padding:10px">Error loading log: ${error.message}</div>`:''}
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════
+// PHASE 2 PLACEHOLDER
+// ═══════════════════════════════
+function renderPhase2(section){
+  const labels={analytics:'Website Analytics',search_analytics:'Search Analytics','search-analytics':'Search Analytics',sets:'Set Database',characters:'Character Database',affiliate:'Affiliate Dashboard','price-overrides':'Price Overrides',seo:'SEO Dashboard',health:'Website Health',settings:'Settings'};
+  const label=labels[section]||section;
+  const descs={
+    analytics:'View today\'s visitors, page views, top cards, top sets, and top searched terms. Requires Google Analytics or Plausible integration.',
+    'search-analytics':'See what users are searching for, which searches return zero results, and what drives the most card views.',
+    sets:'Edit set descriptions, release dates, cover images, featured flag, and display order.',
+    characters:'Edit character descriptions, images, aliases, and related characters shown on the Character Hub.',
+    affiliate:'Track affiliate link clicks, CTR, and revenue by shop.',
+    'price-overrides':'Add manual price corrections for specific cards. Pipeline prices remain untouched — overrides layer on top with expiry dates.',
+    seo:'See which pages are missing meta descriptions, Open Graph, or structured data.',
+    health:'Monitor Supabase, GitHub Pages, and pipeline health in real time.',
+    settings:'Set default edition, currency, feature flags, and pipeline schedule.'
+  };
+  document.getElementById('content-area').innerHTML=`
+    <div class="placeholder-section">
+      <div class="ph-icon">🚧</div>
+      <h2>${label}</h2>
+      <p>${descs[section]||'This section is coming in Phase 2.'}</p>
+      <div class="ph-badge">Phase 2</div>
+    </div>`;
+}
+
+// ═══════════════════════════════
+// UTILS
+// ═══════════════════════════════
+function v(id){return(document.getElementById(id)?.value||'').trim();}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function closeModal(){document.getElementById('modal-overlay').style.display='none';document.getElementById('modal-box').style.display='none';}
+
+let _toastT=null;
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className=(type==='ok'?'ok':'err');
+  el.style.display='block';clearTimeout(_toastT);
+  _toastT=setTimeout(()=>el.classList.add('hide'),2800);
+  setTimeout(()=>{el.style.display='none';el.classList.remove('hide');},3200);
+}
+</script>
+</body>
+</html>
