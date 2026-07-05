@@ -1,0 +1,202 @@
+{
+  "schema_version": "1.0",
+  "generated": "2026-07-06",
+  "home_game": "one-piece",
+  "games_order": ["one-piece", "pokemon", "naruto", "lorcana"],
+  "games": {
+    "one-piece": {
+      "slug": "one-piece",
+      "display_name": "One Piece Card Game",
+      "short_name": "One Piece",
+      "tile_name": "ONE PIECE",
+      "theme_color": "#f2b705",
+      "icon": "⚓",
+      "status": "active",
+      "id_prefixes": ["OP", "EB", "ST", "PRB"],
+      "data_paths": {
+        "cards": "data/one-piece/cards.json",
+        "prices": "data/one-piece/prices.json",
+        "sets": "data/one-piece/sets.json",
+        "products": "data/one-piece/products.json",
+        "characters": "data/one-piece/characters.json",
+        "market": "data/one-piece/market.json",
+        "search_index": "search/one-piece-index.json",
+        "trends_gainers": "data/top-gainers.json",
+        "trends_losers": "data/top-losers.json",
+        "trends_jp_gainers": "data/jp-top-gainers.json",
+        "trends_jp_losers": "data/jp-top-losers.json",
+        "price_history": "data/price-history.json",
+        "status": "data/status.json"
+      },
+      "image_mode": "external",
+      "image_base_path": "images/one-piece/",
+      "supported_fields": {
+        "cost": true, "power": true, "counter": true, "life": true,
+        "attribute": true, "color": true, "type": true
+      },
+      "card_detail_layout": {
+        "stats": [
+          { "key": "card_cost", "label": "Cost" },
+          { "key": "card_power", "label": "Power" },
+          { "key": "life", "label": "Life" },
+          { "key": "card_color" },
+          { "key": "card_type" }
+        ],
+        "meta_line": [],
+        "flavor_key": null
+      },
+      "rarity_list": ["L", "C", "UC", "R", "SR", "SEC", "SP", "TR", "P", "PR"],
+      "rarity_labels": {
+        "L": "Leader", "C": "Common", "UC": "Uncommon", "R": "Rare",
+        "SR": "SR", "SEC": "SEC", "SP": "SP", "TR": "Treasure", "P": "Promo", "PR": "Promo"
+      },
+      "filter_groups": {
+        "categories": ["Parallel", "Manga", "Alt Art", "Super Alt Art", "SP", "Wanted Poster", "Leader", "Character", "Event", "Stage", "Promo"],
+        "set_categories": [
+          { "k": "all", "th": "ทั้งหมด", "en": "All" },
+          { "k": "booster", "th": "Main Booster", "en": "Main Booster" },
+          { "k": "extra", "th": "Extra Booster", "en": "Extra Booster" },
+          { "k": "premium", "th": "Premium Booster", "en": "Premium Booster" },
+          { "k": "deck", "th": "Starter Deck", "en": "Starter Deck" }
+        ],
+        "show_language_filter": true
+      },
+      "price_policy": {
+        "type": "edition",
+        "editions": ["JP", "EN"],
+        "default_edition": "jp",
+        "price_source_label": { "th": "ราคาตลาด EN (TCGPlayer)", "en": "EN Market Price (TCGPlayer)" }
+      },
+      "product_types": ["Booster Box", "Booster Pack", "Starter Deck", "Double Pack", "Gift Collection", "Premium Booster"],
+      "character_grouping": "character",
+      "character_match": "name_base",
+      "characters_from_file": false,
+      "character_hub_include_unpriced": false,
+      "search_fields": ["card_name", "card_set_id", "set_name", "character", "product_name"],
+      "collection_fields": ["card_name", "rarity", "price", "edition"],
+      "compare_fields": ["price", "rarity", "card_power"],
+      "set_overview_fields": ["description", "story_arc", "featured_characters", "db_selector", "distribution", "chase", "movers", "facts", "notes", "products"],
+      "coming_soon_source": "static",
+      "coming_soon": [
+        { "code": "ST-31", "nameTh": "สตาร์ทเตอร์เด็ค -แดง มังกี้.ดี.ลูฟี่-", "nameEn": "Starter Deck -Red Monkey.D.Luffy-", "date": "2026-07-11", "cat": "deck" },
+        { "code": "ST-32", "nameTh": "สตาร์ทเตอร์เด็ค -เขียว โรโรโนอา โซโร-", "nameEn": "Starter Deck -Green Roronoa Zoro-", "date": "2026-07-11", "cat": "deck" },
+        { "code": "ST-33", "nameTh": "สตาร์ทเตอร์เด็ค -ฟ้า คุซัง-", "nameEn": "Starter Deck -Blue Kuzan-", "date": "2026-07-11", "cat": "deck" },
+        { "code": "ST-34", "nameTh": "สตาร์ทเตอร์เด็ค -ม่วง ชาร์ลอตต์ คาตาคุริ-", "nameEn": "Starter Deck -Purple Charlotte Katakuri-", "date": "2026-07-11", "cat": "deck" },
+        { "code": "ST-35", "nameTh": "สตาร์ทเตอร์เด็ค -แดง/ดำ ซาโบ-", "nameEn": "Starter Deck -Red/Black Sabo-", "date": "2026-07-11", "cat": "deck" },
+        { "code": "ST-36", "nameTh": "สตาร์ทเตอร์เด็ค -เหลือง ยูสตัส \"กัปตัน\" คิด-", "nameEn": "Starter Deck -Yellow Eustass \"Captain\" Kid-", "date": "2026-07-11", "cat": "deck" },
+        { "code": "EB-05", "nameTh": "เอ็กซ์ตร้า บูสเตอร์ -One Piece Heroines Edition vol.2-", "nameEn": "Extra Booster -ONE PIECE Heroines Edition vol.2-", "date": "2026-10-01", "cat": "extra" }
+      ],
+      "box_prices": {
+        "OP-01": { "usd": 145, "thb": 4800, "hot": false }, "OP-02": { "usd": 105, "thb": 3500, "hot": false },
+        "OP-03": { "usd": 85, "thb": 2800, "hot": false }, "OP-04": { "usd": 88, "thb": 2900, "hot": false },
+        "OP-05": { "usd": 490, "thb": 16500, "hot": true }, "OP-06": { "usd": 85, "thb": 2800, "hot": false },
+        "OP-07": { "usd": 95, "thb": 3200, "hot": false }, "OP-08": { "usd": 110, "thb": 3700, "hot": false },
+        "OP-09": { "usd": 135, "thb": 4500, "hot": true }, "OP-10": { "usd": 92, "thb": 3100, "hot": false },
+        "OP-11": { "usd": 90, "thb": 3000, "hot": false }, "OP-12": { "usd": 100, "thb": 3400, "hot": false },
+        "OP-13": { "usd": 195, "thb": 6500, "hot": true }, "OP-16": { "usd": 88, "thb": 2950, "hot": false },
+        "EB-01": { "usd": 95, "thb": 3200, "hot": false }, "EB-02": { "usd": 90, "thb": 3000, "hot": false },
+        "EB-03": { "usd": 85, "thb": 2850, "hot": false }, "PRB-01": { "usd": 220, "thb": 7400, "hot": false },
+        "PRB-02": { "usd": 210, "thb": 7000, "hot": false }
+      },
+      "set_category_map": { "extra": ["EB-01", "EB-02", "EB-03", "OP14-EB04", "OP15-EB04"], "premium": ["PRB-01", "PRB-02"], "deck_prefix": "ST-" },
+      "list_note": null
+    },
+    "lorcana": {
+      "slug": "lorcana",
+      "display_name": "Disney Lorcana",
+      "short_name": "Lorcana",
+      "tile_name": "LORCANA",
+      "theme_color": "#3b6fe0",
+      "icon": "🌊",
+      "status": "active",
+      "id_prefixes": ["LOR"],
+      "data_paths": {
+        "cards": "data/lorcana/cards.json",
+        "prices": "data/lorcana/prices.json",
+        "sets": "data/lorcana/sets.json",
+        "products": "data/lorcana/products.json",
+        "characters": "data/lorcana/characters.json",
+        "search_index": "search/lorcana-index.json"
+      },
+      "image_mode": "external",
+      "image_base_path": "images/lorcana/",
+      "supported_fields": {
+        "cost": true, "ink": true, "inkwell": true, "strength": true,
+        "willpower": true, "lore": true, "franchise": true, "artist": true,
+        "color": true, "type": true, "flavor": true
+      },
+      "card_detail_layout": {
+        "stats": [
+          { "key": "card_cost", "label": "Ink Cost" },
+          { "key": "strength", "label": "⚔ Strength" },
+          { "key": "willpower", "label": "🛡 Willpower" },
+          { "key": "lore", "label": "◆ Lore" },
+          { "key": "inkwell", "type": "boolean", "true_label": "⭕ Inkwell", "false_label": "∅ No Inkwell" },
+          { "key": "card_color" },
+          { "key": "card_type" },
+          { "key": "rarity_name", "skip_if_equals": "rarity" }
+        ],
+        "meta_line": [
+          { "key": "story", "icon": "🏰" },
+          { "key": "artist", "icon": "🎨" }
+        ],
+        "flavor_key": "flavor_text"
+      },
+      "rarity_list": ["C", "UC", "R", "SR", "LG", "EN", "EP", "IC", "SP"],
+      "rarity_labels": {
+        "C": "Common", "UC": "Uncommon", "R": "Rare", "SR": "Super Rare",
+        "LG": "Legendary", "EN": "Enchanted", "EP": "Epic", "IC": "Iconic", "SP": "Special"
+      },
+      "filter_groups": {
+        "categories": ["Character", "Enchanted"],
+        "set_categories": [
+          { "k": "all", "th": "ทั้งหมด", "en": "All" },
+          { "k": "booster", "th": "Main Expansion", "en": "Main Expansion" },
+          { "k": "quest", "th": "Illumineer's Quest", "en": "Illumineer's Quest" }
+        ],
+        "show_language_filter": false
+      },
+      "price_policy": {
+        "type": "finish",
+        "edition_badge": "EN",
+        "fallback_order": ["normal", "cold-foil", "holofoil"],
+        "finish_labels": { "normal": "Normal", "cold-foil": "Cold Foil", "holofoil": "Holofoil" },
+        "price_source_label": { "th": "ราคาตลาด EN (TCGPlayer)", "en": "EN Market Price (TCGPlayer)" }
+      },
+      "product_types": ["Booster Box", "Booster Pack", "Starter Deck", "Illumineer's Trove", "Gift Set", "Illumineer's Quest", "Prerelease Pack", "Special"],
+      "character_grouping": "character_and_franchise",
+      "character_match": "character_name",
+      "characters_from_file": true,
+      "character_hub_include_unpriced": true,
+      "search_fields": ["card_name", "card_set_id", "set_name", "character_name", "story", "product_name"],
+      "collection_fields": ["card_name", "rarity", "price", "finish"],
+      "compare_fields": ["price", "rarity", "strength", "willpower", "lore"],
+      "set_overview_fields": ["description", "featured_characters", "db_selector", "distribution", "chase", "products"],
+      "coming_soon_source": "sets",
+      "box_prices": {},
+      "set_category_map": { "quest": ["LOR-Q1", "LOR-Q2", "LOR-Q3"] },
+      "list_note": {
+        "th": "🌊 <strong>Disney Lorcana</strong> · {count} ใบ · ราคาจาก <strong>TCGPlayer</strong> (EN) · ราคาไล่จาก Normal → Cold Foil → Holofoil",
+        "en": "🌊 <strong>Disney Lorcana</strong> · {count} cards · Prices from <strong>TCGPlayer</strong> (EN) · Price finish fallback: Normal → Cold Foil → Holofoil"
+      }
+    },
+    "pokemon": {
+      "slug": "pokemon",
+      "display_name": "Pokémon Trading Card Game",
+      "short_name": "Pokémon",
+      "tile_name": "POKÉMON",
+      "theme_color": "#64748b",
+      "icon": "✦",
+      "status": "coming_soon"
+    },
+    "naruto": {
+      "slug": "naruto",
+      "display_name": "Naruto Card Game",
+      "short_name": "Naruto",
+      "tile_name": "NARUTO",
+      "theme_color": "#64748b",
+      "icon": "🔥",
+      "status": "coming_soon"
+    }
+  }
+}
