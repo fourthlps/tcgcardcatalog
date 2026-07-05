@@ -3669,7 +3669,6 @@ function openAllCards(lang){
   lang=(lang==='jp'||lang==='en')?lang:S.cardLang;
   S.setCode=null;
   S.cardLang=lang;
-  localStorage.setItem('voyage_edition',S.cardLang);
   S.cardReturn=()=>show('view-cards');  // back from a card returns here
   document.getElementById('card-srch').value='';
   document.getElementById('sort-sel').value='price-desc';
