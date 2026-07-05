@@ -134,6 +134,25 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .sdrop-item-meta{font-size:11px;color:var(--faint);flex-shrink:0}
 .sdrop-more{font-size:12px;color:var(--gold);text-align:center;padding:10px 14px;cursor:pointer;font-weight:600;border-top:1px solid var(--border)}
 .sdrop-more:hover{background:var(--bg3)}
+.sdrop-thumb{width:32px;height:32px;border-radius:5px;object-fit:contain;flex-shrink:0;background:var(--bg3)}
+/* Recently viewed / character strips */
+.recent-row,.chars-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;-ms-overflow-style:none;scrollbar-width:none}
+.recent-row::-webkit-scrollbar,.chars-row::-webkit-scrollbar{display:none}
+.recent-card{flex:0 0 110px;background:var(--bg2);border:1px solid var(--bord1);border-radius:11px;overflow:hidden;cursor:pointer;transition:border-color .13s,box-shadow .13s}
+.recent-card:hover{border-color:var(--gold);box-shadow:var(--shadow-hover)}
+.recent-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.recent-card-body{padding:6px 8px 8px}
+.recent-card-name{font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-card-price{font-size:11px;color:var(--gold);margin-top:2px}
+.char-chip{flex:0 0 auto;background:var(--bg2);border:1px solid var(--bord1);border-radius:99px;padding:8px 18px;cursor:pointer;transition:border-color .13s,background .13s;text-align:center}
+.char-chip:hover{border-color:var(--gold);background:var(--golds)}
+.char-chip-name{font-size:13px;font-weight:700;color:var(--text)}
+.char-chip-sub{font-size:10px;color:var(--faint);margin-top:2px}
+/* Collection controls */
+.coll-ctrl-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.coll-ctrl-sel{background:var(--bg2);border:1px solid var(--bord2);color:var(--text);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+.coll-copy-btn{background:var(--bg2);border:1px solid var(--bord2);color:var(--gold);border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;transition:border-color .13s}
+.coll-copy-btn:hover{border-color:var(--gold)}
 /* Search results page */
 .srch-section{margin-bottom:32px}
 .srch-section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
@@ -1203,7 +1222,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
         </h1>
         <p class="sub t" data-th="ค้นหาราคาการ์ด เช็คชุดการ์ด วิเคราะห์แนวโน้ม และเปิดโลกการ์ดที่คุณหลงรัก" data-en="Search card prices, check sets, analyze trends, and explore the cards you love.">ค้นหาราคาการ์ด เช็คชุดการ์ด วิเคราะห์แนวโน้ม และเปิดโลกการ์ดที่คุณหลงรัก</p>
         <div class="search-box">
-          <input id="gsearch" class="t" data-th-ph="ค้นหาการ์ด, ชุด, ชื่อตัวละคร, รหัสการ์ด..." data-en-ph="Search cards, sets, characters, card codes..." placeholder="ค้นหาการ์ด, ชุด, ชื่อตัวละคร, รหัสการ์ด..." onkeydown="if(event.key==='Enter')doSearch()">
+          <input id="gsearch" class="t" data-th-ph="ค้นหาการ์ด, ชุด, ชื่อตัวละคร, รหัสการ์ด..." data-en-ph="Search cards, sets, characters, card codes..." placeholder="ค้นหาการ์ด, ชุด, ชื่อตัวละคร, รหัสการ์ด..." oninput="hdrSearchInput(this.value)" onkeydown="if(event.key==='Enter')doSearch()">
           <button onclick="doSearch()">🔍</button>
         </div>
         <div class="pop-chips" id="pop-chips"></div>
@@ -1219,6 +1238,20 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     <div class="wrap">
       <div class="sec-head"><h2 class="t" data-th="เลือกเกมการ์ด" data-en="Browse Games">เลือกเกมการ์ด</h2></div>
       <div class="games-row" id="games-row"></div>
+    </div>
+  </section>
+
+  <section class="section" id="recent-section" style="display:none">
+    <div class="wrap">
+      <div class="sec-head"><h2 class="t" data-th="ดูล่าสุด" data-en="Recently Viewed">ดูล่าสุด</h2><span class="sec-link t" data-th="ล้าง" data-en="Clear" onclick="clearRecent()">ล้าง</span></div>
+      <div class="recent-row" id="recent-row"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head"><h2 class="t" data-th="ตัวละครยอดนิยม" data-en="Popular Characters">ตัวละครยอดนิยม</h2><span class="sec-link t" data-th="ค้นหาตัวละคร →" data-en="Browse →" onclick="document.getElementById('gsearch').value='';document.getElementById('gsearch').focus()">ค้นหาตัวละคร →</span></div>
+      <div class="chars-row" id="chars-row"></div>
     </div>
   </section>
 
@@ -2103,7 +2136,7 @@ function jpRefPrice(c){
 }
 function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span class="live" onclick="goHome()">'+( S.lang==='th'?'หน้าแรก':'Home')+'</span>'+html;}
 
-function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();renderChase();renderBoxes();}
+function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();renderChase();renderBoxes();renderRecent();renderChars();}
 
 function renderStats(){
   const cards=flat();
@@ -2651,6 +2684,59 @@ function renderBoxes(){
   }).join('');
 }
 
+// ─── FEATURE 4: HOMEPAGE INTELLIGENCE ───────────────────────────────────────
+const LS_RECENT='voyage_recent';
+function _recentGet(){try{return JSON.parse(localStorage.getItem(LS_RECENT)||'[]');}catch{return[];}}
+function _recentAdd(imgId){
+  let a=_recentGet().filter(x=>x!==imgId);
+  a.unshift(imgId);
+  if(a.length>12)a=a.slice(0,12);
+  localStorage.setItem(LS_RECENT,JSON.stringify(a));
+}
+function clearRecent(){
+  localStorage.removeItem(LS_RECENT);
+  const sec=document.getElementById('recent-section');
+  if(sec)sec.style.display='none';
+}
+function renderRecent(){
+  const ids=_recentGet();
+  const sec=document.getElementById('recent-section');
+  const row=document.getElementById('recent-row');
+  if(!sec||!row)return;
+  if(!ids.length){sec.style.display='none';return;}
+  const hits=ids.map(id=>cardByImgId(id)).filter(Boolean);
+  if(!hits.length){sec.style.display='none';return;}
+  sec.style.display='';
+  const L=S.lang;
+  row.innerHTML=hits.map(({card:c,code})=>`
+    <div class="recent-card" onclick="jumpCard('${code}','${c.card_image_id}')">
+      <img src="${c.card_image||''}" loading="lazy" onerror="this.style.display='none'">
+      <div class="recent-card-body">
+        <div class="recent-card-name">${chaseBase(c.card_name)}</div>
+        <div class="recent-card-price">${fpL(editionPriceThb(c)/activeFx(),editionPriceThb(c))}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ─── FEATURE 3: CHARACTER HUB STRIP ─────────────────────────────────────────
+function renderChars(){
+  const row=document.getElementById('chars-row');
+  if(!row)return;
+  const L=S.lang;
+  const charMap=buildCharMap();
+  const isJP=S.cardLang==='jp';
+  // Sort by card count in current edition, take top 20
+  const sorted=Object.values(charMap)
+    .filter(ch=>isJP?ch.jpCount>0:ch.enCount>0)
+    .sort((a,b)=>(isJP?b.jpCount-a.jpCount:b.enCount-a.enCount))
+    .slice(0,20);
+  row.innerHTML=sorted.map(ch=>`
+    <div class="char-chip" onclick="openCharacter('${ch.name.replace(/'/g,"\\'")}')">
+      <div class="char-chip-name">${ch.name}</div>
+      <div class="char-chip-sub">${ch.sets.length} ${L==='th'?'ชุด':'sets'}</div>
+    </div>`).join('');
+}
+
 function openBoxProduct(setCode){
   const p=D.products.find(x=>x.set_code===setCode&&x.product_type==='Booster Box'&&x.language==='JP');
   if(p)openProduct(p.product_id);
@@ -3062,14 +3148,20 @@ function doSearch(){
   // Sets
   const sets=D.index.filter(s=>s.code.toLowerCase().includes(q)||s.name.toLowerCase().includes(q));
 
-  // Cards
-  const cards=[];
+  // Cards — ranked: name starts-with > word starts-with > code match > name contains
+  const cardRaw=[];
   Object.entries(D.cache).forEach(([code,cardList])=>{cardList.forEach(c=>{
+    const n=c.card_name.toLowerCase();
     const setId=(c.card_set_id||'').toLowerCase();
-    const nameMatch=c.card_name.toLowerCase().includes(q);
-    const codeMatch=setId.includes(q)||(qNorm.length>=3&&setId.replace(/[^a-z0-9]/g,'').includes(qNorm));
-    if(nameMatch||codeMatch)cards.push({code,card:c});
+    const nameStarts=n.startsWith(q)?0:null;
+    const wordStarts=n.split(/\s+/).some(w=>w.startsWith(q))?1:null;
+    const codeMatch=(setId.includes(q)||(qNorm.length>=3&&setId.replace(/[^a-z0-9]/g,'').includes(qNorm)))?2:null;
+    const nameContains=n.includes(q)?3:null;
+    const rank=nameStarts??wordStarts??codeMatch??nameContains??null;
+    if(rank!==null)cardRaw.push({rank,code,card:c});
   });});
+  cardRaw.sort((a,b)=>a.rank-b.rank);
+  const cards=cardRaw.map(({code,card})=>({code,card}));
 
   // Products
   const _t=f=>f?(S.lang==='th'?f.th:f.en)||f.en||f.th||'':'';
@@ -3272,17 +3364,21 @@ function renderSrchDrop(q){
     }
   });
 
-  // Cards (max 3)
-  let cc=0;
-  outer:for(const [code,cardList] of Object.entries(D.cache)){
+  // Cards (max 5, ranked: name-starts-with > word-starts-with > contains)
+  const cardHits=[];
+  for(const [code,cardList] of Object.entries(D.cache)){
     for(const c of cardList){
-      if(cc>=3)break outer;
-      if(c.card_name.toLowerCase().includes(q)){
-        items.push({cat:'card',label:c.card_name,meta:`${c.card_set_id||''} · ${c.rarity||''}`,badge:editionBadge(cardEdition(c,'all')),fn:`jumpCard('${code}','${c.card_image_id}')`});
-        cc++;
-      }
+      const n=c.card_name.toLowerCase();
+      if(!n.includes(q))continue;
+      const rank=n.startsWith(q)?0:n.split(/\s+/).some(w=>w.startsWith(q))?1:2;
+      cardHits.push({rank,code,c});
     }
   }
+  cardHits.sort((a,b)=>a.rank-b.rank);
+  cardHits.slice(0,5).forEach(({code,c})=>{
+    const price=fpL(editionPriceThb(c)/activeFx(),editionPriceThb(c));
+    items.push({cat:'card',label:c.card_name,meta:`${c.card_set_id||''} · ${c.rarity||''} · ${price}`,img:c.card_image||'',badge:editionBadge(cardEdition(c,'all')),fn:`jumpCard('${code}','${c.card_image_id}')`});
+  });
 
   if(!items.length){closeSrchDrop();return;}
 
@@ -3291,6 +3387,7 @@ function renderSrchDrop(q){
   for(const it of items){
     if(it.cat!==lastCat){html+=`<div class="sdrop-cat">${catLabel[it.cat]}</div>`;lastCat=it.cat;}
     html+=`<div class="sdrop-item" onclick="closeSrchDrop();${it.fn}">
+      ${it.img?`<img class="sdrop-thumb" src="${it.img}" onerror="this.style.display='none'">`:''}
       <span class="sdrop-item-name">${it.badge?it.badge+' ':''}${it.label}</span>
       <span class="sdrop-item-meta">${it.meta}</span>
     </div>`;
@@ -4247,11 +4344,19 @@ function openCollection(tab){
   renderCollectionView(_collTab); show('view-collection'); closeMobileMenu&&closeMobileMenu();
 }
 function switchCollTab(tab){_collTab=tab;renderCollectionView(tab);}
+let _collSort='price-desc', _collSetFilter='';
 function renderCollectionView(tab){
   const L=S.lang;
   const collIds=_lsGet(LS_COLLECTION), wishIds=_lsGet(LS_WISHLIST);
   const ids=tab==='wishlist'?wishIds:collIds;
-  const items=ids.map(cardByImgId).filter(Boolean);
+  let items=ids.map(cardByImgId).filter(Boolean);
+  // Apply set filter
+  if(_collSetFilter)items=items.filter(({code})=>code===_collSetFilter);
+  // Apply sort
+  if(_collSort==='price-desc')items.sort((a,b)=>editionPriceThb(b.card)-editionPriceThb(a.card));
+  else if(_collSort==='price-asc')items.sort((a,b)=>editionPriceThb(a.card)-editionPriceThb(b.card));
+  else if(_collSort==='name')items.sort((a,b)=>a.card.card_name.localeCompare(b.card.card_name));
+  else if(_collSort==='set')items.sort((a,b)=>a.code.localeCompare(b.code));
   const sumVal=arr=>arr.map(cardByImgId).filter(Boolean).reduce((s,x)=>s+editionPriceThb(x.card),0);
   const collVal=sumVal(collIds), wishVal=sumVal(wishIds);
   const tabBtn=(k,l,n)=>`<button class="coll-tab${tab===k?' on':''}" onclick="switchCollTab('${k}')">${l} <span class="coll-tab-n">${n}</span></button>`;
@@ -4296,7 +4401,30 @@ function renderCollectionView(tab){
       <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่า Wishlist':'Wishlist Value'}</div><div class="coll-sum-val">${fpL(0,wishVal)}</div><div class="coll-sum-sub">${wishIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
     </div>
     <div class="coll-tabs">${tabBtn('collection',L==='th'?'📦 คอลเลกชัน':'📦 Collection',collIds.length)}${tabBtn('wishlist',L==='th'?'♡ Wishlist':'♡ Wishlist',wishIds.length)}${tabBtn('sets',L==='th'?'📊 ความครบชุด':'📊 Set Progress',setsWithCards)}</div>
+    ${tab!=='sets'?`<div class="coll-ctrl-row">
+      <select class="coll-ctrl-sel" onchange="_collSort=this.value;renderCollectionView(_collTab)">
+        <option value="price-desc"${_collSort==='price-desc'?' selected':''}>${L==='th'?'ราคา: สูง→ต่ำ':'Price: High→Low'}</option>
+        <option value="price-asc"${_collSort==='price-asc'?' selected':''}>${L==='th'?'ราคา: ต่ำ→สูง':'Price: Low→High'}</option>
+        <option value="name"${_collSort==='name'?' selected':''}>${L==='th'?'ชื่อ A-Z':'Name A-Z'}</option>
+        <option value="set"${_collSort==='set'?' selected':''}>${L==='th'?'ชุดการ์ด':'By Set'}</option>
+      </select>
+      <select class="coll-ctrl-sel" onchange="_collSetFilter=this.value;renderCollectionView(_collTab)">
+        <option value="">${L==='th'?'ทุกชุด':'All Sets'}</option>
+        ${[...new Set(ids.map(id=>{const h=cardByImgId(id);return h?h.code:null;}).filter(Boolean))].sort().map(code=>`<option value="${code}"${_collSetFilter===code?' selected':''}>${code}</option>`).join('')}
+      </select>
+      <button class="coll-copy-btn" onclick="copyCollection(${JSON.stringify(tab)})">${L==='th'?'📋 คัดลอกรายการ':'📋 Copy List'}</button>
+    </div>`:''}
     ${grid}`;
+}
+
+function copyCollection(tab){
+  const ids=_lsGet(tab==='wishlist'?LS_WISHLIST:LS_COLLECTION);
+  const lines=ids.map(id=>{const h=cardByImgId(id);if(!h)return null;const c=h.card;return `${c.card_name} (${c.card_set_id||h.code}) ${fpL(editionPriceThb(c)/activeFx(),editionPriceThb(c))}`;}).filter(Boolean);
+  if(!lines.length)return;
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>{
+    const btn=document.querySelector('.coll-copy-btn');
+    if(btn){const orig=btn.textContent;btn.textContent=S.lang==='th'?'✓ คัดลอกแล้ว':'✓ Copied!';setTimeout(()=>{btn.textContent=orig;},2000);}
+  }).catch(()=>{});
 }
 
 // ─── ADMIN DASHBOARD (read-only platform health + catalog QA) ────────────────
@@ -4548,6 +4676,7 @@ function priceHistoryChart(c){
 
 function openCard(idx){
   const c=S.shown[idx];S.lastIdx=idx;
+  if(c&&c.card_image_id)_recentAdd(c.card_image_id);
   const L=S.lang;
   // Back returns to wherever the card was opened from (search results, etc.);
   // defaults to the set card-list when there's no special origin.
