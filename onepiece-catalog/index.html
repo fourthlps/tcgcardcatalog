@@ -4281,8 +4281,8 @@ function renderCollectionView(tab){
   document.getElementById('collection-content').innerHTML=`
     <h1 class="page-ttl serif">${L==='th'?'การ์ดของฉัน':'My Cards'}</h1>
     <div class="coll-summary">
-      <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่าคอลเลกชัน':'Collection Value'}</div><div class="coll-sum-val">${fpL(collVal)}</div><div class="coll-sum-sub">${collIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
-      <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่า Wishlist':'Wishlist Value'}</div><div class="coll-sum-val">${fpL(wishVal)}</div><div class="coll-sum-sub">${wishIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
+      <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่าคอลเลกชัน':'Collection Value'}</div><div class="coll-sum-val">${fpL(0,collVal)}</div><div class="coll-sum-sub">${collIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
+      <div class="coll-sum-card"><div class="coll-sum-lbl">${L==='th'?'มูลค่า Wishlist':'Wishlist Value'}</div><div class="coll-sum-val">${fpL(0,wishVal)}</div><div class="coll-sum-sub">${wishIds.length} ${L==='th'?'ใบ':'cards'}</div></div>
     </div>
     <div class="coll-tabs">${tabBtn('collection',L==='th'?'📦 คอลเลกชัน':'📦 Collection',collIds.length)}${tabBtn('wishlist',L==='th'?'♡ Wishlist':'♡ Wishlist',wishIds.length)}${tabBtn('sets',L==='th'?'📊 ความครบชุด':'📊 Set Progress',setsWithCards)}</div>
     ${grid}`;
