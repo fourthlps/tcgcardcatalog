@@ -2180,7 +2180,7 @@ function show(id){
   const art=document.getElementById('site-art');
   if(art)art.className='home-art'+(id==='view-home'?'':' home-art--inner');
 }
-function goHome(){S.cardReturn=null;show('view-home');}
+function goHome(){S.cardReturn=null;S.cardLang=localStorage.getItem('voyage_edition_v2')||'jp';show('view-home');}
 function jumpChaseSection(){openChasePage();}
 
 // ─── CHASE CARDS PAGE ────────────────────────────────────────────────────────
@@ -4024,8 +4024,7 @@ function openSetOverview(code){
 
   // ── 3. CARD DATABASE SELECTOR ──────────────────────────────────────────────
   // EN releases: OP-01 through OP-13 have confirmed English releases.
-  const EN_RELEASED=['OP-01','OP-02','OP-03','OP-04','OP-05','OP-06','OP-07','OP-08','OP-09','OP-10','OP-11','OP-12','OP-13'];
-  const hasEN=EN_RELEASED.includes(code)&&cards.length>0;
+  const hasEN=cards.length>0&&cards.some(c=>realPrice(c)>0||!!marketFor(c,'EN'));
   const jpCard=cards.length?`<div class="set-ov-db-card jp" onclick="openSet('${code}')">
     <div class="set-ov-db-flag">🇯🇵</div>
     <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดญี่ปุ่น':'Japanese Card Database'}</div>
