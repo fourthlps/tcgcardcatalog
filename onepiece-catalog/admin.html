@@ -508,18 +508,50 @@ function setupBanner(){
 async function loadStatus(){
   try{const r=await fetch(DATA_PATH+'data/status.json?_='+Date.now());D.status=r.ok?await r.json():null;}catch{D.status=null;}
 }
+// Multi-game (2026-07-06): cards and prices are loaded for EVERY active game
+// from config/games.json data_paths, so the Card Database, Data Quality and
+// Price Overrides sections cover One Piece + Lorcana (+ future games) alike.
+// Card ids are game-prefixed and unique, so one merged list/map is safe.
+async function loadGamesConfig(){
+  if(D._gamesCfg!==undefined)return D._gamesCfg;
+  try{
+    const r=await fetch(DATA_PATH+'config/games.json?_='+Date.now());
+    const j=await r.json();
+    D._gamesCfg=Object.values(j.games||{}).filter(g=>g.status==='active');
+  }catch{D._gamesCfg=null;}
+  return D._gamesCfg;
+}
 async function loadCards(){
   if(_cardsLoaded)return;
-  try{
-    const r=await fetch(DATA_PATH+'one_piece_OP01-OP16_with_prices.json?_='+Date.now());
-    const raw=await r.json();
-    D.cards=Object.values(raw).flat();
-    _cardsLoaded=true;
-  }catch{D.cards=[];}
+  D.cards=[];
+  const games=await loadGamesConfig();
+  const srcs=games&&games.length
+    ?games.map(g=>g.data_paths&&g.data_paths.cards).filter(Boolean)
+    :['one_piece_OP01-OP16_with_prices.json'];   // legacy fallback
+  for(const src of srcs){
+    try{
+      const r=await fetch(DATA_PATH+src+'?_='+Date.now());
+      const raw=await r.json();
+      D.cards=D.cards.concat(Object.values(raw).flat());
+    }catch{}
+  }
+  _cardsLoaded=D.cards.length>0;
 }
 async function loadMarkets(){
   if(D._marketsLoaded)return;
-  try{const r=await fetch(DATA_PATH+'card-markets.json?_='+Date.now());const j=await r.json();D.markets=j.markets||{};D._marketsLoaded=true;}catch{D.markets={};}
+  D.markets={};
+  const games=await loadGamesConfig();
+  const srcs=games&&games.length
+    ?games.map(g=>g.data_paths&&g.data_paths.prices).filter(Boolean)
+    :['card-markets.json'];                      // legacy fallback
+  for(const src of srcs){
+    try{
+      const r=await fetch(DATA_PATH+src+'?_='+Date.now());
+      const j=await r.json();
+      Object.assign(D.markets,j.markets||{});
+    }catch{}
+  }
+  D._marketsLoaded=true;
 }
 async function loadSets(){
   if(D.sets.length)return;
