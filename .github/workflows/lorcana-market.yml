@@ -27,12 +27,20 @@ jobs:
         working-directory: onepiece-catalog
         run: python ../scripts/update_lorcana_prices.py
 
+      # Regenerate homepage showcase files for BOTH games so the platform
+      # homepage always reflects fresh prices (runs after the 18:00 UTC
+      # One Piece update, so its numbers are current too).
+      - name: Regenerate homepage showcases
+        run: node scripts/gen_showcase.js
+
       - name: Commit and push if changed
         run: |
           git config user.name "price-update-bot"
           git config user.email "actions@github.com"
           git add onepiece-catalog/data/lorcana/prices.json
           git add onepiece-catalog/data/lorcana/products.json
+          git add onepiece-catalog/data/lorcana/showcase.json
+          git add onepiece-catalog/data/one-piece/showcase.json
           git diff --staged --quiet || git commit -m "Auto-update Lorcana prices $(date +'%Y-%m-%d')"
           git push
 
