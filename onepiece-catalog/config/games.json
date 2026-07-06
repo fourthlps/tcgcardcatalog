@@ -69,6 +69,7 @@
         "price_source_label": { "th": "ราคาตลาด EN (TCGPlayer)", "en": "EN Market Price (TCGPlayer)" }
       },
       "product_types": ["Booster Box", "Booster Pack", "Starter Deck", "Double Pack", "Gift Collection", "Premium Booster"],
+      "admin_coverage_market": "JP",
       "character_grouping": "character",
       "character_match": "name_base",
       "characters_from_file": false,
