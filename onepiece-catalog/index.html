@@ -4599,12 +4599,18 @@ function marketCard(m,L,c){
     </div>`;
   }
   if(m.source_market==='JP'){
+    const jpLabel=m._is_override
+      ?(L==='th'?'ราคาอ้างอิง JP (Mercari)':'JP Reference Price (Mercari)')
+      :(L==='th'?'ราคาอ้างอิงญี่ปุ่น':'JP Retail Reference');
+    const jpNote=m._is_override
+      ?(L==='th'?'ราคาอ้างอิงจากตลาดมือสองญี่ปุ่น (Mercari) ไม่รวมค่าจัดส่งและค่านำเข้า':'Secondary market reference price from Mercari Japan. Does not include shipping or import costs.')
+      :(L==='th'?'แปลงจากราคาขายปลีกในญี่ปุ่น ไม่รวมค่าจัดส่ง ภาษี ค่านำเข้า หรือส่วนต่างราคาตลาดไทย':'Converted from Japanese retail pricing. Does not include shipping, tax, import cost, or Thai market premium.');
     return `<div class="mkt-card mkt-jp">
-      <div class="mkt-head"><span class="mkt-label">🇯🇵 ${L==='th'?'ราคาอ้างอิงญี่ปุ่น':'JP Retail Reference'}</span>${confBadge(m.confidence)}</div>
+      <div class="mkt-head"><span class="mkt-label">🇯🇵 ${jpLabel}</span>${confBadge(m.confidence)}</div>
       <div class="mkt-val">¥${Math.round(m.source_price).toLocaleString()}</div>
       ${m.converted_price>0?`<div class="mkt-est">≈ ฿${Math.round(m.converted_price).toLocaleString('th-TH')} <span class="mkt-est-tag">${L==='th'?'ประมาณการ':'Estimated'}</span></div>`:''}
-      <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}</div>
-      <div class="mkt-note"><span class="mkt-note-ic">ℹ️</span><span>${L==='th'?'แปลงจากราคาขายปลีกในญี่ปุ่น ไม่รวมค่าจัดส่ง ภาษี ค่านำเข้า หรือส่วนต่างราคาตลาดไทย':'Converted from Japanese retail pricing. Does not include shipping, tax, import cost, or Thai market premium.'}</span></div>
+      <div class="mkt-src">${L==='th'?'ที่มา':'Source'}: ${m.source_name} · ${m.price_type}${m.last_updated?` · ${m.last_updated}`:''}</div>
+      <div class="mkt-note"><span class="mkt-note-ic">ℹ️</span><span>${jpNote}</span></div>
     </div>`;
   }
   if(m.source_market==='TH'){
@@ -4659,6 +4665,18 @@ function renderMarkets(c){
   // market dataset hasn't loaded (or this card isn't in it yet).
   if(!entries.length&&Number(c.market_price)>0){
     entries=[{source_market:'EN',source_name:'TCGPlayer',source_currency:'USD',source_price:Number(c.market_price),price_type:'Market Price',confidence:'High'}];
+  }
+  // JP mode with no JP market entry: synthesize from override_jp if available.
+  // This covers Manga/Comic Parallel cards that have admin price overrides but
+  // no pipeline JP market data.
+  if(S.cardLang==='jp'&&!entries.some(m=>m.source_market==='JP')){
+    const ov=_getOverride(c);
+    if(ov&&ov.override_jp>0){
+      const jpy=Number(ov.override_jp);
+      entries.unshift({source_market:'JP',source_name:'Mercari JP',source_currency:'JPY',
+        source_price:jpy,converted_price:Math.round(jpy*activeJpyFx()),
+        price_type:'Reference Price',confidence:'Medium',_is_override:true});
+    }
   }
   if(!entries.length)return `<div class="mkt-card"><div class="mkt-label">${L==='th'?'ยังไม่มีข้อมูลราคา':'No price data yet'}</div></div>`;
   // Pick the version that matches the current language context; if that version
