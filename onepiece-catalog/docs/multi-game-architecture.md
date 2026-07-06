@@ -1,6 +1,10 @@
 # Voyage Log — Multi-Game Architecture
 
-> Version 1.0 · 2026-07-06 · Refactor by FIFTH (approved scope: config-driven unlimited-TCG support)
+> Version 1.1 · 2026-07-06 · Refactor by FIFTH (approved scope: config-driven unlimited-TCG support)
+> v1.1 additions: per-game homepage showcase files (`data/{game}/showcase.json`, regenerated daily
+> by lorcana-market.yml via `scripts/gen_showcase.js`) — the homepage is a platform page composed
+> from showcases, never from full game datasets. Platform meta/OG tags + cross-game search chips
+> + platform-wide stats added after CEOFOURTH post-implementation review.
 > Rule of the architecture: **shared UI never branches on a game slug.** All game behavior comes from `config/games.json`. Game-specific `if` statements are forbidden in shared components; only data (config) decides.
 
 ---
