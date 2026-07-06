@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "generated": "2026-07-06",
   "home_game": "one-piece",
-  "games_order": ["one-piece", "pokemon", "naruto", "lorcana"],
+  "games_order": ["one-piece", "lorcana", "pokemon", "naruto"],
   "games": {
     "one-piece": {
       "slug": "one-piece",
