@@ -20,6 +20,7 @@
         "products": "data/one-piece/products.json",
         "characters": "data/one-piece/characters.json",
         "market": "data/one-piece/market.json",
+        "showcase": "data/one-piece/showcase.json",
         "search_index": "search/one-piece-index.json",
         "trends_gainers": "data/top-gainers.json",
         "trends_losers": "data/top-losers.json",
@@ -116,6 +117,7 @@
         "sets": "data/lorcana/sets.json",
         "products": "data/lorcana/products.json",
         "characters": "data/lorcana/characters.json",
+        "showcase": "data/lorcana/showcase.json",
         "search_index": "search/lorcana-index.json"
       },
       "image_mode": "external",
