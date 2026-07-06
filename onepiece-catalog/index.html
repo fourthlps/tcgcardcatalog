@@ -1904,6 +1904,7 @@ const DEFAULT_CONFIG={
         set_categories:[{k:'all',th:'ทั้งหมด',en:'All'},{k:'booster',th:'Main Booster',en:'Main Booster'},{k:'extra',th:'Extra Booster',en:'Extra Booster'},{k:'premium',th:'Premium Booster',en:'Premium Booster'},{k:'deck',th:'Starter Deck',en:'Starter Deck'}],
         show_language_filter:true},
       price_policy:{type:'edition',editions:['JP','EN'],default_edition:'jp',price_source_label:{th:'ราคาตลาด EN (TCGPlayer)',en:'EN Market Price (TCGPlayer)'}},
+      admin_coverage_market:'JP',
       character_grouping:'character',character_match:'name_base',characters_from_file:false,character_hub_include_unpriced:false,
       coming_soon_source:'static',
       coming_soon:[
@@ -5092,79 +5093,117 @@ function _admCard(label,value,sub,tone){
   return `<div class="adm-card${tone?' adm-'+tone:''}"><div class="adm-card-val">${value}</div><div class="adm-card-lbl">${label}</div>${sub?`<div class="adm-card-sub">${sub}</div>`:''}</div>`;
 }
 function _admBar(pct,tone){return `<div class="adm-bar"><div class="adm-bar-fill${tone?' adm-'+tone:''}" style="width:${Math.max(2,Math.min(100,pct))}%"></div></div>`;}
+// Admin is a cross-game internal tool: load every active game, then render
+// one catalog/price/gaps section PER GAME (config-driven — no slug branching).
 function openAdmin(){
+  const list=document.getElementById('admin-content');
+  if(list&&!Object.values(D.games).every(g=>g.loaded))list.innerHTML='<div class="empty">⏳ Loading all game data…</div>';
+  show('view-admin');
+  ensureAllGames().then(()=>_renderAdmin());
+  closeMobileMenu&&closeMobileMenu();
+}
+// Per-game admin block: coverage from the game's own records; the market/
+// finish breakdown is tallied from whatever labels exist in the price data.
+function _admGameSection(slug,L){
+  const gc=cfg2(slug),g=gd(slug);
+  const all=gameFlat(slug);
+  const total=all.length||1;
+  let priced=0,none=0;
+  const marketTally={};
+  all.forEach(c=>{
+    const recs=marketsFor(c);
+    const legacy=Number(c.market_price)>0;
+    if(recs.length||legacy)priced++;else none++;
+    recs.forEach(m=>{
+      const key=m.source_market+(m.finish?' · '+finishLabel(c,m.finish):'');
+      marketTally[key]=(marketTally[key]||0)+1;
+    });
+  });
+  const prods=(g.products||[]);
+  const prodNoImg=prods.filter(p=>!p.product_image||/NULL/i.test(p.product_image)).length;
+  const gen=(g.pricesMeta||{}).generated;
+  const genDays=gen?Math.floor((Date.now()-new Date(gen).getTime())/86400000):null;
+  // Lowest coverage by set: config admin_coverage_market narrows the lens
+  // (e.g. One Piece watches JP reference coverage); default = any price.
+  const covMkt=gc.admin_coverage_market||null;
+  const covOf=c=>covMkt?!!marketFor(c,covMkt):(marketsFor(c).length>0||Number(c.market_price)>0);
+  const setRows=g.setIndex.map(s=>{
+    const cards=g.cardsBySet[s.code]||[];const tot=cards.length||1;
+    const n=cards.filter(covOf).length;
+    return {code:s.code,tot,n,pct:Math.round(n/tot*100)};
+  }).filter(s=>s.tot>=10).sort((a,b)=>a.pct-b.pct).slice(0,6);
+  const covLabel=covMkt
+    ?(L==='th'?`ชุดที่ ${covMkt} ครอบคลุมน้อยสุด`:`Lowest ${covMkt} Coverage by Set`)
+    :(L==='th'?'ชุดที่มีราคาครอบคลุมน้อยสุด':'Lowest Price Coverage by Set');
+  const tallyHtml=Object.entries(marketTally).sort((a,b)=>b[1]-a[1]).map(([k,v])=>
+    `<span class="adm-badge adm-ok" style="margin:0 6px 6px 0;display:inline-block">${k}: ${v.toLocaleString()}</span>`).join('');
+  return `
+    <div class="adm-sec-lbl" style="margin-top:26px;font-size:14px">${gc.icon||'🃏'} <strong style="color:${gc.theme_color||'inherit'}">${gc.display_name}</strong></div>
+    <div class="adm-grid">
+      ${_admCard(L==='th'?'ชุด':'Sets',g.setIndex.length,'','ok')}
+      ${_admCard(L==='th'?'การ์ด':'Cards',total.toLocaleString(),'','ok')}
+      ${_admCard(L==='th'?'มีราคา':'Priced',Math.round(priced/total*100)+'%',`${priced.toLocaleString()} / ${total.toLocaleString()}`,priced/total>0.9?'ok':'warn')}
+      ${_admCard(L==='th'?'อายุข้อมูลราคา':'Price data age',genDays==null?'—':genDays+'d',gen||'',genDays==null?'warn':(genDays<=1?'ok':(genDays<=3?'warn':'bad')))}
+    </div>
+    <div class="adm-panel" style="margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--faint);margin-bottom:8px">${L==='th'?'บันทึกราคาตามตลาด/ผิวการ์ด':'Price records by market / finish'}</div>
+      ${tallyHtml||'<span style="color:var(--faint);font-size:12px">—</span>'}
+    </div>
+    <div class="adm-grid">
+      ${_admCard(L==='th'?'การ์ดไม่มีราคา':'Cards w/o price',none.toLocaleString(),Math.round(none/total*100)+'%',none?'warn':'ok')}
+      ${_admCard(L==='th'?'สินค้าไม่มีรูป':'Products w/o image',prodNoImg+' / '+prods.length,'',prodNoImg?'warn':'ok')}
+    </div>
+    <div class="adm-sec-lbl" style="font-size:12px">${covLabel}</div>
+    <div class="adm-panel">
+      ${setRows.map(s=>`<div class="adm-set-row"><span class="adm-set-code">${s.code}</span>${_admBar(s.pct,s.pct>=50?'ok':'warn')}<span class="adm-set-pct">${s.pct}% <span style="color:var(--faint)">(${s.n}/${s.tot})</span></span></div>`).join('')||'<span style="color:var(--faint);font-size:12px">—</span>'}
+    </div>`;
+}
+function _renderAdmin(){
   const L=S.lang;
   const st=D.siteStatus||{};
   const api=st.api||{}, hist=st.history||{}, tr=st.trends||{};
-  const all=flat();
-  let en=0,jp=0,both=0,enOnly=0,jpOnly=0,none=0;
-  all.forEach(c=>{
-    const e=!!marketFor(c,'EN')||Number(c.market_price)>0, j=!!marketFor(c,'JP');
-    if(e)en++; if(j)jp++;
-    if(e&&j)both++; else if(e)enOnly++; else if(j)jpOnly++; else none++;
-  });
-  const total=all.length||1;
-  const prods=D.products||[];
-  const prodNoImg=prods.filter(p=>!p.product_image||/NULL/i.test(p.product_image)).length;
-  const mdVerified=(D.marketData||[]).length;
   const daysAgo=st.last_updated?Math.floor((Date.now()-new Date(st.last_updated).getTime())/86400000):null;
   const freshTone=daysAgo==null?'warn':(daysAgo<=1?'ok':(daysAgo<=2?'warn':'bad'));
   const runOk=(st.status==='success'), runTone=runOk?'ok':(st.status==='partial'?'warn':'bad');
   const days=hist.days_collected??tr.history_days_collected??0;
   const need=7, remain=Math.max(0,need-days), trendReady=days>=need;
   const meta=D.marketsMeta||{}, fx=meta.fx||{};
-  // per-set JP coverage gaps (lowest first)
-  const setRows=Object.entries(D.cache).map(([code,cards])=>{
-    const tot=cards.length||1; const jpc=cards.filter(c=>marketFor(c,'JP')).length;
-    return {code,tot,jpc,pct:Math.round(jpc/tot*100)};
-  }).filter(s=>s.tot>=10).sort((a,b)=>a.pct-b.pct).slice(0,8);
+  const homeName=gameLabel(CONFIG.home_game);
+  const activeGames=(CONFIG.games_order||Object.keys(CONFIG.games)).filter(s=>CONFIG.games[s]&&CONFIG.games[s].status==='active');
 
   document.getElementById('admin-content').innerHTML=`
     <div class="adm-head">
       <h1 class="page-ttl serif">${L==='th'?'แดชบอร์ดผู้ดูแล':'Admin Dashboard'}</h1>
       <span class="adm-badge adm-${runTone}">${L==='th'?'การรันล่าสุด':'Last run'}: ${st.status||'?'}</span>
     </div>
-    <p class="adm-sub">${L==='th'?'อ่านอย่างเดียว · สุขภาพแพลตฟอร์มและคุณภาพข้อมูล':'Read-only · platform health & catalog quality'} · ${L==='th'?'อัปเดต':'updated'} ${_relTime(st.last_updated,L)}</p>
+    <p class="adm-sub">${L==='th'?'อ่านอย่างเดียว · สุขภาพแพลตฟอร์มและคุณภาพข้อมูลทุกเกม':'Read-only · platform health & catalog quality across all games'} · ${L==='th'?'อัปเดต':'updated'} ${_relTime(st.last_updated,L)}</p>
 
-    <div class="adm-sec-lbl">⚙️ ${L==='th'?'สถานะ Pipeline':'Pipeline Health'}</div>
+    <div class="adm-sec-lbl">⚙️ ${L==='th'?'สถานะ Pipeline':'Pipeline Health'} · ${homeName}</div>
     <div class="adm-grid">
       ${_admCard(L==='th'?'อายุข้อมูล':'Data Age',daysAgo==null?'—':(daysAgo+'d'),L==='th'?'ตั้งแต่อัปเดตล่าสุด':'since last update',freshTone)}
       ${_admCard(L==='th'?'ชุดที่ดึงสำเร็จ':'Sets Fetched',(api.sets_fetched??'—')+(api.sets_failed?` / ${api.sets_failed} ${L==='th'?'ล้มเหลว':'failed'}`:''),api.source||'',api.sets_failed?'bad':'ok')}
-      ${_admCard(L==='th'?'การ์ดที่มีราคา':'Cards Priced',(api.cards_with_price??en).toLocaleString(),`/ ${(api.total_cards??total).toLocaleString()}`,'ok')}
+      ${_admCard(L==='th'?'การ์ดที่มีราคา':'Cards Priced',(api.cards_with_price??'—').toLocaleString?(api.cards_with_price??0).toLocaleString():'—',`/ ${(api.total_cards??0).toLocaleString()}`,'ok')}
       ${_admCard(L==='th'?'ประวัติราคา':'Price History',days+' '+(L==='th'?'วัน':'days'),hist.last_snapshot_date||'',days>0?'ok':'warn')}
     </div>
 
-    <div class="adm-sec-lbl">📊 ${L==='th'?'ความพร้อมเทรนด์ 7 วัน':'7-Day Trend Readiness'}</div>
+    <div class="adm-sec-lbl">📊 ${L==='th'?'ความพร้อมเทรนด์ 7 วัน':'7-Day Trend Readiness'} · ${homeName}</div>
     <div class="adm-panel">
       ${_admBar(days/need*100, trendReady?'ok':'warn')}
       <div class="adm-panel-row"><span>${days}/${need} ${L==='th'?'วัน':'days'} · ${L==='th'?'ความเชื่อมั่น':'confidence'}: ${tr.confidence||'low'}</span>
         <strong>${trendReady?(L==='th'?'✅ Movers พร้อมแสดง':'✅ Movers ready'):(L==='th'?`Movers พร้อมในอีก ${remain} วัน`:`Movers live in ${remain} day${remain!==1?'s':''}`)}</strong></div>
     </div>
 
-    <div class="adm-sec-lbl">💴 ${L==='th'?'ความครอบคลุมราคา':'Price Coverage'}</div>
-    <div class="adm-grid">
-      ${_admCard('EN',Math.round(en/total*100)+'%',`${en.toLocaleString()} ${L==='th'?'ใบ':'cards'}`,'ok')}
-      ${_admCard('JP',Math.round(jp/total*100)+'%',`${jp.toLocaleString()} ${L==='th'?'ใบ':'cards'}`,jp/total>0.4?'ok':'warn')}
-      ${_admCard(L==='th'?'มีทั้ง EN+JP':'Both EN+JP',both.toLocaleString(),Math.round(both/total*100)+'%','ok')}
-      ${_admCard(L==='th'?'EN เท่านั้น':'EN only',enOnly.toLocaleString(),Math.round(enOnly/total*100)+'%','warn')}
-    </div>
+    ${activeGames.map(slug=>_admGameSection(slug,L)).join('')}
 
-    <div class="adm-sec-lbl">🩹 ${L==='th'?'ช่องว่างข้อมูล':'Data Gaps'}</div>
+    <div class="adm-sec-lbl" style="margin-top:26px">💱 ${L==='th'?'อัตราแลกเปลี่ยน':'Exchange Rates'}</div>
     <div class="adm-grid">
-      ${_admCard(L==='th'?'การ์ดไม่มีราคา':'Cards w/o price',none.toLocaleString(),Math.round(none/total*100)+'%',none?'warn':'ok')}
-      ${_admCard(L==='th'?'สินค้าไม่มีรูป':'Products w/o image',prodNoImg+' / '+prods.length,'',prodNoImg?'warn':'ok')}
-      ${_admCard(L==='th'?'ราคากล่องที่ตรวจสอบ':'Verified box prices',mdVerified.toLocaleString(),'market_data','ok')}
-      ${_admCard(L==='th'?'อัตราแลกเปลี่ยน':'FX (JPY→THB)',fx.jpy_to_thb?fx.jpy_to_thb.toFixed(4):'—',fx.usd_to_thb?`USD→THB ${fx.usd_to_thb}`:'','ok')}
-    </div>
-
-    <div class="adm-sec-lbl">🇯🇵 ${L==='th'?'ชุดที่ JP ครอบคลุมน้อยสุด':'Lowest JP Coverage by Set'}</div>
-    <div class="adm-panel">
-      ${setRows.map(s=>`<div class="adm-set-row"><span class="adm-set-code">${s.code}</span>${_admBar(s.pct,s.pct>=50?'ok':'warn')}<span class="adm-set-pct">${s.pct}% <span style="color:var(--faint)">(${s.jpc}/${s.tot})</span></span></div>`).join('')}
+      ${_admCard('JPY→THB',fx.jpy_to_thb?fx.jpy_to_thb.toFixed(4):'—','card-markets fx','ok')}
+      ${_admCard('USD→THB',fx.usd_to_thb||'—','card-markets fx','ok')}
+      ${_admCard(L==='th'?'ราคากล่องที่ตรวจสอบ':'Verified box prices',(D.marketData||[]).length.toLocaleString(),'market_data','ok')}
+      ${_admCard('FX live',S.fx?S.fx.toFixed(2):'—','frankfurter.app','ok')}
     </div>
 
     <p class="footnote">${L==='th'?'ข้อมูลตลาด ณ':'Market data as of'} ${meta.generated||'—'} · status.json ${st.run_date||''} · ${L==='th'?'คำนวณฝั่ง client':'computed client-side'}</p>`;
-  show('view-admin');
-  closeMobileMenu&&closeMobileMenu();
 }
 
 // Related cards shown on the detail page: other printings of the same card,
