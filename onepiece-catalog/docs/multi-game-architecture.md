@@ -127,3 +127,5 @@ Nothing is deployed yet. After a future deploy: restore `index.pre-lorcana-backu
 7. Search indexes in `/search` are generated artifacts — regenerate when card data changes (see scratchpad `migrate.js` §search).
 
 <!-- build-refresh 2026-07-06T20:08:56.4509531+07:00 -->
+
+<!-- build-refresh 2026-07-06T21:00:23.6198066+07:00 -->
