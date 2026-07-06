@@ -1865,6 +1865,7 @@ const DEFAULT_CONFIG={
         set_categories:[{k:'all',th:'ทั้งหมด',en:'All'},{k:'booster',th:'Main Expansion',en:'Main Expansion'},{k:'quest',th:"Illumineer's Quest",en:"Illumineer's Quest"}],
         show_language_filter:false},
       price_policy:{type:'finish',edition_badge:'EN',fallback_order:['normal','cold-foil','holofoil'],finish_labels:{'normal':'Normal','cold-foil':'Cold Foil','holofoil':'Holofoil'},price_source_label:{th:'ราคาตลาด EN (TCGPlayer)',en:'EN Market Price (TCGPlayer)'}},
+      chase_tiers:{IC:100,EN:90,EP:80,LG:60},
       character_grouping:'character_and_franchise',character_match:'character_name',characters_from_file:true,character_hub_include_unpriced:true,
       coming_soon_source:'sets',box_prices:{},
       set_category_map:{quest:['LOR-Q1','LOR-Q2','LOR-Q3']},
@@ -2986,6 +2987,10 @@ function chaseVariant(n){
 // Higher score = more collectible. Cards that match none of these (plain
 // commons/rares) score 0 and are excluded from chase rankings entirely.
 function chaseScore(c){
+  // Games with a config chase_tiers table rank purely by rarity tier
+  // (Third's model, e.g. Lorcana Iconic > Enchanted > Epic > Legendary).
+  const tiers=(cfgOfCard(c)||{}).chase_tiers;
+  if(tiers)return tiers[(c.rarity||'').toUpperCase()]||0;
   const n=(c.card_name||'').toLowerCase();
   // Only rarity field drives TR — never card name, so "Mad Treasure" (a
   // character name) does not trigger the Treasure-rare tier.
