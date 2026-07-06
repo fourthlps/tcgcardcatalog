@@ -2056,9 +2056,10 @@ function tilePrice(c){
       if(S.cur==='THB'&&jp.converted_price>0)return '฿'+Math.round(jp.converted_price).toLocaleString('th-TH')+' <span class="ed-ref">อ้างอิง</span>';
       return '¥'+Math.round(jp.source_price).toLocaleString();
     }
+    // In JP grid: no JP market data — do NOT fall back to EN price
+    return `<span style="color:var(--faint)">${S.lang==='th'?'ไม่มีข้อมูลราคา JP':'JP price N/A'}</span>`;
   }
   const v=realPrice(c);
-  // Requirement 8: never show a fabricated ฿0/$0 — say the price is unavailable.
   if(!(v>0))return `<span style="color:var(--faint)">${S.lang==='th'?'ไม่มีข้อมูลราคา':'Price unavailable'}</span>`;
   return fp(v);
 }
@@ -2076,6 +2077,8 @@ function effectiveVer(c){
   const se=singleEdition(c);if(se)return se;   // single-edition games have no JP/EN split
   const want=S.cardLang==='jp'?'JP':'EN';
   if(marketFor(c,want))return want;
+  // In JP set grid, all cards are JP cards — show JP badge even without JP market data
+  if(S.cardLang==='jp'&&S.setCode)return 'JP';
   if(marketFor(c,'EN')||Number(c.market_price)>0)return 'EN';
   if(marketFor(c,'JP'))return 'JP';
   return want;
