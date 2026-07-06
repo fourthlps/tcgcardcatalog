@@ -1258,7 +1258,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <section class="section zone-a">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="t" data-th="เทรนด์ตลาดการ์ด" data-en="Card Market Trends">เทรนด์ตลาดการ์ด</h2>
+        <h2 class="t" data-th="เทรนด์ตลาดทั่ว Voyage Log" data-en="Trending Across Voyage Log">เทรนด์ตลาดทั่ว Voyage Log</h2>
       </div>
       <div class="mtrend-row" id="trend-row"></div>
     </div>
@@ -1281,8 +1281,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <section class="section zone-b">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="t" data-th="กล่องน่าเปิดประจำสัปดาห์" data-en="This Week's Boxes Worth Opening">กล่องน่าเปิดประจำสัปดาห์</h2>
-        <span class="sec-note t" data-th="One Piece Card Game" data-en="One Piece Card Game">One Piece Card Game</span>
+        <h2 class="t" data-th="สินค้าแนะนำประจำสัปดาห์" data-en="This Week's Featured Products">สินค้าแนะนำประจำสัปดาห์</h2>
+        <span class="sec-note t" data-th="ทุกเกมบนแพลตฟอร์ม" data-en="Across all games">ทุกเกมบนแพลตฟอร์ม</span>
         <span class="sec-link t" data-th="ดูทุกชุด →" data-en="View All Sets →" onclick="openOnePiece()">ดูทุกชุด →</span>
       </div>
       <div class="box-grid" id="box-row"></div>
@@ -1742,6 +1742,9 @@ async function init(){
   applyLangUI();
   _loadCMS();
   updateCollCount();
+  // Platform showcases (small files, all active games) → refresh the five
+  // homepage sections once they arrive so the page represents every game.
+  loadShowcases().then(()=>{renderFC();renderChars();renderTrend();renderChase();renderBoxes();});
   // Load price overrides from Supabase — non-blocking. Once loaded, refresh
   // home widgets so overridden prices appear immediately.
   _loadOverrides().then(()=>{if(Object.keys(D.overrides).length)renderHome();});
@@ -1835,7 +1838,7 @@ const DEFAULT_CONFIG={
   games:{
     'one-piece':{slug:'one-piece',display_name:'One Piece Card Game',short_name:'One Piece',tile_name:'ONE PIECE',icon:'⚓',status:'active',
       id_prefixes:['OP','EB','ST','PRB'],
-      data_paths:{cards:'data/one-piece/cards.json',prices:'data/one-piece/prices.json',sets:'data/one-piece/sets.json',products:'data/one-piece/products.json',characters:'data/one-piece/characters.json',market:'data/one-piece/market.json',search_index:'search/one-piece-index.json',trends_gainers:'data/top-gainers.json',trends_losers:'data/top-losers.json',trends_jp_gainers:'data/jp-top-gainers.json',trends_jp_losers:'data/jp-top-losers.json',price_history:'data/price-history.json',status:'data/status.json'},
+      data_paths:{cards:'data/one-piece/cards.json',prices:'data/one-piece/prices.json',sets:'data/one-piece/sets.json',products:'data/one-piece/products.json',characters:'data/one-piece/characters.json',market:'data/one-piece/market.json',showcase:'data/one-piece/showcase.json',search_index:'search/one-piece-index.json',trends_gainers:'data/top-gainers.json',trends_losers:'data/top-losers.json',trends_jp_gainers:'data/jp-top-gainers.json',trends_jp_losers:'data/jp-top-losers.json',price_history:'data/price-history.json',status:'data/status.json'},
       card_detail_layout:{stats:[{key:'card_cost',label:'Cost'},{key:'card_power',label:'Power'},{key:'life',label:'Life'},{key:'card_color'},{key:'card_type'}],meta_line:[],flavor_key:null},
       rarity_list:['L','C','UC','R','SR','SEC','SP','TR','P','PR'],
       rarity_labels:{L:'Leader',C:'Common',UC:'Uncommon',R:'Rare',SR:'SR',SEC:'SEC',SP:'SP',TR:'Treasure',P:'Promo',PR:'Promo'},
@@ -1857,7 +1860,7 @@ const DEFAULT_CONFIG={
       set_category_map:{extra:['EB-01','EB-02','EB-03','OP14-EB04','OP15-EB04'],premium:['PRB-01','PRB-02'],deck_prefix:'ST-'}},
     lorcana:{slug:'lorcana',display_name:'Disney Lorcana',short_name:'Lorcana',tile_name:'LORCANA',icon:'🌊',status:'active',
       id_prefixes:['LOR'],
-      data_paths:{cards:'data/lorcana/cards.json',prices:'data/lorcana/prices.json',sets:'data/lorcana/sets.json',products:'data/lorcana/products.json',characters:'data/lorcana/characters.json',search_index:'search/lorcana-index.json'},
+      data_paths:{cards:'data/lorcana/cards.json',prices:'data/lorcana/prices.json',sets:'data/lorcana/sets.json',products:'data/lorcana/products.json',characters:'data/lorcana/characters.json',showcase:'data/lorcana/showcase.json',search_index:'search/lorcana-index.json'},
       card_detail_layout:{stats:[{key:'card_cost',label:'Ink Cost'},{key:'strength',label:'⚔ Strength'},{key:'willpower',label:'🛡 Willpower'},{key:'lore',label:'◆ Lore'},{key:'inkwell',type:'boolean',true_label:'⭕ Inkwell',false_label:'∅ No Inkwell'},{key:'card_color'},{key:'card_type'},{key:'rarity_name',skip_if_equals:'rarity'}],meta_line:[{key:'story',icon:'🏰'},{key:'artist',icon:'🎨'}],flavor_key:'flavor_text'},
       rarity_list:['C','UC','R','SR','LG','EN','EP','IC','SP'],
       rarity_labels:{C:'Common',UC:'Uncommon',R:'Rare',SR:'Super Rare',LG:'Legendary',EN:'Enchanted',EP:'Epic',IC:'Iconic',SP:'Special'},
@@ -1978,6 +1981,45 @@ function _bootGamesNeeded(){
     const ids=[..._lsGet(LS_COLLECTION),..._lsGet(LS_WISHLIST),..._recentGet()];
     return [...new Set(ids.map(id=>gameOf(id)))].filter(s=>s!==CONFIG.home_game);
   }catch(e){return [];}
+}
+
+// ── HOMEPAGE SHOWCASES ───────────────────────────────────────────────────────
+// The homepage is a PLATFORM page, not a game page. It composes small
+// per-game showcase files (config data_paths.showcase, a few KB each:
+// featured pool, top chase, characters, key products) so it can celebrate
+// every game WITHOUT downloading full game datasets — lazy-load isolation
+// stays intact. Full data loads only when the user clicks through.
+function loadShowcases(){
+  const jobs=Object.values(CONFIG.games)
+    .filter(g=>g.status==='active'&&g.data_paths&&g.data_paths.showcase)
+    .map(g=>fetch(g.data_paths.showcase).then(r=>r.ok?r.json():null)
+      .then(s=>{if(s)gd(g.slug).showcase=s;}).catch(()=>{}));
+  return Promise.allSettled(jobs);
+}
+function showcases(){
+  return (CONFIG.games_order||Object.keys(CONFIG.games)).map(sl=>gd(sl).showcase).filter(Boolean);
+}
+// Cross-game click-throughs: load the target game on demand, then act.
+function withGame(slug,fn){loadGame(slug).then(()=>fn());}
+function jumpShow(slug,setCode,imgId){withGame(slug,()=>jumpCard(setCode,imgId));}
+function openProductX(slug,id){withGame(slug,()=>openProduct(id));}
+function openCharacterX(slug,name){withGame(slug,()=>openCharacter(name));}
+// Small per-game label chip, tinted with the game's config theme color.
+function gameChip(slug){
+  const g=cfg2(slug);const col=g.theme_color||'#94a3b8';
+  return `<span class="ed-badge" style="background:${col}1f;color:${col}">${g.icon||''} ${g.short_name}</span>`;
+}
+// Interleave showcase entries across games so no single game dominates a row.
+function interleaveByGame(items,limit){
+  const byGame={};items.forEach(x=>{(byGame[x.game]=byGame[x.game]||[]).push(x);});
+  const keys=(CONFIG.games_order||Object.keys(byGame)).filter(k=>byGame[k]);
+  const out=[];let i=0;
+  while(out.length<limit){
+    let added=false;
+    for(const k of keys){if(byGame[k][i]){out.push(byGame[k][i]);added=true;if(out.length>=limit)break;}}
+    if(!added)break;i++;
+  }
+  return out;
 }
 function activeFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.usd_to_thb)||S.fx;}
 function activeJpyFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;}
@@ -2356,18 +2398,43 @@ function renderStats(){
 }
 
 function renderFC(){
+  const L=S.lang;
+  // PLATFORM SHOWCASE: curated pool across every game's showcase file
+  // (Manga Luffy, Enchanted Elsa, Iconic Buzz, …). Rotates daily —
+  // stable for the day, different tomorrow.
+  const pool=showcases().map(s=>s.featured_pool||[]).flat().filter(c=>c.price_usd>0);
+  if(pool.length){
+    const day=Math.floor(Date.now()/86400000);
+    const top=pool[day%pool.length];
+    const baseName=top.name.includes(' - ')?top.name.split(' - ')[0]:top.name.replace(/\s*\(.*\)$/,'').trim();
+    const variant=top.name.includes(' - ')?top.name.split(' - ').slice(1).join(' - '):(top.name.match(/\(.*\)/)?.[0]||'');
+    document.getElementById('fc-panel').innerHTML=`
+      <div class="fc-badge">⭐ ${L==='th'?'การ์ดเด่นประจำวัน':'Today\'s Platform Showcase'}</div>
+      <div class="fc-body">
+        <img class="fc-img" src="${top.image||''}" onerror="this.style.visibility='hidden'">
+        <div class="fc-details">
+          <div style="margin-bottom:5px">${gameChip(top.game)}</div>
+          <div class="fc-name">${baseName}</div>
+          <div class="fc-variant">${variant}</div>
+          <div class="fc-set-badge">${top.id||''}${top.rarity_name?' · '+top.rarity_name:top.rarity?' · '+top.rarity:''}</div>
+          <div class="fc-price-label">${L==='th'?'ราคาตลาด':'Market Price'}</div>
+          <div class="fc-price">${fpL(top.price_usd)}</div>
+          <button class="fc-btn" onclick="jumpShow('${top.game}','${top.set}','${top.id}')">${L==='th'?'ดูรายละเอียดการ์ด →':'View Card Details →'}</button>
+        </div>
+      </div>`;
+    return;
+  }
+  // Fallback (showcases unavailable): legacy highest-priced home-game card.
   const cards=flat();if(!cards.length)return;
   const ed=S.cardLang==='jp'?'JP':'EN';
-  // Pick highest-priced card for the active edition
-  const pool=cards.filter(c=>ed==='JP'?marketFor(c,'JP'):realPrice(c)>0);
-  const ranked=(pool.length?pool:cards).slice().sort((a,b)=>{
+  const fpool=cards.filter(c=>ed==='JP'?marketFor(c,'JP'):realPrice(c)>0);
+  const ranked=(fpool.length?fpool:cards).slice().sort((a,b)=>{
     const va=ed==='JP'?jpPreferredPriceThb(a):realPrice(a);
     const vb=ed==='JP'?jpPreferredPriceThb(b):realPrice(b);
     return vb-va;
   });
   D._featuredCard=ranked[0];
   const top=D._featuredCard;
-  const L=S.lang;
   const setCode=Object.entries(D.cache).find(([,v])=>v.some(c=>c.card_image_id===top.card_image_id))?.[0]||'';
   const setName=D.index.find(s=>s.code===setCode)?.name||'';
   document.getElementById('fc-panel').innerHTML=`
@@ -2662,8 +2729,25 @@ function renderTrend(){
   const L=S.lang;
   const jpMode=S.cardLang==='jp';
 
-  // Panel 1 — Highest Value (always real, edition-aware)
-  let valHtml=Array.from({length:5},(_,i)=>topValueFallback(i)).join('');
+  // Panel 1 — Highest Value: PLATFORM-WIDE, composed from every game's
+  // showcase (real market prices), each row tagged with its game.
+  let valHtml='';
+  const scAll=showcases().map(s=>s.top_chase||[]).flat().filter(c=>c.price_usd>0)
+    .sort((a,b)=>b.price_usd-a.price_usd).slice(0,5);
+  if(scAll.length){
+    valHtml=scAll.map((c,i)=>`
+      <div class="mtrend-body" onclick="jumpShow('${c.game}','${c.set}','${c.id}')" style="cursor:pointer">
+        <div class="mtrend-rank">${i+1}</div>
+        <img class="mtrend-img" src="${c.image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div style="min-width:0">
+          <div style="margin-bottom:2px">${gameChip(c.game)}</div>
+          <div class="mtrend-name">${c.name.split(' - ')[0].split('(')[0].trim()}</div>
+          <div class="mtrend-price">${fpL(c.price_usd)}</div>
+        </div>
+      </div>`).join('');
+  }else{
+    valHtml=Array.from({length:5},(_,i)=>topValueFallback(i)).join('');
+  }
   if(!valHtml)valHtml=`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
   let gainHtml,loseHtml,useGainers,useLosers,gainMeta,loseMeta;
@@ -2693,11 +2777,11 @@ function renderTrend(){
       ${valHtml}
     </div>
     <div class="mtrend-card${useGainers?' live':''}">
-      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'}</span>${useGainers?trendAgeLabel(gainMeta,L):''}</div>
+      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'} <span style="font-weight:600;color:var(--faint);font-size:11px">· One Piece</span></span>${useGainers?trendAgeLabel(gainMeta,L):''}</div>
       ${gainHtml}
     </div>
     <div class="mtrend-card${useLosers?' live':''}">
-      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'}</span>${useLosers?trendAgeLabel(loseMeta,L):''}</div>
+      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'} <span style="font-weight:600;color:var(--faint);font-size:11px">· One Piece</span></span>${useLosers?trendAgeLabel(loseMeta,L):''}</div>
       ${loseHtml}
     </div>`;
 }
@@ -2865,6 +2949,33 @@ function boxLabel(score,L){
 }
 function renderBoxes(){
   const L=S.lang;
+  // PLATFORM-WIDE weekly products: interleave each game's showcase picks
+  // (boxes, troves, starter decks, gift sets) so the section invites
+  // exploration of every supported game.
+  const prods=showcases().map(s=>s.products||[]).flat();
+  if(prods.length){
+    const mixed=interleaveByGame(prods,6);
+    document.getElementById('box-row').innerHTML=mixed.map((p,i)=>{
+      const price=p.price_usd!=null?fpL(p.price_usd):(p.price_thb!=null?fpL(p.price_thb/activeFx(),p.price_thb):'—');
+      return `<div class="boxcard" onclick="openProductX('${p.game}','${p.product_id}')">
+        <div class="boxcard-img-wrap">
+          ${p.image?`<img src="${p.image}" loading="lazy" onerror="this.remove()">`:`<div style="font-size:36px;opacity:.35">📦</div>`}
+          <div class="boxcard-rank">#${i+1}</div>
+        </div>
+        <div class="boxcard-body">
+          <div class="boxcard-code">${p.set_code||''}</div>
+          <div class="boxcard-name">${p.name}</div>
+          <div class="boxcard-badges">${gameChip(p.game)}<span class="boxcard-badge high">${p.type}</span></div>
+          <div class="boxcard-meta-row">
+            <div class="boxcard-price">${price}</div>
+          </div>
+          <button class="boxcard-cta" onclick="event.stopPropagation();openProductX('${p.game}','${p.product_id}')">${L==='th'?'ดูรายละเอียด →':'View Details →'}</button>
+        </div>
+      </div>`;
+    }).join('');
+    return;
+  }
+  // Fallback: legacy home-game box ranking.
   // computeBoxRankings() scores ALL BOX sets, normalises cross-set, and
   // returns them pre-sorted descending. We take the top 5 AFTER sorting —
   // never before — so release order cannot influence the result.
@@ -2936,11 +3047,29 @@ function renderChars(){
   const row=document.getElementById('chars-row');
   if(!row)return;
   const L=S.lang;
+  // PLATFORM-WIDE: characters grouped by game from each showcase file.
+  const shs=showcases().filter(s=>(s.characters||[]).length);
+  if(shs.length){
+    row.innerHTML=shs.map(s=>{
+      const gc=cfg2(s.game);const col=gc.theme_color||'#94a3b8';
+      const hdr=`<div class="char-chip" style="cursor:default;background:${col}14;border-color:${col}55">
+        <div class="char-chip-name" style="color:${col}">${gc.icon||''} ${gc.short_name}</div>
+        <div class="char-chip-sub">${L==='th'?'ตัวละครยอดนิยม':'popular characters'}</div>
+      </div>`;
+      const chips=(s.characters||[]).slice(0,8).map(ch=>`
+        <div class="char-chip" onclick="openCharacterX('${s.game}','${ch.name.replace(/'/g,"\\'")}')">
+          <div class="char-chip-name">${ch.name}</div>
+          <div class="char-chip-sub">${ch.cards} ${L==='th'?'ใบ':'cards'} · ${ch.sets} ${L==='th'?'ชุด':'sets'}</div>
+        </div>`).join('');
+      return hdr+chips;
+    }).join('');
+    return;
+  }
+  // Fallback: legacy home-game strip.
   const charMap=buildCharMap();
   const isJP=S.cardLang==='jp';
-  // Sort by card count in current edition, take top 20
   const sorted=Object.values(charMap)
-    .filter(ch=>!ch.game||ch.game===CONFIG.home_game)   // homepage strip = home game
+    .filter(ch=>!ch.game||ch.game===CONFIG.home_game)
     .filter(ch=>isJP?ch.jpCount>0:ch.enCount>0)
     .sort((a,b)=>(isJP?b.jpCount-a.jpCount:b.enCount-a.enCount))
     .slice(0,20);
@@ -3051,6 +3180,34 @@ function chasePicks(limit){
 }
 function renderChase(){
   const L=S.lang;
+  // PLATFORM-WIDE: chase cards from every game's showcase, interleaved so
+  // both games are represented (Manga Luffy next to Enchanted Elsa).
+  const scAll=showcases().map(s=>s.top_chase||[]).flat()
+    .sort((a,b)=>(b.chase-a.chase)||(b.price_usd-a.price_usd));
+  if(scAll.length){
+    const mixed=interleaveByGame(scAll,15);
+    document.getElementById('chase-row').innerHTML=mixed.map((c,i)=>{
+      const isLorName=c.name.includes(' - ');
+      const base=isLorName?c.name.split(' - ')[0]:chaseBase(c.name);
+      const variant=isLorName?c.name.split(' - ').slice(1).join(' - '):chaseVariant(c.name);
+      const rankCls=i<3?'top3':'rest';
+      return `<div class="chase-card" onclick="jumpShow('${c.game}','${c.set}','${c.id}')">
+        <div class="chase-rank ${rankCls}">${i+1}</div>
+        <div class="chase-img-wrap"><img src="${c.image||''}" loading="lazy" onerror="this.style.visibility='hidden'"></div>
+        <div class="chase-body">
+          <div style="margin-bottom:4px">${gameChip(c.game)}</div>
+          <div class="chase-name">${base}</div>
+          ${variant?`<div class="chase-variant">${isLorName?variant:'('+variant+')'}</div>`:''}
+          <div class="chase-set">${c.id||''}${c.rarity_name?' · '+c.rarity_name:c.rarity?' · '+c.rarity:''}</div>
+          <div class="chase-price">${fpL(c.price_usd)}</div>
+        </div>
+      </div>`;
+    }).join('');
+    chaseScrollState();
+    initChaseWheel();
+    return;
+  }
+  // Fallback: legacy home-game chase row.
   const picks=chasePicks(15);
   const ed=S.cardLang==='jp'?'JP':'EN';
   document.getElementById('chase-row').innerHTML=picks.map((c,i)=>{
