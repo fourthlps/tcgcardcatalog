@@ -149,6 +149,14 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .recent-card-body{padding:6px 8px 8px}
 .recent-card-name{font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .recent-card-price{font-size:11px;color:var(--gold);margin-top:2px}
+/* Grouped (multi-game) character strip: stacked labeled rows, one per game */
+.chars-row.grouped{display:block;overflow:visible;padding-bottom:0}
+.chars-group+.chars-group{margin-top:16px}
+.chars-group-hd{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px}
+.chars-group-ic{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;font-size:13px}
+.chars-group-note{font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--faint);text-transform:none}
+.chars-group .chars-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;-ms-overflow-style:none;scrollbar-width:none}
+.chars-group .chars-row::-webkit-scrollbar{display:none}
 .char-chip{flex:0 0 auto;background:var(--bg2);border:1px solid var(--bord1);border-radius:99px;padding:8px 18px;cursor:pointer;transition:border-color .13s,background .13s;text-align:center}
 .char-chip:hover{border-color:var(--gold);background:var(--golds)}
 .char-chip-name{font-size:13px;font-weight:700;color:var(--text)}
@@ -3126,24 +3134,26 @@ function renderChars(){
   const row=document.getElementById('chars-row');
   if(!row)return;
   const L=S.lang;
-  // PLATFORM-WIDE: characters grouped by game from each showcase file.
+  // PLATFORM-WIDE: one labeled row PER GAME, stacked vertically so every
+  // game is visible immediately — never hidden behind horizontal scroll.
   const shs=showcases().filter(s=>(s.characters||[]).length);
   if(shs.length){
+    row.classList.add('grouped');
     row.innerHTML=shs.map(s=>{
       const gc=cfg2(s.game);const col=gc.theme_color||'#94a3b8';
-      const hdr=`<div class="char-chip" style="cursor:default;background:${col}14;border-color:${col}55">
-        <div class="char-chip-name" style="color:${col}">${gc.icon||''} ${gc.short_name}</div>
-        <div class="char-chip-sub">${L==='th'?'ตัวละครยอดนิยม':'popular characters'}</div>
-      </div>`;
-      const chips=(s.characters||[]).slice(0,8).map(ch=>`
+      const chips=(s.characters||[]).slice(0,9).map(ch=>`
         <div class="char-chip" onclick="openCharacterX('${s.game}','${ch.name.replace(/'/g,"\\'")}')">
           <div class="char-chip-name">${ch.name}</div>
           <div class="char-chip-sub">${ch.cards} ${L==='th'?'ใบ':'cards'} · ${ch.sets} ${L==='th'?'ชุด':'sets'}</div>
         </div>`).join('');
-      return hdr+chips;
+      return `<div class="chars-group">
+        <div class="chars-group-hd" style="color:${col}"><span class="chars-group-ic" style="background:${col}18">${gc.icon||''}</span>${gc.short_name}<span class="chars-group-note">${L==='th'?'ตัวละครยอดนิยม':'popular characters'}</span></div>
+        <div class="chars-row">${chips}</div>
+      </div>`;
     }).join('');
     return;
   }
+  row.classList.remove('grouped');
   // Fallback: legacy home-game strip.
   const charMap=buildCharMap();
   const isJP=S.cardLang==='jp';
