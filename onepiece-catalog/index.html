@@ -326,6 +326,50 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .tile-btn.active{background:#fff;color:var(--blue)}
 .tile-btn.soon{background:rgba(16,23,40,.08);color:rgba(16,23,40,.4);cursor:default}
 
+/* ── BROWSE GAMES: platform hero (curated two-tier composition) ─────────────
+   Live games are the flagship statement; coming-soon titles read as a quiet
+   roadmap, never competing with what's available today. */
+.games-section{padding-top:8px}
+.games-sec-head h2{font-size:26px;letter-spacing:-.02em}
+.games-sub{font-size:14px;color:var(--soft);margin:-8px 0 26px;line-height:1.6;max-width:560px}
+.games-hero{display:flex;flex-direction:column}
+.games-group-label{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+.ggl-dot{width:7px;height:7px;border-radius:50%;background:var(--bord2);flex-shrink:0}
+.ggl-dot.live{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.15),0 0 10px rgba(34,197,94,.55)}
+.games-group.soon-group{margin-top:30px;padding-top:26px;border-top:1px solid var(--bord1)}
+.games-row-live{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.games-row-soon{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+/* Flagship tiles: equal weight, per-game accent via --tile-accent, calm
+   Apple/Linear-grade motion (long ease-out, soft layered shadow, faint glow) */
+.game-tile.live-tile{padding:34px 30px 30px;border-radius:18px;color:#fff;border:1px solid rgba(255,255,255,.08);
+  transition:transform .38s cubic-bezier(.22,1,.36,1),box-shadow .38s cubic-bezier(.22,1,.36,1),border-color .38s ease;
+  box-shadow:0 2px 8px rgba(16,23,42,.08),0 12px 28px rgba(16,23,42,.10)}
+.game-tile.live-tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 90% at 12% 0%,rgba(255,255,255,.16),transparent 55%)}
+.game-tile.live-tile:hover{transform:translateY(-6px) scale(1.012);border-color:rgba(255,255,255,.22);
+  box-shadow:0 4px 12px rgba(16,23,42,.10),0 26px 54px rgba(16,23,42,.18),0 0 42px color-mix(in srgb,var(--tile-accent,#f2b705) 26%,transparent)}
+.game-tile.live-tile:active{transform:translateY(-2px) scale(1.004)}
+.game-tile.live-tile.op{background:linear-gradient(135deg,#1d4ed8,#7c3aed)}
+.game-tile.live-tile.lrc{background:linear-gradient(135deg,#155e75,#2563a8 55%,#6d28d9)}
+.game-tile.live-tile .tile-name{font-size:24px}
+.game-tile.live-tile .tile-icon{font-size:30px}
+.game-tile.live-tile .tile-meta{color:rgba(255,255,255,.82);font-size:12.5px}
+.game-tile.live-tile .tile-btn.active{background:rgba(255,255,255,.96);color:#1e2a44;box-shadow:0 2px 10px rgba(0,0,0,.18);
+  transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s ease}
+.game-tile.live-tile:hover .tile-btn.active{transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,0,0,.24)}
+/* Coming-soon tiles: deliberately quieter — reduced opacity & saturation,
+   dashed border, no lift. A roadmap, not an option. */
+.game-tile.soon-tile{cursor:default;background:var(--bg2);border:1px dashed var(--bord2);box-shadow:none;
+  padding:22px 22px 20px;border-radius:14px;opacity:.62;filter:saturate(.4);transition:opacity .3s ease}
+.game-tile.soon-tile:hover{opacity:.85;transform:none;box-shadow:none;border-color:var(--bord2)}
+.game-tile.soon-tile .tile-name{font-size:17px;color:var(--soft)}
+.game-tile.soon-tile .tile-icon{font-size:22px;margin-bottom:7px;opacity:.7}
+.game-tile.soon-tile .tile-sub{color:var(--faint);margin-bottom:8px}
+.game-tile.soon-tile .tile-meta{color:var(--faint);font-size:11.5px;margin-bottom:0}
+.soon-pill{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 11px;border-radius:999px;background:var(--bg3);color:var(--faint);border:1px solid var(--bord2)}
+@media (max-width:640px){.games-row-live{grid-template-columns:1fr}.game-tile.live-tile{padding:28px 24px 24px}}
+
 /* HIGHLIGHTS */
 .hl-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:6px}
 .hl-card{display:flex;align-items:flex-start;gap:14px}
@@ -1239,10 +1283,11 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </div>
   </section>
 
-  <section class="section">
+  <section class="section games-section">
     <div class="wrap">
-      <div class="sec-head"><h2 class="t" data-th="เลือกเกมการ์ด" data-en="Browse Games">เลือกเกมการ์ด</h2></div>
-      <div class="games-row" id="games-row"></div>
+      <div class="sec-head games-sec-head"><h2 class="t" data-th="เลือกเกมการ์ด" data-en="Browse Games">เลือกเกมการ์ด</h2></div>
+      <p class="games-sub t" data-th="สำรวจทุกเกมการ์ดสะสมที่ Voyage Log คัดสรรและจัดทำข้อมูลให้ครบทุกชุด ทุกใบ ทุกราคา" data-en="Explore every trading card game curated and fully indexed on Voyage Log — every set, every card, every price.">สำรวจทุกเกมการ์ดสะสมที่ Voyage Log คัดสรรและจัดทำข้อมูลให้ครบทุกชุด ทุกใบ ทุกราคา</p>
+      <div class="games-hero" id="games-row"></div>
     </div>
   </section>
 
@@ -1839,7 +1884,7 @@ async function _loadOverrides(){
 // config/games.json is the canonical copy — keep them in sync.
 const DEFAULT_CONFIG={
   home_game:'one-piece',
-  games_order:['one-piece','pokemon','naruto','lorcana'],
+  games_order:['one-piece','lorcana','pokemon','naruto'],
   games:{
     'one-piece':{slug:'one-piece',display_name:'One Piece Card Game',short_name:'One Piece',tile_name:'ONE PIECE',icon:'⚓',status:'active',
       id_prefixes:['OP','EB','ST','PRB'],
@@ -2522,32 +2567,44 @@ function renderGames(){
   const opSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="55" stroke="#ffffff" stroke-width="1"/><line x1="60" y1="5" x2="60" y2="115" stroke="#ffffff" stroke-width="0.8"/><line x1="5" y1="60" x2="115" y2="60" stroke="#ffffff" stroke-width="0.8"/><line x1="21" y1="21" x2="99" y2="99" stroke="#ffffff" stroke-width="0.8"/><line x1="99" y1="21" x2="21" y2="99" stroke="#ffffff" stroke-width="0.8"/><polygon points="60,10 65,55 60,50 55,55" fill="#ffffff" opacity="0.7"/><polygon points="60,110 55,65 60,70 65,65" fill="#ffffff" opacity="0.5"/><polygon points="10,60 55,55 50,60 55,65" fill="#ffffff" opacity="0.5"/><polygon points="110,60 65,65 70,60 65,55" fill="#ffffff" opacity="0.7"/><circle cx="60" cy="60" r="8" stroke="#ffffff" stroke-width="1.5" fill="none"/></svg>`;
   const pkmSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="50" stroke="#64748b" stroke-width="1.5" opacity="0.5"/><path d="M30 55 L55 55 L60 40 L65 55 L90 55 L70 70 L78 95 L60 80 L42 95 L50 70 Z" fill="#64748b" opacity="0.4"/><circle cx="60" cy="60" r="10" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.6"/></svg>`;
   const nrtSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M60 15 Q95 60 60 105 Q25 60 60 15Z" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.4"/><path d="M60 25 Q88 60 60 95 Q32 60 60 25Z" stroke="#64748b" stroke-width="1" fill="#64748b" opacity="0.06"/><circle cx="60" cy="60" r="12" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.5"/><path d="M60 48 Q68 60 60 72 Q52 60 60 48Z" fill="#64748b" opacity="0.3"/></svg>`;
-  const lrcSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M60 20 L95 45 L82 90 L38 90 L25 45 Z" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.4"/><circle cx="60" cy="58" r="14" stroke="#64748b" stroke-width="1.5" fill="none" opacity="0.5"/></svg>`;
+  const lrcSVG=`<svg class="tile-svg" width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M60 20 L95 45 L82 90 L38 90 L25 45 Z" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.5"/><circle cx="60" cy="58" r="14" stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.6"/><path d="M60 8 L63 18 L60 15 L57 18 Z" fill="#ffffff" opacity="0.6"/><circle cx="60" cy="58" r="5" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.45"/></svg>`;
   // Game tiles are generated from CONFIG (Requirement 4/14): a new game
   // appears here by adding a config entry — no code change. SVG art is an
   // optional presentation asset keyed by slug.
+  // Curated two-tier composition: live games are the flagship hero group;
+  // coming-soon titles sit in a visually quieter roadmap group below.
   const GAME_SVG={'one-piece':opSVG,'pokemon':pkmSVG,'naruto':nrtSVG,'lorcana':lrcSVG};
   const GAME_CLS={'one-piece':'op','pokemon':'pkm','naruto':'nrt','lorcana':'lrc'};
   const order=CONFIG.games_order||Object.keys(CONFIG.games);
-  document.getElementById('games-row').innerHTML=order.map(slug=>{
-    const gc=CONFIG.games[slug];if(!gc)return '';
-    const svg=GAME_SVG[slug]||'',cls=GAME_CLS[slug]||slug;
-    if(gc.status!=='active'){
-      return `<div class="game-tile disabled ${cls}" onclick="">${svg}
-        <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
-        <div class="tile-meta">${soon}</div><button class="tile-btn soon" disabled>${soon}</button>
-      </div>`;
-    }
-    const g=D.games[slug];
+  const live=order.map(s=>CONFIG.games[s]).filter(g=>g&&g.status==='active');
+  const coming=order.map(s=>CONFIG.games[s]).filter(g=>g&&g.status!=='active');
+  const liveTile=gc=>{
+    const slug=gc.slug,g=D.games[slug],sc=gd(slug).showcase;
     const meta=(g&&g.loaded)
       ?`${g.setIndex.length} ${L==='th'?'ชุด':'Sets'} · ${gameTtl(slug).toLocaleString()} ${L==='th'?'ใบ':'Cards'}`
-      :(L==='th'?`ใหม่! ${gc.display_name}`:`NEW! ${gc.display_name}`);
-    return `<div class="game-tile ${cls}" onclick="openGame('${slug}')">${svg}
+      :(sc&&sc.totals)
+        ?`${sc.totals.sets} ${L==='th'?'ชุด':'Sets'} · ${sc.totals.cards.toLocaleString()} ${L==='th'?'ใบ':'Cards'}`
+        :(L==='th'?`ใหม่! ${gc.display_name}`:`NEW! ${gc.display_name}`);
+    return `<div class="game-tile live-tile ${GAME_CLS[slug]||''}" style="--tile-accent:${gc.theme_color||'#f2b705'}" onclick="openGame('${slug}')">${GAME_SVG[slug]||''}
       <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
       <div class="tile-meta">${meta}</div>
       <button class="tile-btn active">${L==='th'?'สำรวจตอนนี้ →':'Explore →'}</button>
     </div>`;
-  }).join('');
+  };
+  const soonTile=gc=>`<div class="game-tile soon-tile ${GAME_CLS[gc.slug]||''}">${GAME_SVG[gc.slug]||''}
+      <span class="soon-pill">${soon}</span>
+      <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
+      <div class="tile-meta">${L==='th'?'อยู่ในแผนการเปิดตัว':'Planned addition'}</div>
+    </div>`;
+  document.getElementById('games-row').innerHTML=`
+    <div class="games-group">
+      <div class="games-group-label"><span class="ggl-dot live"></span>${L==='th'?'เปิดให้ใช้งานแล้ว · Available Now':'Available Now'}</div>
+      <div class="games-row-live">${live.map(liveTile).join('')}</div>
+    </div>
+    ${coming.length?`<div class="games-group soon-group">
+      <div class="games-group-label"><span class="ggl-dot"></span>${L==='th'?'เร็วๆ นี้ · Coming Soon':'Coming Soon'}</div>
+      <div class="games-row-soon">${coming.map(soonTile).join('')}</div>
+    </div>`:''}`;
 }
 
 function renderHL(){
