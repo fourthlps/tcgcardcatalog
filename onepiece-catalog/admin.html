@@ -521,6 +521,26 @@ async function loadGamesConfig(){
   }catch{D._gamesCfg=null;}
   return D._gamesCfg;
 }
+// Resolve a card's game from config id_prefixes (LOR fallback keeps working
+// even if config didn't load). Used by the game filters below.
+function gameOfAdmin(c){
+  const id=String((c&&(c.card_image_id||c.set_id))||'');
+  for(const g of (D._gamesCfg||[])){
+    if((g.id_prefixes||[]).some(p=>id.indexOf(p)===0))return g.slug;
+  }
+  return id.indexOf('LOR')===0?'lorcana':'one-piece';
+}
+function gameFilterOptions(sel){
+  const games=(D._gamesCfg&&D._gamesCfg.length)?D._gamesCfg
+    :[{slug:'one-piece',short_name:'One Piece',icon:'⚓'},{slug:'lorcana',short_name:'Lorcana',icon:'🌊'}];
+  return `<option value="">🎴 All Games</option>`+games.map(g=>
+    `<option value="${g.slug}" ${sel===g.slug?'selected':''}>${g.icon||''} ${g.short_name||g.slug}</option>`).join('');
+}
+function setOptionsFor(gameSlug,sel){
+  const pool=gameSlug?D.cards.filter(c=>gameOfAdmin(c)===gameSlug):D.cards;
+  return `<option value="">All Sets</option>`+[...new Set(pool.map(c=>c.set_id||'').filter(Boolean))].sort()
+    .map(s=>`<option value="${s}" ${sel===s?'selected':''}>${s}</option>`).join('');
+}
 async function loadCards(){
   if(_cardsLoaded)return;
   D.cards=[];
@@ -946,13 +966,15 @@ function paintCardsView(){
     </div>
     <div class="toolbar">
       <div class="search-wrap" style="max-width:360px"><input id="card-srch-admin" placeholder="Search name, set, card number…" value="${esc(_cardQuery)}" oninput="cardSearch(this.value)"></div>
+      <select class="field-select" style="width:150px" onchange="cardFilterGame(this.value)" id="card-game-filter">
+        ${gameFilterOptions(_cardGameFilter)}
+      </select>
       <select class="field-select" style="width:140px" onchange="cardFilterSet(this.value)" id="card-set-filter">
-        <option value="">All Sets</option>
-        ${[...new Set(D.cards.map(c=>c.set_id||'').filter(Boolean))].sort().map(s=>`<option value="${s}">${s}</option>`).join('')}
+        ${setOptionsFor(_cardGameFilter,_cardSetFilter)}
       </select>
       <select class="field-select" style="width:120px" onchange="cardFilterRarity(this.value)">
         <option value="">All Rarities</option>
-        ${[...new Set(D.cards.map(c=>c.rarity||'').filter(Boolean))].sort().map(r=>`<option value="${r}">${r}</option>`).join('')}
+        ${[...new Set((_cardGameFilter?D.cards.filter(c=>gameOfAdmin(c)===_cardGameFilter):D.cards).map(c=>c.rarity||'').filter(Boolean))].sort().map(r=>`<option value="${r}" ${_cardRarFilter===r?'selected':''}>${r}</option>`).join('')}
       </select>
     </div>
     <div class="section-card">
@@ -986,13 +1008,15 @@ function paintCardsView(){
     </div>`;
 }
 
-let _cardSetFilter='',_cardRarFilter='';
+let _cardSetFilter='',_cardRarFilter='',_cardGameFilter='';
 function cardSearch(q){_cardQuery=q;_cardPage=0;_applyCardFilters();paintCardsView();}
+function cardFilterGame(g){_cardGameFilter=g;_cardSetFilter='';_cardRarFilter='';_cardPage=0;_applyCardFilters();paintCardsView();}
 function cardFilterSet(s){_cardSetFilter=s;_cardPage=0;_applyCardFilters();paintCardsView();}
 function cardFilterRarity(r){_cardRarFilter=r;_cardPage=0;_applyCardFilters();paintCardsView();}
 function cardPage(d){_cardPage=Math.max(0,_cardPage+d);paintCardsView();}
 function _applyCardFilters(){
   let list=D.cards;
+  if(_cardGameFilter)list=list.filter(c=>gameOfAdmin(c)===_cardGameFilter);
   if(_cardQuery){const q=_cardQuery.toLowerCase();list=list.filter(c=>(c.card_name||'').toLowerCase().includes(q)||(c.card_image_id||'').toLowerCase().includes(q)||(c.set_id||'').toLowerCase().includes(q));}
   if(_cardSetFilter)list=list.filter(c=>c.set_id===_cardSetFilter);
   if(_cardRarFilter)list=list.filter(c=>c.rarity===_cardRarFilter);
@@ -1306,9 +1330,11 @@ function paintPriceOverrides(){
           <div class="search-wrap" style="max-width:400px">
             <input id="ov-card-srch" placeholder="Search card name, ID, set…" oninput="ovCardSearch(this.value)">
           </div>
-          <select class="field-select" style="width:140px" onchange="ovFilterSet(this.value)">
-            <option value="">All Sets</option>
-            ${[...new Set(D.cards.map(c=>c.set_id||'').filter(Boolean))].sort().map(s=>`<option value="${s}">${s}</option>`).join('')}
+          <select class="field-select" style="width:150px" onchange="ovFilterGame(this.value)" id="ov-game-filter">
+            ${gameFilterOptions(_ovGameFilter)}
+          </select>
+          <select class="field-select" style="width:140px" onchange="ovFilterSet(this.value)" id="ov-set-filter">
+            ${setOptionsFor(_ovGameFilter,_ovSetFilter)}
           </select>
         </div>
         <div style="max-height:280px;overflow-y:auto;border:1px solid var(--bord);border-radius:var(--radius);margin-bottom:12px">
@@ -1383,12 +1409,20 @@ function paintPriceOverrides(){
   refreshOvTable();
 }
 
-let _ovSetFilter='';
+let _ovSetFilter='',_ovGameFilter='';
 function ovCardSearch(q){_ovQuery=q;_ovPage=0;_applyOvFilters();refreshOvTable();}
+function ovFilterGame(g){
+  _ovGameFilter=g;_ovSetFilter='';_ovPage=0;
+  // narrow the set dropdown to the chosen game's sets
+  const sel=document.getElementById('ov-set-filter');
+  if(sel)sel.innerHTML=setOptionsFor(_ovGameFilter,'');
+  _applyOvFilters();refreshOvTable();
+}
 function ovFilterSet(s){_ovSetFilter=s;_ovPage=0;_applyOvFilters();refreshOvTable();}
 function ovPage(d){_ovPage=Math.max(0,_ovPage+d);refreshOvTable();}
 function _applyOvFilters(){
   let list=D.cards;
+  if(_ovGameFilter)list=list.filter(c=>gameOfAdmin(c)===_ovGameFilter);
   if(_ovQuery){const q=_ovQuery.toLowerCase();list=list.filter(c=>(c.card_name||'').toLowerCase().includes(q)||(c.card_image_id||'').toLowerCase().includes(q)||(c.set_id||'').toLowerCase().includes(q));}
   if(_ovSetFilter)list=list.filter(c=>c.set_id===_ovSetFilter);
   _ovFiltered=list;
