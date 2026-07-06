@@ -125,3 +125,5 @@ Nothing is deployed yet. After a future deploy: restore `index.pre-lorcana-backu
 5. OP trend files remain at legacy `data/*.json` until the pipeline migrates (paths are config-read already).
 6. Set-tile fallback icons come from the shared category icon map (booster ⚓ etc.), not per-game config.
 7. Search indexes in `/search` are generated artifacts — regenerate when card data changes (see scratchpad `migrate.js` §search).
+
+<!-- build-refresh 2026-07-06T20:08:56.4509531+07:00 -->
