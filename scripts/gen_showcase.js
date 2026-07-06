@@ -59,8 +59,13 @@ const base = n => (n || "").split("(")[0].trim();
     const topCard = uniq.filter(c => c._set === sc).sort((a, b) => priceOf(b) - priceOf(a))[0];
     return { game: "one-piece", product_id: p.product_id, name: `${sc} ${p.set_name} Booster Box`, type: "Booster Box", set_code: sc, image: topCard ? topCard.card_image : "", price_thb: boxPrices[sc], price_usd: null };
   }).filter(Boolean).slice(0, 5);
+  // top_value: PURE price ranking over every card (any rarity/treatment) —
+  // this is what the homepage "Highest Value" panel uses. Distinct from
+  // top_chase, which ranks by collectibility tier first.
+  const topValue = uniq.filter(c => priceOf(c) > 0)
+    .sort((a, b) => priceOf(b) - priceOf(a)).slice(0, 8).map(rec);
   const totals = { sets: Object.keys(cards).length, cards: flat.length };
-  W(`${DATA}/one-piece/showcase.json`, { game: "one-piece", generated: TODAY, totals, featured_pool: featured, top_chase: chase, characters: chars, products: prods });
+  W(`${DATA}/one-piece/showcase.json`, { game: "one-piece", generated: TODAY, totals, featured_pool: featured, top_value: topValue, top_chase: chase, characters: chars, products: prods });
   console.log("one-piece showcase: featured", featured.length, "chase", chase.length, "chars", chars.length, "products", prods.length);
 })();
 
@@ -97,7 +102,9 @@ const base = n => (n || "").split("(")[0].trim();
   const gift = products.filter(p => p.product_type === "Gift Set" && p.market_price_usd > 0).sort((a, b) => b.release_date.localeCompare(a.release_date))[0];
   const prods = [newBox, bestBox, trove, starter, gift].filter(Boolean).filter((p, i, a) => a.findIndex(x => x.product_id === p.product_id) === i)
     .map(p => ({ game: "lorcana", product_id: p.product_id, name: p.product_name, type: p.product_type, set_code: p.set_code, image: p.product_image || "", price_thb: null, price_usd: p.market_price_usd || p.msrp_usd || null }));
+  const topValue = flat.filter(c => maxPrice(c) > 0)
+    .sort((a, b) => maxPrice(b) - maxPrice(a)).slice(0, 8).map(rec);
   const totals = { sets: Object.keys(cards).length, cards: flat.length };
-  W(`${DATA}/lorcana/showcase.json`, { game: "lorcana", generated: TODAY, totals, featured_pool: featured, top_chase: chase, characters: chars, products: prods });
+  W(`${DATA}/lorcana/showcase.json`, { game: "lorcana", generated: TODAY, totals, featured_pool: featured, top_value: topValue, top_chase: chase, characters: chars, products: prods });
   console.log("lorcana showcase: featured", featured.length, "chase", chase.length, "chars", chars.length, "products", prods.length);
 })();
