@@ -164,6 +164,7 @@
         "price_source_label": { "th": "ราคาตลาด EN (TCGPlayer)", "en": "EN Market Price (TCGPlayer)" }
       },
       "product_types": ["Booster Box", "Booster Pack", "Starter Deck", "Illumineer's Trove", "Gift Set", "Illumineer's Quest", "Prerelease Pack", "Special"],
+      "chase_tiers": { "IC": 100, "EN": 90, "EP": 80, "LG": 60 },
       "character_grouping": "character_and_franchise",
       "character_match": "character_name",
       "characters_from_file": true,
