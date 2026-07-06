@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voyage Log — TCG Database</title>
+<title>Voyage Log — TCG Database | One Piece & Disney Lorcana</title>
+<meta name="description" content="ฐานข้อมูลการ์ดสะสมสำหรับนักสะสมชาวไทย — One Piece Card Game และ Disney Lorcana ครบทุกชุด เช็คราคาตลาดรายวัน การ์ดหายาก Chase Cards และคู่มือการซื้อ | Thailand's TCG discovery platform: One Piece & Disney Lorcana cards, daily market prices, chase cards and buying guides.">
+<meta property="og:title" content="Voyage Log — TCG Database | One Piece & Disney Lorcana">
+<meta property="og:description" content="ฐานข้อมูลการ์ด One Piece และ Disney Lorcana ครบทุกชุด เช็คราคาตลาดรายวัน การ์ดหายาก และคู่มือการซื้อสำหรับนักสะสมชาวไทย">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fourthlps.github.io/tcgcardcatalog/onepiece-catalog/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1744,7 +1749,7 @@ async function init(){
   updateCollCount();
   // Platform showcases (small files, all active games) → refresh the five
   // homepage sections once they arrive so the page represents every game.
-  loadShowcases().then(()=>{renderFC();renderChars();renderTrend();renderChase();renderBoxes();});
+  loadShowcases().then(()=>{renderStats();renderFC();renderChars();renderTrend();renderChase();renderBoxes();});
   // Load price overrides from Supabase — non-blocking. Once loaded, refresh
   // home widgets so overridden prices appear immediately.
   _loadOverrides().then(()=>{if(Object.keys(D.overrides).length)renderHome();});
@@ -2386,9 +2391,24 @@ function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span clas
 function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();renderChase();renderBoxes();renderRecent();renderChars();}
 
 function renderStats(){
+  const L=S.lang;
+  // PLATFORM-WIDE stats from the per-game showcases (games count, total
+  // indexed cards across all games, highest card on the whole platform).
+  const shs=showcases().filter(s=>s.totals);
+  if(shs.length>1){
+    const totalCards=shs.reduce((n,s)=>n+(s.totals.cards||0),0);
+    const hiUsd=Math.max(0,...shs.map(s=>(s.top_chase&&s.top_chase[0]&&s.top_chase[0].price_usd)||0),...shs.map(s=>(s.featured_pool&&s.featured_pool[0]&&s.featured_pool[0].price_usd)||0));
+    const st=[
+      {ic:'🎴',v:shs.length,th:'เกมการ์ดที่รองรับ',en:'Card Games'},
+      {ic:'🗂️',v:totalCards.toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
+      {ic:'⭐',v:fpL(hiUsd),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
+    ];
+    document.getElementById('stats').innerHTML=st.map(s=>`<div class="stat-p"><span class="stat-ic">${s.ic}</span><div><div class="stat-v">${s.v}</div><div class="stat-l">${L==='th'?s.th:s.en}</div></div></div>`).join('');
+    return;
+  }
+  // Fallback: legacy home-game stats.
   const cards=flat();
   const hiThb=cards.reduce((m,c)=>Math.max(m,editionPriceThb(c)),0);
-  const L=S.lang;
   const st=[
     {ic:'⚓',v:D.index.filter(s=>D.setData[s.code]).length||D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
     {ic:'🗂️',v:ttl().toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
@@ -2461,7 +2481,8 @@ function jumpFC(code,imgId){
 
 function renderPops(){
   const L=S.lang;
-  const chips=[{label:'OP-05',q:'OP-05'},{label:'ลูฟี่',q:'Luffy'},{label:'Manga Rare',q:'Manga'},{label:'Shanks',q:'Shanks'},{label:'Alt Art',q:'Alternate Art'}];
+  // Popular searches span both games (platform homepage, not a game page)
+  const chips=[{label:'OP-05',q:'OP-05'},{label:'ลูฟี่',q:'Luffy'},{label:'Manga Rare',q:'Manga'},{label:'Elsa',q:'Elsa'},{label:'Enchanted',q:'Enchanted'},{label:'Mickey Mouse',q:'Mickey Mouse'}];
   document.getElementById('pop-chips').innerHTML=`<span>${L==='th'?'ค้นหายอดนิยม:':'Popular:'}</span>`+chips.map(c=>`<button class="pop-chip" onclick="quickSearch('${c.q.replace(/'/g,"\\'")}')">${c.label}</button>`).join('');
 }
 
