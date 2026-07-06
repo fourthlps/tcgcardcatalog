@@ -2751,9 +2751,10 @@ function renderTrend(){
   const jpMode=S.cardLang==='jp';
 
   // Panel 1 — Highest Value: PLATFORM-WIDE, composed from every game's
-  // showcase (real market prices), each row tagged with its game.
+  // showcase top_value list (PURE price ranking over all cards — top_chase
+  // is tier-ordered and must not feed this panel), each row game-tagged.
   let valHtml='';
-  const scAll=showcases().map(s=>s.top_chase||[]).flat().filter(c=>c.price_usd>0)
+  const scAll=showcases().map(s=>s.top_value||s.top_chase||[]).flat().filter(c=>c.price_usd>0)
     .sort((a,b)=>b.price_usd-a.price_usd).slice(0,5);
   if(scAll.length){
     valHtml=scAll.map((c,i)=>`
