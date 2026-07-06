@@ -4025,12 +4025,12 @@ function openSetOverview(code){
   // ── 3. CARD DATABASE SELECTOR ──────────────────────────────────────────────
   // EN releases: OP-01 through OP-13 have confirmed English releases.
   const hasEN=cards.length>0&&cards.some(c=>realPrice(c)>0||!!marketFor(c,'EN'));
-  const jpCard=cards.length?`<div class="set-ov-db-card jp" onclick="openSet('${code}')">
+  const jpCard=cards.length?`<div class="set-ov-db-card jp" onclick="openSet('${code}','jp')">
     <div class="set-ov-db-flag">🇯🇵</div>
     <div class="set-ov-db-name">${L==='th'?'ฐานข้อมูลการ์ดญี่ปุ่น':'Japanese Card Database'}</div>
     <div class="set-ov-db-count">${totalCards} ${L==='th'?'ใบ':'cards'}</div>
     <div class="set-ov-db-price-type">${L==='th'?'ราคาอ้างอิง JP (Yuyu-Tei)':'JP Retail Reference (Yuyu-Tei)'}</div>
-    <button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}')">${L==='th'?'ดูการ์ด JP →':'Browse JP Cards →'}<span>→</span></button>
+    <button class="set-ov-db-btn" onclick="event.stopPropagation();openSet('${code}','jp')">${L==='th'?'ดูการ์ด JP →':'Browse JP Cards →'}<span>→</span></button>
   </div>`:'';
   const enCard=`<div class="set-ov-db-card en${hasEN?'':' unavail'}" ${hasEN?`onclick="openSet('${code}','en')" style="cursor:pointer"`:''}">
     <div class="set-ov-db-flag">🇺🇸</div>
@@ -4310,7 +4310,7 @@ function openSet(code,lang){
   const EN_EXCLUDE=/treasure|wanted poster/i;
   S.cards=isEN
     ?allCards.filter(c=>EN_RARITIES.has(c.rarity||'')&&!EN_EXCLUDE.test(c.card_name||''))
-    :allCards.filter(c=>hasJP(c));
+    :allCards;
   const m=D.index.find(s=>s.code===code);
   const langLabel=isEN?'🇺🇸 EN':'🇯🇵 JP';
   document.getElementById('cards-ttl').textContent=langLabel+' · '+code+' — '+(m?m.name:'');
