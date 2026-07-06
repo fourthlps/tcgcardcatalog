@@ -2052,11 +2052,14 @@ function editionPrice(c,ed){
 function tilePrice(c){
   if(S.cardLang==='jp'&&!singleEdition(c)){
     const jp=marketFor(c,'JP');
-    if(jp){
-      if(S.cur==='THB'&&jp.converted_price>0)return '฿'+Math.round(jp.converted_price).toLocaleString('th-TH')+' <span class="ed-ref">อ้างอิง</span>';
-      return '¥'+Math.round(jp.source_price).toLocaleString();
+    const ov=_getOverride(c);
+    const ovJpy=ov&&ov.override_jp>0?Number(ov.override_jp):0;
+    if(jp||ovJpy>0){
+      const thb=ovJpy>0?ovJpy*activeJpyFx():(jp.converted_price>0?jp.converted_price:jp.source_price*activeJpyFx());
+      if(S.cur==='THB'&&thb>0)return '฿'+Math.round(thb).toLocaleString('th-TH')+' <span class="ed-ref">อ้างอิง</span>';
+      const jpy=ovJpy||jp?.source_price||0;
+      return '¥'+Math.round(jpy).toLocaleString();
     }
-    // In JP grid: no JP market data — do NOT fall back to EN price
     return `<span style="color:var(--faint)">${S.lang==='th'?'ไม่มีข้อมูลราคา JP':'JP price N/A'}</span>`;
   }
   const v=realPrice(c);
