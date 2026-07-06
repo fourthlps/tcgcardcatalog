@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-07-06T22:47:42.125267+00:00",
+  "snapshot_date": "2026-07-06",
+  "baseline_date": "2026-07-05",
+  "days_between_snapshots": 1,
+  "history_days_collected": 2,
+  "period": "7_day",
+  "confidence": "low",
+  "source": "Yuyu-Tei via jp-card-prices.com",
+  "currency": "JPY",
+  "game": "onepiece",
+  "cards_evaluated": 2246,
+  "cards_with_trend": 0,
+  "trend_type": "losers",
+  "cards": []
+}

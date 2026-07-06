@@ -1,42 +1,18 @@
 {
-  "generated_at": "2026-07-05T21:37:45.489485+00:00",
-  "snapshot_date": "2026-07-05",
-  "baseline_date": "2026-07-04",
+  "generated_at": "2026-07-06T22:44:26.671805+00:00",
+  "snapshot_date": "2026-07-06",
+  "baseline_date": "2026-07-05",
   "days_between_snapshots": 1,
-  "history_days_collected": 10,
+  "history_days_collected": 11,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1274,
-  "cards_with_trend": 29,
+  "cards_evaluated": 1270,
+  "cards_with_trend": 27,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "ST03-013",
-      "card_image_id": "ST03-013_p3",
-      "card_name": "Boa Hancock (ST03-013) (Full Art)",
-      "set_code": "PRB-01",
-      "rarity": "C",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST03-013_p3.jpg",
-      "today_price_usd": 47.19,
-      "baseline_price_usd": 39.29,
-      "price_change_usd": 7.9,
-      "price_change_percent": 20.11
-    },
-    {
-      "card_id": "OP01-121",
-      "card_image_id": "OP01-121_p1",
-      "card_name": "Yamato (Parallel)",
-      "set_code": "OP-01",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-121_p1.jpg",
-      "today_price_usd": 111.14,
-      "baseline_price_usd": 106.89,
-      "price_change_usd": 4.25,
-      "price_change_percent": 3.98
-    },
     {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
@@ -50,28 +26,52 @@
       "price_change_percent": 227.32
     },
     {
+      "card_id": "OP02-036",
+      "card_image_id": "OP02-036_p1",
+      "card_name": "Nami (Alternate Art)",
+      "set_code": "OP-02",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-036_p1.jpg",
+      "today_price_usd": 79.05,
+      "baseline_price_usd": 75.86,
+      "price_change_usd": 3.19,
+      "price_change_percent": 4.21
+    },
+    {
       "card_id": "OP06-058",
       "card_image_id": "OP06-058_p1",
       "card_name": "Gravity Blade Raging Tiger (Alternate Art)",
       "set_code": "PRB-02",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-058_p1.jpg",
-      "today_price_usd": 62.84,
-      "baseline_price_usd": 58.73,
-      "price_change_usd": 4.11,
-      "price_change_percent": 7.0
+      "today_price_usd": 65.96,
+      "baseline_price_usd": 62.84,
+      "price_change_usd": 3.12,
+      "price_change_percent": 4.96
     },
     {
-      "card_id": "ST13-003",
-      "card_image_id": "ST13-003",
-      "card_name": "Monkey.D.Luffy (003)",
-      "set_code": "ST-13",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST13-003_a7Gzwsz.jpg",
-      "today_price_usd": 11.07,
-      "baseline_price_usd": 8.98,
-      "price_change_usd": 2.09,
-      "price_change_percent": 23.27
+      "card_id": "EB04-058",
+      "card_image_id": "EB04-058",
+      "card_name": "Borsalino",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
+      "today_price_usd": 30.96,
+      "baseline_price_usd": 28.14,
+      "price_change_usd": 2.82,
+      "price_change_percent": 10.02
+    },
+    {
+      "card_id": "OP02-099",
+      "card_image_id": "OP02-099_p2",
+      "card_name": "Sakazuki (SP)",
+      "set_code": "OP-04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-099_p2.jpg",
+      "today_price_usd": 65.81,
+      "baseline_price_usd": 63.3,
+      "price_change_usd": 2.51,
+      "price_change_percent": 3.97
     }
   ]
 }
