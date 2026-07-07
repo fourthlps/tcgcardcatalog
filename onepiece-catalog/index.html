@@ -2302,7 +2302,7 @@ function _renderChasePage(setFilter){
   const L=S.lang;
   const allCards=flat();
   const isJP=S.cardLang==='jp';
-  const chaseCards=allCards.filter(c=>chaseScore(c)>0&&hasEditionPrice(c))
+  const chaseCards=allCards.filter(c=>chaseScore(c)>0&&hasEditionPrice(c)&&editionPriceThb(c)>=CHASE_MIN_THB)
     .sort((a,b)=>chaseScore(b)-chaseScore(a)||editionPriceThb(b)-editionPriceThb(a));
   // Use D._imgIndex for clean set codes — avoids composite codes like "OP14-EB04"
   const _getChaseSetCode=c=>{const hit=D._imgIndex?D._imgIndex[c.card_image_id]:null;return hit?hit.code:(c.set_id||'');};
