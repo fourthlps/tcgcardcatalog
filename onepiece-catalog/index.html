@@ -323,7 +323,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .game-tile.pkm{background:linear-gradient(135deg,#fefce8,#fef3c7,#fde8ff)}
 .game-tile.nrt{background:linear-gradient(135deg,#fff7ed,#ffedd5,#fce7f3)}
 .game-tile.lrc{background:linear-gradient(135deg,#f0fdf4,#dcfce7,#e0f2fe)}
-.tile-svg{position:absolute;right:-10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
+.tile-svg{position:absolute;right:-8px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
 .tile-icon{font-size:28px;margin-bottom:10px;position:relative}
 .tile-name{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:2px;position:relative}
 .tile-sub{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;position:relative}
@@ -334,49 +334,72 @@ body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
 .tile-btn.active{background:#fff;color:var(--blue)}
 .tile-btn.soon{background:rgba(16,23,40,.08);color:rgba(16,23,40,.4);cursor:default}
 
-/* ── BROWSE GAMES: platform hero (curated two-tier composition) ─────────────
-   Live games are the flagship statement; coming-soon titles read as a quiet
-   roadmap, never competing with what's available today. */
+/* BROWSE GAMES */
 .games-section{padding-top:8px}
 .games-sec-head h2{font-size:26px;letter-spacing:-.02em}
-.games-sub{font-size:14px;color:var(--soft);margin:-8px 0 26px;line-height:1.6;max-width:560px}
+.games-sub{font-size:14px;color:var(--soft);margin:-8px 0 24px;line-height:1.6;max-width:520px}
 .games-hero{display:flex;flex-direction:column}
-.games-group-label{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 14px}
-.ggl-dot{width:7px;height:7px;border-radius:50%;background:var(--bord2);flex-shrink:0}
-.ggl-dot.live{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.15),0 0 10px rgba(34,197,94,.55)}
-.games-group.soon-group{margin-top:30px;padding-top:26px;border-top:1px solid var(--bord1)}
-.games-row-live{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
-.games-row-soon{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-/* Flagship tiles: equal weight, per-game accent via --tile-accent, calm
-   Apple/Linear-grade motion (long ease-out, soft layered shadow, faint glow) */
-.game-tile.live-tile{padding:34px 30px 30px;border-radius:18px;color:#fff;border:1px solid rgba(255,255,255,.08);
-  transition:transform .38s cubic-bezier(.22,1,.36,1),box-shadow .38s cubic-bezier(.22,1,.36,1),border-color .38s ease;
-  box-shadow:0 2px 8px rgba(16,23,42,.08),0 12px 28px rgba(16,23,42,.10)}
+.games-group-label{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 12px}
+.ggl-dot{width:6px;height:6px;border-radius:50%;background:var(--bord2);flex-shrink:0}
+.ggl-dot.live{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.15),0 0 8px rgba(34,197,94,.5)}
+.games-group.soon-group{margin-top:22px;padding-top:20px;border-top:1px solid var(--bord1)}
+/* Live games: 2-col compact grid, capped so cards feel curated not banner-wide */
+.games-row-live{display:grid;grid-template-columns:repeat(2,minmax(200px,280px));gap:12px}
+/* Coming soon: smaller 4-col (or auto-fit) grid, clearly subordinate */
+.games-row-soon{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,160px));gap:8px}
+/* Flagship live tiles: compact padding, premium shadow + soft glow on hover */
+.game-tile.live-tile{
+  padding:20px 20px 18px;border-radius:16px;color:#fff;
+  border:1px solid rgba(255,255,255,.1);
+  transition:transform .32s cubic-bezier(.22,1,.36,1),box-shadow .32s cubic-bezier(.22,1,.36,1),border-color .32s ease;
+  box-shadow:0 1px 4px rgba(16,23,42,.1),0 6px 20px rgba(16,23,42,.13)}
 .game-tile.live-tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-  background:radial-gradient(120% 90% at 12% 0%,rgba(255,255,255,.16),transparent 55%)}
-.game-tile.live-tile:hover{transform:translateY(-6px) scale(1.012);border-color:rgba(255,255,255,.22);
-  box-shadow:0 4px 12px rgba(16,23,42,.10),0 26px 54px rgba(16,23,42,.18),0 0 42px color-mix(in srgb,var(--tile-accent,#f2b705) 26%,transparent)}
-.game-tile.live-tile:active{transform:translateY(-2px) scale(1.004)}
+  background:radial-gradient(110% 75% at 12% 0%,rgba(255,255,255,.14),transparent 52%)}
+.game-tile.live-tile:hover{
+  transform:translateY(-4px);border-color:rgba(255,255,255,.22);
+  box-shadow:0 3px 10px rgba(16,23,42,.12),0 16px 36px rgba(16,23,42,.18),0 0 26px color-mix(in srgb,var(--tile-accent,#f2b705) 20%,transparent)}
+.game-tile.live-tile:active{transform:translateY(-1px)}
 .game-tile.live-tile.op{background:linear-gradient(135deg,#1d4ed8,#7c3aed)}
 .game-tile.live-tile.lrc{background:linear-gradient(135deg,#155e75,#2563a8 55%,#6d28d9)}
-.game-tile.live-tile .tile-name{font-size:24px}
-.game-tile.live-tile .tile-icon{font-size:30px}
-.game-tile.live-tile .tile-meta{color:rgba(255,255,255,.82);font-size:12.5px}
-.game-tile.live-tile .tile-btn.active{background:rgba(255,255,255,.96);color:#1e2a44;box-shadow:0 2px 10px rgba(0,0,0,.18);
-  transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s ease}
-.game-tile.live-tile:hover .tile-btn.active{transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,0,0,.24)}
-/* Coming-soon tiles: deliberately quieter — reduced opacity & saturation,
-   dashed border, no lift. A roadmap, not an option. */
-.game-tile.soon-tile{cursor:default;background:var(--bg2);border:1px dashed var(--bord2);box-shadow:none;
-  padding:22px 22px 20px;border-radius:14px;opacity:.62;filter:saturate(.4);transition:opacity .3s ease}
-.game-tile.soon-tile:hover{opacity:.85;transform:none;box-shadow:none;border-color:var(--bord2)}
-.game-tile.soon-tile .tile-name{font-size:17px;color:var(--soft)}
-.game-tile.soon-tile .tile-icon{font-size:22px;margin-bottom:7px;opacity:.7}
-.game-tile.soon-tile .tile-sub{color:var(--faint);margin-bottom:8px}
-.game-tile.soon-tile .tile-meta{color:var(--faint);font-size:11.5px;margin-bottom:0}
-.soon-pill{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
-  padding:4px 11px;border-radius:999px;background:var(--bg3);color:var(--faint);border:1px solid var(--bord2)}
-@media (max-width:640px){.games-row-live{grid-template-columns:1fr}.game-tile.live-tile{padding:28px 24px 24px}}
+/* Smaller watermark on live tiles */
+.game-tile.live-tile .tile-svg{width:68px;height:68px;opacity:.14}
+.game-tile.live-tile .tile-icon{font-size:22px;margin-bottom:7px}
+.game-tile.live-tile .tile-name{font-size:17px;font-weight:800;margin-bottom:1px}
+.game-tile.live-tile .tile-sub{font-size:10px;letter-spacing:.07em;margin-bottom:8px}
+.game-tile.live-tile .tile-meta{color:rgba(255,255,255,.78);font-size:11.5px;margin-bottom:3px}
+.game-tile.live-tile .tile-btn.active{
+  background:rgba(255,255,255,.95);color:#1e2a44;font-size:11.5px;padding:6px 13px;
+  box-shadow:0 1px 6px rgba(0,0,0,.15);
+  transition:transform .24s cubic-bezier(.22,1,.36,1),box-shadow .24s ease}
+.game-tile.live-tile:hover .tile-btn.active{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.22)}
+/* Live chip: green dot + "Live" label, top-right of each live card */
+.tile-live-badge{
+  position:absolute;top:11px;right:11px;display:inline-flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:3px 8px 3px 6px;border-radius:999px;
+  background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.28);color:rgba(255,255,255,.86)}
+.tile-live-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;flex-shrink:0}
+/* "Daily prices" micro-label below meta */
+.tile-prices-label{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;color:rgba(255,255,255,.46);margin-bottom:11px;position:relative}
+/* Coming-soon tiles: compact, muted, no lift — a roadmap note, not a CTA */
+.game-tile.soon-tile{
+  cursor:default;background:var(--bg2);border:1px dashed var(--bord2);box-shadow:none;
+  padding:13px 14px 11px;border-radius:11px;opacity:.48;filter:saturate(.3);transition:opacity .3s ease}
+.game-tile.soon-tile:hover{opacity:.64;transform:none;box-shadow:none;border-color:var(--bord2)}
+.game-tile.soon-tile .tile-icon{font-size:17px;margin-bottom:5px;opacity:.65}
+.game-tile.soon-tile .tile-name{font-size:13px;color:var(--soft);font-weight:700}
+.game-tile.soon-tile .tile-sub{font-size:9.5px;color:var(--faint);margin-bottom:5px;letter-spacing:.06em}
+.game-tile.soon-tile .tile-meta{color:var(--faint);font-size:10.5px;margin-bottom:0}
+.soon-pill{
+  position:absolute;top:9px;right:9px;font-size:8.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  padding:3px 7px;border-radius:999px;background:var(--bg3);color:var(--faint);border:1px solid var(--bord2)}
+@media (max-width:640px){
+  .games-row-live{grid-template-columns:1fr;max-width:100%}
+  .games-row-soon{grid-template-columns:repeat(2,1fr);max-width:100%}
+  .game-tile.live-tile{padding:18px 18px 16px}
+}
 
 /* HIGHLIGHTS */
 .hl-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:6px}
@@ -2644,16 +2667,20 @@ function renderGames(){
       :(sc&&sc.totals)
         ?`${sc.totals.sets} ${L==='th'?'ชุด':'Sets'} · ${sc.totals.cards.toLocaleString()} ${L==='th'?'ใบ':'Cards'}`
         :(L==='th'?`ใหม่! ${gc.display_name}`:`NEW! ${gc.display_name}`);
+    const liveBadge=`<span class="tile-live-badge"><span class="tile-live-dot"></span>Live</span>`;
+    const pricesLabel=`<div class="tile-prices-label">${L==='th'?'อัปเดตราคาทุกวัน':'Daily prices'}</div>`;
     return `<div class="game-tile live-tile ${GAME_CLS[slug]||''}" style="--tile-accent:${gc.theme_color||'#f2b705'}" onclick="openGame('${slug}')">${GAME_SVG[slug]||''}
+      ${liveBadge}
       <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
       <div class="tile-meta">${meta}</div>
-      <button class="tile-btn active">${L==='th'?'สำรวจตอนนี้ →':'Explore →'}</button>
+      ${pricesLabel}
+      <button class="tile-btn active">${L==='th'?'สำรวจ →':'Explore →'}</button>
     </div>`;
   };
-  const soonTile=gc=>`<div class="game-tile soon-tile ${GAME_CLS[gc.slug]||''}">${GAME_SVG[gc.slug]||''}
+  const soonTile=gc=>`<div class="game-tile soon-tile ${GAME_CLS[gc.slug]||''}">
       <span class="soon-pill">${soon}</span>
       <div class="tile-icon">${gc.icon||'🃏'}</div><div class="tile-name">${gc.tile_name||gc.short_name}</div><div class="tile-sub">CARD GAME</div>
-      <div class="tile-meta">${L==='th'?'อยู่ในแผนการเปิดตัว':'Planned addition'}</div>
+      <div class="tile-meta">${L==='th'?'เร็วๆ นี้':'Planned'}</div>
     </div>`;
   document.getElementById('games-row').innerHTML=`
     <div class="games-group">
