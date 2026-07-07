@@ -1234,7 +1234,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
     </div>
     <nav class="nav">
       <a onclick="goHome();closeMobileMenu()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
-      <a onclick="openOnePiece();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
+      <a onclick="openAllSets();closeMobileMenu()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
       <a onclick="openAllCards()" class="t" data-th="การ์ดทั้งหมด" data-en="Cards">การ์ดทั้งหมด</a>
       <a onclick="openChasePage();closeMobileMenu()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
       <a onclick="openCollection()"><span class="t" data-th="การ์ดของฉัน" data-en="My Cards">การ์ดของฉัน</span><span class="coll-nav-count" style="display:none">0</span></a>
@@ -1385,7 +1385,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
         <div class="footer-col">
           <h4 class="t" data-th="ลิงก์ด่วน" data-en="Quick Links">ลิงก์ด่วน</h4>
           <a onclick="goHome()" class="t" data-th="หน้าหลัก" data-en="Home">หน้าหลัก</a>
-          <a onclick="openOnePiece()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
+          <a onclick="openAllSets()" class="t" data-th="ชุดการ์ด" data-en="Sets">ชุดการ์ด</a>
           <a onclick="openChasePage()" class="t" data-th="Chase Cards" data-en="Chase Cards">Chase Cards</a>
           <a onclick="comingSoon(S.lang==='th'?'บทความ':'Articles')" class="dim t" data-th="บทความ" data-en="Articles">บทความ</a>
         </div>
@@ -1421,6 +1421,7 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
   <div class="crumb" id="crumb-sets"></div>
   <button class="back-btn" onclick="goHome()">← <span class="t" data-th="กลับหน้าแรก" data-en="Back">กลับหน้าแรก</span></button>
   <h1 class="page-ttl serif t" id="sets-page-ttl" data-th="One Piece — รายชื่อชุด" data-en="One Piece — Sets">One Piece — รายชื่อชุด</h1>
+  <div id="sets-game-row" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"></div>
   <div class="filter-row" id="sets-filter-row"></div>
   <div class="sets-grid" id="sets-list"></div>
 </main>
@@ -1714,6 +1715,24 @@ function setImgUrl(code){
   const top=cards.reduce((m,c)=>realPrice(c)>realPrice(m)?c:m,cards[0]);
   return top.card_image||null;
 }
+// Set tile image: prefers a real product box image over a card image.
+// Games with set_tile_card_img:false (e.g. One Piece whose API watermarks
+// cards with "SAMPLE") will show a clean category background instead.
+function setTileImgUrl(code){
+  // Priority 1: product_image from products.json (real box photo)
+  const allProds=(()=>{const g=gameOf(code);return g?gd(g).products||[]:D.products||[];})();
+  const boxProd=allProds.find(p=>p.set_code===code&&p.product_type==='Booster Box'&&p.product_image&&!/NULL/i.test(p.product_image));
+  if(boxProd) return boxProd.product_image;
+  // Priority 2: card image — only if the game permits it (cards are non-watermarked)
+  const gc=cfg2(gameOf(code)||S.game);
+  if(gc.set_tile_card_img===false) return null;
+  return setImgUrl(code);
+}
+// Multi-game Sets entry point: keeps current game selection, shows game tabs.
+function openAllSets(){
+  show('view-sets');
+  renderSets();
+}
 
 // Announced sets with no card data yet are "coming soon" tiles. Source is
 // config-driven per game: coming_soon_source 'static' reads the config's
@@ -1895,7 +1914,7 @@ const DEFAULT_CONFIG={
   games_order:['one-piece','lorcana','pokemon','naruto'],
   games:{
     'one-piece':{slug:'one-piece',display_name:'One Piece Card Game',short_name:'One Piece',tile_name:'ONE PIECE',icon:'⚓',status:'active',
-      id_prefixes:['OP','EB','ST','PRB'],
+      id_prefixes:['OP','EB','ST','PRB'],set_tile_card_img:false,
       data_paths:{cards:'data/one-piece/cards.json',prices:'data/one-piece/prices.json',sets:'data/one-piece/sets.json',products:'data/one-piece/products.json',characters:'data/one-piece/characters.json',market:'data/one-piece/market.json',showcase:'data/one-piece/showcase.json',search_index:'search/one-piece-index.json',trends_gainers:'data/top-gainers.json',trends_losers:'data/top-losers.json',trends_jp_gainers:'data/jp-top-gainers.json',trends_jp_losers:'data/jp-top-losers.json',price_history:'data/price-history.json',status:'data/status.json'},
       card_detail_layout:{stats:[{key:'card_cost',label:'Cost'},{key:'card_power',label:'Power'},{key:'life',label:'Life'},{key:'card_color'},{key:'card_type'}],meta_line:[],flavor_key:null},
       rarity_list:['L','C','UC','R','SR','SEC','SP','TR','P','PR'],
@@ -4467,8 +4486,22 @@ function setBoxPrice(code){
 function renderSets(){
   show('view-sets');setCrumb('crumb-sets',' / '+gameLabel());
   const L=S.lang;
-  // Game-aware page title. data-th/data-en are updated too because
-  // applyLangUI() rewrites any .t element's text from those attributes.
+  // Game tabs — one per active game, highlights current
+  const activeGames=(CONFIG.games_order||Object.keys(CONFIG.games)).filter(sl=>CONFIG.games[sl]&&CONFIG.games[sl].status==='active');
+  const gameRow=document.getElementById('sets-game-row');
+  if(gameRow){
+    if(activeGames.length>1){
+      gameRow.style.display='flex';
+      gameRow.innerHTML=activeGames.map(sl=>{
+        const gc=CONFIG.games[sl];
+        const active=sl===S.game;
+        return `<button onclick="openGame('${sl}')" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:99px;border:2px solid ${active?'var(--accent)':'var(--bord1)'};background:${active?'var(--accent)':'var(--bg2)'};color:${active?'#fff':'var(--soft)'};font-size:13px;font-weight:700;cursor:pointer;transition:all .18s">${gc.icon||'🃏'} ${gc.short_name}</button>`;
+      }).join('');
+    } else {
+      gameRow.style.display='none';
+    }
+  }
+  // Game-aware page title.
   const ttlEl=document.getElementById('sets-page-ttl');
   if(ttlEl){
     const g=gameLabel();
@@ -4485,7 +4518,7 @@ function renderSets(){
     if(showLangFilter&&S.setLang!=='all'&&!D.products.some(x=>x.set_code===s.code&&x.language===S.setLang))return null;
     const box=boxInfo(s.code);
     const price=setBoxPrice(s.code)||'—';
-    const imgUrl=setImgUrl(s.code);
+    const imgUrl=setTileImgUrl(s.code);
     const vers=D.products.filter(x=>x.set_code===s.code&&(S.setLang==='all'||x.language===S.setLang));
     // One badge per language (a set with 7 EN products gets one EN badge, not 7)
     const verLangs=[...new Set(vers.map(p=>p.language))];
@@ -4510,7 +4543,7 @@ function renderSets(){
   }).filter(Boolean);
   // "Coming soon" tiles come from the active game's config-declared source.
   const soonTiles=comingSoonTiles(S.game).filter(s=>S.setCat==='all'||S.setCat===s.cat).map(s=>{
-    const imgUrl=setImgUrl(s.code);
+    const imgUrl=setTileImgUrl(s.code);
     return `
     <div class="set-card soon">
       <div class="set-img-wrap cat-${s.cat}">
