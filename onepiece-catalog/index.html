@@ -1719,14 +1719,17 @@ function setImgUrl(code){
 // Games with set_tile_card_img:false (e.g. One Piece whose API watermarks
 // cards with "SAMPLE") will show a clean category background instead.
 function setTileImgUrl(code){
-  // Priority 1: product_image from products.json (real box photo)
   const allProds=(()=>{const g=gameOf(code);return g?gd(g).products||[]:D.products||[];})();
   const boxProd=allProds.find(p=>p.set_code===code&&['Booster Box','Extra Booster','Premium Booster'].includes(p.product_type)&&p.product_image&&!/NULL/i.test(p.product_image));
   if(boxProd) return boxProd.product_image;
-  // Priority 2: card image — only if the game permits it (cards are non-watermarked)
   const gc=cfg2(gameOf(code)||S.game);
   if(gc.set_tile_card_img===false) return null;
   return setImgUrl(code);
+}
+function setTileBoxProdId(code){
+  const allProds=(()=>{const g=gameOf(code);return g?gd(g).products||[]:D.products||[];})();
+  const boxProd=allProds.find(p=>p.set_code===code&&['Booster Box','Extra Booster','Premium Booster'].includes(p.product_type)&&p.product_image&&!/NULL/i.test(p.product_image));
+  return boxProd?boxProd.product_id:null;
 }
 // Multi-game Sets entry point: keeps current game selection, shows game tabs.
 function openAllSets(){
@@ -4528,7 +4531,7 @@ function renderSets(){
         <div class="set-tile-pattern"></div>
         <div class="set-tile-icon">${CAT_ICON[cat]}</div>
         <div class="set-tile-code">${s.code}</div>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()" style="${imgStyle(getImgPos(setTileBoxProdId(s.code)))}">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="set-price-badge">${L==='th'?'กล่อง':'Box'} ${price}</div>
         ${box?.hot?'<div class="set-hot">🔥 HOT</div>':''}
@@ -4549,7 +4552,7 @@ function renderSets(){
       <div class="set-img-wrap cat-${s.cat}">
         <div class="set-tile-pattern"></div>
         <span class="soon-ph">📦</span>
-        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()">`:''}
+        ${imgUrl?`<img class="set-real-img" src="${imgUrl}" loading="lazy" onerror="this.remove()" style="${imgStyle(getImgPos(setTileBoxProdId(s.code)))}">`:''}
         <div class="set-cat-badge">${setCatLabel(s.code,L)}</div>
         <div class="soon-tag">${L==='th'?'เร็วๆ นี้':'Coming Soon'}</div>
       </div>
