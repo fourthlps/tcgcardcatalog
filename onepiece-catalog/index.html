@@ -1721,7 +1721,7 @@ function setImgUrl(code){
 function setTileImgUrl(code){
   // Priority 1: product_image from products.json (real box photo)
   const allProds=(()=>{const g=gameOf(code);return g?gd(g).products||[]:D.products||[];})();
-  const boxProd=allProds.find(p=>p.set_code===code&&p.product_type==='Booster Box'&&p.product_image&&!/NULL/i.test(p.product_image));
+  const boxProd=allProds.find(p=>p.set_code===code&&['Booster Box','Extra Booster','Premium Booster'].includes(p.product_type)&&p.product_image&&!/NULL/i.test(p.product_image));
   if(boxProd) return boxProd.product_image;
   // Priority 2: card image — only if the game permits it (cards are non-watermarked)
   const gc=cfg2(gameOf(code)||S.game);
