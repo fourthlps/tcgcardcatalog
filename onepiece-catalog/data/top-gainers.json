@@ -1,18 +1,66 @@
 {
-  "generated_at": "2026-07-06T22:44:26.671805+00:00",
-  "snapshot_date": "2026-07-06",
-  "baseline_date": "2026-07-05",
+  "generated_at": "2026-07-07T22:20:47.533618+00:00",
+  "snapshot_date": "2026-07-07",
+  "baseline_date": "2026-07-06",
   "days_between_snapshots": 1,
-  "history_days_collected": 11,
+  "history_days_collected": 12,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1270,
-  "cards_with_trend": 27,
+  "cards_evaluated": 1267,
+  "cards_with_trend": 38,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP09-119",
+      "card_image_id": "OP09-119_p3",
+      "card_name": "Monkey.D.Luffy - OP09-119 (SP)",
+      "set_code": "OP-13",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-119_p3.jpg",
+      "today_price_usd": 356.37,
+      "baseline_price_usd": 343.64,
+      "price_change_usd": 12.73,
+      "price_change_percent": 3.7
+    },
+    {
+      "card_id": "ST13-011",
+      "card_image_id": "ST13-011_p2",
+      "card_name": "Portgas.D.Ace (SP)",
+      "set_code": "OP-12",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST13-011_p2_kGplbib.jpg",
+      "today_price_usd": 143.51,
+      "baseline_price_usd": 135.16,
+      "price_change_usd": 8.35,
+      "price_change_percent": 6.18
+    },
+    {
+      "card_id": "OP01-078",
+      "card_image_id": "OP01-078_p1",
+      "card_name": "Boa Hancock (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-078_p1.jpg",
+      "today_price_usd": 159.1,
+      "baseline_price_usd": 154.38,
+      "price_change_usd": 4.72,
+      "price_change_percent": 3.06
+    },
+    {
+      "card_id": "OP15-022",
+      "card_image_id": "OP15-022_p1",
+      "card_name": "Brook (OP15-022) (Alternate Art)",
+      "set_code": "OP15-EB04",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP15-022_p1.jpg",
+      "today_price_usd": 75.22,
+      "baseline_price_usd": 70.9,
+      "price_change_usd": 4.32,
+      "price_change_percent": 6.09
+    },
     {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
@@ -21,57 +69,9 @@
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
       "today_price_usd": 5.99,
-      "baseline_price_usd": 1.83,
-      "price_change_usd": 4.16,
-      "price_change_percent": 227.32
-    },
-    {
-      "card_id": "OP02-036",
-      "card_image_id": "OP02-036_p1",
-      "card_name": "Nami (Alternate Art)",
-      "set_code": "OP-02",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-036_p1.jpg",
-      "today_price_usd": 79.05,
-      "baseline_price_usd": 75.86,
-      "price_change_usd": 3.19,
-      "price_change_percent": 4.21
-    },
-    {
-      "card_id": "OP06-058",
-      "card_image_id": "OP06-058_p1",
-      "card_name": "Gravity Blade Raging Tiger (Alternate Art)",
-      "set_code": "PRB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-058_p1.jpg",
-      "today_price_usd": 65.96,
-      "baseline_price_usd": 62.84,
-      "price_change_usd": 3.12,
-      "price_change_percent": 4.96
-    },
-    {
-      "card_id": "EB04-058",
-      "card_image_id": "EB04-058",
-      "card_name": "Borsalino",
-      "set_code": "OP15-EB04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
-      "today_price_usd": 30.96,
-      "baseline_price_usd": 28.14,
-      "price_change_usd": 2.82,
-      "price_change_percent": 10.02
-    },
-    {
-      "card_id": "OP02-099",
-      "card_image_id": "OP02-099_p2",
-      "card_name": "Sakazuki (SP)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-099_p2.jpg",
-      "today_price_usd": 65.81,
-      "baseline_price_usd": 63.3,
-      "price_change_usd": 2.51,
-      "price_change_percent": 3.97
+      "baseline_price_usd": 1.85,
+      "price_change_usd": 4.14,
+      "price_change_percent": 223.78
     }
   ]
 }
