@@ -1693,11 +1693,12 @@ async function renderImageFraming(){
   const ca=document.getElementById('content-area');
   ca.innerHTML=`<div class="page-head"><div><h1>Image Framing</h1><div class="page-head-sub">Adjust how each product image is cropped and positioned. Changes save instantly in this browser.</div></div></div><div style="padding:40px;text-align:center;color:var(--faint)">Loading products…</div>`;
 
-  // Load showcase JSONs if not cached
+  // Load showcase JSONs + products.json if not cached
+  const BOX_TYPES=['Booster Box','Extra Booster','Premium Booster'];
   if(!_ifProds){
     try{
       const results=await Promise.all(GAMES_WITH_SHOWCASE.map(g=>
-        fetch(`./data/${g}/showcase.json`).then(r=>r.json()).then(d=>(d.products||[]).map(p=>({...p,game:p.game||g}))).catch(()=>[])
+        fetch(`./data/${g}/showcase.json`).then(r=>r.json()).then(d=>(d.products||[]).map(p=>({...p,game:p.game||g,_section:'showcase'}))).catch(()=>[])
       ));
       _ifProds=results.flat();
     }catch(e){
@@ -1705,18 +1706,44 @@ async function renderImageFraming(){
       return;
     }
   }
+  if(!window._ifSetProds){
+    try{
+      const results=await Promise.all(GAMES_WITH_SHOWCASE.map(g=>
+        fetch(`./data/${g}/products.json`).then(r=>r.json()).then(d=>(d||[])
+          .filter(p=>BOX_TYPES.includes(p.product_type)&&p.product_image&&!/NULL/i.test(p.product_image))
+          .map(p=>({product_id:p.product_id,name:p.product_name,image:p.product_image,set_code:p.set_code,game:g,image_position:p.image_position||null,_section:'set-tiles'}))
+        ).catch(()=>[])
+      ));
+      // Deduplicate by set_code per game (one box image per set tile)
+      const seen=new Set();
+      window._ifSetProds=results.flat().filter(p=>{const k=p.game+':'+p.set_code;if(seen.has(k))return false;seen.add(k);return true;});
+    }catch(e){ window._ifSetProds=[]; }
+  }
 
-  const allProds=_ifProds.filter(p=>p.image);
+  const allShowcase=_ifProds.filter(p=>p.image);
+  const allSetTiles=window._ifSetProds;
   const overrides=_ifGetOverrides();
   const games=[...new Set(_ifProds.map(p=>p.game))];
   const exportBtns=games.map(g=>`<button class="btn btn-ghost" onclick="_ifExport('${g}')" style="font-size:12px">📋 Copy JSON — ${g}</button>`).join('');
 
-  const byGame=games.map(g=>{
-    const prods=allProds.filter(p=>p.game===g);
+  const showcaseSection=games.map(g=>{
+    const prods=allShowcase.filter(p=>p.game===g);
     if(!prods.length) return '';
-    const gameLabel=g==='one-piece'?'⚓ One Piece Card Game':g==='lorcana'?'🏰 Disney Lorcana':g;
+    const gameLabel=g==='one-piece'?'⚓ One Piece':g==='lorcana'?'🏰 Lorcana':g;
     return `<div style="margin-bottom:32px">
-      <div style="font-size:13px;font-weight:800;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">${gameLabel} · ${prods.length} products</div>
+      <div style="font-size:13px;font-weight:800;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">${gameLabel} · ${prods.length} featured products</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px">
+        ${prods.map(p=>_ifCard(p,overrides)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  const setTileSection=games.map(g=>{
+    const prods=allSetTiles.filter(p=>p.game===g).sort((a,b)=>a.set_code<b.set_code?-1:1);
+    if(!prods.length) return '';
+    const gameLabel=g==='one-piece'?'⚓ One Piece':g==='lorcana'?'🏰 Lorcana':g;
+    return `<div style="margin-bottom:32px">
+      <div style="font-size:13px;font-weight:800;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">${gameLabel} · ${prods.length} set tiles</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px">
         ${prods.map(p=>_ifCard(p,overrides)).join('')}
       </div>
@@ -1727,7 +1754,7 @@ async function renderImageFraming(){
 
   ca.innerHTML=`
     <div class="page-head">
-      <div><h1>Image Framing</h1><div class="page-head-sub">Adjust how each product image is cropped and positioned. Changes save instantly in this browser. Use "Copy JSON" to make configs permanent in showcase.json.</div></div>
+      <div><h1>Image Framing</h1><div class="page-head-sub">Adjust how each product image is cropped and positioned. Changes save instantly in this browser.</div></div>
     </div>
 
     <div class="section-card" style="margin-bottom:20px">
@@ -1735,12 +1762,12 @@ async function renderImageFraming(){
       <div class="section-card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
         <div>
           <p style="margin:0 0 8px;font-size:13px"><b>Cover</b> — fills the frame, clips edges. Use scale + offset to reposition the focal point.</p>
-          <p style="margin:0;font-size:13px"><b>Contain</b> — shows the full image with no cropping. Best for products with transparent backgrounds or unusual shapes.</p>
+          <p style="margin:0;font-size:13px"><b>Contain</b> — shows the full image with no cropping. Best for products with transparent backgrounds.</p>
         </div>
         <div>
-          <p style="margin:0 0 8px;font-size:13px"><b>Scale</b> — zoom in (>1×) to crop tighter, zoom out (<1×) to show more of the product.</p>
-          <p style="margin:0 0 8px;font-size:13px"><b>Offset X/Y</b> — shift the image left/right/up/down within the frame.</p>
-          <p style="margin:0;font-size:13px;color:var(--faint)">After adjusting, click Copy JSON and paste into the game's showcase.json to make it permanent.</p>
+          <p style="margin:0 0 8px;font-size:13px"><b>Scale</b> — zoom in (&gt;1×) to crop tighter, zoom out (&lt;1×) to show more.</p>
+          <p style="margin:0 0 8px;font-size:13px"><b>Offset X/Y</b> — shift the image within the frame.</p>
+          <p style="margin:0;font-size:13px;color:var(--faint)">Adjustments save to this browser instantly. To make them permanent, export the JSON and paste into the game's showcase.json or products.json.</p>
         </div>
       </div>
     </div>
@@ -1748,18 +1775,21 @@ async function renderImageFraming(){
     <div class="section-card" style="margin-bottom:24px">
       <div class="section-card-head"><div class="section-card-title">Export Configs</div></div>
       <div class="section-card-body">
-        <p style="font-size:12px;color:var(--faint);margin:0 0 12px">Copies the image_position config for all adjusted products in that game — paste into showcase.json then redeploy.</p>
+        <p style="font-size:12px;color:var(--faint);margin:0 0 12px">Copies all adjusted image_position configs for that game — paste into showcase.json then redeploy.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap">${exportBtns}</div>
       </div>
     </div>
 
-    ${byGame}
+    <div style="font-size:18px;font-weight:700;margin-bottom:16px">🏠 Featured Products (Homepage Showcase)</div>
+    ${showcaseSection||'<p style="color:var(--faint);font-size:13px">No showcase products with images found.</p>'}
 
-    ${noImgProds.length?`<div class="section-card">
-      <div class="section-card-head"><div class="section-card-title" style="color:var(--yellow)">⚠️ ${noImgProds.length} Products Missing Image URL</div></div>
+    <div style="font-size:18px;font-weight:700;margin:32px 0 16px">📦 Set Tiles (Sets Page)</div>
+    ${setTileSection||'<p style="color:var(--faint);font-size:13px">No set tile images found — add product_image to products.json booster boxes.</p>'}
+
+    ${noImgProds.length?`<div class="section-card" style="margin-top:24px">
+      <div class="section-card-head"><div class="section-card-title" style="color:var(--yellow)">⚠️ ${noImgProds.length} Showcase Products Missing Image URL</div></div>
       <div class="section-card-body">
         ${noImgProds.map(p=>`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--bord)">${p.set_code||p.game} · ${p.name}</div>`).join('')}
-        <p style="font-size:11px;color:var(--faint);margin:10px 0 0">Add an <code>image</code> URL to each product in their showcase.json to enable framing.</p>
       </div>
     </div>`:''}`;
 }
