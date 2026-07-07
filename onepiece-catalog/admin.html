@@ -255,6 +255,7 @@ code{font-family:monospace;font-size:11px;background:var(--bg3);padding:2px 6px;
 
     <div class="sb-section-lbl">Content</div>
     <div class="sb-item" onclick="nav('cms')" id="nav-cms"><span class="sb-item-ic">✏️</span>Homepage CMS</div>
+    <div class="sb-item" onclick="nav('image-framing')" id="nav-image-framing"><span class="sb-item-ic">🖼️</span>Image Framing</div>
 
     <div class="sb-section-lbl">Database</div>
     <div class="sb-item" onclick="nav('cards')" id="nav-cards"><span class="sb-item-ic">🃏</span>Card Database</div>
@@ -368,7 +369,7 @@ function bootAdmin(){
 // ═══════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════
-const NAV_LABELS={dashboard:'Dashboard',cms:'Homepage CMS',cards:'Card Database',shops:'Shops & Sponsors',pipeline:'Pipeline Monitor',quality:'Data Quality',activity:'Activity Log',analytics:'Website Analytics',search_analytics:'Search Analytics',sets:'Set Database',characters:'Character Database',affiliate:'Affiliate',price_overrides:'Price Overrides',seo:'SEO',health:'Website Health',settings:'Settings'};
+const NAV_LABELS={dashboard:'Dashboard',cms:'Homepage CMS','image-framing':'Image Framing','image_framing':'Image Framing',cards:'Card Database',shops:'Shops & Sponsors',pipeline:'Pipeline Monitor',quality:'Data Quality',activity:'Activity Log',analytics:'Website Analytics',search_analytics:'Search Analytics',sets:'Set Database',characters:'Character Database',affiliate:'Affiliate',price_overrides:'Price Overrides',seo:'SEO',health:'Website Health',settings:'Settings'};
 const PHASE2_SECTIONS=new Set(['analytics','search-analytics','sets','characters','affiliate','seo','health','settings']);
 
 function nav(section){
@@ -378,7 +379,7 @@ function nav(section){
   currentNav=section;
   document.getElementById('topbar-title').textContent=NAV_LABELS[section.replace('-','_')]||section;
   if(PHASE2_SECTIONS.has(section)){renderPhase2(section);return;}
-  const fns={dashboard:renderDashboard,cms:renderCMS,cards:renderCards,shops:renderShops,'price-overrides':renderPriceOverrides,pipeline:renderPipeline,quality:renderQuality,activity:renderActivity};
+  const fns={dashboard:renderDashboard,cms:renderCMS,'image-framing':renderImageFraming,cards:renderCards,shops:renderShops,'price-overrides':renderPriceOverrides,pipeline:renderPipeline,quality:renderQuality,activity:renderActivity};
   if(fns[section])fns[section]();else renderPhase2(section);
 }
 
@@ -1554,6 +1555,213 @@ async function deleteOverride(id,cardId){
   await logActivity('price_overrides','delete',cardId,old,null);
   toast('Override deleted','ok');
   renderPriceOverrides();
+}
+
+// ═══════════════════════════════
+// IMAGE FRAMING
+// ═══════════════════════════════
+const GAMES_WITH_SHOWCASE=['one-piece','lorcana'];
+let _ifProds=null; // cached loaded products
+
+function _ifImgStyle(pos){
+  if(!pos) return '';
+  const fit=pos.fit||'cover';
+  if(fit==='contain') return 'object-fit:contain';
+  const scale=Number(pos.scale)||1;
+  const ox=Number(pos.offset_x)||0;
+  const oy=Number(pos.offset_y)||0;
+  const t=[];
+  if(scale!==1) t.push(`scale(${scale})`);
+  if(ox||oy) t.push(`translate(${ox}%,${oy}%)`);
+  return t.length?`object-fit:cover;transform:${t.join(' ')};transform-origin:center`:'object-fit:cover';
+}
+function _ifGetOverrides(){
+  try{return JSON.parse(localStorage.getItem('imgpos_overrides')||'{}');}catch{return {};}
+}
+function _ifSetOverride(pid,pos){
+  const all=_ifGetOverrides();
+  if(pos) all[pid]=pos; else delete all[pid];
+  localStorage.setItem('imgpos_overrides',JSON.stringify(all));
+}
+
+window._ifAdjust=function(pid){
+  const esc=pid.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g,'\\$1');
+  const fit=document.querySelector(`.if-fit[data-pid="${esc}"].active`);
+  const scale=document.querySelector(`.if-scale[data-pid="${esc}"]`);
+  const ox=document.querySelector(`.if-ox[data-pid="${esc}"]`);
+  const oy=document.querySelector(`.if-oy[data-pid="${esc}"]`);
+  if(!scale||!ox||!oy) return;
+  const pos={fit:(fit&&fit.dataset.fit)||'cover',scale:Number(scale.value),offset_x:Number(ox.value),offset_y:Number(oy.value)};
+  _ifSetOverride(pid,pos);
+  const img=document.querySelector(`.if-preview[data-pid="${esc}"] img`);
+  if(img) img.style.cssText=_ifImgStyle(pos)+';width:100%;height:100%;display:block';
+  const sv=document.querySelector(`.if-sv[data-pid="${esc}"]`);
+  const xv=document.querySelector(`.if-xv[data-pid="${esc}"]`);
+  const yv=document.querySelector(`.if-yv[data-pid="${esc}"]`);
+  if(sv) sv.textContent=pos.scale.toFixed(2)+'×';
+  if(xv) xv.textContent=(pos.offset_x>0?'+':'')+pos.offset_x+'%';
+  if(yv) yv.textContent=(pos.offset_y>0?'+':'')+pos.offset_y+'%';
+};
+window._ifFit=function(pid,fit){
+  const esc=pid.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g,'\\$1');
+  document.querySelectorAll(`.if-fit[data-pid="${esc}"]`).forEach(b=>{
+    b.classList.toggle('active',b.dataset.fit===fit);
+    b.style.background=b.dataset.fit===fit?'var(--blue)':'var(--bg3)';
+    b.style.color=b.dataset.fit===fit?'#fff':'var(--text)';
+    b.style.borderColor=b.dataset.fit===fit?'var(--blue)':'var(--bord)';
+  });
+  window._ifAdjust(pid);
+};
+window._ifReset=function(pid){
+  const esc=pid.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g,'\\$1');
+  const scale=document.querySelector(`.if-scale[data-pid="${esc}"]`);
+  const ox=document.querySelector(`.if-ox[data-pid="${esc}"]`);
+  const oy=document.querySelector(`.if-oy[data-pid="${esc}"]`);
+  if(scale) scale.value=1;
+  if(ox) ox.value=0;
+  if(oy) oy.value=0;
+  document.querySelectorAll(`.if-fit[data-pid="${esc}"]`).forEach(b=>{
+    const isCover=b.dataset.fit==='cover';
+    b.classList.toggle('active',isCover);
+    b.style.background=isCover?'var(--blue)':'var(--bg3)';
+    b.style.color=isCover?'#fff':'var(--text)';
+    b.style.borderColor=isCover?'var(--blue)':'var(--bord)';
+  });
+  _ifSetOverride(pid,null);
+  window._ifAdjust(pid);
+};
+window._ifExport=function(game){
+  const all=_ifGetOverrides();
+  const prods=(_ifProds||[]).filter(p=>p.game===game&&p.image);
+  if(!prods.length){toast('No products found for '+game,'err');return;}
+  const lines=prods.map(p=>{
+    const pos=all[p.product_id];
+    if(!pos) return null;
+    return `    // ${p.name}\n    "${p.product_id}": ${JSON.stringify(pos)}`;
+  }).filter(Boolean);
+  if(!lines.length){toast('No overrides configured for '+game+' yet','err');return;}
+  const txt=`// Paste each image_position into ${game}/showcase.json for the matching product\n{\n${lines.join(',\n')}\n}`;
+  navigator.clipboard.writeText(txt).then(()=>toast('Copied JSON for '+game+'!','ok')).catch(()=>toast('Copy failed — check browser permissions','err'));
+};
+
+function _ifCard(p,overrides){
+  const pos=overrides[p.product_id]||{fit:'cover',scale:1,offset_x:0,offset_y:0};
+  const fit=pos.fit||'cover';
+  const scale=Number(pos.scale)||1;
+  const ox=Number(pos.offset_x)||0;
+  const oy=Number(pos.offset_y)||0;
+  const pid=p.product_id;
+  const pidAttr=pid.replace(/"/g,'&quot;');
+  const coverActive=fit==='cover';
+  const btnBase='cursor:pointer;flex:1;padding:6px 0;border-radius:8px;font-size:12px;font-weight:700;border:1px solid';
+  const coverStyle=`${btnBase} ${coverActive?'var(--blue);background:var(--blue);color:#fff':'var(--bord);background:var(--bg3);color:var(--text)'}`;
+  const containStyle=`${btnBase} ${!coverActive?'var(--blue);background:var(--blue);color:#fff':'var(--bord);background:var(--bg3);color:var(--text)'}`;
+  const hasOverride=!!overrides[p.product_id];
+  return `<div class="section-card" style="margin-bottom:0">
+    <div class="section-card-head" style="padding:10px 14px">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--faint);letter-spacing:.05em;margin-bottom:2px">${p.set_code||''} · ${p.game}</div>
+        <div class="section-card-title" style="font-size:13px">${p.name}</div>
+      </div>
+      ${hasOverride?'<span style="font-size:10px;background:var(--blue-dim);color:var(--blue);border-radius:99px;padding:3px 8px;font-weight:700">Custom</span>':''}
+    </div>
+    <div style="padding:12px 14px;display:flex;flex-direction:column;gap:10px">
+      <div class="if-preview" data-pid="${pidAttr}" style="aspect-ratio:4/3;background:var(--bg3);border-radius:8px;overflow:hidden;position:relative">
+        ${p.image
+          ?`<img src="${p.image}" style="${_ifImgStyle(pos)};width:100%;height:100%;display:block" loading="lazy" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:var(--faint);font-size:11px\'>Image failed to load</div>'">`
+          :`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--faint);font-size:11px">No image URL</div>`
+        }
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="if-fit${coverActive?' active':''}" data-pid="${pidAttr}" data-fit="cover" onclick="_ifFit('${pidAttr}','cover')" style="${coverStyle}">Cover</button>
+        <button class="if-fit${!coverActive?' active':''}" data-pid="${pidAttr}" data-fit="contain" onclick="_ifFit('${pidAttr}','contain')" style="${containStyle}">Contain</button>
+      </div>
+      <div style="display:grid;gap:5px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>Scale / Zoom</span><span class="if-sv" data-pid="${pidAttr}">${scale.toFixed(2)}×</span></div>
+        <input class="if-scale" data-pid="${pidAttr}" type="range" min="0.8" max="2.5" step="0.05" value="${scale}" oninput="_ifAdjust('${pidAttr}')" style="width:100%;accent-color:var(--blue)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>Offset X</span><span class="if-xv" data-pid="${pidAttr}">${ox>0?'+':''}${ox}%</span></div>
+        <input class="if-ox" data-pid="${pidAttr}" type="range" min="-50" max="50" step="1" value="${ox}" oninput="_ifAdjust('${pidAttr}')" style="width:100%;accent-color:var(--blue)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>Offset Y</span><span class="if-yv" data-pid="${pidAttr}">${oy>0?'+':''}${oy}%</span></div>
+        <input class="if-oy" data-pid="${pidAttr}" type="range" min="-50" max="50" step="1" value="${oy}" oninput="_ifAdjust('${pidAttr}')" style="width:100%;accent-color:var(--blue)">
+      </div>
+      <button onclick="_ifReset('${pidAttr}')" style="padding:5px 0;border-radius:8px;border:1px solid var(--bord);background:var(--bg3);font-size:11px;cursor:pointer;color:var(--faint)">↺ Reset to default</button>
+    </div>
+  </div>`;
+}
+
+async function renderImageFraming(){
+  const ca=document.getElementById('content-area');
+  ca.innerHTML=`<div class="page-head"><div><h1>Image Framing</h1><div class="page-head-sub">Adjust how each product image is cropped and positioned. Changes save instantly in this browser.</div></div></div><div style="padding:40px;text-align:center;color:var(--faint)">Loading products…</div>`;
+
+  // Load showcase JSONs if not cached
+  if(!_ifProds){
+    try{
+      const results=await Promise.all(GAMES_WITH_SHOWCASE.map(g=>
+        fetch(`./data/${g}/showcase.json`).then(r=>r.json()).then(d=>(d.products||[]).map(p=>({...p,game:p.game||g}))).catch(()=>[])
+      ));
+      _ifProds=results.flat();
+    }catch(e){
+      ca.innerHTML=`<div class="page-head"><div><h1>Image Framing</h1></div></div><div style="padding:40px;text-align:center;color:var(--red)">Failed to load showcase data: ${e.message}</div>`;
+      return;
+    }
+  }
+
+  const allProds=_ifProds.filter(p=>p.image);
+  const overrides=_ifGetOverrides();
+  const games=[...new Set(_ifProds.map(p=>p.game))];
+  const exportBtns=games.map(g=>`<button class="btn btn-ghost" onclick="_ifExport('${g}')" style="font-size:12px">📋 Copy JSON — ${g}</button>`).join('');
+
+  const byGame=games.map(g=>{
+    const prods=allProds.filter(p=>p.game===g);
+    if(!prods.length) return '';
+    const gameLabel=g==='one-piece'?'⚓ One Piece Card Game':g==='lorcana'?'🏰 Disney Lorcana':g;
+    return `<div style="margin-bottom:32px">
+      <div style="font-size:13px;font-weight:800;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">${gameLabel} · ${prods.length} products</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px">
+        ${prods.map(p=>_ifCard(p,overrides)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  const noImgProds=_ifProds.filter(p=>!p.image);
+
+  ca.innerHTML=`
+    <div class="page-head">
+      <div><h1>Image Framing</h1><div class="page-head-sub">Adjust how each product image is cropped and positioned. Changes save instantly in this browser. Use "Copy JSON" to make configs permanent in showcase.json.</div></div>
+    </div>
+
+    <div class="section-card" style="margin-bottom:20px">
+      <div class="section-card-head"><div class="section-card-title">How It Works</div></div>
+      <div class="section-card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <p style="margin:0 0 8px;font-size:13px"><b>Cover</b> — fills the frame, clips edges. Use scale + offset to reposition the focal point.</p>
+          <p style="margin:0;font-size:13px"><b>Contain</b> — shows the full image with no cropping. Best for products with transparent backgrounds or unusual shapes.</p>
+        </div>
+        <div>
+          <p style="margin:0 0 8px;font-size:13px"><b>Scale</b> — zoom in (>1×) to crop tighter, zoom out (<1×) to show more of the product.</p>
+          <p style="margin:0 0 8px;font-size:13px"><b>Offset X/Y</b> — shift the image left/right/up/down within the frame.</p>
+          <p style="margin:0;font-size:13px;color:var(--faint)">After adjusting, click Copy JSON and paste into the game's showcase.json to make it permanent.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card" style="margin-bottom:24px">
+      <div class="section-card-head"><div class="section-card-title">Export Configs</div></div>
+      <div class="section-card-body">
+        <p style="font-size:12px;color:var(--faint);margin:0 0 12px">Copies the image_position config for all adjusted products in that game — paste into showcase.json then redeploy.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">${exportBtns}</div>
+      </div>
+    </div>
+
+    ${byGame}
+
+    ${noImgProds.length?`<div class="section-card">
+      <div class="section-card-head"><div class="section-card-title" style="color:var(--yellow)">⚠️ ${noImgProds.length} Products Missing Image URL</div></div>
+      <div class="section-card-body">
+        ${noImgProds.map(p=>`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--bord)">${p.set_code||p.game} · ${p.name}</div>`).join('')}
+        <p style="font-size:11px;color:var(--faint);margin:10px 0 0">Add an <code>image</code> URL to each product in their showcase.json to enable framing.</p>
+      </div>
+    </div>`:''}`;
 }
 </script>
 </body>
