@@ -2082,6 +2082,34 @@ function interleaveByGame(items,limit){
 }
 function activeFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.usd_to_thb)||S.fx;}
 function activeJpyFx(){return (D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_thb)||0.23;}
+
+// ─── IMAGE FRAMING SYSTEM ─────────────────────────────────────────────────────
+// Converts {fit, scale, offset_x, offset_y} into an inline style string.
+// Works for any product image across any game. No CSS changes needed — inline
+// styles beat class rules. Fit "contain" shows the full image; "cover" (default)
+// fills the frame and lets scale/offset adjust the focal point.
+function imgStyle(pos){
+  if(!pos) return '';
+  const fit=pos.fit||'cover';
+  if(fit==='contain') return 'object-fit:contain';
+  const scale=Number(pos.scale)||1;
+  const ox=Number(pos.offset_x)||0;
+  const oy=Number(pos.offset_y)||0;
+  const t=[];
+  if(scale!==1) t.push(`scale(${scale})`);
+  if(ox||oy) t.push(`translate(${ox}%,${oy}%)`);
+  return t.length?`object-fit:cover;transform:${t.join(' ')};transform-origin:center`:'';
+}
+// Merges per-product localStorage overrides with any embedded image_position
+// from the source JSON. Admin overrides take precedence so preview is instant.
+function getImgPos(productId,defaultPos){
+  try{
+    const ov=JSON.parse(localStorage.getItem('imgpos_overrides')||'{}');
+    return ov[productId]||defaultPos||null;
+  }catch{return defaultPos||null;}
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function fp(v){const n=v??0;return S.cur==='THB'?'฿ '+(n*activeFx()).toLocaleString('th-TH',{maximumFractionDigits:0}):'$'+n.toFixed(2);}
 // --- Market dataset accessors (card-markets.json, keyed by card_image_id) ---
 // Prices live in their own dataset now, NOT on the card object. Each card may
@@ -3045,9 +3073,11 @@ function renderBoxes(){
     const mixed=interleaveByGame(prods,6);
     document.getElementById('box-row').innerHTML=mixed.map((p,i)=>{
       const price=p.price_usd!=null?fpL(p.price_usd):(p.price_thb!=null?fpL(p.price_thb/activeFx(),p.price_thb):'—');
+      const _ipos=getImgPos(p.product_id,p.image_position);
       return `<div class="boxcard" onclick="openProductX('${p.game}','${p.product_id}')">
         <div class="boxcard-img-wrap">
-          ${p.image?`<img src="${p.image}" loading="lazy" onerror="this.remove()">`:`<div style="font-size:36px;opacity:.35">📦</div>`}
+          ${p.image?`<img src="${p.image}" loading="lazy" onerror="this.remove()" ${_ipos?`style="${imgStyle(_ipos)}"`:''}>`:
+            `<div style="font-size:36px;opacity:.35">📦</div>`}
           <div class="boxcard-rank">#${i+1}</div>
         </div>
         <div class="boxcard-body">
@@ -4138,7 +4168,7 @@ function openProduct(productId){
   const html=`
     <div class="prod-hero">
       <div class="prod-hero-img">
-        ${heroImg?`<img src="${heroImg}" loading="lazy" onerror="this.style.visibility='hidden'">`
+        ${heroImg?`<img src="${heroImg}" loading="lazy" onerror="this.style.visibility='hidden'" ${getImgPos(p.product_id,p.image_position)?`style="${imgStyle(getImgPos(p.product_id,p.image_position))}"`:''}>`
                  :`<div class="prod-hero-img-ph"><div class="ph-ic">${p.product_type==='Starter Deck'?'🗡️':p.product_type==='Extra Booster'?'✨':'⚓'}</div><div class="ph-code">${p.set_code||''}</div><div class="ph-sub">${p.product_type||''} · ${L==='th'?'ภาพสินค้าเร็วๆ นี้':'Product image coming soon'}</div></div>`}
       </div>
       <div class="prod-hero-info">
@@ -5158,6 +5188,104 @@ function _admGameSection(slug,L){
       ${setRows.map(s=>`<div class="adm-set-row"><span class="adm-set-code">${s.code}</span>${_admBar(s.pct,s.pct>=50?'ok':'warn')}<span class="adm-set-pct">${s.pct}% <span style="color:var(--faint)">(${s.n}/${s.tot})</span></span></div>`).join('')||'<span style="color:var(--faint);font-size:12px">—</span>'}
     </div>`;
 }
+// ─── ADMIN: IMAGE FRAMING TOOL ───────────────────────────────────────────────
+// Global handlers (must be window-accessible from onclick/oninput in innerHTML)
+window._admImgAdjust=function(pid){
+  const fit=document.querySelector(`.ipf-fit[data-pid="${CSS.escape(pid)}"].active`);
+  const scale=document.querySelector(`.ipf-scale[data-pid="${CSS.escape(pid)}"]`);
+  const ox=document.querySelector(`.ipf-ox[data-pid="${CSS.escape(pid)}"]`);
+  const oy=document.querySelector(`.ipf-oy[data-pid="${CSS.escape(pid)}"]`);
+  if(!scale||!ox||!oy) return;
+  const pos={fit:(fit&&fit.dataset.fit)||'cover',scale:Number(scale.value),offset_x:Number(ox.value),offset_y:Number(oy.value)};
+  // Save to localStorage
+  try{
+    const all=JSON.parse(localStorage.getItem('imgpos_overrides')||'{}');
+    all[pid]=pos;
+    localStorage.setItem('imgpos_overrides',JSON.stringify(all));
+  }catch{}
+  // Update live preview
+  const img=document.querySelector(`.ipf-preview[data-pid="${CSS.escape(pid)}"] img`);
+  if(img){const s=imgStyle(pos);img.style.cssText=s||'';}
+  // Update readout labels
+  const rs=document.querySelector(`.ipf-sv[data-pid="${CSS.escape(pid)}"]`);
+  const rx=document.querySelector(`.ipf-xv[data-pid="${CSS.escape(pid)}"]`);
+  const ry=document.querySelector(`.ipf-yv[data-pid="${CSS.escape(pid)}"]`);
+  if(rs) rs.textContent=pos.scale.toFixed(2)+'×';
+  if(rx) rx.textContent=(pos.offset_x>0?'+':'')+pos.offset_x+'%';
+  if(ry) ry.textContent=(pos.offset_y>0?'+':'')+pos.offset_y+'%';
+};
+window._admImgFit=function(pid,fit){
+  document.querySelectorAll(`.ipf-fit[data-pid="${CSS.escape(pid)}"]`).forEach(b=>b.classList.toggle('active',b.dataset.fit===fit));
+  window._admImgAdjust(pid);
+};
+window._admImgReset=function(pid){
+  const scale=document.querySelector(`.ipf-scale[data-pid="${CSS.escape(pid)}"]`);
+  const ox=document.querySelector(`.ipf-ox[data-pid="${CSS.escape(pid)}"]`);
+  const oy=document.querySelector(`.ipf-oy[data-pid="${CSS.escape(pid)}"]`);
+  if(scale) scale.value=1;
+  if(ox) ox.value=0;
+  if(oy) oy.value=0;
+  document.querySelectorAll(`.ipf-fit[data-pid="${CSS.escape(pid)}"]`).forEach(b=>b.classList.toggle('active',b.dataset.fit==='cover'));
+  try{const all=JSON.parse(localStorage.getItem('imgpos_overrides')||'{}');delete all[pid];localStorage.setItem('imgpos_overrides',JSON.stringify(all));}catch{}
+  window._admImgAdjust(pid);
+};
+window._admImgExportGame=function(game){
+  const all=JSON.parse(localStorage.getItem('imgpos_overrides')||'{}');
+  const prods=showcases().find(s=>s.game===game);
+  if(!prods) return;
+  const out=prods.products.map(p=>{
+    const pos=all[p.product_id];
+    return pos?`  // ${p.name}\n  "${p.product_id}": ${JSON.stringify(pos)}`:`  // "${p.name}" — no override`;
+  }).join(',\n');
+  const txt=`// Paste image_position into ${game}/showcase.json\n{\n${out}\n}`;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.getElementById('ipf-export-'+game);
+    if(btn){btn.textContent='✅ Copied!';setTimeout(()=>{btn.textContent='Copy JSON for '+game;},2000);}
+  });
+};
+function _admImgFramer(L){
+  const all=showcases().map(s=>s.products||[]).flat().filter(p=>p.image);
+  if(!all.length) return '';
+  const overrides=JSON.parse(localStorage.getItem('imgpos_overrides')||'{}');
+  const games=[...new Set(all.map(p=>p.game))];
+  const exportBtns=games.map(g=>`<button id="ipf-export-${g}" onclick="_admImgExportGame('${g}')" style="margin-right:8px;padding:6px 14px;border-radius:8px;border:1px solid var(--bord1);background:var(--bg2);font-size:12px;cursor:pointer">Copy JSON for ${g}</button>`).join('');
+  const cards=all.map(p=>{
+    const pos=overrides[p.product_id]||p.image_position||{fit:'cover',scale:1,offset_x:0,offset_y:0};
+    const fit=pos.fit||'cover';
+    const scale=Number(pos.scale)||1;
+    const ox=Number(pos.offset_x)||0;
+    const oy=Number(pos.offset_y)||0;
+    const pid=p.product_id.replace(/"/g,'&quot;');
+    return `<div style="background:var(--bg2);border:1px solid var(--bord1);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0">
+      <div style="font-size:11px;font-weight:700;color:var(--faint);letter-spacing:.04em">${p.set_code||''} · ${p.game}</div>
+      <div style="font-size:13px;font-weight:700;line-height:1.3">${p.name}</div>
+      <div class="ipf-preview" data-pid="${pid}" style="aspect-ratio:4/3;background:var(--bg3);border-radius:8px;overflow:hidden;position:relative">
+        <img src="${p.image}" style="${imgStyle(pos)||'object-fit:cover'};width:100%;height:100%;display:block" loading="lazy" onerror="this.style.visibility='hidden'">
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="ipf-fit${fit==='cover'?' active':''}" data-pid="${pid}" data-fit="cover" onclick="_admImgFit('${pid}','cover')" style="flex:1;padding:5px 0;border-radius:7px;border:1px solid var(--bord1);background:${fit==='cover'?'var(--accent)':'var(--bg3)'};color:${fit==='cover'?'#fff':'inherit'};font-size:12px;cursor:pointer;font-weight:600">Cover</button>
+        <button class="ipf-fit${fit==='contain'?' active':''}" data-pid="${pid}" data-fit="contain" onclick="_admImgFit('${pid}','contain')" style="flex:1;padding:5px 0;border-radius:7px;border:1px solid var(--bord1);background:${fit==='contain'?'var(--accent)':'var(--bg3)'};color:${fit==='contain'?'#fff':'inherit'};font-size:12px;cursor:pointer;font-weight:600">Contain</button>
+      </div>
+      <div style="display:grid;gap:6px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>Scale</span><span class="ipf-sv" data-pid="${pid}">${scale.toFixed(2)}×</span></div>
+        <input class="ipf-scale" data-pid="${pid}" type="range" min="0.8" max="2.5" step="0.05" value="${scale}" oninput="_admImgAdjust('${pid}')" style="width:100%;accent-color:var(--accent)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>Offset X</span><span class="ipf-xv" data-pid="${pid}">${ox>0?'+':''}${ox}%</span></div>
+        <input class="ipf-ox" data-pid="${pid}" type="range" min="-50" max="50" step="1" value="${ox}" oninput="_admImgAdjust('${pid}')" style="width:100%;accent-color:var(--accent)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--faint)"><span>Offset Y</span><span class="ipf-yv" data-pid="${pid}">${oy>0?'+':''}${oy}%</span></div>
+        <input class="ipf-oy" data-pid="${pid}" type="range" min="-50" max="50" step="1" value="${oy}" oninput="_admImgAdjust('${pid}')" style="width:100%;accent-color:var(--accent)">
+      </div>
+      <button onclick="_admImgReset('${pid}')" style="padding:5px 0;border-radius:7px;border:1px solid var(--bord1);background:var(--bg3);font-size:11px;cursor:pointer;color:var(--faint)">Reset to default</button>
+    </div>`;
+  }).join('');
+  return `
+    <div class="adm-sec-lbl" style="margin-top:28px">🖼️ ${L==='th'?'ตั้งค่าตำแหน่งรูปสินค้า':'Image Framing'}</div>
+    <div class="adm-panel" style="margin-bottom:10px">
+      <p style="font-size:12px;color:var(--faint);margin:0 0 12px">Adjust how each product image is cropped and positioned. Changes apply instantly and are saved in this browser. Use the export buttons to copy final configs into each game's showcase.json.</p>
+      <div style="margin-bottom:12px">${exportBtns}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">${cards}</div>
+    </div>`;
+}
+// ─────────────────────────────────────────────────────────────────────────────
 function _renderAdmin(){
   const L=S.lang;
   const st=D.siteStatus||{};
@@ -5203,6 +5331,7 @@ function _renderAdmin(){
       ${_admCard('FX live',S.fx?S.fx.toFixed(2):'—','frankfurter.app','ok')}
     </div>
 
+    ${_admImgFramer(L)}
     <p class="footnote">${L==='th'?'ข้อมูลตลาด ณ':'Market data as of'} ${meta.generated||'—'} · status.json ${st.run_date||''} · ${L==='th'?'คำนวณฝั่ง client':'computed client-side'}</p>`;
 }
 
