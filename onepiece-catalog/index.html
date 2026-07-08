@@ -2350,6 +2350,7 @@ function toggleCur(){
   const b=document.getElementById('cur-btn-cards');if(b)b.textContent=lbl;
   if(document.getElementById('view-cards').style.display!=='none')paintCards(S.shown);
   else if(document.getElementById('view-detail').style.display!=='none'&&S.lastIdx!=null)openCard(S.lastIdx);
+  else if(document.getElementById('view-set-overview').style.display!=='none'&&S.setCode)openSetOverview(S.setCode);
   else if(document.getElementById('view-sets').style.display!=='none')renderSets();
 }
 
@@ -2392,7 +2393,7 @@ function _renderChasePage(setFilter){
       <div class="chase-pg-badge">${stars}</div>
       <div class="chase-pg-name">${chaseBase(c.card_name)}</div>
       <div class="chase-pg-meta">${c.set_id||''} · ${c.rarity||''}</div>
-      <div class="chase-pg-price">${editionBadge(isJP?'JP':'EN')} ${fpL(0,editionPriceThb(c))}</div>
+      <div class="chase-pg-price">${editionBadge(isJP?'JP':'EN')} ${fpEdition(c)}</div>
     </div>`;
   }).join('');
   document.getElementById('chase-page-content').innerHTML=`
@@ -2838,7 +2839,7 @@ function topValueFallback(rank){
       <div>
         ${editionBadge(ed)}
         <div class="mtrend-name">${chaseBase(c.card_name)}</div>
-        <div class="mtrend-price">${fpL(0,editionPriceThb(c))}</div>
+        <div class="mtrend-price">${fpEdition(c)}</div>
         <div style="font-size:10px;color:var(--faint);margin-top:2px">${c.set_id||''} · ${c.rarity||''}</div>
       </div>
     </div>`;
@@ -4178,7 +4179,7 @@ function openProduct(productId){
         <div class="chase-preview-body">
           <div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div>
           <div class="chase-preview-name">${chaseBase(c.card_name)}</div>
-          <div class="chase-preview-price">${fpL(0,editionPriceThb(c))}</div>
+          <div class="chase-preview-price">${fpEdition(c)}</div>
           <div class="chase-preview-rar">${c.rarity||''}</div>
         </div>
       </div>`).join('')
@@ -4414,7 +4415,7 @@ function openSetOverview(code){
   const chaseHtml=chase.length?`
     <div class="set-ov-section-label">${L==='th'?'การ์ดราคาสูงสุดในชุดนี้':'Top Chase Cards'}</div>
     <div class="set-ov-chase-row">${chase.map(c=>{
-      const prStr=fpL(0,editionPriceThb(c));
+      const prStr=fpEdition(c);
       return `<div class="set-ov-chase-mini" onclick="openCard('${c.card_number||c.card_id||''}','${code}')">
         ${c.card_image?`<img src="${c.card_image}" loading="lazy" onerror="this.style.display='none'">`:'<div style="height:76px;background:var(--bg3)"></div>'}
         <div class="set-ov-chase-mini-price">${prStr}</div>
@@ -4853,8 +4854,7 @@ function resetGridFilters(){
   const cMin=document.getElementById('cost-min');if(cMin)cMin.value='';
   const cMax=document.getElementById('cost-max');if(cMax)cMax.value='';
   S.rarities=new Set();S.categories=new Set();S.colorFilter='';S.typeFilter='';
-  document.querySelectorAll('#rarity-chips .chip.on,#color-chips .chip.on').forEach(c=>c.classList.remove('on'));
-  applyFilters();
+  buildRarityChips();applyFilters();
 }
 
 const TILE_PAGE=150; // max tiles per render chunk (KI-05: prevents 4000-tile freeze)
@@ -5133,7 +5133,7 @@ function renderCollectionView(tab){
   const grid=tab==='sets'?setProgHtml:(items.length?`<div class="card-grid">${items.map(({card:c,code})=>`
     <div class="card-tile" onclick="jumpCard('${code}','${c.card_image_id}')">
       <img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
-      <div><div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(0,editionPriceThb(c))}</p></div>
+      <div><div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpEdition(c)}</p></div>
       <button class="coll-remove" title="${L==='th'?'นำออก':'Remove'}" onclick="event.stopPropagation();${tab==='wishlist'?'toggleWishlist':'toggleCollection'}('${c.card_image_id}',event)">✕</button>
     </div>`).join('')}</div>`
     :`<div class="coll-empty"><div class="coll-empty-ic">${tab==='wishlist'?'♡':'📦'}</div>
@@ -5925,7 +5925,7 @@ function _renderProfileContent(el,userId,isOwn,uname,color,collIds,haveIds,L){
     html+=`<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px">${L==='th'?'คอลเลคชั่น':'Collection'} (${collIds.length})</div>`;
     if(cards.length){
       const setCode=c=>c.card_image_id.replace(/-\d{3}.*$/,'');
-      html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${setCode(c)}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpL(0,editionPriceThb(c))}</p></div></div>`).join('')}</div>`;
+      html+=`<div class="card-grid">${cards.map(c=>`<div class="card-tile" onclick="jumpCard('${setCode(c)}','${c.card_image_id}')"><img src="${c.card_image||''}" loading="lazy" onerror="this.style.visibility='hidden'"><div><div style="margin-bottom:2px">${editionBadge(effectiveVer(c))}</div><p class="ct-name">${c.card_name}</p><span class="${rc(c.rarity)}">${c.rarity||'—'}</span><p class="ct-price">${fpEdition(c)}</p></div></div>`).join('')}</div>`;
     }
   }else{
     html+=`<div style="text-align:center;padding:48px 0;color:var(--faint)">${L==='th'?'ยังไม่มีการ์ดในคอลเลคชั่น':'No cards in collection yet'}</div>`;
