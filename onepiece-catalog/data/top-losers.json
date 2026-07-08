@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-07T22:20:47.533618+00:00",
-  "snapshot_date": "2026-07-07",
-  "baseline_date": "2026-07-06",
+  "generated_at": "2026-07-08T21:48:38.418574+00:00",
+  "snapshot_date": "2026-07-08",
+  "baseline_date": "2026-07-07",
   "days_between_snapshots": 1,
-  "history_days_collected": 12,
+  "history_days_collected": 13,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1267,
-  "cards_with_trend": 38,
+  "cards_evaluated": 1270,
+  "cards_with_trend": 20,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 7.94,
+      "today_price_usd": 8.05,
       "baseline_price_usd": 470.57,
-      "price_change_usd": -462.63,
-      "price_change_percent": -98.31
+      "price_change_usd": -462.52,
+      "price_change_percent": -98.29
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 25.49,
+      "today_price_usd": 25.56,
       "baseline_price_usd": 130.83,
-      "price_change_usd": -105.34,
-      "price_change_percent": -80.52
+      "price_change_usd": -105.27,
+      "price_change_percent": -80.46
     },
     {
       "card_id": "OP08-023",
@@ -56,22 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 22.08,
-      "baseline_price_usd": 111.22,
-      "price_change_usd": -89.14,
-      "price_change_percent": -80.15
+      "today_price_usd": 22.0,
+      "baseline_price_usd": 111.99,
+      "price_change_usd": -89.99,
+      "price_change_percent": -80.36
     },
     {
-      "card_id": "OP13-118",
-      "card_image_id": "OP13-118_p2",
-      "card_name": "Monkey.D.Luffy (118) (Super Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_p2.jpg",
-      "today_price_usd": 2212.21,
-      "baseline_price_usd": 2290.99,
-      "price_change_usd": -78.78,
-      "price_change_percent": -3.44
+      "card_id": "ST29-001",
+      "card_image_id": "ST29-001",
+      "card_name": "Monkey.D.Luffy (001)",
+      "set_code": "ST-29",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
+      "today_price_usd": 4.16,
+      "baseline_price_usd": 51.51,
+      "price_change_usd": -47.35,
+      "price_change_percent": -91.92
     }
   ]
 }
