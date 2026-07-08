@@ -2853,7 +2853,7 @@
         "card_count_per_pack":  12,
         "packs_per_box":  24,
         "msrp_thb":  3200,
-        "product_image":  "https://tcgplayer-cdn.tcgplayer.com/product/666891_400w.jpg",
+        "product_image":  "https://tcgplayer-cdn.tcgplayer.com/product/665598_400w.jpg",
         "affiliate_url":  null,
         "buying_guide":  {
                              "quick_facts":  {
@@ -2960,7 +2960,7 @@
         "card_count_per_pack":  12,
         "packs_per_box":  24,
         "msrp_thb":  3200,
-        "product_image":  "",
+        "product_image":  "https://tcgplayer-cdn.tcgplayer.com/product/682057_400w.jpg",
         "affiliate_url":  null,
         "buying_guide":  {
                              "quick_facts":  {
@@ -3698,4 +3698,3 @@
                          }
     }
 ]
-
