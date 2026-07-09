@@ -3120,7 +3120,7 @@ function renderBoxes(){
   // exploration of every supported game.
   const prods=showcases().map(s=>s.products||[]).flat();
   if(prods.length){
-    const mixed=interleaveByGame(prods,6);
+    const mixed=interleaveByGame(prods,8); // 8 fills the 4-col desktop grid (4+4); 6 left a ragged 4+2 row
     document.getElementById('box-row').innerHTML=mixed.map((p,i)=>{
       const price=p.price_usd!=null?fpL(p.price_usd):(p.price_thb!=null?fpL(p.price_thb/activeFx(),p.price_thb):'—');
       const _ipos=getImgPos(p.product_id,p.image_position);
