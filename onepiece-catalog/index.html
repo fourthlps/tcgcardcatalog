@@ -1893,6 +1893,8 @@ async function init(){
   // Hidden admin route: open via #admin (and react to hash changes).
   if(location.hash==='#admin')openAdmin();
   window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin();});
+  // KI-16: restore deep-linked view once data is ready (never for auth/admin hashes)
+  if(location.hash.startsWith('#/')&&!location.hash.includes('access_token'))_routeDispatch();
   // Other games load lazily: at boot only if saved collection/wishlist/recent
   // ids reference them; otherwise on game-tile click (openGame) or when the
   // user explicitly requests global search. Search focus warms the ACTIVE
@@ -2361,12 +2363,49 @@ function show(id){
   const art=document.getElementById('site-art');
   if(art)art.className='home-art'+(id==='view-home'?'':' home-art--inner');
 }
-function goHome(){S.cardReturn=null;S.cardLang=localStorage.getItem('voyage_edition_v2')||'jp';show('view-home');}
+// ─── KI-16 HASH ROUTER ────────────────────────────────────────────────────────
+// Every major view writes a #/ route; hashchange (Back/Forward, pasted links)
+// and page load replay it through the same opener functions users click.
+// Never touches Supabase auth callbacks (access_token in hash) or #admin.
+let _routeCur=null;
+function _routeSet(r){
+  _routeCur=r;
+  const want='#/'+r;
+  if(location.hash===want)return;
+  try{history.pushState(null,'',want);}catch(e){location.hash='/'+r;}
+}
+function _routeDispatch(){
+  const raw=location.hash||'';
+  if(raw.includes('access_token'))return;        // Supabase magic-link callback
+  if(raw==='#admin')return;                      // existing admin shortcut
+  const h=raw.replace(/^#\/?/,'');
+  if(h===_routeCur)return;                       // we just wrote this route
+  _routeCur=h;
+  const p=h.split('/').map(s=>{try{return decodeURIComponent(s);}catch(e){return s;}});
+  const seg=p[0]||'';
+  try{
+    if(seg==='')goHome();
+    else if(seg==='game'&&p[1])openGame(p[1]);
+    else if(seg==='set'&&p[1]&&p[2]==='cards')withGame(gameOf(p[1]),()=>openSet(p[1],p[3]||undefined));
+    else if(seg==='set'&&p[1])withGame(gameOf(p[1]),()=>openSetOverview(p[1]));
+    else if(seg==='card'&&p[1]&&p[2])withGame(gameOf(p[1]),()=>jumpCard(p[1],p[2]));
+    else if(seg==='product'&&p[1]&&p[2])openProductX(p[1],p.slice(2).join('/'));
+    else if(seg==='character'&&p[1]&&p[2])openCharacterX(p[1],p.slice(2).join('/'));
+    else if(seg==='chase')openChasePage(p[1]||'');
+    else if(seg==='my-cards')openCollection(p[1]||'collection');
+    else if(seg==='search'&&p[1]){const el=document.getElementById('gsearch');if(el)el.value=p[1];if(p[2]==='all')searchAllGames();else doSearch('game');}
+    // unknown routes: ignore silently — never break the page over a bad URL
+  }catch(e){console.warn('route dispatch failed:',h,e);}
+}
+window.addEventListener('hashchange',_routeDispatch);
+
+function goHome(){S.cardReturn=null;S.cardLang=localStorage.getItem('voyage_edition_v2')||'jp';_routeSet('');show('view-home');}
 function jumpChaseSection(){openChasePage();}
 
 // ─── CHASE CARDS PAGE ────────────────────────────────────────────────────────
 function openChasePage(setFilter){
   const L=S.lang;
+  _routeSet('chase'+(setFilter?'/'+encodeURIComponent(setFilter):''));
   setCrumb('crumb-chase',` / ${L==='th'?'Chase Cards':'Chase Cards'}`);
   show('view-chase');
   closeMobileMenu&&closeMobileMenu();
@@ -3720,6 +3759,7 @@ function doSearch(scope){
   _srchScope=scope==='all'?'all':'game';
   const q=aliasQ(document.getElementById('gsearch').value.trim().toLowerCase());
   if(!q)return;
+  _routeSet('search/'+encodeURIComponent(q)+(_srchScope==='all'?'/all':''));
   closeSrchDrop();
   const qNorm=q.replace(/[^a-z0-9]/g,'');
   const scopedCache=_srchScope==='all'?D.cache:gd().cardsBySet;
@@ -4044,6 +4084,7 @@ function comingSoon(feature){
 // the shared set-picker view. Generic for every game in CONFIG.
 function openGame(slug){
   if(!CONFIG.games[slug]||CONFIG.games[slug].status!=='active')return;
+  _routeSet('game/'+slug);
   S.game=slug;S.setCat='all';S.setLang='all';
   show('view-sets');setCrumb('crumb-sets',' / '+gameLabel(slug));
   const list=document.getElementById('sets-list');
@@ -4083,6 +4124,7 @@ function openProduct(productId){
   const L=S.lang;
   const p=D.products.find(x=>x.product_id===productId);
   if(!p)return;
+  _routeSet('product/'+(p.game||S.game)+'/'+encodeURIComponent(productId));
   if(p.status==='draft'){
     const pc=document.getElementById('product-content');
     pc.dataset.pid=productId;
@@ -4300,6 +4342,7 @@ function setSetLang(k){S.setLang=k;renderSets();}
 function openSetOverview(code){
   S.setCode=code;
   S.game=gameOf(code);
+  _routeSet('set/'+code);
   const L=S.lang;
   const _gcfg=cfgActive();
   // Single-edition games (config price policy) get one DB card, no JP/EN split.
@@ -4608,6 +4651,7 @@ function switchEdition(lang){
 function openSet(code,lang){
   S.cardReturn=null;   // entering a set list: card back-button returns here
   S.game=gameOf(code);
+  _routeSet('set/'+code+'/cards'+(lang==='jp'||lang==='en'?'/'+lang:''));
   const _gc=cfgActive();
   // ── Single-edition games (config price_policy.type !== 'edition'): no JP/EN
   // toggle, no edition filtering; every card shows its market pricing. ──
@@ -5086,6 +5130,7 @@ function updateCollCount(){
 let _collTab='collection';
 function openCollection(tab){
   _collTab=tab||'collection';
+  _routeSet('my-cards'+(_collTab!=='collection'?'/'+_collTab:''));
   setCrumb('crumb-collection',' / '+(S.lang==='th'?'การ์ดของฉัน':'My Cards'));
   renderCollectionView(_collTab); show('view-collection'); closeMobileMenu&&closeMobileMenu();
 }
@@ -5566,6 +5611,7 @@ function priceHistoryChart(c){
 function openCard(idx){
   const c=S.shown[idx];S.lastIdx=idx;
   if(c&&c.card_image_id)_recentAdd(c.card_image_id);
+  if(c&&c.card_image_id&&S.setCode)_routeSet('card/'+S.setCode+'/'+encodeURIComponent(c.card_image_id));
   const L=S.lang;
   // Back returns to wherever the card was opened from (search results, etc.);
   // defaults to the set card-list when there's no special origin.
