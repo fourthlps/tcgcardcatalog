@@ -2710,7 +2710,17 @@ async function renderSpons(){
   // P3: availability signals (public-read) power card/product partner matching
   try{
     const r2=await fetch(`${_SUPA_URL}/rest/v1/shop_availability?select=*`,{headers:{'apikey':_SUPA_KEY,'Accept':'application/json'}});
-    if(r2.ok){const av=await r2.json();if(Array.isArray(av))D._shopAvail=av;}
+    if(r2.ok){const av=await r2.json();if(Array.isArray(av)){
+      D._shopAvail=av;
+      // Deep-linked card/product pages can render BEFORE this fetch resolves —
+      // refresh whichever of those views is on screen so partner rows appear.
+      try{
+        const vd=document.getElementById('view-detail');
+        if(vd&&vd.style.display==='block'&&S.lastIdx!=null)openCard(S.lastIdx);
+        const vp=document.getElementById('view-product');
+        if(vp&&vp.style.display==='block'&&D._lastProductId)openProduct(D._lastProductId);
+      }catch(e){}
+    }}
   }catch{}
 }
 // ─── P3 PARTNER AVAILABILITY MATCHING ────────────────────────────────────────
@@ -4192,6 +4202,7 @@ function openProduct(productId){
   const L=S.lang;
   const p=D.products.find(x=>x.product_id===productId);
   if(!p)return;
+  D._lastProductId=productId; // P3: lets availability fetch refresh this view
   _routeSet('product/'+(p.game||S.game)+'/'+encodeURIComponent(productId));
   if(p.status==='draft'){
     const pc=document.getElementById('product-content');
