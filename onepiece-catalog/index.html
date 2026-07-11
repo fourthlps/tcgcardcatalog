@@ -1415,8 +1415,8 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
         <div class="footer-col">
           <h4 class="t" data-th="เกี่ยวกับ" data-en="About">เกี่ยวกับ</h4>
           <a onclick="comingSoon(S.lang==='th'?'เกี่ยวกับเรา':'About Us')" class="dim t" data-th="เกี่ยวกับเรา" data-en="About Us">เกี่ยวกับเรา</a>
-          <a onclick="comingSoon(S.lang==='th'?'ติดต่อ':'Contact')" class="dim t" data-th="ติดต่อ" data-en="Contact">ติดต่อ</a>
-          <a onclick="comingSoon(S.lang==='th'?'ลงโฆษณากับเรา':'Advertise')" class="dim t" data-th="ลงโฆษณากับเรา" data-en="Advertise">ลงโฆษณากับเรา</a>
+          <a onclick="partnerContact('footer-contact')" class="t" data-th="ติดต่อ" data-en="Contact" style="cursor:pointer">ติดต่อ</a>
+          <a onclick="partnerContact('footer-advertise')" class="t" data-th="ลงโฆษณากับเรา" data-en="Advertise" style="cursor:pointer">ลงโฆษณากับเรา</a>
         </div>
         <div class="footer-col">
           <h4 class="t" data-th="รับข่าวสาร" data-en="Newsletter">รับข่าวสาร</h4>
@@ -2655,6 +2655,29 @@ function renderPops(){
 
 const _SUPA_URL='https://llelqoscomzlbuiynvys.supabase.co';
 const _SUPA_KEY='sb_publishable_BZTS4R6jwQ7wVnlq_N28Xw_xTmBpo-l';
+
+// ─── P1 PARTNER CLICK TRACKING ───────────────────────────────────────────────
+// Fire-and-forget counter for partner-link clicks (shop_clicks table is
+// insert-only for anon). MUST never block or break the user's navigation:
+// any failure is swallowed.
+function _sessHash(){
+  try{let h=sessionStorage.getItem('vl_sess');
+  if(!h){h=Math.random().toString(36).slice(2,10);sessionStorage.setItem('vl_sess',h);}
+  return h;}catch(e){return null;}
+}
+function trackShopClick(shopId,surface,contextId){
+  try{
+    fetch(_SUPA_URL+'/rest/v1/shop_clicks',{
+      method:'POST',keepalive:true,
+      headers:{'apikey':_SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({shop_id:shopId||null,surface:surface||'unknown',
+        context_id:contextId||null,game:S.game||null,session_hash:_sessHash()})
+    }).catch(()=>{});
+  }catch(e){}
+}
+// Partner/advertiser contact target (interim: founder email; swap to LINE later)
+const _PARTNER_CONTACT='mailto:varit.pkt@gmail.com?subject='+encodeURIComponent('Voyage Log — Partner Shop');
+function partnerContact(src){trackShopClick(null,'partner-contact',src||null);window.open(_PARTNER_CONTACT,'_blank');}
 const _FALLBACK_SHOPS=[
   {ic:'🏪',name_th:'ร้านค้าของคุณ',name_en:'Your Shop',desc_th:'ลงโฆษณาที่นี่',desc_en:'Advertise here'},
   {ic:'🃏',name_th:'ร้านการ์ด',name_en:'Card Shop',desc_th:'ติดต่อลงโฆษณา',desc_en:'Contact to advertise'},
@@ -2670,7 +2693,9 @@ function _paintSpons(shops,L){
     const ic=s.logo_url?`<img src="${s.logo_url}" style="width:36px;height:36px;border-radius:6px;object-fit:contain" onerror="this.replaceWith(document.createTextNode('🏪'))">`:(s.ic||'🏪');
     const href=s.affiliate_url||s.website||s.facebook||null;
     const inner=`<div class="spon-icon">${ic}</div><div class="spon-name">${name}</div><div class="spon-desc">${desc}</div><div class="spon-link">${L==='th'?'ติดต่อสปอนเซอร์ →':'Contact →'}</div>`;
-    return href?`<a class="spon-card" href="${href}" target="_blank" rel="noopener">${inner}</a>`:`<div class="spon-card">${inner}</div>`;
+    const sid=s.id?`'${s.id}'`:'null';
+    return href?`<a class="spon-card" href="${href}" target="_blank" rel="noopener" onclick="trackShopClick(${sid},'homepage-sponsor',null)">${inner}</a>`
+               :`<div class="spon-card" onclick="partnerContact('homepage-sponsor-fallback')" style="cursor:pointer">${inner}</div>`;
   }).join('');
 }
 async function renderSpons(){
@@ -5447,8 +5472,9 @@ function _renderAdmin(){
 // then the other most-valuable cards from the same set. Pure existing-data.
 function whereToBuyHtml(c){
   const L=S.lang;
+  const ctx=(c&&c.card_image_id)?String(c.card_image_id):null;
   const prodRows=(D.products||[]).filter(p=>p.set_code===S.setCode&&p.affiliate_url)
-    .map(p=>`<a class="wtb-row" href="${p.affiliate_url}" target="_blank" rel="noopener sponsored">
+    .map(p=>`<a class="wtb-row" href="${p.affiliate_url}" target="_blank" rel="noopener sponsored" onclick="trackShopClick(null,'card-detail-wtb-product','${p.product_id}')">
     <span class="wtb-name">${p.product_name}</span>
     <span class="wtb-cta">${L==='th'?'ดูราคา →':'View Price →'}</span>
   </a>`).join('');
@@ -5456,7 +5482,8 @@ function whereToBuyHtml(c){
     .map(s=>{
       const href=s.affiliate_url||s.website||s.facebook;
       const name=L==='th'?(s.name_th||s.name||s.name_en||''):(s.name_en||s.name||s.name_th||'');
-      return `<a class="wtb-row" href="${href}" target="_blank" rel="noopener">
+      const sid=s.id?`'${s.id}'`:'null';
+      return `<a class="wtb-row" href="${href}" target="_blank" rel="noopener" onclick="trackShopClick(${sid},'card-detail-wtb',${ctx?`'${ctx}'`:'null'})">
       <span class="wtb-name">${name}</span>
       <span class="wtb-cta">${L==='th'?'เยี่ยมชมร้าน →':'Visit Shop →'}</span>
     </a>`;
