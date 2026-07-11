@@ -889,6 +889,40 @@ function paintShopsTable(){
     </div>`}`;
 }
 
+// P2: availability-signal games (game slug, element prefix, label)
+const _AVAIL_GAMES=[['one-piece','op','One Piece'],['lorcana','lor','Lorcana']];
+async function _loadAvail(shopId){
+  const {data,error}=await sb.from('shop_availability').select('*').eq('shop_id',shopId);
+  if(error)return; // table may not exist yet — section just stays blank
+  (data||[]).forEach(r=>{
+    const g=_AVAIL_GAMES.find(x=>x[0]===r.game);if(!g)return;const p=g[1];
+    const el=id=>document.getElementById('av-'+p+'-'+id);
+    if(!el('sealed'))return;
+    el('sealed').checked=!!r.sealed;el('singles').checked=!!r.singles;
+    el('jp').checked=!!r.jp;el('en').checked=!!r.en;
+    el('sets').value=(r.sets||[]).join(', ');
+    el('hot').value=(r.hot_singles||[]).map(h=>h.card_id+(h.price_thb?' | '+h.price_thb:'')).join('\n');
+    el('conf').textContent='· last confirmed '+String(r.last_confirmed).slice(0,10);
+  });
+}
+async function _saveAvail(shopId){
+  for(const [game,p] of _AVAIL_GAMES){
+    const el=id=>document.getElementById('av-'+p+'-'+id);
+    if(!el('sealed'))continue; // availability section not rendered (new shop)
+    const sealed=el('sealed').checked,singles=el('singles').checked,jp=el('jp').checked,en=el('en').checked;
+    const sets=el('sets').value.split(/[,\s]+/).map(x=>x.trim().toUpperCase()).filter(Boolean);
+    const hot=el('hot').value.split('\n').map(l=>l.trim()).filter(Boolean).slice(0,10)
+      .map(l=>{const seg=l.split('|').map(x=>x.trim());const rec={card_id:seg[0]};const pr=Number(seg[1]);if(seg[1]&&!isNaN(pr))rec.price_thb=pr;return rec;});
+    const empty=!sealed&&!singles&&!jp&&!en&&!sets.length&&!hot.length;
+    if(empty){await sb.from('shop_availability').delete().eq('shop_id',shopId).eq('game',game);continue;}
+    const {error}=await sb.from('shop_availability').upsert(
+      {shop_id:shopId,game,sealed,singles,jp,en,sets,hot_singles:hot,last_confirmed:new Date().toISOString()},
+      {onConflict:'shop_id,game'});
+    if(error){toast('Availability save failed: '+error.message,'err');return false;}
+  }
+  return true;
+}
+
 function openShopModal(id){
   const s=id?_shops.find(x=>x.id===id):null;
   document.getElementById('modal-overlay').style.display='block';
@@ -910,11 +944,30 @@ function openShopModal(id){
         <div class="field"><label class="field-checkbox"><input type="checkbox" id="sh-active" ${s===null||s?.is_active?'checked':''}><span>Active (show on public site)</span></label></div>
         <div class="field"><label class="field-checkbox"><input type="checkbox" id="sh-feat" ${s?.is_featured?'checked':''}><span>Featured Sponsor</span></label></div>
       </div>
+      ${s?`
+      <div style="margin-top:18px;border-top:1px solid var(--bord1,rgba(255,255,255,.08));padding-top:14px">
+        <div style="font-weight:700;margin-bottom:2px">Availability Signals</div>
+        <div style="font-size:11px;color:var(--faint);margin-bottom:10px">What this shop carries — saving the shop stamps "last confirmed" to today. Signals older than 45 days demote to a generic mention on the public site.</div>
+        ${_AVAIL_GAMES.map(([game,p,label])=>`
+        <div style="margin-bottom:14px;padding:10px;border:1px solid var(--bord1,rgba(255,255,255,.08));border-radius:8px">
+          <div style="font-weight:600;margin-bottom:8px">${label} <span id="av-${p}-conf" style="font-size:11px;color:var(--faint);font-weight:400"></span></div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px">
+            <label class="field-checkbox"><input type="checkbox" id="av-${p}-sealed"><span>Sealed</span></label>
+            <label class="field-checkbox"><input type="checkbox" id="av-${p}-singles"><span>Singles</span></label>
+            <label class="field-checkbox"><input type="checkbox" id="av-${p}-jp"><span>JP</span></label>
+            <label class="field-checkbox"><input type="checkbox" id="av-${p}-en"><span>EN</span></label>
+          </div>
+          <div class="field form-grid-full"><label>Sets carried (sealed) — comma-separated codes</label><input class="field-input" id="av-${p}-sets" placeholder="OP-05, OP-13"></div>
+          <div class="field form-grid-full"><label>Hot singles (max 10) — one per line: CARD_ID | price ฿ (optional)</label><textarea class="field-textarea" id="av-${p}-hot" rows="3" placeholder="OP01-120_p1 | 3500"></textarea></div>
+        </div>`).join('')}
+      </div>`:`
+      <div style="margin-top:12px;font-size:12px;color:var(--faint)">💡 Save the shop first, then reopen it to set Availability Signals.</div>`}
     </div>
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveShop(${s?`'${s.id}'`:'null'})">${s?'Save Changes':'Add Shop'}</button>
     </div>`;
+  if(s)_loadAvail(s.id); // P2: fill availability signals for existing shops
 }
 
 async function saveShop(id){
@@ -926,6 +979,7 @@ async function saveShop(id){
   if(id){({error}=await sb.from('shops').update(payload).eq('id',id));}
   else{({error}=await sb.from('shops').insert(payload));}
   if(error){toast('Save failed: '+error.message,'err');return;}
+  if(id){const ok=await _saveAvail(id);if(ok===false)return;} // P2: availability signals (existing shops only)
   await logActivity('shops',id?'update':'create',id||name,old,payload);
   closeModal();
   toast((id?'Shop updated':'Shop added')+' ✓','ok');
