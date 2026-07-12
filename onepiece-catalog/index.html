@@ -3122,22 +3122,20 @@ function trendPlaceholder(L){
     <div class="mtrend-ph-sub">${L==='th'?'พร้อมแสดงหลังเก็บข้อมูลครบ 7 วัน':'Available after 7 days of data'}</div>
   </div>`;
 }
-function jpTrendPlaceholder(meta,L){
+function jpTrendPlaceholder(meta,L,kind){
   const days=(meta&&meta.history_days_collected)||0;
   const conf=(meta&&meta.confidence)||'low';
-  // Third state: data complete but the JP market was flat this week (no card
-  // cleared the ≥5%/¥200 movement guards). Yuyu-Tei retail is sticky — report
-  // the calm honestly instead of a nonsense "appears in 0 days" countdown.
+  // Data complete but literally NOTHING to rank in this direction (rankings
+  // themselves are never threshold-gated — this only shows when zero valid
+  // JP price movements exist for this panel).
   if(days>=7&&conf!=='low'){
-    if(L==='th')return`<div class="mtrend-ph">
-      <div class="mtrend-ph-ic">🌊</div>
-      <div class="mtrend-ph-hd">ราคา JP นิ่งในช่วง 7 วันที่ผ่านมา</div>
-      <div class="mtrend-ph-sub">ยังไม่มีการ์ดที่ขยับเกิน 5% — อัปเดตใหม่ทุกวัน</div>
-    </div>`;
+    const hd=kind==='gainers'?(L==='th'?'ไม่มีการ์ด JP ราคาขึ้นในสัปดาห์นี้':'No JP gainers this week')
+            :kind==='losers'?(L==='th'?'ไม่มีการ์ด JP ราคาลงในสัปดาห์นี้':'No JP price drops this week')
+            :(L==='th'?'ราคา JP นิ่งในช่วง 7 วันที่ผ่านมา':'JP prices held steady this week');
     return`<div class="mtrend-ph">
       <div class="mtrend-ph-ic">🌊</div>
-      <div class="mtrend-ph-hd">JP prices held steady this week</div>
-      <div class="mtrend-ph-sub">No movers above 5% — updated daily</div>
+      <div class="mtrend-ph-hd">${hd}</div>
+      <div class="mtrend-ph-sub">${L==='th'?'ตลาดนิ่ง — อัปเดตใหม่ทุกวัน':'Market calm — updated daily'}</div>
     </div>`;
   }
   const rem=Math.max(0,7-days);
@@ -3205,26 +3203,20 @@ function renderTrend(){
   }
   if(!valHtml)valHtml=`<div class="mtrend-note">${L==='th'?'ยังไม่มีข้อมูลการ์ด':'No card data yet'}</div>`;
 
+  // JP-FIRST RULE (CEO 2026-07-12): homepage market intelligence ALWAYS shows
+  // the Japanese market, regardless of the edition toggle. EN trend files are
+  // untouched and still power other surfaces (e.g. set-page movers).
+  // Rankings always display when real JP movers exist; the ±5% significance
+  // threshold only decides whether the "Market Stable" badge appears.
   let gainHtml,loseHtml,useGainers,useLosers,gainMeta,loseMeta;
-  if(jpMode){
-    // JP: use jp-top-gainers/losers; show dynamic placeholder with days count
-    useGainers=trendsTrustworthy(D.jpGainers);
-    useLosers=trendsTrustworthy(D.jpLosers);
-    gainMeta=D.jpGainers; loseMeta=D.jpLosers;
-    const gc=useGainers?D.jpGainers.cards:[];
-    const lc=useLosers?D.jpLosers.cards:[];
-    gainHtml=gc.length?gc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpGainers,L);
-    loseHtml=lc.length?lc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpLosers,L);
-  }else{
-    // EN: use TCGPlayer top-gainers/losers
-    useGainers=trendsTrustworthy(D.gainers);
-    useLosers=trendsTrustworthy(D.losers);
-    gainMeta=D.gainers; loseMeta=D.losers;
-    const gc=useGainers?D.gainers.cards:[];
-    const lc=useLosers?D.losers.cards:[];
-    gainHtml=gc.length?gc.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
-    loseHtml=lc.length?lc.slice(0,5).map((g,i)=>trendEntryFromJson(g,L,i+1)).join(''):trendPlaceholder(L);
-  }
+  useGainers=trendsTrustworthy(D.jpGainers);
+  useLosers=trendsTrustworthy(D.jpLosers);
+  gainMeta=D.jpGainers; loseMeta=D.jpLosers;
+  const _stableBadge=m=>(m&&m.market_stable)?`<div style="margin:6px 0 8px;display:inline-block;padding:4px 10px;border-radius:999px;background:var(--teals);color:var(--teal);font-size:11px;font-weight:700">🌊 ${L==='th'?'ตลาด JP นิ่ง · ไม่มีการ์ดขยับเกิน 5%':'JP Market Stable · no moves above 5%'}</div>`:'';
+  const gc=useGainers?D.jpGainers.cards:[];
+  const lc=useLosers?D.jpLosers.cards:[];
+  gainHtml=gc.length?_stableBadge(gainMeta)+gc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpGainers,L,'gainers');
+  loseHtml=lc.length?_stableBadge(loseMeta)+lc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpLosers,L,'losers');
 
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
@@ -3232,11 +3224,11 @@ function renderTrend(){
       ${valHtml}
     </div>
     <div class="mtrend-card${useGainers?' live':''}">
-      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'} <span style="font-weight:600;color:var(--faint);font-size:11px">· One Piece</span></span>${useGainers?trendAgeLabel(gainMeta,L):''}</div>
+      <div class="mtrend-head"><span class="mtrend-ic">📈</span><span class="mtrend-ttl">${L==='th'?'ราคาขึ้นแรง (7 วัน)':'Biggest Gainers (7d)'} <span style="font-weight:600;color:var(--faint);font-size:11px">· One Piece · 🇯🇵 JP</span></span>${useGainers?trendAgeLabel(gainMeta,L):''}</div>
       ${gainHtml}
     </div>
     <div class="mtrend-card${useLosers?' live':''}">
-      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'} <span style="font-weight:600;color:var(--faint);font-size:11px">· One Piece</span></span>${useLosers?trendAgeLabel(loseMeta,L):''}</div>
+      <div class="mtrend-head"><span class="mtrend-ic">📉</span><span class="mtrend-ttl">${L==='th'?'ราคาลงแรง (7 วัน)':'Biggest Losers (7d)'} <span style="font-weight:600;color:var(--faint);font-size:11px">· One Piece · 🇯🇵 JP</span></span>${useLosers?trendAgeLabel(loseMeta,L):''}</div>
       ${loseHtml}
     </div>`;
 }

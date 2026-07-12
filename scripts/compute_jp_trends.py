@@ -17,11 +17,12 @@ CARDS_PATH     = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 GAINERS_PATH   = "onepiece-catalog/data/jp-top-gainers.json"
 LOSERS_PATH    = "onepiece-catalog/data/jp-top-losers.json"
 
-# Quality filters — both today AND baseline must pass all checks.
+# DATA-QUALITY filters (affect which cards are eligible at all):
 TREND_MIN_JPY      = 500    # ignore bulk commons (< ¥500)
-TREND_MIN_ABS_JPY  = 200    # absolute change must be >= ¥200
-TREND_MIN_PCT      = 5.0    # percentage change must be >= 5 %
 TREND_MAX_PCT_CAP  = 500.0  # > 500 % is treated as bad data
+# SIGNIFICANCE threshold (CEO rule 2026-07-12: affects MESSAGING ONLY, never
+# whether rankings are displayed — top movers always ship, however small):
+TREND_MIN_PCT      = 5.0    # a move >= 5 % counts as "significant"
 TREND_TOP_N        = 5
 
 TODAY = date.today().isoformat()
@@ -110,19 +111,20 @@ def main():
         baseline_jpy = float(baseline_prices[card_id].get("jpy", 0))
         baseline_thb = float(baseline_prices[card_id].get("thb", 0))
 
-        # Quality gates
+        # Data-quality gates only — significance no longer filters inclusion.
         if today_jpy < TREND_MIN_JPY or baseline_jpy < TREND_MIN_JPY:
             continue
         change_jpy = today_jpy - baseline_jpy
         change_thb = round(today_thb - baseline_thb, 2)
-        if abs(change_jpy) < TREND_MIN_ABS_JPY:
-            continue
+        if change_jpy == 0:
+            continue  # zero-change cards are not "movers"
         pct = (change_jpy / baseline_jpy) * 100
-        if abs(pct) < TREND_MIN_PCT or abs(pct) > TREND_MAX_PCT_CAP:
-            continue
+        if abs(pct) > TREND_MAX_PCT_CAP:
+            continue  # bad data, not real market movement
 
         meta = card_meta.get(card_id, {})
         movers.append({
+            "significant":          abs(pct) >= TREND_MIN_PCT,
             "card_id":              card_id,
             "card_name":            meta.get("name", card_id),
             "set_code":             meta.get("set_code", ""),
@@ -165,6 +167,11 @@ def main():
         "game":                  "onepiece",
         "cards_evaluated":       len(today_prices),
         "cards_with_trend":      len(movers),
+        "significance_threshold_pct": TREND_MIN_PCT,
+        "cards_significant":     sum(1 for m in movers if m["significant"]),
+        # market_stable => no card moved >= threshold; UI shows a calm badge
+        # ABOVE the rankings instead of hiding them (CEO rule 2026-07-12).
+        "market_stable":         not any(m["significant"] for m in movers),
     }
 
     gainers_out = {**base_meta, "trend_type": "gainers", "cards": gainers}
