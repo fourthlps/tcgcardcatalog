@@ -15,6 +15,11 @@ on:
         type: boolean
         default: false
         required: false
+      jp_sets:
+        description: 'Staged validation: comma-separated Yuyu set slugs (e.g. op01 or op05,st01,eb01). Empty = all sets.'
+        type: string
+        default: ''
+        required: false
 
 permissions:
   contents: write
@@ -40,9 +45,12 @@ jobs:
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: python scripts/update_prices.py
 
-      - name: Fetch JP prices (Yuyu-Tei direct — KI-40)
+      - name: Fetch JP prices (Yuyu-Tei via relay — KI-40)
         env:
           JP_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_dry_run || 'false' }}
+          JP_SETS: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_sets || '' }}
+          JP_RELAY_URL: ${{ secrets.JP_RELAY_URL }}
+          JP_RELAY_SECRET: ${{ secrets.JP_RELAY_SECRET }}
         run: python scripts/update_jp_prices.py
 
       - name: Append JP price history snapshot

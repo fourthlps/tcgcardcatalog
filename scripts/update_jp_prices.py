@@ -32,6 +32,7 @@ Env: JP_DRY_RUN=1 -> fetch+match+report only, do not write card-markets.json.
 
 import json
 import os
+import random
 import re
 import sys
 import time
@@ -48,10 +49,24 @@ REPORT_PATH  = "onepiece-catalog/data/jp-price-report.json"
 TODAY   = date.today().isoformat()
 DRY_RUN = os.environ.get("JP_DRY_RUN", "").lower() in ("1", "true", "yes")
 
-REQUEST_DELAY   = 2.5
-TIMEOUT         = 30
-RETRIES         = 2
+TIMEOUT         = 45
 UA              = "VoyageLog-PriceBot/1.0 (polite; daily; contact via site)"
+
+# Throttle policy (CEO spec): conservative spacing with jitter; on 429 honor
+# Retry-After (capped) else exponential backoff with jitter; a repeatedly
+# throttled batch slows down and eventually STOPS rather than hammering.
+BASE_SPACING    = 3.5
+SPACING_JITTER  = 1.5
+RETRY_BACKOFFS  = [15, 30, 60]          # seconds, + jitter, per 429 attempt
+RETRY_AFTER_CAP = 120
+CB_SLOWDOWN_AT  = 3                     # consecutive throttled sets -> double spacing
+CB_STOP_AT      = 6                     # consecutive throttled sets -> stop batch
+
+# Relay transport (Route A): set via GitHub Actions Secrets. When absent in
+# Actions, the JP stage soft-skips so the EN pipeline is never blocked.
+RELAY_URL    = os.environ.get("JP_RELAY_URL", "")
+RELAY_SECRET = os.environ.get("JP_RELAY_SECRET", "")
+IN_ACTIONS   = os.environ.get("GITHUB_ACTIONS", "") == "true"
 
 MIN_MATCH_RATIO   = 0.70   # abort whole run below this
 SET_MIN_RATIO     = 0.50   # skip single set below this share of its expected entries
@@ -75,22 +90,42 @@ class YuyuTeiAdapter:
         m = re.fullmatch(r"(OP|EB|PRB|ST)-(\d{2})", c)
         return (m.group(1) + m.group(2)).lower() if m else None
 
-    def fetch_set(self, slug):
-        url = self.BASE.format(slug=slug)
-        last_err = None
-        for attempt in range(RETRIES + 1):
-            try:
-                r = requests.get(url, timeout=TIMEOUT,
-                                 headers={"User-Agent": UA, "Cache-Control": "no-cache"})
-                if r.status_code == 404:
-                    return None            # set not on source (yet) — not an error
-                r.raise_for_status()
-                return self._parse(r.text)
-            except Exception as e:          # noqa: BLE001 — per-set isolation
-                last_err = e
-                time.sleep(2 * (attempt + 1))
-        print(f"    ! fetch failed after retries: {last_err}")
-        return []
+    def fetch_page(self, slug):
+        """Single attempt. Returns dict:
+        {status:int|None, retry_after:float|None, listings:list|None, err:str|None}
+        status 200 -> listings parsed; 404 -> set absent (not an error);
+        429 -> throttled (caller backs off); anything else / exception -> err.
+        Never logs HTML, URLs-with-secrets, or the secret itself."""
+        try:
+            if RELAY_URL and RELAY_SECRET:
+                r = requests.post(RELAY_URL, timeout=TIMEOUT,
+                                  json={"auth": RELAY_SECRET, "set": slug, "full": True},
+                                  headers={"Content-Type": "application/json"})
+                r.raise_for_status()                     # relay itself must be healthy
+                j = r.json()
+                if j.get("error"):
+                    return {"status": None, "retry_after": None, "listings": None,
+                            "err": "relay: " + str(j["error"])[:80]}
+                st = int(j.get("status") or 0)
+                ra = j.get("retry_after")
+                if st == 200:
+                    return {"status": 200, "retry_after": None,
+                            "listings": self._parse(j.get("body") or ""), "err": None}
+                return {"status": st, "retry_after": float(ra) if ra else None,
+                        "listings": None, "err": None}
+            # direct path (local development only)
+            r = requests.get(self.BASE.format(slug=slug), timeout=TIMEOUT,
+                             headers={"User-Agent": UA, "Cache-Control": "no-cache"})
+            if r.status_code == 200:
+                return {"status": 200, "retry_after": None,
+                        "listings": self._parse(r.text), "err": None}
+            ra = r.headers.get("Retry-After")
+            return {"status": r.status_code,
+                    "retry_after": float(ra) if ra else None,
+                    "listings": None, "err": None}
+        except Exception as e:               # noqa: BLE001 — per-set isolation
+            return {"status": None, "retry_after": None, "listings": None,
+                    "err": str(e)[:120]}
 
     def _parse(self, html):
         soup = BeautifulSoup(html, "html.parser")
@@ -178,7 +213,14 @@ def jp_entry(markets, image_id):
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
 def main():
-    print(f"[update_jp_prices] {TODAY} source={ACTIVE.name} dry_run={DRY_RUN}")
+    t_start = time.time()
+    print(f"[update_jp_prices] {TODAY} source={ACTIVE.name} dry_run={DRY_RUN} "
+          f"transport={'relay' if (RELAY_URL and RELAY_SECRET) else 'direct'}")
+
+    if IN_ACTIONS and not (RELAY_URL and RELAY_SECRET):
+        # Soft-skip: never block the EN pipeline when the relay isn't configured.
+        print("  JP relay secrets not configured — skipping JP price stage (soft)")
+        return
 
     mk = load_json(MARKETS_PATH, None)
     if not mk or "markets" not in mk:
@@ -196,28 +238,71 @@ def main():
                               "manual": {}, "map": {}, "unmapped": {}})
     cid_map = {**mp.get("map", {}), **mp.get("manual", {})}   # manual wins
 
-    # ── fetch all sets ────────────────────────────────────────────────────────
+    # ── derive source pages (deduped); JP_SETS env = staged validation override
     set_codes = derive_set_codes()
     slugs, seen = [], set()
     for c in set_codes:
         s = ACTIVE.set_slug(c)
         if s and s not in seen:
             seen.add(s); slugs.append(s)
-    print(f"  Derived {len(set_codes)} set codes -> {len(slugs)} source pages")
+    stage_sel = [s.strip().lower() for s in os.environ.get("JP_SETS", "").split(",") if s.strip()]
+    if stage_sel:
+        slugs = [s for s in slugs if s in stage_sel]
+        print(f"  STAGED RUN: restricted to {slugs}")
+    print(f"  Derived {len(set_codes)} set codes -> {len(slugs)} source pages to fetch")
 
-    listings, sets_ok, sets_fail, sets_missing = [], 0, 0, []
-    for slug in slugs:
-        rows = ACTIVE.fetch_set(slug)
-        if rows is None:
-            sets_missing.append(slug)
-        elif not rows:
-            sets_fail += 1
-            print(f"    {slug}: FAILED/empty — its cards keep previous prices")
+    # ── throttle-aware batch loop ─────────────────────────────────────────────
+    listings = []
+    sets_ok = sets_fail = sets_throttled = retries_total = 0
+    sets_missing, consecutive_throttled, throttle_stopped = [], 0, False
+    spacing = BASE_SPACING
+
+    for idx, slug in enumerate(slugs):
+        if throttle_stopped:
+            sets_throttled += 1
+            continue                     # counted; keeps previous prices
+        result, attempts = None, 0
+        while attempts <= len(RETRY_BACKOFFS):
+            result = ACTIVE.fetch_page(slug)
+            if result["status"] == 429:
+                if attempts == len(RETRY_BACKOFFS):
+                    break                # throttled out for this set
+                wait = result["retry_after"] or RETRY_BACKOFFS[attempts]
+                wait = min(float(wait), RETRY_AFTER_CAP) + random.uniform(0, 3)
+                print(f"    {slug}: 429 — backing off {wait:.0f}s "
+                      f"(attempt {attempts + 1}/{len(RETRY_BACKOFFS)})")
+                time.sleep(wait)
+                attempts += 1; retries_total += 1
+                continue
+            break
+
+        if result["status"] == 200:
+            rows = result["listings"] or []
+            if rows:
+                sets_ok += 1; listings.extend(rows)
+                print(f"    {slug}: ok {len(rows)} listings"
+                      + (f" ({attempts} retries)" if attempts else ""))
+            else:
+                sets_fail += 1
+                print(f"    {slug}: 200 but 0 parsed — keeps previous prices")
+            consecutive_throttled = 0
+        elif result["status"] == 404:
+            sets_missing.append(slug); consecutive_throttled = 0
+        elif result["status"] == 429:
+            sets_throttled += 1; consecutive_throttled += 1
+            print(f"    {slug}: THROTTLED after retries — keeps previous prices")
+            if consecutive_throttled >= CB_STOP_AT:
+                throttle_stopped = True
+                print(f"    CIRCUIT BREAKER: {consecutive_throttled} consecutive throttles — stopping batch")
+            elif consecutive_throttled >= CB_SLOWDOWN_AT and spacing == BASE_SPACING:
+                spacing = BASE_SPACING * 2
+                print(f"    CIRCUIT BREAKER: slowing to {spacing:.1f}s spacing")
         else:
-            sets_ok += 1
-            listings.extend(rows)
-            print(f"    {slug}: {len(rows)} listings")
-        time.sleep(REQUEST_DELAY)
+            sets_fail += 1; consecutive_throttled = 0
+            print(f"    {slug}: FAILED ({result['err'] or result['status']}) — keeps previous prices")
+
+        if idx < len(slugs) - 1 and not throttle_stopped:
+            time.sleep(spacing + random.uniform(0, SPACING_JITTER))
 
     # duplicate-cid detection within this run
     seen_cids, dup_cids = set(), set()
@@ -287,13 +372,29 @@ def main():
             e["conversion_rate_used"] = fx
             e["last_updated"] = TODAY
             updated += 1
-    missing_cids = [c for c, i in cid_map.items() if i in set(jp_ids) and i not in seen_this_run]
+    # Scope-aware accounting: staged runs judge coverage only within the sets
+    # actually fetched, otherwise a valid op01-only test would falsely abort.
+    slug_set = set(slugs)
+    def _id_slug(i):
+        p = i.split("-")[0].lower()
+        return "eb04" if p in ("op14", "op15") and "eb04" in slug_set else p
+    scope_ids = {i for i in jp_ids if _id_slug(i) in slug_set}
+    missing_cids = [c for c, i in cid_map.items() if i in scope_ids and i not in seen_this_run]
 
-    ratio = matched / max(1, len(jp_ids))
+    ratio = matched / max(1, len(scope_ids))
     changes = updated
     report = {
         "run_date": TODAY, "source": ACTIVE.name, "dry_run": DRY_RUN,
-        "sets_fetched": sets_ok, "sets_failed": sets_fail, "sets_missing_on_source": sets_missing,
+        "transport": "relay" if (RELAY_URL and RELAY_SECRET) else "direct",
+        "staged_selection": stage_sel or None,
+        "sets_attempted": len(slugs),
+        "sets_success": sets_ok,
+        "sets_throttled": sets_throttled,
+        "sets_failed": sets_fail,
+        "sets_missing_on_source": sets_missing,
+        "throttle_stopped": throttle_stopped,
+        "retries_total": retries_total,
+        "runtime_seconds": round(time.time() - t_start, 1),
         "listings_seen": len(listings),
         "matched": matched, "match_ratio": round(ratio, 3), "updated": updated,
         "new_mappings": new_maps, "new_unmapped": new_unmapped,
@@ -312,9 +413,11 @@ def main():
         report["aborted"], report["abort_reason"] = True, f"{big_moves}/{changes} moves beyond ±{BIG_MOVE_PCT}%"
 
     print("  ── MAPPING REPORT ──")
-    for k in ("sets_fetched", "sets_failed", "listings_seen", "matched", "match_ratio",
+    for k in ("transport", "staged_selection", "sets_attempted", "sets_success",
+              "sets_throttled", "sets_failed", "throttle_stopped", "retries_total",
+              "runtime_seconds", "listings_seen", "matched", "match_ratio",
               "updated", "new_mappings", "new_unmapped", "unmapped_total",
-              "missing_cids", "big_moves", "aborted", "abort_reason"):
+              "missing_cids", "duplicate_cids", "big_moves", "aborted", "abort_reason"):
         print(f"    {k}: {report[k]}")
 
     mp["_meta"].update({"source": ACTIVE.name, "updated": TODAY,
