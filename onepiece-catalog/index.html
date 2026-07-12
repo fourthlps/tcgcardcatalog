@@ -2595,6 +2595,14 @@ function showcasePriceHtml(entry){
   const lv=showcaseLiveThb(entry);
   return lv?fpL(lv/activeFx(),lv):fpL(entry.price_usd);
 }
+// Batch 3 (AU-03): resolve the market provenance of a showcase entry so every
+// value surface can label it honestly. A converted JP price is a REFERENCE
+// estimate and must never be presented as an EN "market price".
+function showcaseSrc(entry){
+  const hit=(entry&&entry.id)?cardByImgId(entry.id):null;
+  const jp=hit&&marketFor(hit.card,'JP');
+  return (jp&&jp.source_price>0)?{ed:'JP',ref:true}:{ed:'EN',ref:false};
+}
 
 function renderStats(){
   const L=S.lang;
@@ -2608,7 +2616,7 @@ function renderStats(){
     const st=[
       {ic:'🎴',v:shs.length,th:'เกมการ์ดที่รองรับ',en:'Card Games'},
       {ic:'🗂️',v:totalCards.toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
-      {ic:'⭐',v:fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
+      {ic:'⭐',v:'≈ '+fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุด (ประมาณ)',en:'Highest (est.)'},
     ];
     document.getElementById('stats').innerHTML=st.map(s=>`<div class="stat-p"><span class="stat-ic">${s.ic}</span><div><div class="stat-v">${s.v}</div><div class="stat-l">${L==='th'?s.th:s.en}</div></div></div>`).join('');
     return;
@@ -2619,7 +2627,7 @@ function renderStats(){
   const st=[
     {ic:'⚓',v:D.index.filter(s=>D.setData[s.code]).length||D.index.length,th:'ชุด One Piece',en:'One Piece Sets'},
     {ic:'🗂️',v:ttl().toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
-    {ic:'⭐',v:fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
+    {ic:'⭐',v:'≈ '+fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุด (ประมาณ)',en:'Highest (est.)'},
   ];
   document.getElementById('stats').innerHTML=st.map(s=>`<div class="stat-p"><span class="stat-ic">${s.ic}</span><div><div class="stat-v">${s.v}</div><div class="stat-l">${L==='th'?s.th:s.en}</div></div></div>`).join('');
 }
@@ -2635,16 +2643,17 @@ function renderFC(){
     const top=pool[day%pool.length];
     const baseName=top.name.includes(' - ')?top.name.split(' - ')[0]:top.name.replace(/\s*\(.*\)$/,'').trim();
     const variant=top.name.includes(' - ')?top.name.split(' - ').slice(1).join(' - '):(top.name.match(/\(.*\)/)?.[0]||'');
+    const fcSrc=showcaseSrc(top);
     document.getElementById('fc-panel').innerHTML=`
       <div class="fc-badge">⭐ ${L==='th'?'การ์ดเด่นประจำวัน':'Today\'s Platform Showcase'}</div>
       <div class="fc-body">
         <img class="fc-img" src="${top.image||''}" onerror="this.style.visibility='hidden'">
         <div class="fc-details">
-          <div style="margin-bottom:5px">${gameChip(top.game)}</div>
+          <div style="margin-bottom:5px">${gameChip(top.game)} ${editionBadge(fcSrc.ed)}</div>
           <div class="fc-name">${baseName}</div>
           <div class="fc-variant">${variant}</div>
           <div class="fc-set-badge">${top.id||''}${top.rarity_name?' · '+top.rarity_name:top.rarity?' · '+top.rarity:''}</div>
-          <div class="fc-price-label">${L==='th'?'ราคาตลาด':'Market Price'}</div>
+          <div class="fc-price-label">${fcSrc.ref?(L==='th'?'ราคาอ้างอิง JP · ประมาณการ':'JP Reference · est.'):(L==='th'?'ราคาตลาด EN':'EN Market Price')}</div>
           <div class="fc-price">${showcasePriceHtml(top)}</div>
           <button class="fc-btn" onclick="jumpShow('${top.game}','${top.set}','${top.id}')">${L==='th'?'ดูรายละเอียดการ์ด →':'View Card Details →'}</button>
         </div>
@@ -3195,16 +3204,16 @@ function renderTrend(){
     .map(c=>({...c,_valThb:showcaseLiveThb(c)||c.price_usd*activeFx()}))
     .sort((a,b)=>b._valThb-a._valThb).slice(0,5);
   if(scAll.length){
-    valHtml=scAll.map((c,i)=>`
+    valHtml=scAll.map((c,i)=>{const src=showcaseSrc(c);return `
       <div class="mtrend-body" onclick="jumpShow('${c.game}','${c.set}','${c.id}')" style="cursor:pointer">
         <div class="mtrend-rank">${i+1}</div>
         <img class="mtrend-img" src="${c.image||''}" loading="lazy" onerror="this.style.visibility='hidden'">
         <div style="min-width:0">
-          <div style="margin-bottom:2px">${gameChip(c.game)}</div>
+          <div style="margin-bottom:2px">${gameChip(c.game)} ${editionBadge(src.ed)}</div>
           <div class="mtrend-name">${c.name.split(' - ')[0].split('(')[0].trim()}</div>
-          <div class="mtrend-price">${showcasePriceHtml(c)}</div>
+          <div class="mtrend-price">${showcasePriceHtml(c)}${src.ref?` <span class="ed-ref">${L==='th'?'อ้างอิง':'ref'}</span>`:''}</div>
         </div>
-      </div>`).join('');
+      </div>`;}).join('');
   }else{
     valHtml=Array.from({length:5},(_,i)=>topValueFallback(i)).join('');
   }
@@ -3228,6 +3237,7 @@ function renderTrend(){
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
       <div class="mtrend-head"><span class="mtrend-ic">💎</span><span class="mtrend-ttl">${L==='th'?'การ์ดมูลค่าสูงสุด':'Highest Value Cards'}</span></div>
+      <div style="font-size:10.5px;color:var(--faint);margin:-2px 0 9px;line-height:1.4">${L==='th'?'ประเมินเป็นบาท · 🇯🇵 JP = ราคาอ้างอิง · 🇺🇸 EN = ราคาตลาด':'Estimated in THB · 🇯🇵 JP = reference · 🇺🇸 EN = market'}</div>
       ${valHtml}
     </div>
     <div class="mtrend-card${useGainers?' live':''}">
