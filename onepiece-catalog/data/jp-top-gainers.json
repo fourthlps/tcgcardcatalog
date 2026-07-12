@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-11T20:33:02.515454+00:00",
-  "snapshot_date": "2026-07-11",
+  "generated_at": "2026-07-12T11:40:28.026936+00:00",
+  "snapshot_date": "2026-07-12",
   "baseline_date": "2026-07-05",
-  "days_between_snapshots": 6,
-  "history_days_collected": 7,
+  "days_between_snapshots": 7,
+  "history_days_collected": 8,
   "period": "7_day",
   "confidence": "medium",
   "source": "Yuyu-Tei via jp-card-prices.com",
@@ -11,6 +11,9 @@
   "game": "onepiece",
   "cards_evaluated": 2246,
   "cards_with_trend": 0,
+  "significance_threshold_pct": 5.0,
+  "cards_significant": 0,
+  "market_stable": true,
   "trend_type": "gainers",
   "cards": []
 }
