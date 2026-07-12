@@ -757,8 +757,16 @@ def main():
 
     # --- Phase 3: Compute trends against snapshot ---
     gainers_data, losers_data = compute_trends(combined, snapshot, run_date, timestamp)
-    write_json_file(GAINERS_PATH, gainers_data, label="Top gainers")
-    write_json_file(LOSERS_PATH, losers_data, label="Top losers")
+    # AU-06: on a same-day rerun (days_between==0) compute_trends returns empty
+    # payloads. Writing them would clobber the first run's REAL trend files with
+    # blanks, so only write when this run produced a genuine day-over-day
+    # comparison; otherwise preserve the last good output.
+    if gainers_data.get("days_between_snapshots", 0) >= 1:
+        write_json_file(GAINERS_PATH, gainers_data, label="Top gainers")
+        write_json_file(LOSERS_PATH, losers_data, label="Top losers")
+    else:
+        print(f"Trends: same-day rerun (days_between=0) -- preserving existing "
+              f"{GAINERS_PATH} / {LOSERS_PATH} (not overwriting with empties)")
 
     # --- Overwrite main catalog JSON ---
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
@@ -770,8 +778,17 @@ def main():
         json.dump(combined, f, ensure_ascii=False, separators=(",", ":"))
     print(f"Saved {len(combined)} sets/decks -> {OUTPUT_PATH_V2}")
 
-    # --- Phase 3: Save snapshot (only on full success) ---
-    snapshot_saved = save_snapshot(combined, run_date, timestamp, prev_history_days, failed_sets)
+    # --- Phase 3: Save snapshot (only on full success, once per calendar day) ---
+    # AU-06b: on a same-day rerun the snapshot for today already exists; calling
+    # save_snapshot again would re-increment history_days_collected and inflate
+    # the day count. Only save / advance the counter on the first successful run
+    # of a new calendar day.
+    if snapshot.get("snapshot_date", "") == run_date:
+        print(f"Snapshot: {run_date} already saved earlier today -- not re-saving "
+              f"(history_days stays {prev_history_days})")
+        snapshot_saved = False
+    else:
+        snapshot_saved = save_snapshot(combined, run_date, timestamp, prev_history_days, failed_sets)
     last_snapshot_date = run_date if snapshot_saved else snapshot.get("snapshot_date", "")
     history_days_now = (prev_history_days + 1) if snapshot_saved else prev_history_days
 
