@@ -2603,6 +2603,13 @@ function showcaseSrc(entry){
   const jp=hit&&marketFor(hit.card,'JP');
   return (jp&&jp.source_price>0)?{ed:'JP',ref:true}:{ed:'EN',ref:false};
 }
+// CEO ruling 2026-07-13: on homepage VALUE surfaces (Highest Value, Featured
+// Card, hero stat) One Piece shows its JP price ONLY — OP EN-only variants
+// (Manga/Alt-Art) are excluded. Lorcana has no JP market and keeps its EN price.
+// Non-One-Piece entries always pass; One Piece entries pass only when JP-priced.
+function homepageJpOk(entry){
+  return !!entry && (entry.game!=='one-piece' || showcaseSrc(entry).ed==='JP');
+}
 
 function renderStats(){
   const L=S.lang;
@@ -2611,7 +2618,7 @@ function renderStats(){
   const shs=showcases().filter(s=>s.totals);
   if(shs.length>1){
     const totalCards=shs.reduce((n,s)=>n+(s.totals.cards||0),0);
-    const hiCands=[...shs.map(s=>s.top_chase&&s.top_chase[0]),...shs.map(s=>s.featured_pool&&s.featured_pool[0])].filter(Boolean);
+    const hiCands=[...shs.map(s=>s.top_chase&&s.top_chase[0]),...shs.map(s=>s.featured_pool&&s.featured_pool[0])].filter(Boolean).filter(homepageJpOk);
     const hiThb=Math.max(0,...hiCands.map(e=>showcaseLiveThb(e)||((e.price_usd||0)*activeFx())));
     const st=[
       {ic:'🎴',v:shs.length,th:'เกมการ์ดที่รองรับ',en:'Card Games'},
@@ -2637,7 +2644,7 @@ function renderFC(){
   // PLATFORM SHOWCASE: curated pool across every game's showcase file
   // (Manga Luffy, Enchanted Elsa, Iconic Buzz, …). Rotates daily —
   // stable for the day, different tomorrow.
-  const pool=showcases().map(s=>s.featured_pool||[]).flat().filter(c=>c.price_usd>0);
+  const pool=showcases().map(s=>s.featured_pool||[]).flat().filter(c=>c.price_usd>0).filter(homepageJpOk);
   if(pool.length){
     const day=Math.floor(Date.now()/86400000);
     const top=pool[day%pool.length];
@@ -3201,6 +3208,7 @@ function renderTrend(){
   // not the snapshot: otherwise live drift makes the "Highest Value" list
   // appear out of order.
   const scAll=showcases().map(s=>s.top_value||s.top_chase||[]).flat().filter(c=>c.price_usd>0)
+    .filter(homepageJpOk)   // OP = JP-priced only; Lorcana (EN) still allowed
     .map(c=>({...c,_valThb:showcaseLiveThb(c)||c.price_usd*activeFx()}))
     .sort((a,b)=>b._valThb-a._valThb).slice(0,5);
   if(scAll.length){
