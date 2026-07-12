@@ -10,6 +10,11 @@ on:
         type: boolean
         default: true
         required: false
+      jp_dry_run:
+        description: 'Dry-run JP price fetch (true = fetch+match+report only, do not modify card-markets.json)'
+        type: boolean
+        default: false
+        required: false
 
 permissions:
   contents: write
@@ -34,6 +39,11 @@ jobs:
           DRY_RUN: ${{ github.event_name != 'workflow_dispatch' && 'false' || inputs.dry_run }}
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: python scripts/update_prices.py
+
+      - name: Fetch JP prices (Yuyu-Tei direct — KI-40)
+        env:
+          JP_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_dry_run || 'false' }}
+        run: python scripts/update_jp_prices.py
 
       - name: Append JP price history snapshot
         run: python scripts/append_jp_history.py
