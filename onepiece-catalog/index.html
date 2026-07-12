@@ -3183,8 +3183,12 @@ function renderTrend(){
   // showcase top_value list (PURE price ranking over all cards — top_chase
   // is tier-ordered and must not feed this panel), each row game-tagged.
   let valHtml='';
+  // Rank by the DISPLAYED value (live price when the card is loaded — KI-36),
+  // not the snapshot: otherwise live drift makes the "Highest Value" list
+  // appear out of order.
   const scAll=showcases().map(s=>s.top_value||s.top_chase||[]).flat().filter(c=>c.price_usd>0)
-    .sort((a,b)=>b.price_usd-a.price_usd).slice(0,5);
+    .map(c=>({...c,_valThb:showcaseLiveThb(c)||c.price_usd*activeFx()}))
+    .sort((a,b)=>b._valThb-a._valThb).slice(0,5);
   if(scAll.length){
     valHtml=scAll.map((c,i)=>`
       <div class="mtrend-body" onclick="jumpShow('${c.game}','${c.set}','${c.id}')" style="cursor:pointer">
