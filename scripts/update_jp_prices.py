@@ -42,6 +42,9 @@ import requests
 from bs4 import BeautifulSoup
 
 MARKETS_PATH = "onepiece-catalog/card-markets.json"
+# The SPA reads the per-game mirror (multi-game refactor), not the canonical
+# file — every canonical write must be mirrored or the UI never sees it.
+MIRROR_PATH  = "onepiece-catalog/data/one-piece/prices.json"
 CARDS_PATH   = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 MAP_PATH     = "onepiece-catalog/data/jp-yuyu-map.json"
 REPORT_PATH  = "onepiece-catalog/data/jp-price-report.json"
@@ -449,6 +452,9 @@ def main():
     mk["_meta"]["jp_price_source"] = ACTIVE.name
     atomic_write(MARKETS_PATH, mk)
     print(f"  Wrote {MARKETS_PATH}: {updated} entries refreshed (fx {fx} via {fx_src})")
+    if os.path.exists(MIRROR_PATH):
+        atomic_write(MIRROR_PATH, mk)
+        print(f"  Mirrored -> {MIRROR_PATH} (the file the SPA actually reads)")
 
 
 if __name__ == "__main__":
