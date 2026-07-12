@@ -2573,6 +2573,22 @@ function setCrumb(elId,html){document.getElementById(elId).innerHTML='<span clas
 
 function renderHome(){renderStats();renderFC();renderPops();renderSpons();renderGames();renderHL();renderTrend();renderChase();renderBoxes();renderRecent();renderChars();}
 
+// KI-36: showcase.json prices are a once-a-day snapshot (that day's price AND
+// that day's FX). Recently Viewed / card detail compute live — so the same
+// card could show two prices on one screen. Wherever a showcase entry's card
+// is already loaded, prefer the live JP-preferred THB.
+function showcaseLiveThb(entry){
+  if(!entry||!entry.id)return null;
+  const hit=cardByImgId(entry.id);
+  if(!hit)return null;
+  const thb=jpPreferredPriceThb(hit.card);
+  return thb>0?thb:null;
+}
+function showcasePriceHtml(entry){
+  const lv=showcaseLiveThb(entry);
+  return lv?fpL(lv/activeFx(),lv):fpL(entry.price_usd);
+}
+
 function renderStats(){
   const L=S.lang;
   // PLATFORM-WIDE stats from the per-game showcases (games count, total
@@ -2580,11 +2596,12 @@ function renderStats(){
   const shs=showcases().filter(s=>s.totals);
   if(shs.length>1){
     const totalCards=shs.reduce((n,s)=>n+(s.totals.cards||0),0);
-    const hiUsd=Math.max(0,...shs.map(s=>(s.top_chase&&s.top_chase[0]&&s.top_chase[0].price_usd)||0),...shs.map(s=>(s.featured_pool&&s.featured_pool[0]&&s.featured_pool[0].price_usd)||0));
+    const hiCands=[...shs.map(s=>s.top_chase&&s.top_chase[0]),...shs.map(s=>s.featured_pool&&s.featured_pool[0])].filter(Boolean);
+    const hiThb=Math.max(0,...hiCands.map(e=>showcaseLiveThb(e)||((e.price_usd||0)*activeFx())));
     const st=[
       {ic:'🎴',v:shs.length,th:'เกมการ์ดที่รองรับ',en:'Card Games'},
       {ic:'🗂️',v:totalCards.toLocaleString(),th:'การ์ดที่เก็บไว้',en:'Cards Indexed'},
-      {ic:'⭐',v:fpL(hiUsd),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
+      {ic:'⭐',v:fpL(hiThb/activeFx(),hiThb),th:'ราคาสูงสุดต่อใบ',en:'Highest Card'},
     ];
     document.getElementById('stats').innerHTML=st.map(s=>`<div class="stat-p"><span class="stat-ic">${s.ic}</span><div><div class="stat-v">${s.v}</div><div class="stat-l">${L==='th'?s.th:s.en}</div></div></div>`).join('');
     return;
@@ -2621,7 +2638,7 @@ function renderFC(){
           <div class="fc-variant">${variant}</div>
           <div class="fc-set-badge">${top.id||''}${top.rarity_name?' · '+top.rarity_name:top.rarity?' · '+top.rarity:''}</div>
           <div class="fc-price-label">${L==='th'?'ราคาตลาด':'Market Price'}</div>
-          <div class="fc-price">${fpL(top.price_usd)}</div>
+          <div class="fc-price">${showcasePriceHtml(top)}</div>
           <button class="fc-btn" onclick="jumpShow('${top.game}','${top.set}','${top.id}')">${L==='th'?'ดูรายละเอียดการ์ด →':'View Card Details →'}</button>
         </div>
       </div>`;
@@ -3176,7 +3193,7 @@ function renderTrend(){
         <div style="min-width:0">
           <div style="margin-bottom:2px">${gameChip(c.game)}</div>
           <div class="mtrend-name">${c.name.split(' - ')[0].split('(')[0].trim()}</div>
-          <div class="mtrend-price">${fpL(c.price_usd)}</div>
+          <div class="mtrend-price">${showcasePriceHtml(c)}</div>
         </div>
       </div>`).join('');
   }else{
