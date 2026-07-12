@@ -3107,6 +3107,22 @@ function trendPlaceholder(L){
 }
 function jpTrendPlaceholder(meta,L){
   const days=(meta&&meta.history_days_collected)||0;
+  const conf=(meta&&meta.confidence)||'low';
+  // Third state: data complete but the JP market was flat this week (no card
+  // cleared the ≥5%/¥200 movement guards). Yuyu-Tei retail is sticky — report
+  // the calm honestly instead of a nonsense "appears in 0 days" countdown.
+  if(days>=7&&conf!=='low'){
+    if(L==='th')return`<div class="mtrend-ph">
+      <div class="mtrend-ph-ic">🌊</div>
+      <div class="mtrend-ph-hd">ราคา JP นิ่งในช่วง 7 วันที่ผ่านมา</div>
+      <div class="mtrend-ph-sub">ยังไม่มีการ์ดที่ขยับเกิน 5% — อัปเดตใหม่ทุกวัน</div>
+    </div>`;
+    return`<div class="mtrend-ph">
+      <div class="mtrend-ph-ic">🌊</div>
+      <div class="mtrend-ph-hd">JP prices held steady this week</div>
+      <div class="mtrend-ph-sub">No movers above 5% — updated daily</div>
+    </div>`;
+  }
   const rem=Math.max(0,7-days);
   if(L==='th')return`<div class="mtrend-ph">
     <div class="mtrend-ph-ic">📊</div>
