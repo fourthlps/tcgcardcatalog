@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-12T11:37:04.339454+00:00",
+  "last_updated": "2026-07-12T13:47:29.539751+00:00",
   "run_date": "2026-07-12",
   "status": "success",
   "api": {
@@ -12,17 +12,17 @@
   },
   "history": {
     "status": "ok",
-    "days_collected": 17,
+    "days_collected": 18,
     "last_snapshot_date": "2026-07-12",
     "sheets_append": "ok"
   },
   "trends": {
     "status": "ok",
-    "gainers_count": 5,
-    "losers_count": 5,
+    "gainers_count": 0,
+    "losers_count": 0,
     "confidence": "medium",
-    "baseline_date": "2026-07-11",
-    "days_between_snapshots": 1,
-    "history_days_collected": 17
+    "baseline_date": "2026-07-12",
+    "days_between_snapshots": 0,
+    "history_days_collected": 18
   }
 }

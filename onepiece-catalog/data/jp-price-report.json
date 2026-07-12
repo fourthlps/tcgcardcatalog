@@ -1,0 +1,33 @@
+{
+  "run_date": "2026-07-12",
+  "source": "yuyu-tei",
+  "dry_run": true,
+  "transport": "relay",
+  "staged_selection": [
+    "op01"
+  ],
+  "sets_attempted": 1,
+  "sets_success": 1,
+  "sets_throttled": 0,
+  "sets_failed": 0,
+  "sets_missing_on_source": [],
+  "throttle_stopped": false,
+  "retries_total": 0,
+  "runtime_seconds": 3.5,
+  "listings_seen": 154,
+  "matched": 142,
+  "match_ratio": 0.973,
+  "updated": 142,
+  "new_mappings": 142,
+  "new_unmapped": 12,
+  "unmapped_total": 12,
+  "missing_cids": 0,
+  "duplicate_cids": [],
+  "big_moves": 7,
+  "fx": {
+    "jpy_to_thb": 0.20581,
+    "source": "frankfurter 2026-07-12"
+  },
+  "aborted": false,
+  "abort_reason": null
+}

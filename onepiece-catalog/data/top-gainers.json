@@ -1,77 +1,16 @@
 {
-  "generated_at": "2026-07-12T11:37:04.339454+00:00",
+  "generated_at": "2026-07-12T13:47:29.539751+00:00",
   "snapshot_date": "2026-07-12",
-  "baseline_date": "2026-07-11",
-  "days_between_snapshots": 1,
-  "history_days_collected": 17,
+  "baseline_date": "2026-07-12",
+  "days_between_snapshots": 0,
+  "history_days_collected": 18,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1266,
-  "cards_with_trend": 35,
+  "cards_evaluated": 0,
+  "cards_with_trend": 0,
   "trend_type": "gainers",
-  "cards": [
-    {
-      "card_id": "EB04-031",
-      "card_image_id": "EB04-031_p1",
-      "card_name": "King (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-031_p1_KugJhR3.jpg",
-      "today_price_usd": 31.2,
-      "baseline_price_usd": 15.45,
-      "price_change_usd": 15.75,
-      "price_change_percent": 101.94
-    },
-    {
-      "card_id": "ST16-004",
-      "card_image_id": "ST16-004_p1",
-      "card_name": "Shanks (SP)",
-      "set_code": "OP-11",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST16-004_p1.jpg",
-      "today_price_usd": 178.93,
-      "baseline_price_usd": 169.02,
-      "price_change_usd": 9.91,
-      "price_change_percent": 5.86
-    },
-    {
-      "card_id": "OP14-027",
-      "card_image_id": "OP14-027_p1",
-      "card_name": "Shanks (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-027_p1_ErPVyNP.jpg",
-      "today_price_usd": 28.09,
-      "baseline_price_usd": 20.97,
-      "price_change_usd": 7.12,
-      "price_change_percent": 33.95
-    },
-    {
-      "card_id": "OP14-020",
-      "card_image_id": "OP14-020_p1",
-      "card_name": "Dracule Mihawk - OP14-020 (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-020_p1_jDSsWWh.jpg",
-      "today_price_usd": 41.64,
-      "baseline_price_usd": 36.96,
-      "price_change_usd": 4.68,
-      "price_change_percent": 12.66
-    },
-    {
-      "card_id": "OP08-105",
-      "card_image_id": "OP08-105_p1",
-      "card_name": "Jewelry Bonney (Parallel)",
-      "set_code": "OP-08",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-105_p1.jpg",
-      "today_price_usd": 14.46,
-      "baseline_price_usd": 10.08,
-      "price_change_usd": 4.38,
-      "price_change_percent": 43.45
-    }
-  ]
+  "cards": []
 }
