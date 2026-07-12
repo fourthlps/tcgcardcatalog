@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-07-12T15:27:11.965116+00:00",
+  "last_updated": "2026-07-12T20:09:21.893183+00:00",
   "run_date": "2026-07-12",
   "status": "success",
   "api": {
@@ -23,6 +23,6 @@
     "confidence": "medium",
     "baseline_date": "2026-07-12",
     "days_between_snapshots": 0,
-    "history_days_collected": 22
+    "history_days_collected": 23
   }
 }
