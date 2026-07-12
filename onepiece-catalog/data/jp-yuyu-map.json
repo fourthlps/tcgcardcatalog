@@ -3,7 +3,7 @@
     "source": "yuyu-tei",
     "version": 2,
     "updated": "2026-07-12",
-    "mapped_total": 1997
+    "mapped_total": 2011
   },
   "manual": {},
   "map": {
@@ -2003,7 +2003,21 @@
     "eb03/10071": "EB03-056",
     "eb03/10076": "EB03-060",
     "eb03/10002": "EB03-001",
-    "prb02/10068": "OP07-021_p2"
+    "prb02/10068": "OP07-021_p2",
+    "op06/10146": "OP03-008_p1",
+    "op07/10064": "OP07-051_p3",
+    "op08/10150": "OP02-013_p3",
+    "op09/10153": "OP07-015_p2",
+    "op09/10155": "OP08-106_p2",
+    "op13/10176": "OP09-004_p6",
+    "op12/10154": "OP09-093_p5",
+    "op12/10155": "OP09-093_p4",
+    "op11/10149": "OP06-119_p2",
+    "op11/10150": "OP07-085_p2",
+    "op11/10151": "OP09-005_p1",
+    "op12/10149": "OP09-013_p2",
+    "op12/10150": "OP09-037_p2",
+    "op12/10151": "OP10-082_p2"
   },
   "unmapped": {
     "op05/10145": {
@@ -2907,14 +2921,6 @@
       "rarity": "SP",
       "name": "シャンクス(パラレル)(金パラレル)",
       "price_jpy": 198000,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op13/10176": {
-      "card_number": "OP09-004",
-      "rarity": "SP",
-      "name": "シャンクス(パラレル)(銀パラレル)",
-      "price_jpy": 79800,
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
@@ -6822,14 +6828,6 @@
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
-    "op06/10146": {
-      "card_number": "OP03-008",
-      "rarity": "SP",
-      "name": "バギー(パラレル)",
-      "price_jpy": 9980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
     "op06/10147": {
       "card_number": "OP03-114",
       "rarity": "SP",
@@ -6867,14 +6865,6 @@
       "rarity": "SP",
       "name": "レベッカ(パラレル)",
       "price_jpy": 19800,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op07/10064": {
-      "card_number": "OP07-051",
-      "rarity": "P-SR",
-      "name": "ボア・ハンコック(パラレル)(スーパーパラレル)",
-      "price_jpy": 298000,
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
@@ -6971,14 +6961,6 @@
       "rarity": "SP",
       "name": "たしぎ(パラレル)",
       "price_jpy": 5980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op08/10150": {
-      "card_number": "OP02-013",
-      "rarity": "SP",
-      "name": "ポートガス・D・エース(パラレル)",
-      "price_jpy": 29800,
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
@@ -7150,27 +7132,11 @@
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
-    "op09/10153": {
-      "card_number": "OP07-015",
-      "rarity": "SP",
-      "name": "モンキー・D・ドラゴン(パラレル)",
-      "price_jpy": 7980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
     "op09/10154": {
       "card_number": "OP07-051",
       "rarity": "SP",
       "name": "ボア・ハンコック(パラレル)",
       "price_jpy": 79800,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op09/10155": {
-      "card_number": "OP08-106",
-      "rarity": "SP",
-      "name": "ナミ(パラレル)",
-      "price_jpy": 59800,
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
@@ -7502,30 +7468,6 @@
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
-    "op11/10149": {
-      "card_number": "OP06-119",
-      "rarity": "SP",
-      "name": "サンジ(パラレル)",
-      "price_jpy": 14800,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op11/10150": {
-      "card_number": "OP07-085",
-      "rarity": "SP",
-      "name": "ステューシー(パラレル)",
-      "price_jpy": 17800,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op11/10151": {
-      "card_number": "OP09-005",
-      "rarity": "SP",
-      "name": "シルバーズ・レイリー(パラレル)",
-      "price_jpy": 6980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
     "op11/10152": {
       "card_number": "ST16-004",
       "rarity": "SP",
@@ -7774,30 +7716,6 @@
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
-    "op12/10149": {
-      "card_number": "OP09-013",
-      "rarity": "SP",
-      "name": "ヤソップ(パラレル)",
-      "price_jpy": 5980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op12/10150": {
-      "card_number": "OP09-037",
-      "rarity": "SP",
-      "name": "リム(パラレル)",
-      "price_jpy": 3980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op12/10151": {
-      "card_number": "OP10-082",
-      "rarity": "SP",
-      "name": "クザン(パラレル)",
-      "price_jpy": 7980,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
     "op12/10152": {
       "card_number": "ST13-011",
       "rarity": "SP",
@@ -7811,22 +7729,6 @@
       "rarity": "SP",
       "name": "ゾロ十郎(パラレル)",
       "price_jpy": 24800,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op12/10154": {
-      "card_number": "OP09-093",
-      "rarity": "SP",
-      "name": "マーシャル・D・ティーチ(パラレル)(金パラレル)",
-      "price_jpy": 348000,
-      "first_seen": "2026-07-12",
-      "last_seen": "2026-07-12"
-    },
-    "op12/10155": {
-      "card_number": "OP09-093",
-      "rarity": "SP",
-      "name": "マーシャル・D・ティーチ(パラレル)(銀パラレル)",
-      "price_jpy": 198000,
       "first_seen": "2026-07-12",
       "last_seen": "2026-07-12"
     },
