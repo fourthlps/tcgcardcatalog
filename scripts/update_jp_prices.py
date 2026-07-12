@@ -234,8 +234,18 @@ def main():
         by_number.setdefault(num, []).append(iid)
     print(f"  Existing JP entries: {len(jp_ids)} across {len(by_number)} card numbers")
 
-    mp = load_json(MAP_PATH, {"_meta": {"source": ACTIVE.name, "version": 1},
+    mp = load_json(MAP_PATH, {"_meta": {"source": ACTIVE.name, "version": 2},
                               "manual": {}, "map": {}, "unmapped": {}})
+    # v1->v2 migration: keys changed from bare cid to set/cid (cids are only
+    # unique per set). Legacy bare-cid entries are dropped — the bootstrap
+    # joins re-create them automatically on this same run.
+    dropped = [k for k in list(mp.get("map", {})) if "/" not in k]
+    for k in dropped: mp["map"].pop(k, None)
+    for k in [k for k in list(mp.get("unmapped", {})) if "/" not in k]:
+        mp["unmapped"].pop(k, None)
+    if dropped:
+        print(f"  Map migration v1->v2: discarded {len(dropped)} legacy keys (will re-map this run)")
+    mp["_meta"]["version"] = 2
     cid_map = {**mp.get("map", {}), **mp.get("manual", {})}   # manual wins
 
     # ── derive source pages (deduped); JP_SETS env = staged validation override
@@ -278,6 +288,10 @@ def main():
 
         if result["status"] == 200:
             rows = result["listings"] or []
+            # Yuyu cids are PER-SET (each page numbers from ~10001): the stable
+            # global key is set/cid — mirrors Yuyu's own /card/{set}/{cid} URLs.
+            for L in rows:
+                L["key"] = f"{slug}/{L['cid']}"
             if rows:
                 sets_ok += 1; listings.extend(rows)
                 print(f"    {slug}: ok {len(rows)} listings"
@@ -304,15 +318,15 @@ def main():
         if idx < len(slugs) - 1 and not throttle_stopped:
             time.sleep(spacing + random.uniform(0, SPACING_JITTER))
 
-    # duplicate-cid detection within this run
-    seen_cids, dup_cids = set(), set()
+    # duplicate-key detection within this run (true dupes inside one set page)
+    seen_keys, dup_cids = set(), set()
     for L in listings:
-        (dup_cids if L["cid"] in seen_cids else seen_cids).add(L["cid"])
-    listings = [L for L in listings if L["cid"] not in dup_cids]
+        (dup_cids if L["key"] in seen_keys else seen_keys).add(L["key"])
+    listings = [L for L in listings if L["key"] not in dup_cids]
 
-    # ── incremental auto-matching for unknown cids ────────────────────────────
+    # ── incremental auto-matching for unknown keys ────────────────────────────
     new_maps = 0
-    unknown = [L for L in listings if L["cid"] not in cid_map]
+    unknown = [L for L in listings if L["key"] not in cid_map]
     # group unknown listings per (number, parallel-class)
     def klass(r): return "P" if r.startswith("P") else "B"
     grp = {}
@@ -323,26 +337,26 @@ def main():
         cands = [i for i in by_number.get(num, []) if i not in mapped_ids]
         cands = [i for i in cands if (("_" in i) if kl == "P" else ("_" not in i))] or cands
         if len(Ls) == 1 and len(cands) == 1:                       # count-join
-            cid_map[Ls[0]["cid"]] = cands[0]; mp["map"][Ls[0]["cid"]] = cands[0]
+            cid_map[Ls[0]["key"]] = cands[0]; mp["map"][Ls[0]["key"]] = cands[0]
             mapped_ids.add(cands[0]); new_maps += 1; continue
         for L in Ls:                                               # price-join
             hits = [i for i in cands
                     if jp_entry(markets, i) and abs(jp_entry(markets, i)["source_price"] - L["price_jpy"]) < 0.5
                     and i not in mapped_ids]
             if len(hits) == 1:
-                cid_map[L["cid"]] = hits[0]; mp["map"][L["cid"]] = hits[0]
+                cid_map[L["key"]] = hits[0]; mp["map"][L["key"]] = hits[0]
                 mapped_ids.add(hits[0]); new_maps += 1
 
     # record still-unknown cids in the living unmapped ledger
     new_unmapped = 0
     for L in listings:
-        if L["cid"] in cid_map:
-            mp["unmapped"].pop(L["cid"], None); continue
-        u = mp["unmapped"].get(L["cid"])
+        if L["key"] in cid_map:
+            mp["unmapped"].pop(L["key"], None); continue
+        u = mp["unmapped"].get(L["key"])
         if u:
             u["last_seen"] = TODAY; u["price_jpy"] = L["price_jpy"]
         else:
-            mp["unmapped"][L["cid"]] = {"card_number": L["card_number"], "rarity": L["rarity"],
+            mp["unmapped"][L["key"]] = {"card_number": L["card_number"], "rarity": L["rarity"],
                                         "name": L["name"], "price_jpy": L["price_jpy"],
                                         "first_seen": TODAY, "last_seen": TODAY}
             new_unmapped += 1
@@ -354,7 +368,7 @@ def main():
     matched = updated = big_moves = 0
     seen_this_run = set()
     for L in listings:
-        iid = cid_map.get(L["cid"])
+        iid = cid_map.get(L["key"])
         if not iid:
             continue
         e = jp_entry(markets, iid)
