@@ -1647,6 +1647,13 @@ main.app{max-width:1140px;margin:0 auto;padding:28px 24px 70px}
 // D.games (see MULTI-GAME CORE). Nothing else may write to them.
 const D={index:[],cache:{},gainers:null,losers:null,jpGainers:null,jpLosers:null,siteStatus:null,products:[],marketData:[],setData:{},priceHistory:null};
 const USD_TO_THB=36; // fallback conversion rate when no live FX rate / real THB price is available
+// ── DORMANT ECOSYSTEM FEATURE FLAG (Constitution Addendum 01, Ruling 1) ──
+// Public interactive Comments + Trade surfaces are PAUSED for security/governance.
+// false = paused (no public render). Setting true restores render, but is NOT by
+// itself sufficient for public reactivation: Article 11 gates (verified RLS,
+// moderation, privacy, etc.) + a separate Founder approval are still required.
+// Preserves all functions, Supabase tables, and existing data — reversible.
+const COMMUNITY_PUBLIC=false;
 // Temporary debug switch for the Top Chase Cards ranking -- logs scan/sort
 // stats to the console once per page load. Safe to flip to false (or delete
 // the logging block in chasePicks) once the ranking has been verified.
@@ -6017,8 +6024,8 @@ function _updateNavAuth(){
     const uname=_user.user_metadata?.username||_user.email?.split('@')[0]||'User';
     const color=_avatarColor(uname);
     area.innerHTML=`<div class="user-chip" onclick="openMyProfile()">
-      <div class="user-avatar" style="background:${color}">${uname[0].toUpperCase()}</div>
-      <span>${uname}</span>
+      <div class="user-avatar" style="background:${_safeColor(color,uname)}">${_esc((uname[0]||'?').toUpperCase())}</div>
+      <span>${_esc(uname)}</span>
     </div>`;
   }else{
     area.innerHTML=`<button class="login-btn t" data-th="เข้าสู่ระบบ" data-en="Login" onclick="openAuthModal();closeMobileMenu()">เข้าสู่ระบบ</button>`;
@@ -6055,6 +6062,7 @@ async function _toggleCloudCollection(cardImageId){
 async function _loadComments(cardImageId){
   const wrap=document.getElementById('comments-section');
   if(!wrap)return;
+  if(!COMMUNITY_PUBLIC){wrap.innerHTML='';return;}  // Dormant: paused public surface (Addendum 01)
   if(!sb){wrap.innerHTML='';return;}
   wrap.innerHTML='<div style="color:var(--faint);font-size:13px;padding:8px 0">กำลังโหลด...</div>';
   const {data,error}=await sb.from('comments')
@@ -6073,13 +6081,13 @@ function _renderComments(wrap,cardImageId,items){
     html+='<div class="comment-list">';
     items.forEach(c=>{
       const uname=c.profiles?.username||'User';
-      const color=c.profiles?.avatar_color||_avatarColor(uname);
+      const color=_safeColor(c.profiles?.avatar_color,uname);
       const ts=new Date(c.created_at).toLocaleDateString(L==='th'?'th-TH':'en-US',{day:'numeric',month:'short'});
       const canDel=_user&&_user.id===c.user_id;
       html+=`<div class="comment-item">
         <div class="comment-meta">
-          <div class="comment-avatar" style="background:${color}">${uname[0].toUpperCase()}</div>
-          <span class="comment-user">${uname}</span>
+          <div class="comment-avatar" style="background:${color}">${_esc((uname[0]||'?').toUpperCase())}</div>
+          <span class="comment-user">${_esc(uname)}</span>
           <span class="comment-time">${ts}</span>
           ${canDel?`<button class="comment-del" onclick="_deleteComment('${c.id}','${cardImageId}')">🗑</button>`:''}
         </div>
@@ -6116,12 +6124,17 @@ async function _deleteComment(commentId,cardImageId){
   _loadComments(cardImageId);
 }
 
-function _esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function _esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+// Strict allow-list for DB-supplied avatar colors: only #RRGGBB is accepted;
+// anything else (CSS injection, url(), expression(), quote-break) falls back to
+// the deterministic palette. Escaping alone is insufficient in a style context.
+function _safeColor(c,seed){return (typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c))?c:_avatarColor(seed||'');}
 
 // ── TRADE LISTS ──────────────────────────────────
 async function _loadTradeList(cardImageId){
   const wrap=document.getElementById('trade-section');
   if(!wrap)return;
+  if(!COMMUNITY_PUBLIC){wrap.innerHTML='';return;}  // Dormant: paused public surface (Addendum 01)
   if(!sb){wrap.innerHTML='';return;}
   const {data}=await sb.from('trade_lists')
     .select('id,trade_type,condition,price_thb,notes,user_id,profiles(username,avatar_color)')
@@ -6192,7 +6205,7 @@ async function openProfile(userId,isOwn){
   const uname=isOwn?(_user?.user_metadata?.username||_user?.email?.split('@')[0]||'User'):'User';
   const color=_avatarColor(uname);
   _renderProfileContent(el,userId,isOwn,uname,color,localCollIds,[],L);
-  setCrumb('crumb-profile',`/ ${uname}`);
+  setCrumb('crumb-profile',`/ ${_esc(uname)}`);
 
   // Then fetch from Supabase and update
   if(!sb)return;
@@ -6208,13 +6221,13 @@ async function openProfile(userId,isOwn){
     const haveIds=(trades||[]).filter(x=>x.trade_type==='have').map(x=>x.card_image_id);
     _renderProfileContent(el,userId,isOwn,finalName,finalColor,
       collIds.length?collIds:localCollIds,haveIds,L);
-    setCrumb('crumb-profile',`/ ${finalName}`);
+    setCrumb('crumb-profile',`/ ${_esc(finalName)}`);
   }catch(e){/* already showing local data */}
 }
 
 function _renderProfileContent(el,userId,isOwn,uname,color,collIds,haveIds,L){
   let html=`<div class="profile-hero">
-    <div class="profile-avatar-lg" style="background:${color}">${uname[0].toUpperCase()}</div>
+    <div class="profile-avatar-lg" style="background:${_safeColor(color,uname)}">${_esc((uname[0]||'?').toUpperCase())}</div>
     <div>
       <div class="profile-name">${_esc(uname)}</div>
       <div class="profile-sub">${collIds.length} ${L==='th'?'การ์ดในคอลเลคชั่น':'cards in collection'}${haveIds.length?` · ${haveIds.length} ${L==='th'?'รายการแลก':'for trade'}`:''}</div>
@@ -6289,7 +6302,7 @@ function _showUsernameModal(current){
     <div class="auth-title">${L==='th'?'ตั้งชื่อผู้ใช้':'Set your username'}</div>
     <div class="auth-sub">${L==='th'?'ชื่อที่จะแสดงในคอมเมนต์และโปรไฟล์':'Shown in comments and your public profile'}</div>
     <div id="uname-msg" style="display:none" class="auth-msg"></div>
-    <input id="uname-input" class="auth-input" type="text" maxlength="30" placeholder="${L==='th'?'ชื่อผู้ใช้ของคุณ':'Your username'}" value="${current||''}">
+    <input id="uname-input" class="auth-input" type="text" maxlength="30" placeholder="${L==='th'?'ชื่อผู้ใช้ของคุณ':'Your username'}" value="${_esc(current||'')}">
     <button class="auth-btn" onclick="_saveUsername()">${L==='th'?'บันทึก':'Save'}</button>
     <button class="auth-btn secondary" onclick="document.getElementById('username-modal').remove()" style="margin-top:6px">${L==='th'?'ข้ามตอนนี้':'Skip for now'}</button>
   </div>`;
@@ -6315,6 +6328,7 @@ async function _saveUsername(){
 
 // ── TRADE MATCH ALERT ────────────────────────────
 async function _checkTradeMatch(cardImageId){
+  if(!COMMUNITY_PUBLIC)return;  // Dormant: paused public surface (Addendum 01)
   if(!sb||!_user)return;
   const wish=JSON.parse(localStorage.getItem('voyage_wishlist')||'[]');
   const coll=JSON.parse(localStorage.getItem('voyage_collection')||'[]');
@@ -6365,6 +6379,7 @@ function _showTradeToast(msg){
 
 // ── COMMENT COUNT BADGES (batch on set page) ─────
 async function _loadCommentCounts(cardImageIds){
+  if(!COMMUNITY_PUBLIC)return{};  // Dormant: paused public surface (Addendum 01)
   if(!sb||!cardImageIds.length)return{};
   const {data}=await sb.from('comments')
     .select('card_image_id')
