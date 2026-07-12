@@ -2438,7 +2438,7 @@ function _renderChasePage(setFilter){
   const L=S.lang;
   const allCards=flat();
   const isJP=S.cardLang==='jp';
-  const chaseCards=allCards.filter(c=>chaseScore(c)>0&&hasEditionPrice(c)&&editionPriceThb(c)>=CHASE_MIN_THB)
+  const chaseCards=allCards.filter(chasePageEligible)
     .sort((a,b)=>chaseScore(b)-chaseScore(a)||editionPriceThb(b)-editionPriceThb(a));
   // Use D._imgIndex for clean set codes — avoids composite codes like "OP14-EB04"
   const _getChaseSetCode=c=>{const hit=D._imgIndex?D._imgIndex[c.card_image_id]:null;return hit?hit.code:(c.set_id||'');};
@@ -2455,12 +2455,13 @@ function _renderChasePage(setFilter){
       <div class="chase-pg-badge">${stars}</div>
       <div class="chase-pg-name">${chaseBase(c.card_name)}</div>
       <div class="chase-pg-meta">${c.set_id||''} · ${c.rarity||''}</div>
-      <div class="chase-pg-price">${editionBadge(isJP?'JP':'EN')} ${fpEdition(c)}</div>
+      <div class="chase-pg-price">${chasePagePrice(c)}</div>
     </div>`;
   }).join('');
   document.getElementById('chase-page-content').innerHTML=`
     <h1 class="page-ttl serif">${L==='th'?'Chase Cards ทั้งหมด':'All Chase Cards'}</h1>
-    <p style="color:var(--soft);font-size:13px;margin-bottom:16px">${L==='th'?`การ์ดหายากและน่าสะสมจากทุกชุด · ${filtered.length} ใบ`:`Rare & collectible cards across all sets · ${filtered.length} cards`}</p>
+    <p style="color:var(--soft);font-size:13px;margin-bottom:6px">${L==='th'?`การ์ดหายากและน่าสะสมจากทุกชุด · ${filtered.length} ใบ`:`Rare & collectible cards across all sets · ${filtered.length} cards`}</p>
+    <p style="color:var(--faint);font-size:12px;margin-bottom:16px;line-height:1.5">${L==='th'?'อันดับ Top Chase พิจารณาจากความหายากและความน่าสะสม ไม่ได้เรียงตามราคา การ์ดบางใบอาจยังไม่มีข้อมูลราคา JP':'Top Chase is ranked by rarity and collectibility, not by price. Some cards may not yet have JP price data.'}</p>
     <div class="chase-pg-filters">
       <select class="chase-pg-set-sel" onchange="_renderChasePage(this.value)">${setOpts}</select>
     </div>
@@ -3654,12 +3655,47 @@ function chasePicks(limit){
 
   return ranked.slice(0,limit);
 }
+// ── TOP CHASE PRICE POLICY (option b, CEO ruling 2026-07-13) ─────────────────
+// One Piece chase cards show their JP price when a valid JP price exists;
+// otherwise an honest "no JP price yet" — NEVER the EN price. The card stays
+// visible either way. Lorcana (single-edition) keeps its valid EN market price.
+function _chaseNoJp(){return `<span style="font-size:11px;color:var(--faint)">${S.lang==='th'?'ยังไม่มีข้อมูลราคา JP':'JP price unavailable'}</span>`;}
+function chaseShowcasePrice(entry){
+  if(entry.game!=='one-piece')return fpL(entry.price_usd);              // Lorcana keeps EN
+  const hit=cardByImgId(entry.id),jp=hit&&marketFor(hit.card,'JP');
+  if(jp&&jp.source_price>0){const thb=jpPreferredPriceThb(hit.card);return fpL(thb/activeFx(),thb);}
+  return _chaseNoJp();
+}
+function chasePageEligible(c){
+  if(chaseScore(c)<=0)return false;
+  if(singleEdition(c))return realPrice(c)>0&&realPrice(c)*activeFx()>=CHASE_MIN_THB; // Lorcana EN floor
+  const jp=marketFor(c,'JP');
+  if(jp&&jp.source_price>0)return jpPreferredPriceThb(c)>=CHASE_MIN_THB;              // OP JP floor
+  return true;                                                                        // OP w/o JP: keep visible
+}
+function chasePagePrice(c){
+  if(singleEdition(c))return `${editionBadge('EN')} ${fpEdition(c)}`;                 // Lorcana EN
+  const jp=marketFor(c,'JP');
+  if(jp&&jp.source_price>0){const thb=jpPreferredPriceThb(c);return `${editionBadge('JP')} ${fpL(thb/activeFx(),thb)}`;}
+  return _chaseNoJp();
+}
 function renderChase(){
   const L=S.lang;
-  // PLATFORM-WIDE: chase cards from every game's showcase, interleaved so
-  // both games are represented (Manga Luffy next to Enchanted Elsa).
-  const scAll=showcases().map(s=>s.top_chase||[]).flat()
-    .sort((a,b)=>(b.chase-a.chase)||(b.price_usd-a.price_usd));
+  // PLATFORM-WIDE discovery preview, both games represented. Lorcana chase
+  // entries come from the showcase (valid EN market price). One Piece entries
+  // are sourced from JP-priced chase cards ONLY (never EN) — the OP top_chase
+  // showcase is Manga/Alt-Art (EN-only), so we instead pick eligible OP chase
+  // cards that actually carry a JP price.
+  const lorEntries=showcases().map(s=>s.top_chase||[]).flat().filter(e=>e.game!=='one-piece');
+  const opEntries=flat().filter(c=>{
+      if(singleEdition(c))return false;                 // One Piece only (Lorcana is single-edition)
+      const jp=marketFor(c,'JP');
+      return chaseScore(c)>0&&jp&&jp.source_price>0&&jpPreferredPriceThb(c)>=CHASE_MIN_THB;
+    })
+    .sort((a,b)=>chaseScore(b)-chaseScore(a)||jpPreferredPriceThb(b)-jpPreferredPriceThb(a))
+    .slice(0,15)
+    .map(c=>{const hit=cardByImgId(c.card_image_id);return {game:'one-piece',set:hit?hit.code:(c.set_id||''),id:c.card_image_id,image:c.card_image||'',name:c.card_name,rarity:c.rarity,chase:chaseScore(c),price_usd:realPrice(c)};});
+  const scAll=[...opEntries,...lorEntries].sort((a,b)=>(b.chase-a.chase)||(b.price_usd-a.price_usd));
   if(scAll.length){
     const mixed=interleaveByGame(scAll,15);
     document.getElementById('chase-row').innerHTML=mixed.map((c,i)=>{
@@ -3675,7 +3711,7 @@ function renderChase(){
           <div class="chase-name">${base}</div>
           ${variant?`<div class="chase-variant">${isLorName?variant:'('+variant+')'}</div>`:''}
           <div class="chase-set">${c.id||''}${c.rarity_name?' · '+c.rarity_name:c.rarity?' · '+c.rarity:''}</div>
-          <div class="chase-price">${fpL(c.price_usd)}</div>
+          <div class="chase-price">${chaseShowcasePrice(c)}</div>
         </div>
       </div>`;
     }).join('');
