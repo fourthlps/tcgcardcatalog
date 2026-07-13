@@ -3200,6 +3200,15 @@ function trendPlaceholder(L){
     <div class="mtrend-ph-sub">${L==='th'?'พร้อมแสดงหลังเก็บข้อมูลครบ 7 วัน':'Available after 7 days of data'}</div>
   </div>`;
 }
+// H4: honest recalibration notice — shown when the pipeline flags an untrustworthy
+// 7-day window (frozen/stale source at an endpoint, or a source-recovery bulk
+// correction). Keeps the panel visible; never fabricates movers or falls back to EN.
+function jpRecalibNotice(L){
+  return `<div class="mtrend-ph">
+    <div class="mtrend-ph-ic">🔄</div>
+    <div class="mtrend-ph-hd" style="font-weight:600;font-size:12.5px;line-height:1.55">${L==='th'?'ข้อมูลราคา JP เพิ่งได้รับการอัปเดตใหม่ กำลังสร้างฐานเปรียบเทียบ 7 วันที่น่าเชื่อถือ':'JP prices were recently refreshed. A reliable 7-day comparison is being rebuilt.'}</div>
+  </div>`;
+}
 function jpTrendPlaceholder(meta,L,kind){
   const days=(meta&&meta.history_days_collected)||0;
   const conf=(meta&&meta.confidence)||'low';
@@ -3294,8 +3303,10 @@ function renderTrend(){
   const _stableBadge=m=>(m&&m.market_stable)?`<div style="margin:6px 0 8px;display:inline-block;padding:4px 10px;border-radius:999px;background:var(--teals);color:var(--teal);font-size:11px;font-weight:700">🌊 ${L==='th'?'ตลาด JP นิ่ง · ไม่มีการ์ดขยับเกิน 5%':'JP Market Stable · no moves above 5%'}</div>`:'';
   const gc=useGainers?D.jpGainers.cards:[];
   const lc=useLosers?D.jpLosers.cards:[];
-  gainHtml=gc.length?_stableBadge(gainMeta)+gc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpGainers,L,'gainers');
-  loseHtml=lc.length?_stableBadge(loseMeta)+lc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpLosers,L,'losers');
+  // H4: a recalibrating window (pipeline flag) overrides movers/placeholder — show the honest notice.
+  const _recalib=m=>!!(m&&m.recalibrating);
+  gainHtml=_recalib(D.jpGainers)?jpRecalibNotice(L):(gc.length?_stableBadge(gainMeta)+gc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpGainers,L,'gainers'));
+  loseHtml=_recalib(D.jpLosers)?jpRecalibNotice(L):(lc.length?_stableBadge(loseMeta)+lc.slice(0,5).map((g,i)=>trendEntryFromJsonJP(g,L,i+1)).join(''):jpTrendPlaceholder(D.jpLosers,L,'losers'));
 
   document.getElementById('trend-row').innerHTML=`
     <div class="mtrend-card">
