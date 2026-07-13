@@ -22,6 +22,9 @@ MATCHING: living map at onepiece-catalog/data/jp-yuyu-map.json
        listing and one of our entries -> map.
     2. price-join: match stored JPY price uniquely within the card_number.
     Anything ambiguous -> unmapped (reported, NEVER guessed).
+  Reviewed exact-printing additions live in data/jp-verified-map.json.  They
+  may create a new JP market record; automatic joins may only refresh records
+  that already exist.
 
 SAFETY: per-set failure isolation; abort-on-empty (<70% of existing JP entries
 matched); abnormal-move abort (>30% of changes beyond +-80%); atomic write;
@@ -41,12 +44,16 @@ from datetime import date, datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 MARKETS_PATH = "onepiece-catalog/card-markets.json"
 # The SPA reads the per-game mirror (multi-game refactor), not the canonical
 # file — every canonical write must be mirrored or the UI never sees it.
 MIRROR_PATH  = "onepiece-catalog/data/one-piece/prices.json"
 CARDS_PATH   = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 MAP_PATH     = "onepiece-catalog/data/jp-yuyu-map.json"
+VERIFIED_MAP_PATH = "onepiece-catalog/data/jp-verified-map.json"
 REPORT_PATH  = "onepiece-catalog/data/jp-price-report.json"
 
 TODAY   = date.today().isoformat()
@@ -207,11 +214,51 @@ def derive_set_codes():
     return [k for k in data.keys() if isinstance(data.get(k), list)]
 
 
+def all_card_ids():
+    """Return the exact-printing ids that the public catalogue can render.
+
+    Verified source mappings are allowed to create a new JP market record, but
+    only for an id present in the canonical cards dataset.  This prevents a
+    stale or mistyped mapping from silently creating orphan price data.
+    """
+    data = load_json(CARDS_PATH, {})
+    return {
+        str(card.get("card_image_id"))
+        for cards in data.values() if isinstance(cards, list)
+        for card in cards if card.get("card_image_id")
+    }
+
+
 def jp_entry(markets, image_id):
     for e in markets.get(image_id, []):
         if e.get("source_market") == "JP":
             return e
     return None
+
+
+def dedupe_jp_records(markets):
+    """Keep one freshest JP record per exact printing.
+
+    A stale duplicate makes record counts wrong and leaves price resolution
+    dependent on array order.  EN records and the freshest JP record are
+    preserved verbatim; the cleanup is reported by card id.
+    """
+    cleaned = []
+    for iid, entries in markets.items():
+        jp_rows = [e for e in entries if e.get("source_market") == "JP"]
+        if len(jp_rows) <= 1:
+            continue
+        keep = max(jp_rows, key=lambda e: str(e.get("last_updated") or ""))
+        kept_once = False
+        new_entries = []
+        for entry in entries:
+            if entry.get("source_market") != "JP":
+                new_entries.append(entry)
+            elif entry is keep and not kept_once:
+                new_entries.append(entry); kept_once = True
+        markets[iid] = new_entries
+        cleaned.append(iid)
+    return cleaned
 
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
@@ -229,6 +276,7 @@ def main():
     if not mk or "markets" not in mk:
         print("  ABORT: card-markets.json missing/invalid"); sys.exit(1)
     markets = mk["markets"]
+    deduped_jp_records = dedupe_jp_records(markets)
 
     jp_ids = [k for k in markets if jp_entry(markets, k)]
     by_number = {}
@@ -249,7 +297,30 @@ def main():
     if dropped:
         print(f"  Map migration v1->v2: discarded {len(dropped)} legacy keys (will re-map this run)")
     mp["_meta"]["version"] = 2
-    cid_map = {**mp.get("map", {}), **mp.get("manual", {})}   # manual wins
+    verified_doc = load_json(VERIFIED_MAP_PATH, {"map": {}})
+    verified_map = verified_doc.get("map", {})
+    if not isinstance(verified_map, dict):
+        print(f"  ABORT: {VERIFIED_MAP_PATH} has invalid map object"); sys.exit(1)
+    invalid_verified_keys = [
+        key for key in verified_map
+        if not re.fullmatch(r"[a-z0-9]+/\d+", str(key))
+    ]
+    if invalid_verified_keys:
+        print(f"  ABORT: {len(invalid_verified_keys)} verified mappings have invalid source keys")
+        sys.exit(1)
+    if len(set(verified_map.values())) != len(verified_map):
+        print("  ABORT: verified mappings are not one-to-one")
+        sys.exit(1)
+    valid_card_ids = all_card_ids()
+    invalid_verified = {
+        key: iid for key, iid in verified_map.items()
+        if iid not in valid_card_ids
+    }
+    if invalid_verified:
+        print(f"  ABORT: {len(invalid_verified)} verified mappings target unknown card ids")
+        sys.exit(1)
+    # Precedence: auto map < reviewed verified map < founder manual override.
+    cid_map = {**mp.get("map", {}), **verified_map, **mp.get("manual", {})}
 
     # ── derive source pages (deduped); JP_SETS env = staged validation override
     set_codes = derive_set_codes()
@@ -368,16 +439,39 @@ def main():
     fx_prev = float(mk.get("_meta", {}).get("fx", {}).get("jpy_to_thb", 0.2055))
     fx, fx_src = fetch_fx(fx_prev)
 
-    matched = updated = big_moves = 0
+    matched = matched_existing = updated = created = big_moves = 0
+    seen_existing = set()
     seen_this_run = set()
     for L in listings:
         iid = cid_map.get(L["key"])
         if not iid:
             continue
         e = jp_entry(markets, iid)
+        existed = e is not None
         if not e:
-            continue
-        matched += 1; seen_this_run.add(iid)
+            # New JP records are created only from the separately reviewed
+            # mapping file.  Auto/count joins may refresh existing records but
+            # can never invent a price for an ambiguous printing.
+            if L["key"] not in verified_map or iid not in valid_card_ids:
+                continue
+            e = {
+                "source_market": "JP",
+                "source_name": "Yuyu-Tei",
+                "source_currency": "JPY",
+                "source_price": L["price_jpy"],
+                "converted_currency": "THB",
+                "converted_price": round(L["price_jpy"] * fx),
+                "conversion_rate_used": fx,
+                "last_updated": TODAY,
+                "price_type": "Retail Reference",
+                "confidence": "Medium",
+            }
+            markets.setdefault(iid, []).append(e)
+            created += 1
+        matched += 1
+        if existed:
+            seen_existing.add(iid)
+        seen_this_run.add(iid)
         old = float(e.get("source_price") or 0)
         if old > 0:
             delta = abs(L["price_jpy"] - old) / old * 100
@@ -392,13 +486,17 @@ def main():
     # Scope-aware accounting: staged runs judge coverage only within the sets
     # actually fetched, otherwise a valid op01-only test would falsely abort.
     slug_set = set(slugs)
-    def _id_slug(i):
-        p = i.split("-")[0].lower()
-        return "eb04" if p in ("op14", "op15") and "eb04" in slug_set else p
-    scope_ids = {i for i in jp_ids if _id_slug(i) in slug_set}
+    # Scope follows the source-page key, not the printed card-number prefix.
+    # Reprint/SP listings often live on a newer set page while retaining an
+    # older OPxx card number, so prefix-based accounting could exceed 100%.
+    scope_ids = {
+        iid for key, iid in cid_map.items()
+        if "/" in key and key.split("/", 1)[0] in slug_set and iid in jp_ids
+    }
     missing_cids = [c for c, i in cid_map.items() if i in scope_ids and i not in seen_this_run]
 
-    ratio = matched / max(1, len(scope_ids))
+    matched_existing = len(seen_existing & scope_ids)
+    ratio = matched_existing / max(1, len(scope_ids))
     changes = updated
     report = {
         "run_date": TODAY, "source": ACTIVE.name, "dry_run": DRY_RUN,
@@ -413,7 +511,10 @@ def main():
         "retries_total": retries_total,
         "runtime_seconds": round(time.time() - t_start, 1),
         "listings_seen": len(listings),
-        "matched": matched, "match_ratio": round(ratio, 3), "updated": updated,
+        "matched": matched, "matched_existing": matched_existing,
+        "match_ratio": round(ratio, 3), "updated": updated,
+        "created": created, "verified_mappings": len(verified_map),
+        "deduped_jp_records": deduped_jp_records,
         "new_mappings": new_maps, "new_unmapped": new_unmapped,
         "unmapped_total": len(mp["unmapped"]),
         "missing_cids": len(missing_cids),
@@ -432,13 +533,15 @@ def main():
     print("  ── MAPPING REPORT ──")
     for k in ("transport", "staged_selection", "sets_attempted", "sets_success",
               "sets_throttled", "sets_failed", "throttle_stopped", "retries_total",
-              "runtime_seconds", "listings_seen", "matched", "match_ratio",
-              "updated", "new_mappings", "new_unmapped", "unmapped_total",
+              "runtime_seconds", "listings_seen", "matched", "matched_existing", "match_ratio",
+              "updated", "created", "verified_mappings", "deduped_jp_records",
+              "new_mappings", "new_unmapped", "unmapped_total",
               "missing_cids", "duplicate_cids", "big_moves", "aborted", "abort_reason"):
         print(f"    {k}: {report[k]}")
 
     mp["_meta"].update({"source": ACTIVE.name, "updated": TODAY,
-                        "mapped_total": len(mp["map"]) + len(mp.get("manual", {}))})
+                        "mapped_total": len(set(mp["map"]) | set(verified_map) |
+                                            set(mp.get("manual", {})))})
     atomic_write(MAP_PATH, mp)          # living map + ledger always persisted
     atomic_write(REPORT_PATH, report)   # per-run report always persisted
 
@@ -450,6 +553,16 @@ def main():
     mk.setdefault("_meta", {}).setdefault("fx", {})["jpy_to_thb"] = fx
     mk["_meta"]["jp_prices_updated"] = TODAY
     mk["_meta"]["jp_price_source"] = ACTIVE.name
+    mk["_meta"]["jp_entries"] = sum(
+        1 for entries in markets.values() for item in entries
+        if item.get("source_market") == "JP" and float(item.get("source_price") or 0) > 0
+    )
+    mk["_meta"]["note"] = (
+        "Keyed by exact card_image_id. JP retail-reference prices come from "
+        "Yuyu-Tei through reviewed one-to-one source mappings; ambiguous or "
+        "edition-exclusive treatments remain without a JP price. THB values "
+        "are currency conversions, not verified Thai market prices."
+    )
     atomic_write(MARKETS_PATH, mk)
     print(f"  Wrote {MARKETS_PATH}: {updated} entries refreshed (fx {fx} via {fx_src})")
     if os.path.exists(MIRROR_PATH):
