@@ -439,7 +439,10 @@ def write_status(run_date: str, timestamp: str,
             "confidence": trend_meta.get("confidence", "low"),
             "baseline_date": trend_meta.get("baseline_date"),
             "days_between_snapshots": trend_meta.get("days_between_snapshots", 0),
-            "history_days_collected": trend_meta.get("history_days_collected", 0),
+            # AU-06b (follow-up): use the authoritative guarded counter (same value
+            # as history.days_collected above), NOT compute_trends' unconditional
+            # prev+1 meta — otherwise a same-day rerun shows an inflated day count.
+            "history_days_collected": history_days,
         },
     }
     write_json_file(STATUS_PATH, status, label="Status")
