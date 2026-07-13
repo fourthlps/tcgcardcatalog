@@ -1,5 +1,5 @@
 {
-  "run_date": "2026-07-12",
+  "run_date": "2026-07-13",
   "source": "yuyu-tei",
   "dry_run": false,
   "transport": "relay",
@@ -10,21 +10,21 @@
   "sets_failed": 0,
   "sets_missing_on_source": [],
   "throttle_stopped": false,
-  "retries_total": 23,
-  "runtime_seconds": 925.8,
-  "listings_seen": 3280,
-  "matched": 1952,
-  "match_ratio": 0.869,
-  "updated": 0,
+  "retries_total": 21,
+  "runtime_seconds": 789.2,
+  "listings_seen": 3210,
+  "matched": 1909,
+  "match_ratio": 0.85,
+  "updated": 1909,
   "new_mappings": 0,
   "new_unmapped": 0,
   "unmapped_total": 1349,
-  "missing_cids": 59,
+  "missing_cids": 102,
   "duplicate_cids": [],
   "big_moves": 0,
   "fx": {
-    "jpy_to_thb": 0.20581,
-    "source": "frankfurter 2026-07-12"
+    "jpy_to_thb": 0.2059,
+    "source": "frankfurter 2026-07-13"
   },
   "aborted": false,
   "abort_reason": null

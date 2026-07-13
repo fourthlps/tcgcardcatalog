@@ -1,16 +1,77 @@
 {
-  "generated_at": "2026-07-12T15:27:11.965116+00:00",
-  "snapshot_date": "2026-07-12",
+  "generated_at": "2026-07-13T14:42:12.734268+00:00",
+  "snapshot_date": "2026-07-13",
   "baseline_date": "2026-07-12",
-  "days_between_snapshots": 0,
-  "history_days_collected": 22,
+  "days_between_snapshots": 1,
+  "history_days_collected": 23,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 0,
-  "cards_with_trend": 0,
+  "cards_evaluated": 1267,
+  "cards_with_trend": 32,
   "trend_type": "gainers",
-  "cards": []
+  "cards": [
+    {
+      "card_id": "OP09-093",
+      "card_image_id": "OP09-093_p4",
+      "card_name": "Marshall.D.Teach (SP) (Silver)",
+      "set_code": "OP-12",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p4_yGd9lfW.jpg",
+      "today_price_usd": 1145.12,
+      "baseline_price_usd": 1095.24,
+      "price_change_usd": 49.88,
+      "price_change_percent": 4.55
+    },
+    {
+      "card_id": "OP14-020",
+      "card_image_id": "OP14-020_p1",
+      "card_name": "Dracule Mihawk - OP14-020 (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-020_p1_jDSsWWh.jpg",
+      "today_price_usd": 46.73,
+      "baseline_price_usd": 41.64,
+      "price_change_usd": 5.09,
+      "price_change_percent": 12.22
+    },
+    {
+      "card_id": "OP01-033",
+      "card_image_id": "OP01-033_p5",
+      "card_name": "Izo (OP01-033) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "UC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
+      "today_price_usd": 5.86,
+      "baseline_price_usd": 1.85,
+      "price_change_usd": 4.01,
+      "price_change_percent": 216.76
+    },
+    {
+      "card_id": "ST16-004",
+      "card_image_id": "ST16-004_p2",
+      "card_name": "Shanks - ST16-004 (Alternate Art)",
+      "set_code": "PRB-02",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST16-004_p2.jpg",
+      "today_price_usd": 40.72,
+      "baseline_price_usd": 37.85,
+      "price_change_usd": 2.87,
+      "price_change_percent": 7.58
+    },
+    {
+      "card_id": "EB01-013",
+      "card_image_id": "EB01-013_p1",
+      "card_name": "Kouzuki Hiyori (Alternate Art)",
+      "set_code": "EB-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-013_p1.jpg",
+      "today_price_usd": 34.13,
+      "baseline_price_usd": 31.31,
+      "price_change_usd": 2.82,
+      "price_change_percent": 9.01
+    }
+  ]
 }

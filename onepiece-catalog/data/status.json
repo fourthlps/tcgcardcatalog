@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-12T20:09:21.893183+00:00",
-  "run_date": "2026-07-12",
+  "last_updated": "2026-07-13T14:42:12.734268+00:00",
+  "run_date": "2026-07-13",
   "status": "success",
   "api": {
     "source": "optcgapi.com",
@@ -12,17 +12,17 @@
   },
   "history": {
     "status": "ok",
-    "days_collected": 22,
-    "last_snapshot_date": "2026-07-12",
+    "days_collected": 23,
+    "last_snapshot_date": "2026-07-13",
     "sheets_append": "skipped_safety"
   },
   "trends": {
     "status": "ok",
-    "gainers_count": 0,
-    "losers_count": 0,
+    "gainers_count": 5,
+    "losers_count": 5,
     "confidence": "medium",
     "baseline_date": "2026-07-12",
-    "days_between_snapshots": 0,
+    "days_between_snapshots": 1,
     "history_days_collected": 23
   }
 }
