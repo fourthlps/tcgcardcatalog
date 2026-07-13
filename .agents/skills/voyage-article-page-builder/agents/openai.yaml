@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Article Page Builder"
+  short_description: "Build approved Voyage Log article pages"
+  default_prompt: "Use $voyage-article-page-builder to convert an approved Markdown article into a production page."

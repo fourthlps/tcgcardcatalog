@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Release Safety"
+  short_description: "Verify release scope risk and production result"
+  default_prompt: "Use $voyage-release-safety to review a Voyage Log change before release and verify production afterward."

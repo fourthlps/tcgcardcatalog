@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Browser QA"
+  short_description: "Test Voyage Log pages with browser evidence"
+  default_prompt: "Use $voyage-browser-qa to test affected pages on mobile and desktop and report evidence-based findings."

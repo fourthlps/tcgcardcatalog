@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Performance Check"
+  short_description: "Check performance risks with before-after proof"
+  default_prompt: "Use $voyage-performance-check to assess an affected page for measurable performance regressions."

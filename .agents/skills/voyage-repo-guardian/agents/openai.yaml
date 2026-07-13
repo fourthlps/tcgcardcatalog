@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Repo Guardian"
+  short_description: "Protect repository architecture and production safety"
+  default_prompt: "Use $voyage-repo-guardian to inspect this repository and define a safe change boundary before editing."

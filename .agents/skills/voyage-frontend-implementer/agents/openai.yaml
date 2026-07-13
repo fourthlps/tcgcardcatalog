@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Frontend Implementer"
+  short_description: "Implement safe Voyage Log frontend changes"
+  default_prompt: "Use $voyage-frontend-implementer to implement an approved frontend change within the current architecture."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage Design System"
+  short_description: "Keep Voyage Log UI premium and consistent"
+  default_prompt: "Use $voyage-design-system to review or implement a UI change using the established Voyage Log visual system."

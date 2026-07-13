@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voyage SEO & Accessibility"
+  short_description: "Validate SEO metadata and accessible behavior"
+  default_prompt: "Use $voyage-seo-accessibility to audit an affected page for SEO and accessibility issues."
