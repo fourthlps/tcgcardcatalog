@@ -25,6 +25,19 @@ TREND_MAX_PCT_CAP  = 500.0  # > 500 % is treated as bad data
 TREND_MIN_PCT      = 5.0    # a move >= 5 % counts as "significant"
 TREND_TOP_N        = 5
 
+# ── H4 WINDOW-HEALTH GUARD (recalibration when the 7-day window is untrustworthy) ──
+# Distinguishes genuine movement from a frozen/stale source period and from a
+# source-recovery / bulk-correction event. Operates on ACTUAL history prices
+# (jpy), on the RAW comparable population (before display filters). No dates hard-coded.
+FLAT_DAY_CHANGE_FRAC  = 0.001   # a day->day transition is "effectively identical" if
+                                # < 0.1 % of comparable cards changed price (~<=2 of 2,246)
+FROZEN_RUN_MIN        = 3       # a frozen sequence = >= 3 consecutive effectively-identical
+                                # snapshots (so a SINGLE flat day is NOT frozen)
+BULK_MIN_CHANGED      = 30      # bulk rule needs >= 30 actually-changed cards ...
+BULK_MIN_CHANGED_FRAC = 0.01    # ... AND >= 1 % of comparable cards changed ...
+BULK_EXTREME_PCT      = 80.0    # ... where a move > +-80 % is "extreme" ...
+BULK_EXTREME_SHARE    = 0.40    # ... and > 40 % of changed cards being extreme => source correction
+
 TODAY = date.today().isoformat()
 
 
@@ -58,6 +71,87 @@ def load_card_meta() -> dict:
                 }
     print(f"  Loaded metadata for {len(meta)} cards")
     return meta
+
+
+def _changed_comparable(prev_prices: dict, cur_prices: dict) -> tuple[int, int]:
+    """Return (changed, comparable) using ACTUAL jpy prices, over cards present
+    in BOTH snapshots (the raw comparable population — no display filters)."""
+    changed = comparable = 0
+    for cid, cur in cur_prices.items():
+        prev = prev_prices.get(cid)
+        if prev is None:
+            continue
+        comparable += 1
+        if float(prev.get("jpy", 0)) != float(cur.get("jpy", 0)):
+            changed += 1
+    return changed, comparable
+
+
+def _frozen_flags(snapshots: list) -> list:
+    """Mark each snapshot True if it belongs to a frozen run of >= FROZEN_RUN_MIN
+    consecutive effectively-identical snapshots. A single flat day (run of 2) is
+    NOT frozen."""
+    n = len(snapshots)
+    flat = [False] * n  # flat[i] => transition (i-1 -> i) is effectively identical
+    for i in range(1, n):
+        changed, comparable = _changed_comparable(snapshots[i - 1]["prices"], snapshots[i]["prices"])
+        flat[i] = comparable > 0 and (changed / comparable) < FLAT_DAY_CHANGE_FRAC
+    frozen = [False] * n
+    i = 1
+    while i < n:
+        if flat[i]:
+            j = i
+            while j < n and flat[j]:
+                j += 1
+            run_len = (j - 1) - (i - 1) + 1   # snapshots i-1 .. j-1 inclusive
+            if run_len >= FROZEN_RUN_MIN:
+                for k in range(i - 1, j):
+                    frozen[k] = True
+            i = j
+        else:
+            i += 1
+    return frozen
+
+
+def window_health(snapshots: list, baseline_idx: int, today_idx: int) -> tuple[bool, str, dict]:
+    """Deterministic validity policy for the baseline->today comparison window.
+    Detection order: identity -> frozen endpoints -> bulk correction.
+    Returns (ok, reason, metrics). Reads only; never writes history."""
+    base = snapshots[baseline_idx]["prices"]
+    today = snapshots[today_idx]["prices"]
+    comparable = sum(1 for cid in today if cid in base)
+    metrics = {"comparable": comparable}
+    # 1) identity consistency
+    if comparable == 0:
+        return False, "identity_mismatch", metrics
+    # 2) frozen endpoints (>=3-snapshot frozen run at either end)
+    frozen = _frozen_flags(snapshots)
+    if frozen[baseline_idx]:
+        return False, "frozen_baseline", metrics
+    if frozen[today_idx]:
+        return False, "frozen_current", metrics
+    # 3) bulk-correction on the RAW comparable population (actual prices, pre-filter)
+    changed = extreme = 0
+    for cid, cur in today.items():
+        prev = base.get(cid)
+        if prev is None:
+            continue
+        b = float(prev.get("jpy", 0)); t = float(cur.get("jpy", 0))
+        if b == t:
+            continue
+        changed += 1
+        if b > 0 and abs((t - b) / b * 100.0) > BULK_EXTREME_PCT:
+            extreme += 1
+    changed_frac = (changed / comparable) if comparable else 0.0
+    extreme_share = (extreme / changed) if changed else 0.0
+    metrics.update({"changed": changed, "extreme": extreme,
+                    "changed_frac": round(changed_frac, 4),
+                    "extreme_share": round(extreme_share, 4)})
+    # preconditions (enough real movement) THEN extreme-concentration rule
+    if changed >= BULK_MIN_CHANGED and changed_frac >= BULK_MIN_CHANGED_FRAC:
+        if extreme_share > BULK_EXTREME_SHARE:
+            return False, "bulk_correction", metrics
+    return True, "ok", metrics
 
 
 def main():
@@ -99,6 +193,42 @@ def main():
 
     # ── Load card metadata ────────────────────────────────────────────────────
     card_meta = load_card_meta()
+
+    # ── H4: window-health guard ───────────────────────────────────────────────
+    # If the 7-day window is not trustworthy (frozen/stale source at an endpoint,
+    # or a source-recovery bulk correction), suppress movers and emit an honest
+    # recalibration state. History/snapshots are never modified.
+    today_idx = n_days - 1
+    ok, reason, health = window_health(snapshots, baseline_idx, today_idx)
+    if not ok:
+        conf = confidence(n_days)
+        recal_meta = {
+            "generated_at":          datetime.now(timezone.utc).isoformat(),
+            "snapshot_date":         today_snap["date"],
+            "baseline_date":         baseline_snap["date"],
+            "days_between_snapshots": days_apart,
+            "history_days_collected": n_days,
+            "period":                "7_day",
+            "confidence":            conf,
+            "source":                "Yuyu-Tei via jp-card-prices.com",
+            "currency":              "JPY",
+            "game":                  "onepiece",
+            "cards_evaluated":       len(today_prices),
+            "cards_with_trend":      0,
+            "significance_threshold_pct": TREND_MIN_PCT,
+            "cards_significant":     0,
+            "market_stable":         False,
+            "recalibrating":         True,
+            "recalibration_reason":  reason,
+            "window_health":         health,
+        }
+        os.makedirs(os.path.dirname(GAINERS_PATH), exist_ok=True)
+        with open(GAINERS_PATH, "w", encoding="utf-8") as f:
+            json.dump({**recal_meta, "trend_type": "gainers", "cards": []}, f, ensure_ascii=False, indent=2)
+        with open(LOSERS_PATH, "w", encoding="utf-8") as f:
+            json.dump({**recal_meta, "trend_type": "losers", "cards": []}, f, ensure_ascii=False, indent=2)
+        print(f"  RECALIBRATING ({reason}) -- movers suppressed. Metrics: {health}")
+        return
 
     # ── Compute movers ────────────────────────────────────────────────────────
     movers = []
@@ -172,6 +302,7 @@ def main():
         # market_stable => no card moved >= threshold; UI shows a calm badge
         # ABOVE the rankings instead of hiding them (CEO rule 2026-07-12).
         "market_stable":         not any(m["significant"] for m in movers),
+        "recalibrating":         False,   # H4: genuine window (see window_health)
     }
 
     gainers_out = {**base_meta, "trend_type": "gainers", "cards": gainers}
