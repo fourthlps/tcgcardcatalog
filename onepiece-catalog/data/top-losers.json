@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-13T14:42:12.734268+00:00",
-  "snapshot_date": "2026-07-13",
-  "baseline_date": "2026-07-12",
+  "generated_at": "2026-07-14T21:32:21.723007+00:00",
+  "snapshot_date": "2026-07-14",
+  "baseline_date": "2026-07-13",
   "days_between_snapshots": 1,
-  "history_days_collected": 23,
+  "history_days_collected": 24,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1267,
-  "cards_with_trend": 32,
+  "cards_evaluated": 1266,
+  "cards_with_trend": 33,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,22 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 8.17,
+      "today_price_usd": 8.14,
       "baseline_price_usd": 470.57,
-      "price_change_usd": -462.4,
-      "price_change_percent": -98.26
+      "price_change_usd": -462.43,
+      "price_change_percent": -98.27
+    },
+    {
+      "card_id": "OP01-016",
+      "card_image_id": "OP01-016_p8",
+      "card_name": "Nami (OP01-016) (Manga)",
+      "set_code": "PRB-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-016_p8.jpg",
+      "today_price_usd": 2012.04,
+      "baseline_price_usd": 2169.64,
+      "price_change_usd": -157.6,
+      "price_change_percent": -7.26
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +56,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 24.49,
+      "today_price_usd": 24.21,
       "baseline_price_usd": 130.83,
-      "price_change_usd": -106.34,
-      "price_change_percent": -81.28
+      "price_change_usd": -106.62,
+      "price_change_percent": -81.5
     },
     {
       "card_id": "OP08-023",
@@ -56,22 +68,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 21.04,
+      "today_price_usd": 20.89,
       "baseline_price_usd": 109.17,
-      "price_change_usd": -88.13,
-      "price_change_percent": -80.73
-    },
-    {
-      "card_id": "OP04-056",
-      "card_image_id": "OP04-056_p2",
-      "card_name": "Gum-Gum Red Roc (Jolly Roger Foil)",
-      "set_code": "PRB-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-056_p2_6KicMKv.jpg",
-      "today_price_usd": 1.0,
-      "baseline_price_usd": 49.06,
-      "price_change_usd": -48.06,
-      "price_change_percent": -97.96
+      "price_change_usd": -88.28,
+      "price_change_percent": -80.86
     }
   ]
 }
