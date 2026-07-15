@@ -1,41 +1,29 @@
 {
-  "generated_at": "2026-07-14T21:32:21.723007+00:00",
-  "snapshot_date": "2026-07-14",
-  "baseline_date": "2026-07-13",
+  "generated_at": "2026-07-15T21:31:28.413886+00:00",
+  "snapshot_date": "2026-07-15",
+  "baseline_date": "2026-07-14",
   "days_between_snapshots": 1,
-  "history_days_collected": 24,
+  "history_days_collected": 25,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1266,
-  "cards_with_trend": 33,
+  "cards_evaluated": 1264,
+  "cards_with_trend": 27,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP09-118",
-      "card_image_id": "OP09-118_p2",
-      "card_name": "Gol.D.Roger (Manga)",
-      "set_code": "OP-09",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-118_p2.jpg",
-      "today_price_usd": 5500.0,
-      "baseline_price_usd": 2929.01,
-      "price_change_usd": 2570.99,
-      "price_change_percent": 87.78
-    },
-    {
-      "card_id": "EB04-058",
-      "card_image_id": "EB04-058",
-      "card_name": "Borsalino",
-      "set_code": "OP15-EB04",
+      "card_id": "OP01-047",
+      "card_image_id": "OP01-047_p2",
+      "card_name": "Trafalgar Law (SP)",
+      "set_code": "OP-04",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
-      "today_price_usd": 33.42,
-      "baseline_price_usd": 28.68,
-      "price_change_usd": 4.74,
-      "price_change_percent": 16.53
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-047_p2.jpg",
+      "today_price_usd": 224.07,
+      "baseline_price_usd": 213.07,
+      "price_change_usd": 11.0,
+      "price_change_percent": 5.16
     },
     {
       "card_id": "OP14-020",
@@ -44,22 +32,10 @@
       "set_code": "OP14-EB04",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-020_p1_jDSsWWh.jpg",
-      "today_price_usd": 51.39,
-      "baseline_price_usd": 46.73,
-      "price_change_usd": 4.66,
-      "price_change_percent": 9.97
-    },
-    {
-      "card_id": "OP01-033",
-      "card_image_id": "OP01-033_p5",
-      "card_name": "Izo (OP01-033) (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "UC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.86,
-      "baseline_price_usd": 1.85,
-      "price_change_usd": 4.01,
-      "price_change_percent": 216.76
+      "today_price_usd": 59.11,
+      "baseline_price_usd": 51.39,
+      "price_change_usd": 7.72,
+      "price_change_percent": 15.02
     },
     {
       "card_id": "OP09-086",
@@ -68,10 +44,34 @@
       "set_code": "PRB-02",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-086_p1.jpg",
-      "today_price_usd": 63.38,
-      "baseline_price_usd": 60.13,
-      "price_change_usd": 3.25,
-      "price_change_percent": 5.4
+      "today_price_usd": 68.19,
+      "baseline_price_usd": 63.38,
+      "price_change_usd": 4.81,
+      "price_change_percent": 7.59
+    },
+    {
+      "card_id": "OP14-119",
+      "card_image_id": "OP14-119_p1",
+      "card_name": "Dracule Mihawk - OP14-119 (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-119_p1_msFsNgZ.jpg",
+      "today_price_usd": 41.84,
+      "baseline_price_usd": 37.54,
+      "price_change_usd": 4.3,
+      "price_change_percent": 11.45
+    },
+    {
+      "card_id": "OP01-033",
+      "card_image_id": "OP01-033_p5",
+      "card_name": "Izo (OP01-033) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "UC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
+      "today_price_usd": 5.8,
+      "baseline_price_usd": 1.85,
+      "price_change_usd": 3.95,
+      "price_change_percent": 213.51
     }
   ]
 }

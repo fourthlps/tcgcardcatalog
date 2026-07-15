@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-14T21:41:15.264336+00:00",
-  "snapshot_date": "2026-07-14",
-  "baseline_date": "2026-07-07",
+  "generated_at": "2026-07-15T21:48:33.912243+00:00",
+  "snapshot_date": "2026-07-15",
+  "baseline_date": "2026-07-08",
   "days_between_snapshots": 7,
-  "history_days_collected": 10,
+  "history_days_collected": 11,
   "period": "7_day",
   "confidence": "medium",
   "source": "Yuyu-Tei via jp-card-prices.com",
