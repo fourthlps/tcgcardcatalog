@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-16T20:39:21.571654+00:00",
-  "snapshot_date": "2026-07-16",
-  "baseline_date": "2026-07-15",
+  "generated_at": "2026-07-17T20:38:45.666215+00:00",
+  "snapshot_date": "2026-07-17",
+  "baseline_date": "2026-07-16",
   "days_between_snapshots": 1,
-  "history_days_collected": 26,
+  "history_days_collected": 27,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1264,
-  "cards_with_trend": 35,
+  "cards_evaluated": 1265,
+  "cards_with_trend": 39,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,22 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 8.14,
+      "today_price_usd": 8.17,
       "baseline_price_usd": 470.57,
-      "price_change_usd": -462.43,
-      "price_change_percent": -98.27
+      "price_change_usd": -462.4,
+      "price_change_percent": -98.26
+    },
+    {
+      "card_id": "OP06-119",
+      "card_image_id": "OP06-119_p3",
+      "card_name": "Sanji - OP06-119 (Manga)",
+      "set_code": "PRB-02",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-119_p3.jpg",
+      "today_price_usd": 2108.23,
+      "baseline_price_usd": 2256.17,
+      "price_change_usd": -147.94,
+      "price_change_percent": -6.56
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +44,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 35.26,
+      "today_price_usd": 35.43,
       "baseline_price_usd": 165.43,
-      "price_change_usd": -130.17,
-      "price_change_percent": -78.69
+      "price_change_usd": -130.0,
+      "price_change_percent": -78.58
     },
     {
       "card_id": "OP05-091",
@@ -44,10 +56,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 22.83,
+      "today_price_usd": 21.58,
       "baseline_price_usd": 128.17,
-      "price_change_usd": -105.34,
-      "price_change_percent": -82.19
+      "price_change_usd": -106.59,
+      "price_change_percent": -83.16
     },
     {
       "card_id": "OP08-023",
@@ -56,22 +68,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 20.84,
+      "today_price_usd": 20.82,
       "baseline_price_usd": 109.55,
-      "price_change_usd": -88.71,
-      "price_change_percent": -80.98
-    },
-    {
-      "card_id": "OP04-083",
-      "card_image_id": "OP04-083_p2",
-      "card_name": "Sabo (Alternate Art) (Manga)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-083_p2.jpg",
-      "today_price_usd": 836.99,
-      "baseline_price_usd": 909.59,
-      "price_change_usd": -72.6,
-      "price_change_percent": -7.98
+      "price_change_usd": -88.73,
+      "price_change_percent": -80.99
     }
   ]
 }
