@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-17T20:38:45.666215+00:00",
-  "snapshot_date": "2026-07-17",
-  "baseline_date": "2026-07-16",
+  "generated_at": "2026-07-18T20:32:07.537669+00:00",
+  "snapshot_date": "2026-07-18",
+  "baseline_date": "2026-07-17",
   "days_between_snapshots": 1,
-  "history_days_collected": 27,
+  "history_days_collected": 28,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1265,
-  "cards_with_trend": 39,
+  "cards_evaluated": 1267,
+  "cards_with_trend": 37,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,22 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 8.17,
-      "baseline_price_usd": 470.57,
-      "price_change_usd": -462.4,
-      "price_change_percent": -98.26
-    },
-    {
-      "card_id": "OP06-119",
-      "card_image_id": "OP06-119_p3",
-      "card_name": "Sanji - OP06-119 (Manga)",
-      "set_code": "PRB-02",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-119_p3.jpg",
-      "today_price_usd": 2108.23,
-      "baseline_price_usd": 2256.17,
-      "price_change_usd": -147.94,
-      "price_change_percent": -6.56
+      "today_price_usd": 8.13,
+      "baseline_price_usd": 481.14,
+      "price_change_usd": -473.01,
+      "price_change_percent": -98.31
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 35.43,
-      "baseline_price_usd": 165.43,
-      "price_change_usd": -130.0,
-      "price_change_percent": -78.58
+      "today_price_usd": 35.64,
+      "baseline_price_usd": 167.52,
+      "price_change_usd": -131.88,
+      "price_change_percent": -78.72
     },
     {
       "card_id": "OP05-091",
@@ -56,10 +44,22 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 21.58,
-      "baseline_price_usd": 128.17,
-      "price_change_usd": -106.59,
-      "price_change_percent": -83.16
+      "today_price_usd": 21.42,
+      "baseline_price_usd": 128.42,
+      "price_change_usd": -107.0,
+      "price_change_percent": -83.32
+    },
+    {
+      "card_id": "OP13-120",
+      "card_image_id": "OP13-120_p2",
+      "card_name": "Sabo (120) (Super Alternate Art)",
+      "set_code": "OP-13",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-120_p2.jpg",
+      "today_price_usd": 752.18,
+      "baseline_price_usd": 851.58,
+      "price_change_usd": -99.4,
+      "price_change_percent": -11.67
     },
     {
       "card_id": "OP08-023",
@@ -68,10 +68,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 20.82,
+      "today_price_usd": 20.65,
       "baseline_price_usd": 109.55,
-      "price_change_usd": -88.73,
-      "price_change_percent": -80.99
+      "price_change_usd": -88.9,
+      "price_change_percent": -81.15
     }
   ]
 }
