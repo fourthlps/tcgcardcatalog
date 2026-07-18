@@ -1,0 +1,780 @@
+/* Voyage Log — article pages.
+   Standalone stylesheet for onepiece-catalog/articles/**. Token VALUES are
+   copied from index.html's :root so article pages match the SPA exactly.
+   This duplication is deliberate and temporary: shared-token extraction was
+   explicitly deferred until the pilot pages are reviewed. Do not diverge these
+   values from the SPA without updating both. */
+
+:root {
+  --bg: #f6f8fc;
+  --bg2: #ffffff;
+  --bg3: #eef2fb;
+  --border: rgba(15, 23, 42, .08);
+  --bord2: rgba(15, 23, 42, .15);
+  --gold: #3b6fe0;              /* accent — blue, despite the legacy name */
+  --golds: rgba(59, 111, 224, .10);
+  --text: #101728;
+  --soft: #5b6478;
+  --faint: #94a0b8;             /* decorative only — fails AA for body text */
+  --purple: #8b5cf6;
+  --purples: rgba(139, 92, 246, .12);
+  --lavender: #f5f1fc;
+  --ice: #eef5fc;
+  --shadow: 0 1px 2px rgba(16, 23, 42, .04), 0 6px 18px rgba(16, 23, 42, .06);
+  --shadow-hover: 0 12px 28px rgba(59, 111, 224, .16);
+  --focus-ring: 0 0 0 3px rgba(59, 111, 224, .24);
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --ease-out: cubic-bezier(.25, .46, .45, .94);
+
+  --measure: 68ch;
+  --gutter: 20px;
+
+  /* Wave A — restrained foil + premium surface. Values mirror the SPA homepage
+     (index.html :root and .bg-grid) so article pages read as one system. */
+  --blue: #2563eb;
+  --foil: linear-gradient(135deg, #2563eb, #8b5cf6);
+  --foil-soft: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(139, 92, 246, .12));
+  --grid-line: rgba(37, 99, 235, .05);
+  --shadow-premium: 0 20px 60px rgba(16, 23, 42, .08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  /* Thai has no word spaces: extra leading materially improves readability. */
+  line-height: 1.75;
+  font-size: 17px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── ambient background (mirrors homepage body::before + .bg-grid) ───────── */
+/* Fixed, non-interactive, behind all content. The solid --bg still paints
+   first; these only add a faint premium wash + navigator's-grid substrate. */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 34% at 4% -2%, rgba(37, 99, 235, .08), transparent 62%),
+    radial-gradient(ellipse 46% 30% at 98% 2%, rgba(139, 92, 246, .07), transparent 62%),
+    radial-gradient(ellipse 40% 30% at 50% 102%, rgba(205, 168, 103, .05), transparent 62%),
+    radial-gradient(ellipse 70% 50% at 50% 38%, rgba(245, 241, 252, .55), transparent 70%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: .35;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 18%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 18%, #000 0%, transparent 78%);
+}
+
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ── accessibility ─────────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 10;
+  background: var(--bg2); color: var(--text);
+  padding: 10px 16px; border-radius: 0 0 10px 0;
+  font-weight: 700; text-decoration: none;
+}
+.skip-link:focus { left: 0; box-shadow: var(--focus-ring); }
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+.cr-track:focus-visible,
+.table-scroll:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 6px;
+}
+
+/* ── header / footer ───────────────────────────────────────────────────── */
+.site-hdr {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 5;
+}
+.hdr-in { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
+.brand-mark { color: var(--gold); font-size: 15px; }
+.brand-name { font-family: var(--font-display); font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
+
+.nav { display: flex; gap: 18px; }
+.nav a, .ftr-nav a {
+  color: var(--soft); text-decoration: none;
+  font-size: 13.5px; font-weight: 700;
+  transition: color .14s var(--ease-out);
+}
+.nav a:hover, .ftr-nav a:hover { color: var(--gold); }
+
+.site-ftr {
+  margin-top: 64px; padding: 32px 0 40px;
+  background: var(--bg2); border-top: 1px solid var(--border);
+}
+.ftr-brand { font-family: var(--font-display); font-weight: 800; font-size: 16px; }
+.ftr-note { color: var(--soft); font-size: 13.5px; margin-top: 4px; }
+.ftr-nav { display: flex; gap: 18px; margin-top: 14px; }
+
+/* ── preview banner (local builds only) ────────────────────────────────── */
+.preview-banner {
+  background: #fff4d6; color: #6b4e00;
+  border-bottom: 1px solid rgba(107, 78, 0, .2);
+  padding: 10px var(--gutter); text-align: center;
+  font-size: 13px; font-weight: 700;
+}
+
+/* ── breadcrumbs ───────────────────────────────────────────────────────── */
+.crumbs { padding: 18px 0 6px; }
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; font-size: 13px; color: var(--soft); }
+.crumbs li + li::before { content: "/"; margin-right: 6px; color: var(--faint); }
+.crumbs a { color: var(--soft); text-decoration: none; }
+.crumbs a:hover { color: var(--gold); text-decoration: underline; }
+.crumbs [aria-current="page"] { color: var(--text); font-weight: 600; }
+
+/* ── article header ────────────────────────────────────────────────────── */
+.article { max-width: var(--measure); margin: 0 auto; padding-top: 12px; }
+
+/* hero — a navigator's chart the title sits on top of.
+   The artwork is masked to fade toward the left, so the headline always lands
+   on quiet ground and keeps full contrast no matter how wide the panel gets. */
+.art-hdr {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 26px 26px;
+  margin-bottom: 14px;
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, var(--ice) 0%, #ffffff 46%, var(--lavender) 100%);
+  border: 1px solid rgba(59, 111, 224, .14);
+  box-shadow: var(--shadow-premium);
+}
+.art-hdr::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--foil);
+}
+.art-hdr::after {          /* navigator's chart — original geometry, no franchise art */
+  content: '';
+  position: absolute; inset: 0;
+  background: url("graphics/_shared/hero-chart.svg") no-repeat right center / cover;
+  opacity: .85;              /* the artwork is already masked and low-contrast */
+  pointer-events: none;
+}
+
+/* hero illustration — sits ABOVE the title, never behind it, so artwork that
+   carries its own lettering can never collide with the headline. Generic: the
+   image path comes from the article's metadata, never from this stylesheet. */
+.art-hero {
+  display: block;
+  width: calc(100% + 52px);        /* bleeds to the panel edge past .art-hdr padding */
+  height: auto;                    /* the width/height attrs are presentational
+                                      hints; without this they beat aspect-ratio */
+  margin: -30px -26px 22px;
+  aspect-ratio: 24 / 10;
+  object-fit: cover;
+  border-radius: 19px 19px 0 0;
+  background: var(--bg3);          /* honest ground while it loads */
+}
+.art-hdr--hero::after { display: none; }   /* a real hero replaces the chart */
+
+.kicker {
+  position: relative;              /* above the chart artwork layer */
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-size: 12px; font-weight: 800;
+  letter-spacing: .04em; text-transform: uppercase;
+  color: var(--gold); background: var(--golds);
+  border: 1px solid rgba(59, 111, 224, .16);
+  padding: 5px 12px 5px 10px; border-radius: 999px; margin-bottom: 14px;
+}
+.kicker::before {          /* foil dot — decorative CSS shape */
+  content: '';
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--foil);
+  box-shadow: 0 0 0 3px rgba(59, 111, 224, .10);
+}
+
+.art-hdr h1 {
+  position: relative;              /* above the chart artwork */
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5.6vw, 46px);
+  font-weight: 800; line-height: 1.2; letter-spacing: -.022em;
+  text-wrap: balance;
+  max-width: 20ch;                 /* keeps the headline clear of the compass */
+}
+
+.byline {
+  position: relative;              /* above the chart artwork layer */
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin-top: 16px; color: var(--soft); font-size: 13.5px;
+}
+.byline .author { font-weight: 700; color: var(--text); }
+.byline .dot { color: var(--faint); }
+
+/* ── table of contents (zero JavaScript) ───────────────────────────────── */
+/* Two presentations of the same links: a sticky <aside> on desktop, a native
+   collapsed <details> below desktop. Neither needs script. */
+
+.toc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+.toc ol { margin: 0 0 16px; padding-left: 20px; color: var(--soft); }
+.toc li { margin: 7px 0; font-size: 14.5px; }
+.toc a { color: var(--soft); text-decoration: none; }
+.toc a:hover { color: var(--gold); text-decoration: underline; }
+
+/* desktop sidebar — hidden below 1024px */
+.toc-desktop { display: none; }
+.toc-ttl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 14px 0 6px;
+  color: var(--text);
+}
+
+/* mobile / tablet — native <details>, starts collapsed */
+.toc-mobile { margin: 28px 0; padding: 4px 18px; }
+.toc-mobile summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex; align-items: center; gap: 10px;
+  min-height: 52px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 14px 4px;
+  color: var(--text);
+}
+.toc-mobile summary::before {   /* foil diamond marker — decorative shape */
+  content: '';
+  width: 10px; height: 10px;
+  transform: rotate(45deg);
+  background: var(--foil);
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+.toc-mobile summary::-webkit-details-marker { display: none; }
+.toc-mobile summary::after { content: " ▾"; color: var(--gold); margin-inline-start: auto; }
+.toc-mobile[open] summary::after { content: " ▴"; }
+
+/* ── prose ─────────────────────────────────────────────────────────────── */
+.prose h2 {
+  font-family: var(--font-display);
+  font-size: clamp(21px, 3.4vw, 27px);
+  font-weight: 800; line-height: 1.35; letter-spacing: -.015em;
+  margin: 44px 0 14px; padding-top: 8px;
+  scroll-margin-top: 76px;      /* clears the sticky header on anchor jumps */
+}
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 2.6vw, 20px);
+  font-weight: 700; line-height: 1.4;
+  margin: 30px 0 10px; scroll-margin-top: 76px;
+}
+
+.prose p { margin: 16px 0; }
+.prose ul, .prose ol { margin: 16px 0 16px 22px; }
+.prose li { margin: 8px 0; }
+.prose strong { font-weight: 700; color: var(--text); }
+
+/* lead paragraph — a confident article opening */
+.prose > p:first-of-type {
+  font-size: 1.1em;
+  line-height: 1.85;
+  color: var(--text);
+}
+
+/* section marker — small foil diamond before each H2 (decorative shape) */
+.prose h2::before {
+  content: '';
+  display: inline-block;
+  width: 11px; height: 11px;
+  margin-inline-end: 11px;
+  transform: rotate(45deg);
+  background: var(--foil);
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.prose a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { text-decoration-thickness: 2px; }
+.prose a.ext::after { content: " ↗"; font-size: .85em; color: var(--soft); }
+
+.prose hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0; }
+
+.prose blockquote {          /* editorial callout — foil edge + SR-safe waypoint marker */
+  position: relative;
+  margin: 24px 0; padding: 16px 20px 16px 26px;
+  background: var(--lavender);
+  border-radius: 0 12px 12px 0;
+  color: var(--text);
+}
+.prose blockquote::before {  /* foil edge bar */
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--foil);
+}
+.prose blockquote::after {   /* waypoint marker — decorative CSS shape */
+  content: '';
+  position: absolute; left: -4px; top: 16px;
+  width: 12px; height: 12px;
+  transform: rotate(45deg);
+  background: var(--foil);
+  border-radius: 3px;
+  box-shadow: 0 0 0 3px var(--lavender);
+}
+.prose blockquote p { margin: 8px 0; }
+.prose blockquote p:first-child { margin-top: 0; }
+.prose blockquote p:last-child { margin-bottom: 0; }
+
+/* ── tables: scroll inside their own region, never the page ─────────────── */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 24px 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg2);
+  box-shadow: var(--shadow),
+    inset -13px 0 10px -12px rgba(16, 23, 42, .14),
+    inset 13px 0 10px -12px rgba(16, 23, 42, .10);
+}
+.prose table { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 15px; }
+.prose th, .prose td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left; vertical-align: top;
+}
+.prose th {
+  background-color: var(--bg3);
+  background-image: var(--foil-soft);
+  font-family: var(--font-display); font-weight: 800; font-size: 13.5px;
+  white-space: nowrap;
+}
+.prose tbody tr:nth-child(even) td { background: rgba(238, 242, 251, .55); }
+.prose tbody tr:hover td { background: var(--golds); }
+.prose tbody tr:last-child td { border-bottom: 0; }
+
+/* ── related articles (site chrome) ────────────────────────────────────── */
+.related { max-width: var(--measure); margin: 56px auto 0; }
+.related h2 { font-family: var(--font-display); font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+.related ul { list-style: none; display: grid; gap: 12px; }
+.related a {
+  display: block; position: relative; overflow: hidden;
+  padding: 18px 18px 16px 74px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; box-shadow: var(--shadow);
+  text-decoration: none; color: var(--text);
+  transition: border-color .14s var(--ease-out), box-shadow .14s var(--ease-out), transform .14s var(--ease-out);
+}
+.related a::before {          /* foil top edge */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--foil);
+}
+.related a::after {           /* cover-crest tile — original geometry, no franchise art */
+  content: '';
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--golds) url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2048%2048%27%20fill%3D%27none%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27c%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%27%20stop-color%3D%27%232563eb%27%2F%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%238b5cf6%27%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%279%27%20y%3D%279%27%20width%3D%2730%27%20height%3D%2730%27%20rx%3D%277%27%20transform%3D%27rotate%2845%2024%2024%29%27%20stroke%3D%27url%28%23c%29%27%20stroke-width%3D%272.4%27%2F%3E%3Cpath%20d%3D%27M24%209%20L27%2024%20L24%2039%20L21%2024%20Z%27%20fill%3D%27url%28%23c%29%27%2F%3E%3Cpath%20d%3D%27M9%2024%20L24%2021%20L39%2024%20L24%2027%20Z%27%20fill%3D%27url%28%23c%29%27%20fill-opacity%3D%27.5%27%2F%3E%3C%2Fsvg%3E") no-repeat center / 26px;
+  border: 1px solid rgba(59, 111, 224, .18);
+}
+.related a:hover { border-color: var(--gold); box-shadow: var(--shadow-premium); transform: translateY(-2px); }
+.rel-kicker { display: block; font-size: 11.5px; font-weight: 800; color: var(--gold); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 4px; }
+.rel-title { display: block; font-family: var(--font-display); font-weight: 700; font-size: 16px; line-height: 1.4; }
+
+/* ── article index ─────────────────────────────────────────────────────── */
+.index-hdr { max-width: var(--measure); margin: 12px auto 28px; }
+.index-hdr h1 {
+  position: relative;
+  font-family: var(--font-display); font-size: clamp(28px, 5vw, 38px);
+  font-weight: 800; letter-spacing: -.02em;
+}
+.index-hdr h1::after {        /* foil underline accent */
+  content: '';
+  display: block; width: 56px; height: 3px;
+  margin-top: 14px; border-radius: 3px;
+  background: var(--foil);
+}
+.index-sub { color: var(--soft); margin-top: 8px; }
+
+.art-list { list-style: none; max-width: var(--measure); margin: 0 auto; display: grid; gap: 16px; }
+.art-link {
+  display: block; position: relative; overflow: hidden;
+  padding: 24px 22px 22px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow);
+  text-decoration: none; color: var(--text);
+  transition: border-color .14s var(--ease-out), box-shadow .14s var(--ease-out), transform .14s var(--ease-out);
+}
+.art-link::before {           /* foil top edge */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--foil);
+}
+.art-link::after {            /* foil diamond corner — decorative shape */
+  content: '';
+  position: absolute; top: 14px; right: 16px;
+  width: 9px; height: 9px;
+  transform: rotate(45deg);
+  background: var(--foil);
+  border-radius: 2px;
+  opacity: .55;
+}
+.art-link:hover { border-color: var(--gold); box-shadow: var(--shadow-premium); transform: translateY(-2px); }
+.art-kicker { display: block; font-size: 11.5px; font-weight: 800; color: var(--gold); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 6px; }
+.art-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; line-height: 1.4; letter-spacing: -.01em; }
+.art-desc { display: block; color: var(--soft); font-size: 14.5px; margin-top: 8px; }
+.art-date { display: block; color: var(--soft); font-size: 12.5px; margin-top: 12px; }
+
+/* ── Wave B — article content visuals ──────────────────────────────────── */
+/* These realise the Visual Designer brief's Phase-2 concepts (v5 card-type
+   reference, v6 deck composition, v7 turn timeline) WITHOUT injecting any
+   element into the article body. They attach to DOM the generator already
+   emits, using the stable aria-label the build writes onto every table
+   wrapper and the article's own heading structure.
+
+   Table semantics are deliberately preserved: no `display` property is
+   changed on any table element, so the accessibility tree still exposes
+   rows, cells, and headers exactly as before.
+
+   FRAGILITY (accepted for the pilot — see .agents/TECH-DEBT.md TD-07):
+   the table hooks match section heading text. If an approved article's
+   heading wording changes, the table degrades to the default table style.
+   It never breaks; it just stops reading as a diagram. */
+
+/* key takeaways — the article's opening summary section.
+   Structural hook: the first H2 in the prose is the 30-second summary. */
+.prose h2:first-of-type + p + ul {
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+  margin: 20px 0 26px;
+  padding: 24px 22px 22px;
+  background: var(--bg2);
+  border: 1px solid rgba(59, 111, 224, .16);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+.prose h2:first-of-type + p + ul::before {   /* foil top edge */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--foil);
+}
+.prose h2:first-of-type + p + ul > li {
+  position: relative;
+  margin: 13px 0;
+  padding-inline-start: 26px;
+  font-size: 15.5px;
+}
+.prose h2:first-of-type + p + ul > li::before {   /* foil waypoint marker */
+  content: '';
+  position: absolute;
+  inset-inline-start: 2px; top: 9px;
+  width: 9px; height: 9px;
+  transform: rotate(45deg);
+  background: var(--foil);
+  border-radius: 2px;
+}
+
+/* v5 — card-type reference: a foil index marker on every H3 */
+.prose h3::before {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  margin-inline-end: 10px;
+  transform: rotate(45deg);
+  background: var(--foil);
+  border-radius: 2px;
+  opacity: .5;
+  vertical-align: middle;
+}
+
+/* v6 — spec-comparison: deck composition (Leader 1 / Main 50 / DON!! 10) */
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] {
+  border-color: rgba(59, 111, 224, .18);
+  box-shadow: var(--shadow);        /* two columns always fit — no scroll cues */
+}
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] table {
+  min-width: 0;                     /* was 460px — forced a needless mobile scroll */
+}
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] td {
+  padding: 18px 18px;
+  vertical-align: middle;
+}
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] td:first-child {
+  font-weight: 700;
+  font-size: 15.5px;
+}
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] td:last-child {
+  text-align: end;
+  white-space: nowrap;
+}
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] td:last-child strong {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 6.4vw, 32px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  color: var(--blue);               /* AA-safe base; the gradient only enhances */
+}
+/* Gradient numerals are progressive enhancement: without background-clip
+   support the solid --blue above still renders at full contrast. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .table-scroll[aria-label*="เด็คหนึ่งชุด"] td:last-child strong {
+    background: var(--foil);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] tbody tr:nth-child(even) td,
+.table-scroll[aria-label*="เด็คหนึ่งชุด"] tbody tr:hover td {
+  background: transparent;          /* the numerals carry the rhythm, not stripes */
+}
+
+/* v7 — release-timeline: the five turn phases as a sequence */
+.table-scroll[aria-label*="5 เฟส"] td { padding: 16px 14px; }
+.table-scroll[aria-label*="5 เฟส"] td:first-child {
+  width: 58px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--blue);
+  /* continuous inset rail reads as one flow down the five rows */
+  box-shadow: inset 3px 0 0 0 rgba(37, 99, 235, .28);
+  background-image: radial-gradient(circle 17px at 50% 50%, var(--golds) 98%, transparent 100%);
+}
+.table-scroll[aria-label*="5 เฟส"] td:nth-child(2) {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.table-scroll[aria-label*="5 เฟส"] td:nth-child(2) strong {
+  font-family: var(--font-display);
+  font-size: 15.5px;
+}
+
+/* in-body figures — injected from the visual-assets manifest by the build */
+.art-figure { margin: 28px 0; }
+.art-figure img {
+  display: block;
+  width: 100%;
+  height: auto;                     /* width/height attrs reserve space: no CLS */
+  border-radius: 14px;
+}
+.art-figure figcaption {
+  margin-top: 10px;
+  color: var(--soft);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* ── card rail — editorial card tiles ───────────────────────────────────── */
+/* An extension of the SPA's card language, not a standalone graphic: the same
+   0.72 card aspect, --bg3 art ground, surface + border + --shadow tile, foil
+   top edge and display face used by .card-tile and .related a. Tiles are live
+   DOM, so they inherit the tokens above and stay legible at any width.
+   Deliberately NOT interactive: these tiles link nowhere, so they get no hover
+   lift — that affordance is reserved for things a reader can actually open. */
+.card-rail { margin: 26px 0; }
+
+.card-rail .cr-track {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 2px;
+  padding: 2px 2px 10px;
+  margin: 0 -2px;
+}
+.card-rail .cr-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 44%;          /* the third tile peeks: the rail reads as scrollable */
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.card-rail .cr-item { margin: 0; scroll-snap-align: start; }
+
+.card-rail .cr-tile {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.card-rail .cr-tile::before {      /* foil top edge — same cue as .related a */
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--foil);
+  z-index: 1;
+}
+.card-rail .cr-art {
+  display: block;
+  background: var(--bg3);          /* the SPA's card-art ground */
+  border-bottom: 1px solid var(--border);
+}
+.card-rail .cr-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: .72;               /* the real card proportion used site-wide */
+  object-fit: cover;
+}
+.card-rail .cr-body {
+  display: block;
+  padding: 12px 13px 14px;
+}
+.card-rail .cr-type {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15.5px;
+  line-height: 1.35;
+  letter-spacing: -.01em;
+}
+.card-rail .cr-en {
+  display: block;
+  margin-top: 3px;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.card-rail .cr-fact {
+  display: block;
+  margin-top: 8px;
+  color: var(--soft);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* desktop — the five types resolve into one row; nothing left to scroll.
+   Columns are ~105px at the article measure, so type steps down a notch and
+   the labels stay on one line. */
+@media (min-width: 720px) {
+  .card-rail .cr-track { overflow: visible; scroll-snap-type: none; }
+  .card-rail .cr-list {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .card-rail .cr-body { padding: 11px 11px 13px; }
+  .card-rail .cr-type { font-size: 14.5px; }
+  .card-rail .cr-en { font-size: 10px; letter-spacing: .05em; }
+  .card-rail .cr-fact { font-size: 12.5px; margin-top: 7px; }
+}
+
+/* reference table — compact; it is a citation list, not a feature */
+.table-scroll[aria-label*="แหล่งอ้างอิง"] table { font-size: 13.5px; }
+.table-scroll[aria-label*="แหล่งอ้างอิง"] td { padding: 10px 12px; }
+.table-scroll[aria-label*="แหล่งอ้างอิง"] td:nth-child(2) { word-break: break-all; }
+
+/* ── desktop: article becomes the grid; TOC is a true sidebar item ──────── */
+@media (min-width: 1024px) {
+  .article {
+    display: grid;
+    grid-template-columns: 260px minmax(0, var(--measure));
+    grid-template-areas:
+      "header header"
+      "toc prose";
+    column-gap: 40px;
+    align-items: start;
+    max-width: calc(260px + 40px + var(--measure));
+  }
+
+  /* the hero runs the full width of the grid: it is the page's opening
+     statement, not a column of it */
+  .art-hdr {
+    grid-area: header;
+    padding: 44px 44px 38px;
+    margin-bottom: 30px;
+  }
+  .art-hdr h1 { max-width: 24ch; }
+  .art-hero {                       /* match the wider desktop padding */
+    width: calc(100% + 88px);
+    margin: -44px -44px 30px;
+  }
+  .prose   { grid-area: prose; }
+
+  .toc-desktop {
+    display: block;
+    grid-area: toc;
+    align-self: start;
+    position: sticky;
+    top: 84px;
+    padding: 6px 16px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  .toc-mobile { display: none; }
+}
+
+/* small screens — calm the substrate, matching the homepage (grid hidden ≤640px) */
+@media (max-width: 640px) {
+  body::after { display: none; }
+  .art-hdr::after { width: 132px; height: 132px; top: -12px; opacity: .09; }
+  .art-hero {
+    aspect-ratio: 3 / 2;            /* taller crop keeps the subject in frame */
+    object-position: 70% center;    /* narrow screens crop the sides, not the action */
+  }
+  .related a { padding-left: 66px; }
+  .related a::after { width: 40px; height: 40px; left: 14px; background-size: 24px; }
+
+  /* Wave B — tighten the content visuals for narrow screens */
+  .prose h2:first-of-type + p + ul { padding: 20px 16px 18px; }
+  .table-scroll[aria-label*="เด็คหนึ่งชุด"] td { padding: 15px 14px; }
+  /* the turn timeline reflows portrait-first rather than scrolling sideways:
+     the phase description wraps instead of forcing a 460px scroll region */
+  .table-scroll[aria-label*="5 เฟส"] table { min-width: 0; }
+  .table-scroll[aria-label*="5 เฟส"] td { padding: 14px 10px; }
+  .table-scroll[aria-label*="5 เฟส"] td:first-child {
+    width: 44px;
+    font-size: 16px;
+    background-image: radial-gradient(circle 14px at 50% 50%, var(--golds) 98%, transparent 100%);
+  }
+  .table-scroll[aria-label*="5 เฟส"] td:nth-child(2) { font-size: 14px; }
+  .table-scroll[aria-label*="5 เฟส"] td:nth-child(3) { font-size: 14.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .art-link:hover, .related a:hover { transform: none; }
+}

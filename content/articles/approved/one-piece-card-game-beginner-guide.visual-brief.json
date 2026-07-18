@@ -1,0 +1,146 @@
+{
+  "brief_version": "v1",
+
+  "article_identity": {
+    "slug": "one-piece-card-game-beginner-guide",
+    "title": "One Piece Card Game คืออะไร เล่นยังไง (ฉบับมือใหม่ที่ไม่เคยเล่นมาก่อนเลย)",
+    "lang": "th",
+    "game": "one-piece",
+    "content_type": "guide",
+    "category_label": "คู่มือมือใหม่",
+    "meta_status": "approved",
+    "source_sha256_verified": true
+  },
+
+  "visual_storytelling": {
+    "reader_journey": [
+      { "section_ref": "H1 + intro (lines 18-26)", "reader_state": "curious but intimidated - 'how is this even played?'", "visual_role": "A premium, calm cover that says 'you are in the right place, start here'." },
+      { "section_ref": "intro heads-up blockquote (line 28)", "reader_state": "needs to trust the guide's honesty about its own limits", "visual_role": "An editorial callout that gives the candid heads-up visual weight without alarming." },
+      { "section_ref": "การ์ด 5 ประเภท (lines 55-89)", "reader_state": "learning the pieces", "visual_role": "An explanatory infographic of the 5 card types (deferred asset)." },
+      { "section_ref": "เด็คหนึ่งชุดประกอบด้วยอะไร (lines 92-107)", "reader_state": "understanding deck structure", "visual_role": "A composition diagram (Leader 1 / Main 50 / DON!! 10) (deferred asset)." },
+      { "section_ref": "หนึ่งเทิร์นเกิดอะไรขึ้น - 5 เฟส (lines 111-125)", "reader_state": "learning the turn rhythm", "visual_role": "A 5-phase flow/timeline (deferred asset)." },
+      { "section_ref": "แล้วราคาเท่าไหร่ (lines 186-192)", "reader_state": "wants a price; article honestly has none", "visual_role": "None - deliberate restraint; a price visual would fake certainty." },
+      { "section_ref": "related module (lines 246-251)", "reader_state": "ready for the next step", "visual_role": "A crest thumbnail giving the buyer-guide link a recognisable identity." }
+    ],
+    "emotional_flow": "The guide moves an intimidated newcomer from 'I don't get this' to 'I can start with one box'. The hero lowers the guard; the honesty callout builds trust at the one place the article admits a limit; the deferred infographics (card types, deck composition, turn phases) will convert rules-complexity into orientation; the price section closes on candor where the strongest art direction is to show nothing; the related crest hands the reader their next step. Visuals stay calm and explanatory throughout - this is a teaching piece, not a hype piece."
+  },
+
+  "visual_objectives": [
+    { "goal": "Give the pillar beginner guide a premium, franchise-art-free cover and shareable OG card.", "priority": "high" },
+    { "goal": "Make the honesty heads-up scannable and trustworthy via an editorial callout.", "priority": "medium" },
+    { "goal": "Convert rules complexity (card types, deck structure, turn phases) into glanceable diagrams.", "priority": "medium" },
+    { "goal": "Give the buyer-guide next step a recognisable, clickable identity.", "priority": "low" },
+    { "goal": "Reinforce editorial candor by omitting a price visual.", "priority": "low" }
+  ],
+
+  "visual_inventory": [
+    {
+      "id": "v1", "placement_ref": "H1 hero (lines 18-26)", "medium": "illustration", "type": "hero-cover", "source_class": "voyage-original",
+      "why_this_visual_exists": "A premium, franchise-art-free cover at the H1 sets a calm, authoritative teaching tone for an intimidated newcomer.",
+      "reader_loses_without": "Without it the pillar guide opens like a generic blog and loses the trust cue that keeps a nervous beginner reading.",
+      "art_director_decision": { "chosen_because": "Phase 1 - CSS-attachable. An original cover-crest treatment (foil kicker + top rule + compass/wave/card-silhouette watermark) brands Voyage Log without any franchise art and attaches to the existing .art-hdr DOM.", "alternatives_considered": ["product/box photo (rejected - not deck-specific and copyright-blocked)", "plain type-only header (rejected - not premium)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v2", "placement_ref": "intro heads-up blockquote (line 28)", "medium": "callout", "type": "decorative", "source_class": "voyage-original",
+      "why_this_visual_exists": "A foil-edged editorial callout gives the article's candid 'what we will not cover yet' heads-up enough weight that a skimmer registers it.",
+      "reader_loses_without": "Without it the honesty note reads as ordinary body text and the reader may miss that combat rules are deliberately deferred.",
+      "art_director_decision": { "chosen_because": "Phase 1 - CSS-attachable. Styles the existing blockquote; tone is an editorial note, not a red danger warning (the content is a candid disclaimer).", "alternatives_considered": ["red warning styling (rejected - mis-signals the tone)", "no treatment (rejected - honesty note must stand out)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v3", "placement_ref": "related module (lines 246-251, related meta)", "medium": "illustration", "type": "decorative", "source_class": "voyage-original",
+      "why_this_visual_exists": "A crest thumbnail gives the buyer-guide next step a recognisable, clickable identity consistent with the hero.",
+      "reader_loses_without": "Without it the related link is easy to overlook and the reader loses the guided path to 'which deck do I buy'.",
+      "art_director_decision": { "chosen_because": "Phase 1 - CSS-attachable. A CSS crest tile on the existing .related a; no <img> (would need a template change).", "alternatives_considered": ["official box thumbnail (rejected - copyright-blocked)", "no thumbnail (rejected - weakens the onward journey)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v4", "placement_ref": "share / OG metadata (og_image, currently null)", "medium": "illustration", "type": "og-image", "source_class": "voyage-original",
+      "why_this_visual_exists": "A branded 1200x630 card earns the click and signals trust before arrival when the guide is shared.",
+      "reader_loses_without": "Without it a shared link renders bare and low-trust, and the reader loses the reason to tap through.",
+      "art_director_decision": { "chosen_because": "Phase 1 - OG SOURCE SVG ONLY this phase (PO decision B); PNG rasterisation deferred until an SVG-to-PNG + Thai-font dependency is approved. Designer never sets og_image (Page Builder does).", "alternatives_considered": ["official art OG (rejected - copyright-blocked, off-brand)", "text-only OG (rejected - lower click trust)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v5", "placement_ref": "การ์ด 5 ประเภท (lines 55-89)", "medium": "infographic", "type": "explanatory-infographic", "source_class": "voyage-original",
+      "why_this_visual_exists": "A 5-card-type infographic turns five prose sections into one glanceable reference (Leader, Character, Event, Stage, DON!!).",
+      "reader_loses_without": "Without it the reader must hold five separate definitions in memory while learning the game's vocabulary.",
+      "art_director_decision": { "chosen_because": "Phase 2 - DEFERRED ASSET, NOT INJECTED this phase. Built from the article's own verified card-type descriptions; no franchise art.", "alternatives_considered": ["five icons only (rejected - no unified reference)", "official card faces (rejected - copyright-blocked)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v6", "placement_ref": "เด็คหนึ่งชุดประกอบด้วยอะไร (lines 92-107)", "medium": "infographic", "type": "explanatory-infographic", "source_class": "voyage-original",
+      "why_this_visual_exists": "A deck-composition diagram makes the Leader 1 / Main 50 / DON!! 10 structure instantly legible.",
+      "reader_loses_without": "Without it deck structure stays an abstract table rather than a picture the reader can recall.",
+      "art_director_decision": { "chosen_because": "Phase 2 - DEFERRED ASSET, NOT INJECTED. Uses the article's own rules table values.", "alternatives_considered": ["keep table only (rejected - less memorable)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v7", "placement_ref": "หนึ่งเทิร์นเกิดอะไรขึ้น - 5 เฟส (lines 111-125)", "medium": "timeline", "type": "explanatory-infographic", "source_class": "voyage-original",
+      "why_this_visual_exists": "A 5-phase flow visualises the fixed turn sequence (Refresh -> Draw -> DON!! -> Main -> End) as a rhythm.",
+      "reader_loses_without": "Without it the turn order stays a list rather than a felt sequence, the exact thing beginners struggle to internalise.",
+      "art_director_decision": { "chosen_because": "Phase 2 - DEFERRED ASSET, NOT INJECTED. Built from the article's own 5-phase table.", "alternatives_considered": ["keep table only (rejected - sequence reads better as a flow)"] },
+      "status": "proposed"
+    },
+    {
+      "id": "v8", "placement_ref": "แล้วราคาเท่าไหร่ price sub-section (lines 186-192)", "medium": "none", "type": "explanatory-infographic", "source_class": "do-not-use",
+      "why_this_visual_exists": "Deliberate restraint: no price visual is the only art direction consistent with the article's explicit refusal to publish an unverified Thai price.",
+      "reader_loses_without": "The reader loses nothing; any price visual would cost trust by implying a certainty the article refuses to fake.",
+      "art_director_decision": { "chosen_because": "A no-visual decision is the correct choice where honesty outweighs imagery.", "alternatives_considered": ["price infographic (rejected - fabricates certainty)"] },
+      "status": "none"
+    }
+  ],
+
+  "official_source_research": [],
+
+  "original_graphic_requirements": [
+    { "for_visual_id": "v1", "purpose": "Premium franchise-art-free cover.", "visual_concept": "Cover-crest: foil kicker + foil top rule + low-opacity compass rose, wave lines and fanned blank card silhouettes as the header watermark.", "dimensions": "responsive; watermark scales with header", "mobile_behavior": "watermark shrinks and drops opacity; hidden below 640px", "required_text": "category 'คู่มือมือใหม่' + article title (existing DOM)", "reusable_design_system_component": "cover-crest" },
+    { "for_visual_id": "v2", "purpose": "Elevate the honesty heads-up.", "visual_concept": "Foil left-edge callout with a waypoint-diamond marker on the existing blockquote; lavender/ice tint.", "dimensions": "inline, full content width", "mobile_behavior": "full-width; foil edge persists", "required_text": "existing blockquote wording (unchanged)", "reusable_design_system_component": "callout--note" },
+    { "for_visual_id": "v3", "purpose": "Recognisable next-step identity.", "visual_concept": "CSS crest tile (foil diamond + compass) at the left of the related card.", "dimensions": "40x40 tile within the related card", "mobile_behavior": "tile scales; card stays >=44px tappable", "required_text": "related article kicker + title (existing DOM)", "reusable_design_system_component": "cover-crest" },
+    { "for_visual_id": "v4", "purpose": "Shareable trust off-site.", "visual_concept": "1200x630 foil field with compass/wave/card-silhouette motif, Voyage Log wordmark, category pill, article title, foil baseline.", "dimensions": "1200x630", "mobile_behavior": "n/a (static share asset)", "required_text": "'คู่มือมือใหม่' + article title + Voyage Log", "reusable_design_system_component": "og-crest" },
+    { "for_visual_id": "v5", "purpose": "Glanceable 5-card-type reference.", "visual_concept": "Five original card-back silhouettes labelled Leader/Character/Event/Stage/DON!! with one-line roles.", "dimensions": "fluid; multi-column at >=720px", "mobile_behavior": "stacks to one column", "required_text": "5 card-type names + short roles from the article", "reusable_design_system_component": "spec-comparison" },
+    { "for_visual_id": "v6", "purpose": "Legible deck composition.", "visual_concept": "Stacked proportion diagram: Leader 1, Main 50, DON!! 10.", "dimensions": "fluid", "mobile_behavior": "stacks vertically", "required_text": "1 / 50 / 10 + labels", "reusable_design_system_component": "spec-comparison" },
+    { "for_visual_id": "v7", "purpose": "Felt turn rhythm.", "visual_concept": "Five-node horizontal flow: Refresh -> Draw -> DON!! -> Main -> End.", "dimensions": "fluid", "mobile_behavior": "nodes stack vertically", "required_text": "5 phase names from the article", "reusable_design_system_component": "release-timeline" }
+  ],
+
+  "placement_plan": [
+    { "visual_id": "v1", "anchor": "H1 hero band", "position": "the article header", "fallback_if_unapproved": "Existing Wave A hero (foil rule + plain diamond watermark) remains." },
+    { "visual_id": "v2", "anchor": "intro blockquote", "position": "in place", "fallback_if_unapproved": "Existing Wave A blockquote styling remains." },
+    { "visual_id": "v3", "anchor": "related module", "position": "left of the related card text", "fallback_if_unapproved": "Existing Wave A related card remains." },
+    { "visual_id": "v4", "anchor": "share metadata", "position": "og:image / twitter:image (wired later by Page Builder)", "fallback_if_unapproved": "Production stays blocked until an approved OG raster exists." },
+    { "visual_id": "v5", "anchor": "การ์ด 5 ประเภท", "position": "above the five H3s", "fallback_if_unapproved": "Existing prose unchanged; asset staged, injected:false." },
+    { "visual_id": "v6", "anchor": "เด็คหนึ่งชุดประกอบด้วยอะไร", "position": "beside the composition table", "fallback_if_unapproved": "Existing table unchanged; asset staged, injected:false." },
+    { "visual_id": "v7", "anchor": "หนึ่งเทิร์นเกิดอะไรขึ้น - 5 เฟส", "position": "above the phase table", "fallback_if_unapproved": "Existing table unchanged; asset staged, injected:false." },
+    { "visual_id": "v8", "anchor": "แล้วราคาเท่าไหร่ price sub-section", "position": "n/a", "fallback_if_unapproved": "n/a - deliberate no-visual decision." }
+  ],
+
+  "mobile_considerations": "Mobile-first for Voyage Log's primary audience. Every original degrades to a single readable column near 390px; the hero watermark hides below 640px (matching the Wave A grid); callout stays full-width; the related crest tile scales while the card stays >=44px tappable. Deferred infographics (v5/v6/v7) must be designed portrait-first even though not injected this phase.",
+
+  "accessibility_requirements": {
+    "alt_text_owner": "voyage-seo-accessibility",
+    "informative_need_alt": ["v5", "v6", "v7"],
+    "decorative_empty_alt": ["v1", "v2", "v3"],
+    "not_color_alone": true
+  },
+
+  "performance_budget": {
+    "owner": "voyage-performance-check",
+    "prefer": "inline SVG / CSS data-URIs; no new network requests; no new webfont",
+    "lazy_load_below_fold": true,
+    "notes": "Phase-1 visuals are pure CSS + inline SVG (zero extra requests). The OG is produced as source SVG only this phase; PNG rasterisation is deferred and would be build-time only."
+  },
+
+  "copyright_trust_risks": [
+    { "risk": "Accidental use of franchise/official art.", "mitigation": "All visuals are original geometry/typography; no official image, card face, or character art; no record.json image asset consumed." },
+    { "risk": "A price visual would imply false certainty.", "mitigation": "Deliberate no-visual decision (v8)." },
+    { "risk": "OG shipped without a real raster.", "mitigation": "OG delivered as source SVG only; og_image stays unset; production stays blocked until an approved PNG exists." }
+  ],
+
+  "approval_checklist": [
+    { "item": "Approve Phase-1 originals (v1 hero, v2 callout, v3 related) for article.css implementation.", "owner": "Product Owner", "state": "pending" },
+    { "item": "Approve OG source SVG (v4); PNG deferred pending rasteriser + Thai-font dependency approval.", "owner": "Product Owner", "state": "pending" },
+    { "item": "Approve Phase-2 infographics (v5/v6/v7) as deferred assets (not injected).", "owner": "Product Owner", "state": "pending" },
+    { "item": "Confirm component names with voyage-design-system (cover-crest, callout--note, spec-comparison, release-timeline, og-crest).", "owner": "voyage-design-system", "state": "pending" }
+  ]
+}

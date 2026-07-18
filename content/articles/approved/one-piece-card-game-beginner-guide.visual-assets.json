@@ -1,0 +1,292 @@
+{
+ "manifest_version": "v1",
+ "slug": "one-piece-card-game-beginner-guide",
+ "generated_by": "voyage-article-visual-designer",
+ "brief": "content/articles/approved/one-piece-card-game-beginner-guide.visual-brief.json",
+ "records_consumed": [],
+ "note": "Phase-1 pilot. Phase-1 visuals attach to existing DOM via global CSS components in article.css; no body graphic is injected. Facts used are the article's own editorial identity (title/category) from the meta sidecar, not official product records — so no record.json was read.",
+ "phase1_implemented": [
+  {
+   "v_id": "v1",
+   "component": "cover-crest",
+   "medium": "illustration",
+   "type": "hero-cover",
+   "attaches_to": ".art-hdr::after (global)",
+   "assets": [
+    "onepiece-catalog/assets/articles/graphics/_shared/hero-compass.svg (source; inlined as CSS data-URI)"
+   ],
+   "alt": "decorative — empty alt (CSS background, no DOM image)",
+   "injected": false,
+   "in_body": false,
+   "status": "implemented"
+  },
+  {
+   "v_id": "v2",
+   "component": "callout--note",
+   "medium": "callout",
+   "type": "decorative",
+   "attaches_to": ".prose blockquote (global)",
+   "assets": [
+    "CSS only — foil edge bar + waypoint marker (CSS shapes)"
+   ],
+   "alt": "decorative — no image",
+   "injected": false,
+   "in_body": false,
+   "status": "implemented",
+   "tone_note": "Editorial note tone (candid heads-up), not a red danger warning; a per-element warning variant would need a class hook (future build feature)."
+  },
+  {
+   "v_id": "v3",
+   "component": "cover-crest",
+   "medium": "illustration",
+   "type": "decorative",
+   "attaches_to": ".related a::after (global)",
+   "assets": [
+    "onepiece-catalog/assets/articles/graphics/_shared/crest.svg (source; inlined as CSS data-URI)"
+   ],
+   "alt": "decorative — empty alt (CSS background, no DOM image)",
+   "injected": false,
+   "in_body": false,
+   "status": "implemented"
+  },
+  {
+   "v_id": "v4",
+   "component": "og-crest",
+   "medium": "illustration",
+   "type": "og-image",
+   "attaches_to": "og:image / twitter:image (wired later by Page Builder)",
+   "assets": [
+    "onepiece-catalog/assets/articles/graphics/one-piece-card-game-beginner-guide/og.svg (SOURCE SVG ONLY)"
+   ],
+   "png_output": null,
+   "status": "source-svg-only",
+   "deferred": "PNG rasterisation deferred (PO decision B) pending an approved SVG-to-PNG rasteriser + Thai-capable font. og_image remains unset; Designer does not set it — Page Builder wires it after an approved PNG exists."
+  }
+ ],
+ "phase2_deferred_not_injected": [
+  {
+   "v_id": "v5",
+   "component": "spec-comparison",
+   "medium": "infographic",
+   "anchor": {
+    "section": "การ์ด 5 ประเภท"
+   },
+   "asset": null,
+   "injected": false,
+   "status": "superseded-by-in-body-figure",
+   "superseded_note": "Produced as an original SVG and injected via in_body_figures."
+  },
+  {
+   "v_id": "v6",
+   "component": "spec-comparison",
+   "medium": "infographic",
+   "anchor": {
+    "section": "เด็คหนึ่งชุดประกอบด้วยอะไร"
+   },
+   "asset": null,
+   "injected": false,
+   "status": "superseded-by-wave-b-css",
+   "superseded_note": "Realised as a CSS attachment in wave_b_css_attachments; no standalone SVG asset was produced."
+  },
+  {
+   "v_id": "v7",
+   "component": "release-timeline",
+   "medium": "timeline",
+   "anchor": {
+    "section": "หนึ่งเทิร์นเกิดอะไรขึ้น — 5 เฟส"
+   },
+   "asset": null,
+   "injected": false,
+   "status": "superseded-by-wave-b-css",
+   "superseded_note": "Realised as a CSS attachment in wave_b_css_attachments; no standalone SVG asset was produced."
+  }
+ ],
+ "no_visual_decisions": [
+  {
+   "v_id": "v8",
+   "section": "แล้วราคาเท่าไหร่ price sub-section",
+   "decision": "deliberate no-visual (candor over imagery)"
+  }
+ ],
+ "wave_b_css_attachments": {
+  "note": "Wave-B CSS attachments. The brief's Phase-2 concepts (v5/v6/v7) are realised as CSS treatments of DOM the generator already emits, NOT as injected standalone assets. Hooks are the build's stable table-wrapper aria-labels and the article's own heading structure. No element is injected into the article body; no `display` property is changed on any table element, so table semantics are preserved. DEVIATION from voyage-article-visual-designer SKILL.md §5, which specifies Phase 2 as standalone SVG assets — approved by the Product Owner on 2026-07-18 in favour of visible results without a build change. See .agents/TECH-DEBT.md TD-07.",
+  "stylesheet": "onepiece-catalog/assets/articles/article.css",
+  "attachments": [
+   {
+    "v_id": "v6",
+    "component": "spec-comparison",
+    "medium": "infographic",
+    "attaches_to": ".table-scroll[aria-label*=\"เด็คหนึ่งชุด\"] (deck composition table)",
+    "treatment": "foil gradient numerals (1 / 50 / 10) with AA-safe solid fallback; stripes removed; min-width dropped so the panel no longer scrolls on mobile",
+    "facts_from": "the article's own approved rules table — no record.json consulted",
+    "injected": false,
+    "in_body": false,
+    "status": "implemented"
+   },
+   {
+    "v_id": "v7",
+    "component": "release-timeline",
+    "medium": "timeline",
+    "attaches_to": ".table-scroll[aria-label*=\"5 เฟส\"] (turn phase table)",
+    "treatment": "numbered foil tokens with a continuous inset rail; reflows portrait-first at =640px instead of scrolling sideways",
+    "facts_from": "the article's own approved 5-phase table",
+    "injected": false,
+    "in_body": false,
+    "status": "implemented"
+   },
+   {
+    "v_id": "v5",
+    "component": "card-type-reference",
+    "medium": "icon",
+    "attaches_to": ".prose h3 (the five card-type headings)",
+    "treatment": "foil index marker on every H3; decorative, empty alt (CSS shape, no DOM image)",
+    "facts_from": "none — decorative only",
+    "injected": false,
+    "in_body": false,
+    "status": "implemented-partial",
+    "note": "Delivers the card-type *reference* rhythm, not the unified comparison graphic the brief describes. The full v5 infographic remains unbuilt."
+   },
+   {
+    "v_id": "v9",
+    "component": "key-takeaways",
+    "medium": "callout",
+    "attaches_to": ".prose h2:first-of-type + p + ul (the 30-second summary)",
+    "treatment": "premium panel: foil top edge, surface card, foil waypoint list markers",
+    "facts_from": "none — presentation only; no editorial content altered",
+    "injected": false,
+    "in_body": false,
+    "status": "implemented",
+    "note": "Not in the original brief. Structural hook: the first H2 in the prose is the summary section."
+   }
+  ],
+  "verification": {
+   "method": "headless Chrome render of the --draft-preview output, plus a component harness at a true 390px viewport via iframe",
+   "viewports": [
+    "390 (iframe-emulated)",
+    "1280"
+   ],
+   "page_horizontal_overflow": "none — documentElement.scrollWidth 375 at a 390px viewport",
+   "table_scroll_state_390": {
+    "deck_composition": "no scroll",
+    "turn_timeline": "no scroll",
+    "sources": "scrolls inside its own region (by design)"
+   },
+   "not_verified": [
+    "real device",
+    "screen reader",
+    "Safari/Firefox",
+    "measured performance",
+    "AA contrast instrumented check"
+   ]
+  }
+ },
+ "in_body_figures": [
+  {
+   "v_id": "v5",
+   "variant": "card-rail",
+   "component": "card-rail",
+   "medium": "infographic",
+   "type": "explanatory-infographic",
+   "source_class": "voyage-original",
+   "anchor": {
+    "heading_prefix": "การ์ด 5 ประเภท"
+   },
+   "position": "after-heading",
+   "aria_label": "การ์ด 5 ประเภทใน One Piece Card Game",
+   "caption": "การ์ด 5 ประเภทที่คุณจะเจอ — ภาพประกอบต้นฉบับของ Voyage Log ไม่ใช่ภาพการ์ดจริง",
+   "items": [
+    {
+     "card_type": "Leader",
+     "label": "ลีดเดอร์",
+     "fact": "1 ใบต่อเด็ค · มีไลฟ์ของตัวเอง · โจมตีได้",
+     "icon": "onepiece-catalog/assets/articles/graphics/_shared/card-types/leader.svg"
+    },
+    {
+     "card_type": "Character",
+     "label": "คาแรกเตอร์",
+     "fact": "ลงสนามได้สูงสุด 5 ใบพร้อมกัน · โจมตีได้",
+     "icon": "onepiece-catalog/assets/articles/graphics/_shared/card-types/character.svg"
+    },
+    {
+     "card_type": "Event",
+     "label": "อีเวนต์",
+     "fact": "ใช้จากมือ เกิดผล 1 ครั้ง แล้วจบไป",
+     "icon": "onepiece-catalog/assets/articles/graphics/_shared/card-types/event.svg"
+    },
+    {
+     "card_type": "Stage",
+     "label": "สเตจ",
+     "fact": "อยู่บนสนามได้ทีละ 1 ใบเท่านั้น",
+     "icon": "onepiece-catalog/assets/articles/graphics/_shared/card-types/stage.svg"
+    },
+    {
+     "card_type": "DON!!",
+     "label": "ด้ง!!",
+     "fact": "ทรัพยากรของเกม · +2 ใบต่อเทิร์น · สูงสุด 10 ใบ",
+     "icon": "onepiece-catalog/assets/articles/graphics/_shared/card-types/don.svg"
+    }
+   ],
+   "facts_from": "the approved article's own card-type sections; no record.json and no card database consulted",
+   "franchise_art": false,
+   "card_scans_used": false,
+   "design_note": "Option A (PO decision, 2026-07-19): Voyage Log original card faces presented in the SPA's card-tile language. Real card scans were rejected — optcgapi.com images carry a SAMPLE watermark, are third-party hotlinks, and no DON!! card record exists.",
+   "injected": true,
+   "status": "implemented"
+  },
+  {
+   "v_id": "v10",
+   "variant": "image",
+   "component": "win-conditions",
+   "medium": "infographic",
+   "type": "explanatory-infographic",
+   "source_class": "voyage-original",
+   "asset": "onepiece-catalog/assets/articles/graphics/one-piece-card-game-beginner-guide/win-conditions.svg",
+   "anchor": {"heading_prefix": "ชนะยังไง"},
+   "position": "after-heading",
+   "alt": "สองทางที่ทำให้ชนะ: หนึ่ง ทำให้ไลฟ์ของคู่แข่งเหลือ 0 แล้วชนะแบทเทิลกับลีดเดอร์ ซึ่งเป็นทางชนะปกติ; สอง เด็คของคู่แข่งเหลือ 0 ใบ จนจั่วไม่ได้ ซึ่งเกิดขึ้นไม่บ่อยแต่มีอยู่จริง",
+   "caption": "สองทางที่ทำให้ชนะ — ภาพประกอบต้นฉบับของ Voyage Log",
+   "facts_from": "the approved article's own 'ชนะยังไง' section; both routes are quoted, nothing inferred",
+   "franchise_art": false,
+   "card_scans_used": false,
+   "injected": true,
+   "status": "implemented"
+  },
+  {
+   "v_id": "v11",
+   "variant": "image",
+   "component": "edition-comparison",
+   "medium": "comparison",
+   "type": "explanatory-infographic",
+   "source_class": "voyage-original",
+   "asset": "onepiece-catalog/assets/articles/graphics/one-piece-card-game-beginner-guide/editions.svg",
+   "anchor": {"heading_prefix": "เรื่องฉบับ"},
+   "position": "after-heading",
+   "alt": "เปรียบเทียบสองฉบับ: ฉบับ English (Asia) คือฉบับที่ขายในไทยอย่างเป็นทางการ ชุด ST-31 ถึง ST-36 วางขายแล้ว 11 กรกฎาคม 2026 ส่วนข่าววันที่ 31 กรกฎาคมคือโซนอเมริกาและยุโรป ไม่ใช่ไทย; ฉบับญี่ปุ่นเป็นคนละสินค้ากัน ซื้อผ่านร้านนำเข้า วางขาย 11 กรกฎาคม 2026 ราคา 550 เยนรวมภาษี; ราคาและข้อมูลของสองฉบับใช้แทนกันไม่ได้ เวลาซื้อให้ดูที่กล่องเสมอ",
+   "caption": "สองฉบับที่ต้องแยกให้ออกก่อนจ่ายเงิน — ภาพประกอบต้นฉบับของ Voyage Log",
+   "facts_from": "the approved article's own 'เรื่องฉบับ (Edition)' section; every date and price is quoted, nothing inferred",
+   "franchise_art": false,
+   "card_scans_used": false,
+   "injected": true,
+   "status": "implemented"
+  },
+  {
+   "v_id": "v12",
+   "variant": "image",
+   "component": "starter-deck-explainer",
+   "medium": "infographic",
+   "type": "explanatory-infographic",
+   "source_class": "voyage-original",
+   "asset": "onepiece-catalog/assets/articles/graphics/one-piece-card-game-beginner-guide/starter-deck.svg",
+   "anchor": {"heading_prefix": "อยากเริ่มเล่น"},
+   "position": "after-heading",
+   "alt": "สตาร์ทเตอร์เด็ค 1 กล่อง คือสิ่งเดียวที่มือใหม่ต้องซื้อ: ในกล่องมีครบทั้งการ์ดลีดเดอร์ เด็คหลัก และการ์ดด้ง!! แกะกล่องแล้วเล่นได้เลย ไม่ต้องซื้อการ์ดแยกทีละใบ ไม่ต้องนั่งประกอบเด็คเอง และไม่ต้องรู้กฎการจัดเด็ค สิ่งเดียวที่ต้องมีเพิ่มคือคนเล่นด้วยอีก 1 คน ที่มีเด็คของตัวเอง",
+   "caption": "สตาร์ทเตอร์เด็ค 1 กล่อง = เริ่มเล่นได้เลย — ภาพประกอบต้นฉบับของ Voyage Log",
+   "facts_from": "the approved article's own 'อยากเริ่มเล่น ต้องซื้ออะไรบ้าง' section; deck counts are deliberately omitted here because the 'เด็คหนึ่งชุดประกอบด้วยอะไร' table already carries them",
+   "franchise_art": false,
+   "card_scans_used": false,
+   "official_artwork_used": false,
+   "injected": true,
+   "status": "implemented"
+  }
+ ]
+}

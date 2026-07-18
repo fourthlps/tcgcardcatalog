@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>บทความ — {site_name}</title>
+  <meta name="description" content="บทความและคู่มือจาก {site_name} — คู่มือมือใหม่ คู่มือเลือกซื้อ และข้อมูลการ์ดสะสมสำหรับนักสะสมชาวไทย">
+  <link rel="canonical" href="{canonical}">
+  {robots}
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{site_name}">
+  <meta property="og:locale" content="th_TH">
+  <meta property="og:title" content="บทความ — {site_name}">
+  <meta property="og:description" content="บทความและคู่มือจาก {site_name} สำหรับนักสะสมการ์ดชาวไทย">
+  <meta property="og:url" content="{canonical}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="{css}">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <header class="site-hdr">
+    <div class="wrap hdr-in">
+      <a class="brand" href="{spa_home}">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span class="brand-name">{site_name}</span>
+      </a>
+
+      <nav class="nav" aria-label="เมนูหลัก">
+        <a href="{spa_home}">หน้าแรก</a>
+      </nav>
+    </div>
+  </header>
+
+  {preview_banner}
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="เส้นทางนำทาง">
+      <ol>
+        <li><a href="{spa_home}">หน้าแรก</a></li>
+        <li aria-current="page">บทความ</li>
+      </ol>
+    </nav>
+
+    <main id="main">
+      <header class="index-hdr">
+        <h1>บทความ</h1>
+        <p class="index-sub">คู่มือและบทความจาก {site_name} — เขียนจากแหล่งข้อมูลที่ตรวจสอบแล้ว</p>
+      </header>
+
+      <ul class="art-list">
+{cards}
+      </ul>
+    </main>
+  </div>
+
+  <footer class="site-ftr">
+    <div class="wrap">
+      <p class="ftr-brand">{site_name}</p>
+      <p class="ftr-note">ฐานข้อมูลการ์ดสะสมสำหรับนักสะสมชาวไทย</p>
+
+      <nav class="ftr-nav" aria-label="เมนูส่วนท้าย">
+        <a href="{spa_home}">หน้าแรก</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

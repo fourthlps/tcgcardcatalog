@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 776" width="640" height="776" role="img" aria-labelledby="ct-title">
+  <title id="ct-title">การ์ด 5 ประเภทใน One Piece Card Game</title>
+  <!-- Voyage Log ORIGINAL graphic. Geometry and typography only.
+       No franchise, official, or character artwork.
+       Every fact is taken from the approved article's own verified prose
+       (card-type sections). Nothing is inferred or back-filled. -->
+  <defs>
+    <linearGradient id="ct-foil" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .row   { fill: #ffffff; stroke: #e6eaf3; stroke-width: 1.5; }
+    .name  { font-family: 'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+             font-size: 22px; font-weight: 700; fill: #101728; }
+    .en    { font-family: 'Segoe UI',system-ui,sans-serif;
+             font-size: 15px; font-weight: 600; fill: #3b6fe0; }
+    .fact  { font-family: 'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+             font-size: 16px; fill: #5b6478; }
+    .ico   { fill: none; stroke: url(#ct-foil); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .icof  { fill: url(#ct-foil); }
+  </style>
+
+  <!-- 1 · Leader -->
+  <g transform="translate(0,8)">
+    <rect class="row" x="1" y="1" width="638" height="138" rx="16"/>
+    <g transform="translate(30,31)">
+      <rect class="ico" x="8" y="0" width="54" height="76" rx="7"/>
+      <path class="icof" d="M35 14 L41 34 L35 54 L29 34 Z"/>
+      <circle class="icof" cx="24" cy="64" r="3.5"/>
+      <circle class="icof" cx="35" cy="64" r="3.5"/>
+      <circle class="icof" cx="46" cy="64" r="3.5"/>
+    </g>
+    <text class="name" x="120" y="56">การ์ดลีดเดอร์</text>
+    <text class="en"   x="120" y="80">LEADER</text>
+    <text class="fact" x="120" y="110">1 ใบต่อเด็ค · มีไลฟ์ของตัวเอง · โจมตีได้</text>
+  </g>
+
+  <!-- 2 · Character -->
+  <g transform="translate(0,160)">
+    <rect class="row" x="1" y="1" width="638" height="138" rx="16"/>
+    <g transform="translate(30,31)">
+      <rect class="ico" x="0" y="6" width="46" height="66" rx="6" opacity=".55"/>
+      <rect class="ico" x="20" y="0" width="50" height="76" rx="7"/>
+      <circle class="icof" cx="45" cy="30" r="8"/>
+      <path class="icof" d="M31 60 q14 -18 28 0 z"/>
+    </g>
+    <text class="name" x="120" y="56">การ์ดคาแรกเตอร์</text>
+    <text class="en"   x="120" y="80">CHARACTER</text>
+    <text class="fact" x="120" y="110">ลงสนามได้สูงสุด 5 ใบพร้อมกัน · โจมตีได้</text>
+  </g>
+
+  <!-- 3 · Event -->
+  <g transform="translate(0,312)">
+    <rect class="row" x="1" y="1" width="638" height="138" rx="16"/>
+    <g transform="translate(30,31)">
+      <rect class="ico" x="8" y="0" width="54" height="76" rx="7"/>
+      <path class="icof" d="M38 16 L27 42 L34 42 L30 62 L45 36 L38 36 Z"/>
+    </g>
+    <text class="name" x="120" y="56">การ์ดอีเวนต์</text>
+    <text class="en"   x="120" y="80">EVENT</text>
+    <text class="fact" x="120" y="110">ใช้จากมือ เกิดผล 1 ครั้ง แล้วจบไป</text>
+  </g>
+
+  <!-- 4 · Stage -->
+  <g transform="translate(0,464)">
+    <rect class="row" x="1" y="1" width="638" height="138" rx="16"/>
+    <g transform="translate(30,31)">
+      <rect class="ico" x="2" y="14" width="66" height="48" rx="7"/>
+      <path class="ico" d="M14 62 L14 70 M56 62 L56 70 M6 70 L64 70"/>
+      <path class="icof" d="M24 30 h22 v10 h-22 z"/>
+    </g>
+    <text class="name" x="120" y="56">การ์ดสเตจ</text>
+    <text class="en"   x="120" y="80">STAGE</text>
+    <text class="fact" x="120" y="110">อยู่บนสนามได้ทีละ 1 ใบเท่านั้น</text>
+  </g>
+
+  <!-- 5 · DON!! -->
+  <g transform="translate(0,616)">
+    <rect class="row" x="1" y="1" width="638" height="138" rx="16"/>
+    <g transform="translate(30,31)">
+      <rect class="ico" x="8" y="0" width="54" height="76" rx="7"/>
+      <path class="ico" d="M22 30 L35 18 L48 30"/>
+      <path class="ico" d="M22 52 L35 40 L48 52"/>
+      <circle class="icof" cx="35" cy="64" r="3.5"/>
+    </g>
+    <text class="name" x="120" y="56">การ์ดด้ง!!</text>
+    <text class="en"   x="120" y="80">DON!!</text>
+    <text class="fact" x="120" y="110">ทรัพยากรของเกม · +2 ใบต่อเทิร์น · สูงสุด 10 ใบ</text>
+  </g>
+</svg>

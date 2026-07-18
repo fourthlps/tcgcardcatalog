@@ -1,0 +1,79 @@
+{
+  "slug": "one-piece-card-game-beginner-guide",
+  "status": "approved",
+  "approved_by": "Product Owner",
+  "approved_on": "2026-07-14",
+  "source_project": "VoyageSEO",
+  "source_file": "data/05_ready_for_review/2026-07-13-one-piece-card-game-beginner-guide.md",
+  "source_sha256": "a85245eccfac5983e11f4d05b384dac119c6765806cc45fcedf7c627acf25c79",
+  "title": "One Piece Card Game คืออะไร เล่นยังไง (ฉบับมือใหม่ที่ไม่เคยเล่นมาก่อนเลย)",
+  "seo_title": "One Piece Card Game คืออะไร เล่นยังไง — คู่มือเริ่มต้นสำหรับมือใหม่ที่ไม่เคยเล่นมาก่อน",
+  "description": "อธิบาย One Piece Card Game ตั้งแต่ศูนย์ — เกมนี้คืออะไร เล่นยังไง ชนะยังไง และถ้าอยากเริ่มต้องซื้ออะไร อ้างอิงจากเว็บไซต์ทางการภาษาไทยของ Bandai ทั้งหมด",
+  "lang": "th",
+  "game": "one-piece",
+  "content_type": "guide",
+  "category_label": "คู่มือมือใหม่",
+  "author": "Voyage Log Editorial Team",
+  "date_published": null,
+  "date_modified": null,
+  "date_published": "2026-07-19",
+  "og_image": "one-piece-card-game-beginner-guide.png",
+  "hero_image": "01-hero.webp",
+  "hero_alt": "ผู้เล่นสองคนกำลังเล่นการ์ดกันบนลังไม้บนดาดฟ้าเรือใบตอนพระอาทิตย์ตก มีการ์ดวางกระจายอยู่บนลัง และเห็นเกาะอยู่ไกล ๆ",
+  "toc": true,
+  "related": [],
+  "body_links": [
+    {
+      "match": "Luffy",
+      "href": "../../#/character/one-piece/Monkey%20D.%20Luffy",
+      "kind": "character",
+      "scope": "further-reading",
+      "expect": 1
+    },
+    {
+      "match": "Zoro",
+      "href": "../../#/character/one-piece/Roronoa%20Zoro",
+      "kind": "character",
+      "scope": "further-reading",
+      "expect": 1
+    },
+    {
+      "match": "Kuzan",
+      "href": "../../#/character/one-piece/Kuzan",
+      "kind": "character",
+      "scope": "further-reading",
+      "expect": 1
+    },
+    {
+      "match": "Katakuri",
+      "href": "../../#/character/one-piece/Charlotte%20Katakuri",
+      "kind": "character",
+      "scope": "further-reading",
+      "expect": 1
+    },
+    {
+      "match": "Sabo",
+      "href": "../../#/character/one-piece/Sabo",
+      "kind": "character",
+      "scope": "further-reading",
+      "expect": 1
+    },
+    {
+      "match": "Kid",
+      "href": "../../#/character/one-piece/Eustass%20Kid",
+      "kind": "character",
+      "scope": "further-reading",
+      "expect": 1
+    }
+  ],
+  "plain_text_references": [
+    "หน้าชุดการ์ด ST-31 ถึง ST-36 (ยังไม่มีชุดนี้ในฐานข้อมูล — ไม่มีเส้นทางที่ยืนยันได้)",
+    "หน้าเช็กราคา (ยังไม่มีเส้นทางเฉพาะสำหรับหน้าเช็กราคา)"
+  ],
+  "anchor_fixes": [
+    {
+      "from_href": "#",
+      "to_heading_prefix": "กติกาการต่อสู้แบบละเอียด"
+    }
+  ]
+}

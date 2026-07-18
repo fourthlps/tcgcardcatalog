@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 372" width="400" height="372" role="img" aria-labelledby="ed-t">
+  <title id="ed-t">ฉบับ English (Asia) กับฉบับญี่ปุ่น ต่างกันอย่างไร</title>
+  <!-- Voyage Log ORIGINAL diagram. Every date, price and edition claim below
+       is quoted from the approved article; nothing is inferred. -->
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .p    { fill:#ffffff; stroke:#e6eaf3; stroke-width:1.5; }
+    .main { font-family:'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+            font-size:19px; font-weight:700; fill:#101728; }
+    .sub  { font-family:'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+            font-size:14.5px; fill:#5b6478; }
+    .acc  { font-family:'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+            font-size:14.5px; font-weight:700; fill:#2f61c9; }
+    .badge{ font-family:'Segoe UI',system-ui,sans-serif; font-size:17px; font-weight:800; fill:#2563eb; }
+  </style>
+
+  <rect class="p" x="1" y="1" width="398" height="148" rx="15"/>
+  <rect x="1" y="1" width="5" height="148" fill="url(#f)"/>
+  <rect x="30" y="24" width="58" height="27" rx="13" fill="#2563eb" fill-opacity=".10" stroke="#3b6fe0" stroke-opacity=".3"/>
+  <text class="badge" x="59" y="43" text-anchor="middle">EN</text>
+  <text class="main" x="102" y="43">English (Asia)</text>
+  <text class="sub"  x="30" y="80">ฉบับที่ขายในไทยอย่างเป็นทางการ</text>
+  <text class="acc"  x="30" y="105">ST-31 – ST-36 · วางขายแล้ว 11 ก.ค. 2026</text>
+  <text class="sub"  x="30" y="130">ข่าว &#8220;31 ก.ค.&#8221; คือโซนอเมริกา/ยุโรป ไม่ใช่ไทย</text>
+  <rect class="p" x="1" y="163" width="398" height="118" rx="15"/>
+  <rect x="1" y="163" width="5" height="118" fill="url(#f)"/>
+  <rect x="30" y="186" width="58" height="27" rx="13" fill="#8b5cf6" fill-opacity=".12" stroke="#8b5cf6" stroke-opacity=".3"/>
+  <text class="badge" x="59" y="205" text-anchor="middle" fill="#7c4ddb">JP</text>
+  <text class="main" x="102" y="205">ฉบับญี่ปุ่น</text>
+  <text class="sub"  x="30" y="242">คนละสินค้ากัน · ซื้อผ่านร้านนำเข้า</text>
+  <text class="acc"  x="30" y="266" fill="#6d43c8">11 ก.ค. 2026 · 550 เยน (รวมภาษี)</text>
+  <rect x="1" y="295" width="398" height="76" rx="15" fill="#f5f1fc" stroke="#e0d7f5" stroke-width="1.5"/>
+  <path d="M40 318 L52 340 L28 340 Z" fill="none" stroke="url(#f)" stroke-width="2.6" stroke-linejoin="round"/>
+  <text class="main" x="70" y="327" font-size="16">ราคาและข้อมูลใช้แทนกันไม่ได้</text>
+  <text class="sub"  x="70" y="350">เวลาซื้อ ให้ดูที่กล่องเสมอว่าเป็นฉบับไหน</text>
+</svg>

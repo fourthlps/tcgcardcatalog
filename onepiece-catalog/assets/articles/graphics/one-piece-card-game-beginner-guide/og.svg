@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Voyage Log OG SOURCE (Phase 1, PO decision B: SVG source only; PNG deferred
+       pending an approved SVG->PNG rasteriser + Thai-capable font).
+       Original geometry + typography only. No franchise / official / character art. -->
+  <defs>
+    <linearGradient id="foil" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6f8fc"/>
+      <stop offset="1" stop-color="#f5f1fc"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#field)"/>
+  <!-- faint navigator grid -->
+  <g stroke="#2563eb" stroke-opacity="0.05">
+    <path d="M0 90 H1200 M0 180 H1200 M0 270 H1200 M0 360 H1200 M0 450 H1200 M0 540 H1200"/>
+    <path d="M120 0 V630 M240 0 V630 M360 0 V630 M480 0 V630 M600 0 V630 M720 0 V630 M840 0 V630 M960 0 V630 M1080 0 V630"/>
+  </g>
+
+  <!-- large faint compass + waves motif, right side -->
+  <g transform="translate(880,150)" opacity="0.10">
+    <circle cx="150" cy="150" r="150" fill="none" stroke="url(#foil)" stroke-width="5"/>
+    <circle cx="150" cy="150" r="108" fill="none" stroke="url(#foil)" stroke-width="4"/>
+    <path d="M150 0 L172 150 L150 300 L128 150 Z" fill="url(#foil)"/>
+    <path d="M0 150 L150 128 L300 150 L150 172 Z" fill="url(#foil)" fill-opacity="0.5"/>
+    <g stroke="url(#foil)" stroke-width="5" stroke-linecap="round" stroke-opacity="0.6">
+      <path d="M-40 360 q40 -34 80 0 t80 0 t80 0 t80 0"/>
+      <path d="M-40 410 q40 -34 80 0 t80 0 t80 0 t80 0"/>
+    </g>
+  </g>
+
+  <!-- foil top rule -->
+  <rect x="90" y="86" width="120" height="8" rx="4" fill="url(#foil)"/>
+
+  <!-- brand wordmark -->
+  <g transform="translate(90,150)">
+    <rect x="0" y="-20" width="26" height="26" rx="5" transform="rotate(45 13 -7)" fill="url(#foil)"/>
+    <text x="44" y="4" font-family="'Outfit', system-ui, sans-serif" font-size="34" font-weight="800" fill="#101728">Voyage Log</text>
+  </g>
+
+  <!-- category pill -->
+  <g transform="translate(90,220)">
+    <rect x="0" y="0" width="220" height="52" rx="26" fill="#2563eb" fill-opacity="0.10" stroke="#3b6fe0" stroke-opacity="0.30"/>
+    <circle cx="30" cy="26" r="7" fill="url(#foil)"/>
+    <text x="50" y="34" font-family="'Outfit', system-ui, sans-serif" font-size="24" font-weight="800" fill="#3b6fe0" letter-spacing="1">คู่มือมือใหม่</text>
+  </g>
+
+  <!-- article title (Thai; system font fallback in SVG preview; a Thai-capable
+       font must be embedded when the PNG is rasterised) -->
+  <text x="90" y="360" font-family="'Segoe UI','Noto Sans Thai',system-ui,sans-serif" font-size="60" font-weight="800" fill="#101728">
+    <tspan x="90" dy="0">One Piece Card Game</tspan>
+    <tspan x="90" dy="76">คืออะไร เล่นยังไง</tspan>
+  </text>
+  <text x="90" y="512" font-family="'Segoe UI','Noto Sans Thai',system-ui,sans-serif" font-size="30" font-weight="500" fill="#5b6478">
+    <tspan x="90" dy="0">คู่มือเริ่มต้นสำหรับมือใหม่ที่ไม่เคยเล่นมาก่อน</tspan>
+  </text>
+
+  <!-- foil baseline -->
+  <rect x="90" y="556" width="1020" height="4" rx="2" fill="url(#foil)" fill-opacity="0.5"/>
+</svg>

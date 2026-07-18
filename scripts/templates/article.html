@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{seo_title}</title>
+  <meta name="description" content="{description}">
+  <link rel="canonical" href="{canonical}">
+  {robots}
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="{site_name}">
+  <meta property="og:locale" content="th_TH">
+  <meta property="og:title" content="{og_title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{canonical}">
+  {og_image_tags}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="{css}">
+
+  {json_ld}
+</head>
+
+<body>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <header class="site-hdr">
+    <div class="wrap hdr-in">
+      <a class="brand" href="{spa_home}">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span class="brand-name">{site_name}</span>
+      </a>
+
+      <nav class="nav" aria-label="เมนูหลัก">
+        <a href="{spa_home}">หน้าแรก</a>
+        <a href="{article_index}">บทความ</a>
+      </nav>
+    </div>
+  </header>
+
+  {preview_banner}
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="เส้นทางนำทาง">
+      <ol>
+        <li><a href="{spa_home}">หน้าแรก</a></li>
+        <li><a href="{article_index}">บทความ</a></li>
+        <li aria-current="page">{h1}</li>
+      </ol>
+    </nav>
+
+    <main id="main">
+      <article class="article">
+        <header class="art-hdr{hero_class}">
+{hero}
+          <p class="kicker">{category_label}</p>
+          <h1>{h1}</h1>
+
+          <p class="byline">
+            <span class="author">{author}</span>
+            <span class="dot" aria-hidden="true">·</span>
+            <span class="pubdate">{date_line}</span>
+          </p>
+        </header>
+
+        <aside class="toc toc-desktop" aria-label="สารบัญบทความ">
+          <p class="toc-ttl">สารบัญ</p>
+          <nav aria-label="สารบัญบทความ (เดสก์ท็อป)">
+            <ol>
+{toc_items}
+            </ol>
+          </nav>
+        </aside>
+
+        <details class="toc toc-mobile">
+          <summary>สารบัญ</summary>
+          <nav aria-label="สารบัญบทความ (มือถือ)">
+            <ol>
+{toc_items}
+            </ol>
+          </nav>
+        </details>
+
+        <div class="prose">
+{body}
+        </div>
+      </article>
+
+{related}
+    </main>
+  </div>
+
+  <footer class="site-ftr">
+    <div class="wrap">
+      <p class="ftr-brand">{site_name}</p>
+      <p class="ftr-note">ฐานข้อมูลการ์ดสะสมสำหรับนักสะสมชาวไทย</p>
+
+      <nav class="ftr-nav" aria-label="เมนูส่วนท้าย">
+        <a href="{spa_home}">หน้าแรก</a>
+        <a href="{article_index}">บทความ</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220' fill='none'>
+  <defs>
+    <linearGradient id='f' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='#2563eb'/>
+      <stop offset='1' stop-color='#8b5cf6'/>
+    </linearGradient>
+  </defs>
+  <!-- fanned blank card silhouettes (backs only, no faces) -->
+  <g stroke='url(#f)' stroke-width='2' stroke-opacity='.55'>
+    <rect x='38' y='120' width='52' height='72' rx='7' transform='rotate(-14 64 156)'/>
+    <rect x='70' y='120' width='52' height='72' rx='7' transform='rotate(-2 96 156)'/>
+  </g>
+  <!-- compass rose -->
+  <g stroke='url(#f)' stroke-width='2.4'>
+    <circle cx='132' cy='72' r='52'/>
+    <circle cx='132' cy='72' r='38' stroke-opacity='.5'/>
+  </g>
+  <path d='M132 18 L142 72 L132 126 L122 72 Z' fill='url(#f)' fill-opacity='.85'/>
+  <path d='M78 72 L132 62 L186 72 L132 82 Z' fill='url(#f)' fill-opacity='.45'/>
+  <g stroke='url(#f)' stroke-width='2' stroke-linecap='round'>
+    <path d='M132 12 L132 22'/><path d='M132 122 L132 132'/>
+    <path d='M72 72 L82 72'/><path d='M182 72 L192 72'/>
+  </g>
+  <!-- current / wave lines -->
+  <g stroke='url(#f)' stroke-width='2.2' stroke-linecap='round' stroke-opacity='.6'>
+    <path d='M20 150 q14 -12 28 0 t28 0 t28 0'/>
+    <path d='M20 168 q14 -12 28 0 t28 0 t28 0'/>
+  </g>
+</svg>

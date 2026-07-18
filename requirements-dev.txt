@@ -1,0 +1,5 @@
+# Build-time-only dependencies for the Voyage Log article generator.
+# NOT production dependencies: scripts/build_articles.py runs locally or in CI
+# and emits static HTML. Nothing served from onepiece-catalog/ imports them.
+markdown-it-py==4.2.0
+mdurl==0.1.2          # transitive; markdown-it-py declares mdurl~=0.1

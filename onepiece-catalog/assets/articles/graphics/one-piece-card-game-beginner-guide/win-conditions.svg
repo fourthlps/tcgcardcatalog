@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" role="img" aria-labelledby="wc-t">
+  <title id="wc-t">สองทางที่ทำให้ชนะ</title>
+  <!-- Voyage Log ORIGINAL diagram. Geometry and type only; no franchise art.
+       Both routes are quoted from the approved article section. -->
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .p    { fill:#ffffff; stroke:#e6eaf3; stroke-width:1.5; }
+    .main { font-family:'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+            font-size:19px; font-weight:700; fill:#101728; }
+    .sub  { font-family:'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+            font-size:14.5px; fill:#5b6478; }
+    .acc  { font-family:'Segoe UI','Noto Sans Thai','Leelawadee UI',system-ui,sans-serif;
+            font-size:14.5px; font-weight:700; fill:#2f61c9; }
+    .badge{ font-family:'Segoe UI',system-ui,sans-serif; font-size:17px; font-weight:800; fill:#2563eb; }
+  </style>
+
+  <rect class="p" x="1" y="1" width="398" height="118" rx="15"/>
+  <rect x="1" y="1" width="5" height="118" fill="url(#f)"/>
+  <circle cx="52" cy="60" r="23" fill="#eef2fb" stroke="url(#f)" stroke-opacity=".28" stroke-width="1.5"/>
+  <text class="badge" x="52" y="66" text-anchor="middle">1</text>
+  <text class="main" x="92" y="54">ไลฟ์ของคู่แข่งเหลือ 0</text>
+  <text class="sub"  x="92" y="80">แล้วคุณชนะแบทเทิลกับลีดเดอร์ — ทางชนะปกติ</text>
+  <rect class="p" x="1" y="131" width="398" height="118" rx="15"/>
+  <rect x="1" y="131" width="5" height="118" fill="url(#f)"/>
+  <circle cx="52" cy="190" r="23" fill="#eef2fb" stroke="url(#f)" stroke-opacity=".28" stroke-width="1.5"/>
+  <text class="badge" x="52" y="196" text-anchor="middle">2</text>
+  <text class="main" x="92" y="184">เด็คของคู่แข่งเหลือ 0 ใบ</text>
+  <text class="sub"  x="92" y="210">จั่วไม่ได้ = แพ้ · เกิดไม่บ่อย แต่มีจริง</text>
+</svg>
