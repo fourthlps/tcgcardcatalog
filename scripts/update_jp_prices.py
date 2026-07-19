@@ -33,11 +33,13 @@ unmatched entries keep old values; UTF-8 no BOM.
 Env: JP_DRY_RUN=1 -> fetch+match+report only, do not write card-markets.json.
 """
 
+import hashlib
 import json
 import os
 import random
 import re
 import sys
+import tempfile
 import time
 from datetime import date, datetime, timezone
 
@@ -55,6 +57,19 @@ CARDS_PATH   = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 MAP_PATH     = "onepiece-catalog/data/jp-yuyu-map.json"
 VERIFIED_MAP_PATH = "onepiece-catalog/data/jp-verified-map.json"
 REPORT_PATH  = "onepiece-catalog/data/jp-price-report.json"
+
+# Validation-before-push (founder ruling 2026-07-19): this script never writes
+# tracked files. Everything goes to a work dir OUTSIDE the git tree; the gate
+# (jp_sentinel.py --gate) validates the candidate and promotes it only when
+# every hard check passes.
+WORK_ROOT = (os.environ.get("JP_WORK_DIR") or os.environ.get("RUNNER_TEMP")
+             or tempfile.gettempdir())
+JP_RUN_DIR         = os.path.join(WORK_ROOT, "jp-run")
+CANDIDATE_PATH     = os.path.join(JP_RUN_DIR, "card-markets.candidate.json")
+CANDIDATE_MAP_PATH = os.path.join(JP_RUN_DIR, "jp-yuyu-map.candidate.json")
+WORK_REPORT_PATH   = os.path.join(JP_RUN_DIR, "jp-fetch-report.json")
+RUN_ID = os.environ.get("GITHUB_RUN_ID") or \
+    "local-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
 
 TODAY   = date.today().isoformat()
 DRY_RUN = os.environ.get("JP_DRY_RUN", "").lower() in ("1", "true", "yes")
@@ -551,17 +566,25 @@ def main():
     mp["_meta"].update({"source": ACTIVE.name, "updated": TODAY,
                         "mapped_total": len(set(mp["map"]) | set(verified_map) |
                                             set(mp.get("manual", {})))})
-    atomic_write(MAP_PATH, mp)          # living map + ledger always persisted
-    atomic_write(REPORT_PATH, report)   # per-run report always persisted
+    # All outputs go to the work dir OUTSIDE the git tree. The gate promotes
+    # them into tracked paths only after every hard check passes.
+    os.makedirs(JP_RUN_DIR, exist_ok=True)
+    report["run_id"] = RUN_ID
+    atomic_write(CANDIDATE_MAP_PATH, mp)
+    atomic_write(WORK_REPORT_PATH, report)
 
     if report["aborted"]:
-        print("  ABORT: card-markets.json NOT modified"); sys.exit(1)
+        # Expected business rejection: structured report for the gate, exit 0.
+        # (Unexpected exceptions still propagate non-zero — never swallowed.)
+        print(f"  BUSINESS REJECTION: {report['abort_reason']} — no candidate written")
+        return
     if DRY_RUN:
-        print("  DRY RUN: card-markets.json NOT modified"); return
+        print("  DRY RUN: no candidate written"); return
 
     mk.setdefault("_meta", {}).setdefault("fx", {})["jpy_to_thb"] = fx
     mk["_meta"]["jp_prices_updated"] = TODAY
     mk["_meta"]["jp_price_source"] = ACTIVE.name
+    mk["_meta"]["run_id"] = RUN_ID
     mk["_meta"]["jp_entries"] = sum(
         1 for entries in markets.values() for item in entries
         if item.get("source_market") == "JP" and float(item.get("source_price") or 0) > 0
@@ -572,11 +595,13 @@ def main():
         "edition-exclusive treatments remain without a JP price. THB values "
         "are currency conversions, not verified Thai market prices."
     )
-    atomic_write(MARKETS_PATH, mk)
-    print(f"  Wrote {MARKETS_PATH}: {updated} entries refreshed (fx {fx} via {fx_src})")
-    if os.path.exists(MIRROR_PATH):
-        atomic_write(MIRROR_PATH, mk)
-        print(f"  Mirrored -> {MIRROR_PATH} (the file the SPA actually reads)")
+    atomic_write(CANDIDATE_PATH, mk)
+    with open(CANDIDATE_PATH, "rb") as f:
+        report["candidate_sha256"] = hashlib.sha256(f.read()).hexdigest()
+    atomic_write(WORK_REPORT_PATH, report)
+    print(f"  Candidate written to work dir: {updated} entries refreshed "
+          f"(fx {fx} via {fx_src}) run_id={RUN_ID}")
+    print("  Tracked files NOT touched — promotion is the gate's job")
 
 
 if __name__ == "__main__":

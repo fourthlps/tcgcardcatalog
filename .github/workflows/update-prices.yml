@@ -45,7 +45,12 @@ jobs:
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: python scripts/update_prices.py
 
-      - name: Fetch JP prices (Yuyu-Tei via relay — KI-40)
+      # Writes ONLY to RUNNER_TEMP (candidate + report). Tracked files are the
+      # gate's job. continue-on-error preserves the EN commit; the gate reads
+      # this step's outcome and the final enforce step turns the run red.
+      - name: Fetch JP prices into candidate (Yuyu-Tei via relay — KI-40)
+        id: jpfetch
+        continue-on-error: true
         env:
           JP_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_dry_run || 'false' }}
           JP_SETS: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_sets || '' }}
@@ -53,17 +58,18 @@ jobs:
           JP_RELAY_SECRET: ${{ secrets.JP_RELAY_SECRET }}
         run: python scripts/update_jp_prices.py
 
-      - name: Append JP price history snapshot
-        run: python scripts/append_jp_history.py
-
-      - name: Compute JP 7-day trends
-        run: python scripts/compute_jp_trends.py
-
-      - name: JP sentinel — record freshness/coverage into status.json
+      # Validates the candidate; on pass promotes canonical + map + report,
+      # regenerates the mirror, runs history + trends, then integrity-checks
+      # every JP file. On ANY failure restores all JP tracked files so only
+      # valid EN changes plus the rejection status reach the commit.
+      - name: JP gate — validate candidate, promote only when every check passes
+        id: jpgate
+        continue-on-error: true
         env:
+          JP_FETCH_OUTCOME: ${{ steps.jpfetch.outcome }}
           JP_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_dry_run || 'false' }}
           JP_SETS: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_sets || '' }}
-        run: python scripts/jp_sentinel.py
+        run: python scripts/jp_sentinel.py --gate
 
       - name: Commit and push if changed
         run: |
@@ -75,9 +81,9 @@ jobs:
           git diff --staged --quiet || git commit -m "Auto-update prices $(date +'%Y-%m-%d')"
           git push
 
-      # After the push on purpose: a red sentinel must not cost the day's EN
+      # After the push on purpose: a red result must not cost the day's EN
       # prices or the freshly written jp status block.
-      - name: JP sentinel — fail the run on stale/no-result JP data
+      - name: JP gate — fail the run when JP was rejected
         run: python scripts/jp_sentinel.py --enforce
 
       - name: Notify on failure
