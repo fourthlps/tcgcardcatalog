@@ -59,6 +59,12 @@ jobs:
       - name: Compute JP 7-day trends
         run: python scripts/compute_jp_trends.py
 
+      - name: JP sentinel — record freshness/coverage into status.json
+        env:
+          JP_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_dry_run || 'false' }}
+          JP_SETS: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_sets || '' }}
+        run: python scripts/jp_sentinel.py
+
       - name: Commit and push if changed
         run: |
           git config user.name "price-update-bot"
@@ -68,6 +74,11 @@ jobs:
           git add onepiece-catalog/data/
           git diff --staged --quiet || git commit -m "Auto-update prices $(date +'%Y-%m-%d')"
           git push
+
+      # After the push on purpose: a red sentinel must not cost the day's EN
+      # prices or the freshly written jp status block.
+      - name: JP sentinel — fail the run on stale/no-result JP data
+        run: python scripts/jp_sentinel.py --enforce
 
       - name: Notify on failure
         if: failure()
