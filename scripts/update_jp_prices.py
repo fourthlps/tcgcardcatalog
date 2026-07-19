@@ -73,10 +73,13 @@ CB_SLOWDOWN_AT  = 3                     # consecutive throttled sets -> double s
 CB_STOP_AT      = 6                     # consecutive throttled sets -> stop batch
 
 # Relay transport (Route A): set via GitHub Actions Secrets. When absent in
-# Actions, the JP stage soft-skips so the EN pipeline is never blocked.
+# Actions the JP stage FAILS the run (a green run must mean JP actually
+# refreshed — the old soft-skip hid a 11-day freeze, KI-40). Explicit dev runs
+# can set JP_ALLOW_SKIP=true to restore the old soft-skip behavior.
 RELAY_URL    = os.environ.get("JP_RELAY_URL", "")
 RELAY_SECRET = os.environ.get("JP_RELAY_SECRET", "")
 IN_ACTIONS   = os.environ.get("GITHUB_ACTIONS", "") == "true"
+ALLOW_SKIP   = os.environ.get("JP_ALLOW_SKIP", "").lower() in ("1", "true", "yes")
 
 MIN_MATCH_RATIO   = 0.70   # abort whole run below this
 SET_MIN_RATIO     = 0.50   # skip single set below this share of its expected entries
@@ -268,9 +271,15 @@ def main():
           f"transport={'relay' if (RELAY_URL and RELAY_SECRET) else 'direct'}")
 
     if IN_ACTIONS and not (RELAY_URL and RELAY_SECRET):
-        # Soft-skip: never block the EN pipeline when the relay isn't configured.
-        print("  JP relay secrets not configured — skipping JP price stage (soft)")
-        return
+        if ALLOW_SKIP:
+            print("  JP relay secrets not configured — skipping JP price stage "
+                  "(soft; explicitly allowed via JP_ALLOW_SKIP)")
+            return
+        print("::error title=JP relay secrets missing::JP_RELAY_URL / "
+              "JP_RELAY_SECRET are not available to this run. Failing instead "
+              "of soft-skipping so JP prices cannot silently freeze (KI-40). "
+              "Set JP_ALLOW_SKIP=true only for intentional dev runs.")
+        sys.exit(1)
 
     mk = load_json(MARKETS_PATH, None)
     if not mk or "markets" not in mk:
