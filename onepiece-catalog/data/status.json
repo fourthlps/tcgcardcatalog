@@ -1,5 +1,5 @@
 {
- "last_updated": "2026-07-19T12:52:44.173402+00:00",
+ "last_updated": "2026-07-19T12:59:40.968416+00:00",
  "run_date": "2026-07-19",
  "status": "success",
  "api": {
@@ -18,16 +18,16 @@
  },
  "trends": {
   "status": "ok",
-  "gainers_count": 5,
-  "losers_count": 5,
-  "confidence": "medium",
-  "baseline_date": "2026-07-18",
-  "days_between_snapshots": 1,
+  "gainers_count": 0,
+  "losers_count": 0,
+  "confidence": "high",
+  "baseline_date": "2026-07-19",
+  "days_between_snapshots": 0,
   "history_days_collected": 29
  },
  "jp": {
   "pipeline_state": "skipped",
-  "checked_at": "2026-07-19T12:56:04+00:00",
+  "checked_at": "2026-07-19T13:02:58+00:00",
   "last_refresh": "2026-07-18",
   "age_days": 1,
   "jp_entries_total": 2540,
@@ -44,9 +44,9 @@
    "OP13": 1
   },
   "fetch": {
-   "listings_seen": 156,
-   "matched": 112,
-   "unmapped_total": 1098,
+   "listings_seen": 151,
+   "matched": 120,
+   "unmapped_total": 1129,
    "sets_attempted": 1,
    "sets_success": 1,
    "sets_failed": 0,
