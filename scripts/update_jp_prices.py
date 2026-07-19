@@ -338,6 +338,14 @@ def main():
         s = ACTIVE.set_slug(c)
         if s and s not in seen:
             seen.add(s); slugs.append(s)
+    # JP_EXTRA_SLUGS: default-off investigation flag (OP14/OP15 coverage work).
+    # The scheduled workflow never sets it, so production slugs cannot change
+    # from this branch until the mapping change is founder-approved and merged.
+    extra_slugs = [s.strip().lower() for s in os.environ.get("JP_EXTRA_SLUGS", "").split(",") if s.strip()]
+    for s in extra_slugs:
+        if s not in seen:
+            seen.add(s); slugs.append(s)
+            print(f"  EXTRA SLUG (JP_EXTRA_SLUGS): {s}")
     stage_sel = [s.strip().lower() for s in os.environ.get("JP_SETS", "").split(",") if s.strip()]
     if stage_sel:
         slugs = [s for s in slugs if s in stage_sel]
