@@ -1,28 +1,63 @@
 {
-  "last_updated": "2026-07-18T20:32:07.537669+00:00",
-  "run_date": "2026-07-18",
-  "status": "success",
-  "api": {
-    "source": "optcgapi.com",
-    "status": "ok",
-    "sets_fetched": 51,
-    "sets_failed": 0,
-    "total_cards": 4023,
-    "cards_with_price": 4023
+ "last_updated": "2026-07-19T12:52:44.173402+00:00",
+ "run_date": "2026-07-19",
+ "status": "success",
+ "api": {
+  "source": "optcgapi.com",
+  "status": "ok",
+  "sets_fetched": 51,
+  "sets_failed": 0,
+  "total_cards": 4023,
+  "cards_with_price": 4023
+ },
+ "history": {
+  "status": "ok",
+  "days_collected": 29,
+  "last_snapshot_date": "2026-07-19",
+  "sheets_append": "skipped_safety"
+ },
+ "trends": {
+  "status": "ok",
+  "gainers_count": 5,
+  "losers_count": 5,
+  "confidence": "medium",
+  "baseline_date": "2026-07-18",
+  "days_between_snapshots": 1,
+  "history_days_collected": 29
+ },
+ "jp": {
+  "pipeline_state": "skipped",
+  "checked_at": "2026-07-19T12:56:04+00:00",
+  "last_refresh": "2026-07-18",
+  "age_days": 1,
+  "jp_entries_total": 2540,
+  "refreshed_last_run": 0,
+  "refreshed_by_set": {},
+  "stale_count": 234,
+  "stale_by_set": {
+   "OP15": 119,
+   "OP14": 110,
+   "OP02": 1,
+   "OP09": 1,
+   "OP10": 1,
+   "OP07": 1,
+   "OP13": 1
   },
-  "history": {
-    "status": "ok",
-    "days_collected": 28,
-    "last_snapshot_date": "2026-07-18",
-    "sheets_append": "ok"
+  "fetch": {
+   "listings_seen": 156,
+   "matched": 112,
+   "unmapped_total": 1098,
+   "sets_attempted": 1,
+   "sets_success": 1,
+   "sets_failed": 0,
+   "sets_throttled": 0
   },
-  "trends": {
-    "status": "ok",
-    "gainers_count": 5,
-    "losers_count": 5,
-    "confidence": "medium",
-    "baseline_date": "2026-07-17",
-    "days_between_snapshots": 1,
-    "history_days_collected": 28
+  "coverage_check": {
+   "floor_enforced": 2000,
+   "relative_mode": "report-only",
+   "baseline": 2306,
+   "relative_threshold": 1960,
+   "relative_pass": false
   }
+ }
 }

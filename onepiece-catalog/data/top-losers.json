@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-18T20:32:07.537669+00:00",
-  "snapshot_date": "2026-07-18",
-  "baseline_date": "2026-07-17",
+  "generated_at": "2026-07-19T12:52:44.173402+00:00",
+  "snapshot_date": "2026-07-19",
+  "baseline_date": "2026-07-18",
   "days_between_snapshots": 1,
-  "history_days_collected": 28,
+  "history_days_collected": 29,
   "period": "day_over_day",
   "confidence": "medium",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1267,
-  "cards_with_trend": 37,
+  "cards_evaluated": 1264,
+  "cards_with_trend": 31,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 8.13,
+      "today_price_usd": 8.17,
       "baseline_price_usd": 481.14,
-      "price_change_usd": -473.01,
-      "price_change_percent": -98.31
+      "price_change_usd": -472.97,
+      "price_change_percent": -98.3
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 35.64,
+      "today_price_usd": 35.47,
       "baseline_price_usd": 167.52,
-      "price_change_usd": -131.88,
-      "price_change_percent": -78.72
+      "price_change_usd": -132.05,
+      "price_change_percent": -78.83
     },
     {
       "card_id": "OP05-091",
@@ -44,22 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 21.42,
+      "today_price_usd": 21.23,
       "baseline_price_usd": 128.42,
-      "price_change_usd": -107.0,
-      "price_change_percent": -83.32
-    },
-    {
-      "card_id": "OP13-120",
-      "card_image_id": "OP13-120_p2",
-      "card_name": "Sabo (120) (Super Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-120_p2.jpg",
-      "today_price_usd": 752.18,
-      "baseline_price_usd": 851.58,
-      "price_change_usd": -99.4,
-      "price_change_percent": -11.67
+      "price_change_usd": -107.19,
+      "price_change_percent": -83.47
     },
     {
       "card_id": "OP08-023",
@@ -68,10 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 20.65,
+      "today_price_usd": 20.67,
       "baseline_price_usd": 109.55,
-      "price_change_usd": -88.9,
-      "price_change_percent": -81.15
+      "price_change_usd": -88.88,
+      "price_change_percent": -81.13
+    },
+    {
+      "card_id": "OP04-056",
+      "card_image_id": "OP04-056_p2",
+      "card_name": "Gum-Gum Red Roc (Jolly Roger Foil)",
+      "set_code": "PRB-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-056_p2_6KicMKv.jpg",
+      "today_price_usd": 1.02,
+      "baseline_price_usd": 49.82,
+      "price_change_usd": -48.8,
+      "price_change_percent": -97.95
     }
   ]
 }
