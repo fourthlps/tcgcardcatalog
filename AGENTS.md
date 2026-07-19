@@ -25,6 +25,7 @@ Before any repository edit:
 - Game-owned data lives under `onepiece-catalog/data/{game}/`. One Piece and Lorcana are active.
 - Search artifacts live under `onepiece-catalog/search/`.
 - Root and `onepiece-catalog/data/` JSON files include legacy and pipeline outputs; inspect consumers before changing or moving them.
+- **The canonical market/price file is `onepiece-catalog/card-markets.json`** (written nightly by `scripts/update_jp_prices.py` and the EN pipeline; mirrored to `onepiece-catalog/data/one-piece/prices.json`, which is machine-written only). A stale root-level `card-markets.json` copy and its generator `fetch_markets_jp.py` were removed 2026-07-19 after causing a wrong-file audit; do not recreate a root-level copy or redirect.
 - `.github/workflows/update-prices.yml` and `.github/workflows/lorcana-market.yml` update price data independently and can commit generated data.
 - No frontend framework, package manifest, build command, automated test suite, article directory, or production article conversion command is currently present in the repository.
 
