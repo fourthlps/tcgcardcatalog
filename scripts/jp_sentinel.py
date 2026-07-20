@@ -139,6 +139,23 @@ def sha256_file(path):
     return h.hexdigest()
 
 
+def load_prev_jp_block():
+    """Previous PUBLISHED jp block. Read from git HEAD, not the working tree:
+    the EN step regenerates status.json without the jp block earlier in the
+    same run, so the working-tree file loses last_successful_* and the
+    coverage baseline (defect found by the 2026-07-20 rejection test).
+    Falls back to the working-tree file only where git is unavailable
+    (sandbox tests)."""
+    try:
+        r = subprocess.run(["git", "show", "HEAD:" + STATUS_PATH],
+                           capture_output=True, text=True, encoding="utf-8")
+        if r.returncode == 0 and r.stdout.strip():
+            return (json.loads(r.stdout).get("jp") or {})
+    except (OSError, ValueError):
+        pass
+    return (load_json(STATUS_PATH, {}) or {}).get("jp") or {}
+
+
 def run_script(name):
     r = subprocess.run([sys.executable, os.path.join("scripts", name)],
                        capture_output=True, text=True)
@@ -157,7 +174,7 @@ def gate():
     fetch_outcome = os.environ.get("JP_FETCH_OUTCOME", "success")
 
     status = load_json(STATUS_PATH, {})
-    prev = status.get("jp") or {}
+    prev = load_prev_jp_block()
     reasons = []
 
     report = load_json(WORK_REPORT_PATH, None)
