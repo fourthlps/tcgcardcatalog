@@ -1,24 +1,66 @@
 {
-  "generated_at": "2026-07-19T20:49:49.108174+00:00",
-  "snapshot_date": "2026-07-19",
-  "baseline_date": "2026-07-12",
+  "generated_at": "2026-07-20T21:59:56.313579+00:00",
+  "snapshot_date": "2026-07-20",
+  "baseline_date": "2026-07-13",
   "days_between_snapshots": 7,
-  "history_days_collected": 15,
+  "history_days_collected": 16,
   "period": "7_day",
   "confidence": "medium",
   "source": "Yuyu-Tei via jp-card-prices.com",
   "currency": "JPY",
   "game": "onepiece",
   "cards_evaluated": 2540,
-  "cards_with_trend": 0,
+  "cards_with_trend": 16,
   "significance_threshold_pct": 5.0,
-  "cards_significant": 0,
+  "cards_significant": 16,
   "market_stable": false,
-  "recalibrating": true,
-  "recalibration_reason": "frozen_baseline",
-  "window_health": {
-    "comparable": 2246
-  },
+  "recalibrating": false,
   "trend_type": "gainers",
-  "cards": []
+  "cards": [
+    {
+      "significant": true,
+      "card_id": "OP13-118",
+      "card_name": "Monkey.D.Luffy (118)",
+      "set_code": "OP-13",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_AZWGnsD.jpg",
+      "today_price_jpy": 2980.0,
+      "baseline_price_jpy": 1980.0,
+      "today_price_thb": 617.0,
+      "baseline_price_thb": 408.0,
+      "price_change_jpy": 1000.0,
+      "price_change_thb": 209.0,
+      "price_change_percent": 50.51
+    },
+    {
+      "significant": true,
+      "card_id": "OP16-021",
+      "card_name": "Moby Dick",
+      "set_code": "OP-16",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-021_N1g78JS.jpg",
+      "today_price_jpy": 1780.0,
+      "baseline_price_jpy": 1480.0,
+      "today_price_thb": 369.0,
+      "baseline_price_thb": 305.0,
+      "price_change_jpy": 300.0,
+      "price_change_thb": 64.0,
+      "price_change_percent": 20.27
+    },
+    {
+      "significant": true,
+      "card_id": "OP16-014",
+      "card_name": "Marco",
+      "set_code": "OP-16",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-014_g0EgQrF.jpg",
+      "today_price_jpy": 1480.0,
+      "baseline_price_jpy": 1280.0,
+      "today_price_thb": 306.0,
+      "baseline_price_thb": 264.0,
+      "price_change_jpy": 200.0,
+      "price_change_thb": 42.0,
+      "price_change_percent": 15.62
+    }
+  ]
 }
