@@ -1,0 +1,27 @@
+# PROPOSED — founder approval required before this file moves to
+# .github/workflows/. Read-only watchdog: independent of the update workflow
+# so it catches runs that never started. Touches NO price data.
+name: JP freshness watchdog
+
+on:
+  schedule:
+    - cron: '30 22 * * *'   # window 1: ~2h after the 20:30 UTC update
+    - cron: '30 10 * * *'   # window 2: opposite side of the day
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4          # scripts/ only; no data writes
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check deployed JP freshness and pipeline liveness
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/jp_watchdog.py
