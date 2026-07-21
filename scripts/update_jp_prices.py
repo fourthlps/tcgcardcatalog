@@ -343,6 +343,26 @@ def main():
     if invalid_verified:
         print(f"  ABORT: {len(invalid_verified)} verified mappings target unknown card ids")
         sys.exit(1)
+    # ── JP_VERIFIED_STRICT (default OFF; ladder step 3, founder 2026-07-21) ──
+    # exclusivity + tombstones + fail-loud identity validation for verified
+    # mappings. The scheduled workflow never sets this env; it activates only
+    # in explicitly-flagged dry-runs until founder-approved for production.
+    STRICT = os.environ.get("JP_VERIFIED_STRICT", "").lower() in ("1", "true", "yes")
+    tombstones = set(verified_doc.get("tombstones") or [])
+    bad_tombs = [t for t in tombstones if t not in valid_card_ids]
+    if bad_tombs:
+        print(f"  ABORT: {len(bad_tombs)} tombstones target unknown card ids"); sys.exit(1)
+    if STRICT:
+        # Exclusivity: a verified target id (or tombstoned id) may not keep or
+        # gain ANY automatic mapping — the wrong auto key can never coexist
+        # and overwrite the verified result later in page order.
+        blocked_ids = set(verified_map.values()) | tombstones
+        dropped_auto = [k for k, v in mp.get("map", {}).items() if v in blocked_ids]
+        for k in dropped_auto:
+            mp["map"].pop(k, None)
+        if dropped_auto:
+            print(f"  STRICT: evicted {len(dropped_auto)} auto keys claiming "
+                  f"verified/tombstoned ids: {', '.join(sorted(dropped_auto))}")
     # Precedence: auto map < reviewed verified map < founder manual override.
     cid_map = {**mp.get("map", {}), **verified_map, **mp.get("manual", {})}
 
@@ -361,6 +381,7 @@ def main():
 
     # ── throttle-aware batch loop ─────────────────────────────────────────────
     listings = []
+    ok_slugs = set()
     sets_ok = sets_fail = sets_throttled = retries_total = 0
     sets_missing, consecutive_throttled, throttle_stopped = [], 0, False
     spacing = BASE_SPACING
@@ -391,7 +412,7 @@ def main():
             for L in rows:
                 L["key"] = f"{slug}/{L['cid']}"
             if rows:
-                sets_ok += 1; listings.extend(rows)
+                sets_ok += 1; ok_slugs.add(slug); listings.extend(rows)
                 print(f"    {slug}: ok {len(rows)} listings"
                       + (f" ({attempts} retries)" if attempts else ""))
             else:
@@ -431,6 +452,8 @@ def main():
     for L in unknown:
         grp.setdefault((L["card_number"], klass(L["rarity"])), []).append(L)
     mapped_ids = set(cid_map.values())
+    if STRICT:
+        mapped_ids |= tombstones      # tombstoned ids can never be auto-mapped
     for (num, kl), Ls in grp.items():
         cands = [i for i in by_number.get(num, []) if i not in mapped_ids]
         cands = [i for i in cands if (("_" in i) if kl == "P" else ("_" not in i))] or cands
@@ -549,7 +572,30 @@ def main():
     }
 
     # ── guards ────────────────────────────────────────────────────────────────
-    if ratio < MIN_MATCH_RATIO:
+    # STRICT fail-loud identity validation: for every verified key whose source
+    # page WAS fetched this run, the listing must exist and its card number
+    # must equal the target variant's number. Never a silent fallback to the
+    # automatic mapper — a violation rejects the whole candidate.
+    verified_violations = []
+    if STRICT:
+        listing_by_key = {L["key"]: L for L in listings}
+        for key, iid in verified_map.items():
+            slug = key.split("/", 1)[0]
+            if slug not in ok_slugs:
+                continue                      # page not fetched (staged run) — no judgment
+            L = listing_by_key.get(key)
+            exp_num = iid.split("_")[0].upper()
+            if L is None:
+                verified_violations.append(f"{key}->{iid}: listing disappeared from source")
+            elif L["card_number"].upper() != exp_num:
+                verified_violations.append(
+                    f"{key}->{iid}: identity mismatch (listing is {L['card_number']})")
+    report["verified_violations"] = verified_violations
+    if verified_violations:
+        report["aborted"] = True
+        report["abort_reason"] = ("verified-map identity validation failed: "
+                                  + "; ".join(verified_violations[:5]))
+    elif ratio < MIN_MATCH_RATIO:
         report["aborted"], report["abort_reason"] = True, f"match ratio {ratio:.2f} < {MIN_MATCH_RATIO}"
     elif changes >= BIG_MOVE_MIN_N and big_moves / max(1, changes) > BIG_MOVE_SHARE:
         report["aborted"], report["abort_reason"] = True, f"{big_moves}/{changes} moves beyond ±{BIG_MOVE_PCT}%"
