@@ -392,13 +392,28 @@ def main():
     # last_instock_observed_at/last_instock_price durably across OOS
     # transitions for exactly this purpose.
     ev_prev = load_json(EVIDENCE_PATH, {"observations": {}}).get("observations", {})
-    instock_provenance = {}
+    instock_provenance = {}          # (card_image_id, listing_key) -> (price, observed_at)
     for o in ev_prev.values():
         if o.get("last_instock_price"):
             instock_provenance[(o.get("card_image_id"), o.get("listing_key"))] = \
-                o["last_instock_price"]
+                (o["last_instock_price"], o.get("last_instock_observed_at"))
         elif o.get("stock_state") == "in_stock" and o.get("price"):
-            instock_provenance[(o.get("card_image_id"), o.get("listing_key"))] = o["price"]
+            instock_provenance[(o.get("card_image_id"), o.get("listing_key"))] = \
+                (o["price"], o.get("observed_at"))
+
+    # Stale retention policy (founder 2026-07-24): a provenance-backed stale
+    # price stays displayable for up to 7 calendar days from its last verified
+    # in-stock observation; beyond that the compact state becomes unavailable
+    # (value stays in evidence + audit history). An OOS sighting never extends
+    # the period. Enforced HERE in state generation, not in the UI.
+    STALE_MAX_AGE_DAYS = 7
+    def stale_age_ok(observed_at):
+        try:
+            age = (date.fromisoformat(TODAY) -
+                   date.fromisoformat(str(observed_at)[:10])).days
+        except (TypeError, ValueError):
+            return False                       # unknown timestamp = no stale claim
+        return 0 <= age <= STALE_MAX_AGE_DAYS
     if STRICT:
         # Exclusivity: a verified target id (or tombstoned id) may not keep or
         # gain ANY automatic mapping — the wrong auto key can never coexist
@@ -629,9 +644,20 @@ def main():
             if not L["in_stock"] and old > 0:
                 # Founder item-1/3 ruling (2026-07-24): mutually exclusive
                 # OOS classification. Price equality is NOT provenance.
-                if instock_provenance.get((iid, L["key"])) == old:
-                    # auditable prior in-stock observation backs this value
+                prov = instock_provenance.get((iid, L["key"]))
+                if prov and prov[0] == old and stale_age_ok(prov[1]):
+                    # auditable in-stock observation backs this value AND is
+                    # within the 7-day retention window
                     state_stamps[iid] = ("stale", "verified_instock_provenance")
+                elif prov and prov[0] == old:
+                    strict_removals.append({
+                        "id": iid, "action": "removed",
+                        "previous_value": e.get("source_price"),
+                        "previous_last_updated": e.get("last_updated"),
+                        "category": "stale_expired",
+                        "reason": "stale_expired_no_recent_instock"})
+                    updated += 1
+                    state_stamps[iid] = ("unavailable", "stale_expired_no_recent_instock")
                 elif iid in approved_legacy:
                     state_stamps[iid] = ("stale", "founder_approved_legacy_reference")
                 else:
@@ -753,9 +779,9 @@ def main():
     # auditable in-stock provenance, exactly like the observed path.
     legacy_sweep = []
     if STRICT and not stage_sel:
-        prov_prices = {}
-        for (pid, _k), price in instock_provenance.items():
-            prov_prices.setdefault(pid, set()).add(price)
+        prov_prices = {}          # id -> {price: observed_at}
+        for (pid, _k), (price, at) in instock_provenance.items():
+            prov_prices.setdefault(pid, {})[price] = at
         mapped_targets = set(cid_map.values())
         processed = seen_this_run | tombstones | set(holds) | set(state_stamps)
         for iid in list(markets.keys()):
@@ -769,12 +795,15 @@ def main():
                 continue                      # already price-less / stateful
             reason = ("no_current_source_observation" if iid in mapped_targets
                       else "correct_source_outside_current_fetch_scope")
-            if old in prov_prices.get(iid, ()):
+            prov_at = prov_prices.get(iid, {}).get(old)
+            if prov_at is not None and stale_age_ok(prov_at):
                 e["market_state"] = "stale"
                 e["state_reason"] = reason
                 legacy_sweep.append({"id": iid, "outcome": "stale_retained",
                                      "value": old, "reason": reason})
                 continue
+            if prov_at is not None:
+                reason = "stale_expired_no_recent_instock"
             legacy_sweep.append({"id": iid, "outcome": "removed",
                                  "previous_value": e.get("source_price"),
                                  "previous_last_updated": e.get("last_updated"),
