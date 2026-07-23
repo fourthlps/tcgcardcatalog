@@ -647,19 +647,19 @@ def main():
                     state_stamps[iid] = ("unavailable",
                                          "no_auditable_instock_provenance"
                                          if not is_verified else mreason)
-            elif is_verified:
-                # in-stock but policy-failed (under_review): existing price
-                # stops being publishable (founder step-6 ruling item 2).
+            else:
+                # In-stock but policy-failed (under_review) — applies to ANY
+                # mapping method: the publication gate is general policy, so
+                # an existing price stops being publishable until approved.
                 if old > 0:
                     strict_removals.append({
                         "id": iid, "action": "removed",
                         "previous_value": e.get("source_price"),
                         "previous_last_updated": e.get("last_updated"),
-                        "category": "verified_identity_supersedes_legacy_price",
+                        "category": ("verified_identity_supersedes_legacy_price"
+                                     if is_verified else "high_value_pending_review"),
                         "reason": mreason})
                     updated += 1
-                state_stamps[iid] = (mstate, mreason)
-            elif not existed and is_verified:
                 state_stamps[iid] = (mstate, mreason)
             continue
         if L["price_jpy"] != old or e.get("last_updated") != TODAY:
@@ -690,7 +690,9 @@ def main():
                 for f in ("source_price", "converted_price", "conversion_rate_used",
                           "last_updated"):
                     e.pop(f, None)
-                e["market_state"] = mstate
+                # a price-less entry can never be "stale" — stale means a
+                # retained last-known-good price is being displayed
+                e["market_state"] = mstate if mstate != "stale" else "unavailable"
                 e["state_reason"] = mreason
                 e["verified_in_stock_at"] = None
                 e["qualifying_source_count"] = 0
@@ -744,6 +746,53 @@ def main():
             print(f"  STRICT removal [{r['category']}]: {r['id']} "
                   f"(was ¥{r['previous_value']:,} @ {r['previous_last_updated']})")
 
+    # ── STRICT unseen-legacy classification (founder item-3, 2026-07-24) ─────
+    # Full (non-staged) runs only: every JP entry the fetch did NOT observe
+    # this run must still end with an honest market state — an old number may
+    # not keep looking live because the scope missed it. Stale requires
+    # auditable in-stock provenance, exactly like the observed path.
+    legacy_sweep = []
+    if STRICT and not stage_sel:
+        prov_prices = {}
+        for (pid, _k), price in instock_provenance.items():
+            prov_prices.setdefault(pid, set()).add(price)
+        mapped_targets = set(cid_map.values())
+        processed = seen_this_run | tombstones | set(holds) | set(state_stamps)
+        for iid in list(markets.keys()):
+            if iid in processed:
+                continue
+            e = jp_entry(markets, iid)
+            if e is None:
+                continue
+            old = float(e.get("source_price") or 0)
+            if old <= 0:
+                continue                      # already price-less / stateful
+            reason = ("no_current_source_observation" if iid in mapped_targets
+                      else "correct_source_outside_current_fetch_scope")
+            if old in prov_prices.get(iid, ()):
+                e["market_state"] = "stale"
+                e["state_reason"] = reason
+                legacy_sweep.append({"id": iid, "outcome": "stale_retained",
+                                     "value": old, "reason": reason})
+                continue
+            legacy_sweep.append({"id": iid, "outcome": "removed",
+                                 "previous_value": e.get("source_price"),
+                                 "previous_last_updated": e.get("last_updated"),
+                                 "category": "legacy_unseen_no_provenance",
+                                 "reason": reason})
+            for f in ("source_price", "converted_price", "conversion_rate_used",
+                      "last_updated"):
+                e.pop(f, None)
+            e["market_state"] = "unavailable"
+            e["state_reason"] = reason
+            e["verified_in_stock_at"] = None
+            e["qualifying_source_count"] = 0
+            updated += 1
+        if legacy_sweep:
+            n_rm = sum(1 for x in legacy_sweep if x["outcome"] == "removed")
+            print(f"  STRICT legacy sweep: {len(legacy_sweep)} unseen entries "
+                  f"classified ({n_rm} removed, {len(legacy_sweep) - n_rm} stale-retained)")
+
     # Scope-aware accounting: staged runs judge coverage only within the sets
     # actually fetched, otherwise a valid op01-only test would falsely abort.
     slug_set = set(slugs)
@@ -785,6 +834,7 @@ def main():
         "aborted": False, "abort_reason": None,
         "tombstone_removals": tombstone_removals,
         "strict_removals": strict_removals,
+        "legacy_sweep": legacy_sweep,
         "observations_recorded": len(observations),
     }
 
