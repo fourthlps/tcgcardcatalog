@@ -57,6 +57,12 @@ CARDS_PATH   = "onepiece-catalog/one_piece_OP01-OP16_with_prices.json"
 MAP_PATH     = "onepiece-catalog/data/jp-yuyu-map.json"
 VERIFIED_MAP_PATH = "onepiece-catalog/data/jp-verified-map.json"
 REPORT_PATH  = "onepiece-catalog/data/jp-price-report.json"
+# Data model v2 (founder step-6, 2026-07-23): founder-owned publication policy
+# and the machine-written source-evidence layer. Both act ONLY under
+# JP_VERIFIED_STRICT (default off) — nightly behavior is unchanged until the
+# separately-approved activation.
+POLICY_PATH   = "onepiece-catalog/data/jp-publication-policy.json"
+EVIDENCE_PATH = "onepiece-catalog/data/jp-source-evidence.json"
 
 # Validation-before-push (founder ruling 2026-07-19): this script never writes
 # tracked files. Everything goes to a work dir OUTSIDE the git tree; the gate
@@ -67,6 +73,7 @@ WORK_ROOT = (os.environ.get("JP_WORK_DIR") or os.environ.get("RUNNER_TEMP")
 JP_RUN_DIR         = os.path.join(WORK_ROOT, "jp-run")
 CANDIDATE_PATH     = os.path.join(JP_RUN_DIR, "card-markets.candidate.json")
 CANDIDATE_MAP_PATH = os.path.join(JP_RUN_DIR, "jp-yuyu-map.candidate.json")
+CANDIDATE_EVIDENCE_PATH = os.path.join(JP_RUN_DIR, "jp-source-evidence.candidate.json")
 WORK_REPORT_PATH   = os.path.join(JP_RUN_DIR, "jp-fetch-report.json")
 RUN_ID = os.environ.get("GITHUB_RUN_ID") or \
     "local-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
@@ -360,11 +367,28 @@ def main():
     if contradictions:
         print(f"  ABORT: ids both tombstoned and verified-mapped: {sorted(contradictions)}")
         sys.exit(1)
+    # Temporary out-of-scope holds: {id: reason}. Same removal semantics as a
+    # tombstone, but signals "evidence exists, correct listing unreachable in
+    # the current fetch scope". Cannot coexist with a positive verified mapping
+    # or a tombstone (founder G2 ruling 2026-07-23).
+    holds = verified_doc.get("holds") or {}
+    if not isinstance(holds, dict):
+        print(f"  ABORT: {VERIFIED_MAP_PATH} holds must be an id->reason object"); sys.exit(1)
+    bad_holds = [h for h in holds if h not in valid_card_ids]
+    if bad_holds:
+        print(f"  ABORT: {len(bad_holds)} holds target unknown card ids"); sys.exit(1)
+    hold_conflicts = set(holds) & (set(verified_map.values()) | tombstones)
+    if hold_conflicts:
+        print(f"  ABORT: ids held AND verified-mapped/tombstoned: {sorted(hold_conflicts)}")
+        sys.exit(1)
+    policy = load_json(POLICY_PATH, {})
+    policy_threshold = policy.get("high_value_threshold_jpy", 100000)
+    approved_hv = policy.get("approved_high_value", {}) or {}
     if STRICT:
         # Exclusivity: a verified target id (or tombstoned id) may not keep or
         # gain ANY automatic mapping — the wrong auto key can never coexist
         # and overwrite the verified result later in page order.
-        blocked_ids = set(verified_map.values()) | tombstones
+        blocked_ids = set(verified_map.values()) | tombstones | set(holds)
         dropped_auto = [k for k, v in mp.get("map", {}).items() if v in blocked_ids]
         for k in dropped_auto:
             mp["map"].pop(k, None)
@@ -461,7 +485,7 @@ def main():
         grp.setdefault((L["card_number"], klass(L["rarity"])), []).append(L)
     mapped_ids = set(cid_map.values())
     if STRICT:
-        mapped_ids |= tombstones      # tombstoned ids can never be auto-mapped
+        mapped_ids |= tombstones | set(holds)   # never auto-mapped
     for (num, kl), Ls in grp.items():
         cands = [i for i in by_number.get(num, []) if i not in mapped_ids]
         cands = [i for i in cands if (("_" in i) if kl == "P" else ("_" not in i))] or cands
@@ -497,10 +521,47 @@ def main():
     matched = matched_existing = updated = created = big_moves = 0
     seen_existing = set()
     seen_this_run = set()
+    observations = {}     # STRICT: latest observation per card|source|listing key
+    state_stamps = {}     # STRICT: iid -> (market_state, state_reason), applied post-loop
+    strict_removals = []  # STRICT: logged removals (all categories)
+
+    def disposition(iid, L):
+        """STRICT publication policy for one matched listing.
+        Returns (write_price, market_state, state_reason, exclusion_reason).
+        A verified mapping never automatically implies its price is publishable."""
+        is_verified = L["key"] in verified_map
+        if not L["in_stock"]:
+            if is_verified:
+                return (False, "unavailable", "verified_source_out_of_stock",
+                        "out_of_stock")
+            return (False, "stale", "no_current_instock_observation", "out_of_stock")
+        if L["price_jpy"] > policy_threshold and iid not in approved_hv:
+            return (False, "under_review",
+                    "high_value_requires_completed_sale_or_founder_approval",
+                    "over_threshold_pending_review")
+        return (True, "live", None, None)
+
     for L in listings:
         iid = cid_map.get(L["key"])
         if not iid:
             continue
+        write_price, mstate, mreason, excl = True, "live", None, None
+        if STRICT:
+            write_price, mstate, mreason, excl = disposition(iid, L)
+            observations[f"{iid}|yuyu-tei|{L['key']}"] = {
+                "card_image_id": iid, "source": "yuyu-tei",
+                "listing_key": L["key"], "price": L["price_jpy"],
+                "currency": "JPY",
+                "stock_state": "in_stock" if L["in_stock"] else "out_of_stock",
+                "observed_at": TODAY,
+                "mapping_method": ("manual" if L["key"] in mp.get("manual", {})
+                                   else "verified_map" if L["key"] in verified_map
+                                   else "automatic"),
+                "identity_status": "verified" if L["key"] in verified_map else "probable",
+                "confidence": "high" if L["key"] in verified_map else "medium",
+                "publish_eligible": write_price,
+                "exclusion_reason": excl,
+            }
         e = jp_entry(markets, iid)
         existed = e is not None
         if not e:
@@ -508,6 +569,12 @@ def main():
             # mapping file.  Auto/count joins may refresh existing records but
             # can never invent a price for an ambiguous printing.
             if L["key"] not in verified_map or iid not in valid_card_ids:
+                continue
+            if STRICT and not write_price:
+                # Identity binds, but publication policy fails: stateful
+                # no-price entry only (e.g. under_review, verified-source-OOS).
+                state_stamps[iid] = (mstate, mreason)
+                matched += 1; seen_this_run.add(iid)
                 continue
             e = {
                 "source_market": "JP",
@@ -532,12 +599,64 @@ def main():
             delta = abs(L["price_jpy"] - old) / old * 100
             if delta > BIG_MOVE_PCT:
                 big_moves += 1
+        if STRICT and not write_price:
+            if L["key"] in verified_map:
+                if (not L["in_stock"]) and old > 0 and old == L["price_jpy"]:
+                    # The existing value equals the verified listing's frozen
+                    # OOS ask — provenance is the listing itself. Founder OOS
+                    # rule: retain the last-known-good price, labeled stale;
+                    # never advance its timestamp from an OOS sighting.
+                    state_stamps[iid] = ("stale", "verified_source_out_of_stock")
+                else:
+                    # A value that did not come from the verified listing (or
+                    # an under-review policy failure) must stop being
+                    # publishable (founder step-6 ruling item 2).
+                    if old > 0:
+                        strict_removals.append({
+                            "id": iid, "action": "removed",
+                            "previous_value": e.get("source_price"),
+                            "previous_last_updated": e.get("last_updated"),
+                            "category": "verified_identity_supersedes_legacy_price",
+                            "reason": mreason})
+                        updated += 1
+                    state_stamps[iid] = (mstate, mreason)
+            elif existed:
+                # Ordinary mapping, OOS: price and timestamp untouched;
+                # entry is labeled stale (retained last-known-good).
+                state_stamps[iid] = (mstate, mreason)
+            continue
         if L["price_jpy"] != old or e.get("last_updated") != TODAY:
             e["source_price"] = L["price_jpy"]
             e["converted_price"] = round(L["price_jpy"] * fx)
             e["conversion_rate_used"] = fx
             e["last_updated"] = TODAY
             updated += 1
+        if STRICT:
+            e["market_state"] = "live"
+            e["state_reason"] = None
+            e["verified_in_stock_at"] = TODAY
+            e["qualifying_source_count"] = 1
+
+    # STRICT: apply deferred state stamps (unavailable/under_review strip the
+    # price; stale keeps the retained value and only labels it).
+    if STRICT:
+        for iid, (mstate, mreason) in state_stamps.items():
+            e = jp_entry(markets, iid)
+            if e is None:
+                e = {"source_market": "JP", "source_name": "Yuyu-Tei",
+                     "source_currency": "JPY"}
+                markets.setdefault(iid, []).append(e)
+            if mstate == "stale" and e.get("source_price"):
+                e["market_state"] = "stale"
+                e["state_reason"] = mreason
+            else:
+                for f in ("source_price", "converted_price", "conversion_rate_used",
+                          "last_updated"):
+                    e.pop(f, None)
+                e["market_state"] = mstate
+                e["state_reason"] = mreason
+                e["verified_in_stock_at"] = None
+                e["qualifying_source_count"] = 0
     # ── STRICT tombstone value-removal (founder step-5 ruling 2026-07-21) ────
     # A tombstoned id's publishable JP price is removed from the CANDIDATE
     # (mirror follows at promotion since it is regenerated from the canonical).
@@ -548,24 +667,45 @@ def main():
     # snapshot rollback covers these removals like any other candidate change.
     tombstone_removals = []
     if STRICT:
-        for tid in sorted(tombstones):
+        for tid, treason, tcat, tstate_reason in (
+            [(t, raw_tombs.get(t, "unspecified"), "tombstone", None)
+             for t in sorted(tombstones)]
+            + [(h, holds[h], "hold", "correct_verified_listing_outside_current_fetch_scope")
+               for h in sorted(holds)]):
             e = jp_entry(markets, tid)
-            if e is None:
+            if e is None or not e.get("source_price"):
                 tombstone_removals.append({"id": tid, "action": "no-op",
+                                           "category": tcat,
                                            "note": "no publishable JP price present",
-                                           "reason": raw_tombs.get(tid, "unspecified")})
-                continue
-            tombstone_removals.append({"id": tid, "action": "removed",
-                                       "previous_value": e.get("source_price"),
-                                       "previous_last_updated": e.get("last_updated"),
-                                       "reason": raw_tombs.get(tid, "unspecified")})
-            markets[tid] = [x for x in markets.get(tid, [])
-                            if x.get("source_market") != "JP"]
-            updated += 1
+                                           "reason": treason})
+            else:
+                tombstone_removals.append({"id": tid, "action": "removed",
+                                           "category": tcat,
+                                           "previous_value": e.get("source_price"),
+                                           "previous_last_updated": e.get("last_updated"),
+                                           "reason": treason})
+                updated += 1
+            # Stateful no-price entry: the site shows "JP price unavailable"
+            # while state/reason keep the record honest (nothing is hidden —
+            # evidence and history remain untouched).
+            if e is None:
+                e = {"source_market": "JP", "source_name": "Yuyu-Tei",
+                     "source_currency": "JPY"}
+                markets.setdefault(tid, []).append(e)
+            for f in ("source_price", "converted_price", "conversion_rate_used",
+                      "last_updated"):
+                e.pop(f, None)
+            e["market_state"] = "unavailable"
+            e["state_reason"] = tstate_reason or ("tombstone: " + treason)
+            e["verified_in_stock_at"] = None
+            e["qualifying_source_count"] = 0
         for r in tombstone_removals:
-            print(f"  STRICT tombstone: {r['id']} -> {r['action']}"
+            print(f"  STRICT {r['category']}: {r['id']} -> {r['action']}"
                   + (f" (was ¥{r['previous_value']:,} @ {r['previous_last_updated']})"
                      if r["action"] == "removed" else ""))
+        for r in strict_removals:
+            print(f"  STRICT removal [{r['category']}]: {r['id']} "
+                  f"(was ¥{r['previous_value']:,} @ {r['previous_last_updated']})")
 
     # Scope-aware accounting: staged runs judge coverage only within the sets
     # actually fetched, otherwise a valid op01-only test would falsely abort.
@@ -607,6 +747,8 @@ def main():
         "fx": {"jpy_to_thb": fx, "source": fx_src},
         "aborted": False, "abort_reason": None,
         "tombstone_removals": tombstone_removals,
+        "strict_removals": strict_removals,
+        "observations_recorded": len(observations),
     }
 
     # ── guards ────────────────────────────────────────────────────────────────
@@ -655,6 +797,14 @@ def main():
     os.makedirs(JP_RUN_DIR, exist_ok=True)
     report["run_id"] = RUN_ID
     atomic_write(CANDIDATE_MAP_PATH, mp)
+    if STRICT:
+        # Source-evidence candidate: latest observation per key merged over the
+        # tracked evidence file (layer A of the v2 model). Promoted by the gate.
+        ev_doc = load_json(EVIDENCE_PATH, {"_meta": {"schema": 1}, "observations": {}})
+        ev_doc.setdefault("observations", {}).update(observations)
+        ev_doc["_meta"] = {"schema": 1, "updated": TODAY, "run_id": RUN_ID,
+                           "retention": "latest observation per card|source|listing key"}
+        atomic_write(CANDIDATE_EVIDENCE_PATH, ev_doc)
     atomic_write(WORK_REPORT_PATH, report)
 
     if report["aborted"]:

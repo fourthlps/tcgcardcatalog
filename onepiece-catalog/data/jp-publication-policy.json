@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "purpose": "Founder-owned publication policy for JP prices (data model v2). Reviewed like jp-verified-map.json — never machine-written. Enforced only under JP_VERIFIED_STRICT (default off).",
+    "schema": 1,
+    "updated": "2026-07-23"
+  },
+  "high_value_threshold_jpy": 100000,
+  "approved_high_value": {
+    "EB03-026_p2": {
+      "approved_jpy": 248000,
+      "approved_at": "2026-07-21",
+      "basis": "Founder approval: in-stock, identity-verified Yuyu retail reference. Explicitly NOT a completed-sale market value — UI and metadata must keep describing it as retail-reference pricing."
+    }
+  }
+}
