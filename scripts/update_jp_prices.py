@@ -348,10 +348,18 @@ def main():
     # mappings. The scheduled workflow never sets this env; it activates only
     # in explicitly-flagged dry-runs until founder-approved for production.
     STRICT = os.environ.get("JP_VERIFIED_STRICT", "").lower() in ("1", "true", "yes")
-    tombstones = set(verified_doc.get("tombstones") or [])
+    # Tombstones: dict {id: reason} (preferred) or legacy list of ids.
+    raw_tombs = verified_doc.get("tombstones") or {}
+    if isinstance(raw_tombs, list):
+        raw_tombs = {t: "unspecified" for t in raw_tombs}
+    tombstones = set(raw_tombs)
     bad_tombs = [t for t in tombstones if t not in valid_card_ids]
     if bad_tombs:
         print(f"  ABORT: {len(bad_tombs)} tombstones target unknown card ids"); sys.exit(1)
+    contradictions = tombstones & set(verified_map.values())
+    if contradictions:
+        print(f"  ABORT: ids both tombstoned and verified-mapped: {sorted(contradictions)}")
+        sys.exit(1)
     if STRICT:
         # Exclusivity: a verified target id (or tombstoned id) may not keep or
         # gain ANY automatic mapping — the wrong auto key can never coexist
@@ -530,6 +538,35 @@ def main():
             e["conversion_rate_used"] = fx
             e["last_updated"] = TODAY
             updated += 1
+    # ── STRICT tombstone value-removal (founder step-5 ruling 2026-07-21) ────
+    # A tombstoned id's publishable JP price is removed from the CANDIDATE
+    # (mirror follows at promotion since it is regenerated from the canonical).
+    # Card master, history, research evidence and past trend files are never
+    # touched — this hides nothing retroactively, it stops publishing a value
+    # known to be wrong. Idempotent: already-absent prices log a no-op. Only
+    # ids in the validated tombstone list are ever removed, and the gate's
+    # snapshot rollback covers these removals like any other candidate change.
+    tombstone_removals = []
+    if STRICT:
+        for tid in sorted(tombstones):
+            e = jp_entry(markets, tid)
+            if e is None:
+                tombstone_removals.append({"id": tid, "action": "no-op",
+                                           "note": "no publishable JP price present",
+                                           "reason": raw_tombs.get(tid, "unspecified")})
+                continue
+            tombstone_removals.append({"id": tid, "action": "removed",
+                                       "previous_value": e.get("source_price"),
+                                       "previous_last_updated": e.get("last_updated"),
+                                       "reason": raw_tombs.get(tid, "unspecified")})
+            markets[tid] = [x for x in markets.get(tid, [])
+                            if x.get("source_market") != "JP"]
+            updated += 1
+        for r in tombstone_removals:
+            print(f"  STRICT tombstone: {r['id']} -> {r['action']}"
+                  + (f" (was ¥{r['previous_value']:,} @ {r['previous_last_updated']})"
+                     if r["action"] == "removed" else ""))
+
     # Scope-aware accounting: staged runs judge coverage only within the sets
     # actually fetched, otherwise a valid op01-only test would falsely abort.
     slug_set = set(slugs)
@@ -569,6 +606,7 @@ def main():
         "big_moves": big_moves,
         "fx": {"jpy_to_thb": fx, "source": fx_src},
         "aborted": False, "abort_reason": None,
+        "tombstone_removals": tombstone_removals,
     }
 
     # ── guards ────────────────────────────────────────────────────────────────
