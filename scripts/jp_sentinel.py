@@ -47,14 +47,17 @@ STATUS_PATH  = "onepiece-catalog/data/status.json"
 # Every tracked file the JP pipeline can produce. Snapshot before promotion,
 # restore all of them on any promotion-phase failure so a rejected run leaves
 # zero JP changes in the tree (EN edits to other files are untouched).
+EVIDENCE_PATH = "onepiece-catalog/data/jp-source-evidence.json"
+
 JP_TRACKED = [MARKETS_PATH, MIRROR_PATH, MAP_PATH, REPORT_PATH,
-              HISTORY_PATH, GAINERS_PATH, LOSERS_PATH]
+              HISTORY_PATH, GAINERS_PATH, LOSERS_PATH, EVIDENCE_PATH]
 
 WORK_ROOT = (os.environ.get("JP_WORK_DIR") or os.environ.get("RUNNER_TEMP")
              or tempfile.gettempdir())
 JP_RUN_DIR         = os.path.join(WORK_ROOT, "jp-run")
 CANDIDATE_PATH     = os.path.join(JP_RUN_DIR, "card-markets.candidate.json")
 CANDIDATE_MAP_PATH = os.path.join(JP_RUN_DIR, "jp-yuyu-map.candidate.json")
+CANDIDATE_EVIDENCE_PATH = os.path.join(JP_RUN_DIR, "jp-source-evidence.candidate.json")
 WORK_REPORT_PATH   = os.path.join(JP_RUN_DIR, "jp-fetch-report.json")
 BACKUP_DIR         = os.path.join(JP_RUN_DIR, "pre-promotion-backup")
 
@@ -235,6 +238,8 @@ def gate():
         try:
             shutil.copyfile(CANDIDATE_PATH, MARKETS_PATH)
             shutil.copyfile(CANDIDATE_MAP_PATH, MAP_PATH)
+            if os.path.exists(CANDIDATE_EVIDENCE_PATH):     # v2 strict runs only
+                shutil.copyfile(CANDIDATE_EVIDENCE_PATH, EVIDENCE_PATH)
             atomic_write(REPORT_PATH, report)
             if fault == "mirror":
                 raise RuntimeError("injected mirror fault")
@@ -246,7 +251,10 @@ def gate():
             if err:
                 raise RuntimeError(err)
             # final artifact-integrity check across everything that would commit
+            # (the v2 evidence file is optional until the first strict promotion)
             for p in JP_TRACKED:
+                if p == EVIDENCE_PATH and not os.path.exists(p):
+                    continue
                 if load_json(p, None) is None:
                     raise RuntimeError(f"integrity: {p} unparseable")
             if sha256_file(MIRROR_PATH) != sha256_file(MARKETS_PATH):

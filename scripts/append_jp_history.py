@@ -34,6 +34,12 @@ def main():
         for entry in entries:
             if entry.get("source_market") != "JP":
                 continue
+            # Data model v2 (founder step-6): only publishable LIVE prices may
+            # enter published history — OOS, suspect, under-review, unavailable
+            # and stale entries are excluded, so they can never reach trends or
+            # rankings. Legacy entries without a market_state keep old behavior.
+            if entry.get("market_state") not in (None, "live"):
+                continue
             jpy = float(entry.get("source_price") or 0)
             thb = float(entry.get("converted_price") or 0)
             if jpy > 0:
