@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-07-21T19:05:39.175937+00:00",
-  "snapshot_date": "2026-07-21",
-  "baseline_date": "2026-07-20",
-  "days_between_snapshots": 1,
-  "history_days_collected": 31,
+  "generated_at": "2026-07-23T19:01:06.843020+00:00",
+  "snapshot_date": "2026-07-23",
+  "baseline_date": "2026-07-21",
+  "days_between_snapshots": 2,
+  "history_days_collected": 32,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1259,
-  "cards_with_trend": 31,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 51,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,9 +20,9 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 8.13,
+      "today_price_usd": 8.12,
       "baseline_price_usd": 481.14,
-      "price_change_usd": -473.01,
+      "price_change_usd": -473.02,
       "price_change_percent": -98.31
     },
     {
@@ -32,22 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 35.47,
+      "today_price_usd": 35.85,
       "baseline_price_usd": 167.52,
-      "price_change_usd": -132.05,
-      "price_change_percent": -78.83
-    },
-    {
-      "card_id": "OP09-051",
-      "card_image_id": "OP09-051_p4",
-      "card_name": "Buggy - OP09-051 (SP) (Gold)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p4.jpg",
-      "today_price_usd": 1916.51,
-      "baseline_price_usd": 2037.11,
-      "price_change_usd": -120.6,
-      "price_change_percent": -5.92
+      "price_change_usd": -131.67,
+      "price_change_percent": -78.6
     },
     {
       "card_id": "OP05-091",
@@ -68,10 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 20.59,
-      "baseline_price_usd": 109.55,
-      "price_change_usd": -88.96,
-      "price_change_percent": -81.2
+      "today_price_usd": 20.65,
+      "baseline_price_usd": 109.35,
+      "price_change_usd": -88.7,
+      "price_change_percent": -81.12
+    },
+    {
+      "card_id": "OP04-056",
+      "card_image_id": "OP04-056_p2",
+      "card_name": "Gum-Gum Red Roc (Jolly Roger Foil)",
+      "set_code": "PRB-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-056_p2_6KicMKv.jpg",
+      "today_price_usd": 1.03,
+      "baseline_price_usd": 49.82,
+      "price_change_usd": -48.79,
+      "price_change_percent": -97.93
     }
   ]
 }
