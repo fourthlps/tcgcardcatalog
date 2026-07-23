@@ -2260,6 +2260,44 @@ function marketFor(c,lang){
   return recs.slice().sort((a,b)=>_finishRank(c,a)-_finishRank(c,b))[0];
 }
 
+// ─── JP MARKET-STATE LAYER (data model v2 — founder item-5, 2026-07-24) ─────
+// Centralized interpretation of market_state. Legacy entries (no market_state
+// field) keep the old source_price>0 behavior; once market_state exists it
+// OVERRIDES legacy behavior — a non-live record never shows a primary price
+// merely because an old source_price remains.
+function jpState(m){
+  if(!m)return null;
+  if(m.market_state)return m.market_state;
+  return m.source_price>0?'live':null;             // legacy compatibility
+}
+// May a NUMERIC price be displayed on a card surface? (live, or stale with
+// its retained value + mandatory warning chip)
+function jpPriced(m){
+  const s=jpState(m);
+  return s==='live'||(s==='stale'&&m.source_price>0);
+}
+// May this record COMPETE as a current price? (rankings, gainers/losers,
+// value leaderboards, chase price floors, current-value math): live only.
+function jpCurrent(m){return jpState(m)==='live';}
+function jpStateChip(m){
+  const s=jpState(m);
+  if(s==='stale'){
+    const d=m.last_updated||m.verified_in_stock_at||'';
+    return ` <span class="jp-state jp-st-stale">${S.lang==='th'?'ราคาเก่า':'stale'}${d?' · '+d:''}</span>`;
+  }
+  return '';
+}
+function jpNoPriceText(m){
+  const s=jpState(m),th=S.lang==='th';
+  if(s==='under_review')return th?'ราคาอยู่ระหว่างตรวจสอบ':'Price under review';
+  if(s==='conflict')return th?'ไม่มีราคา JP (ข้อมูลขัดแย้ง)':'JP price unavailable (conflicting data)';
+  return th?'ยังไม่มีข้อมูลราคา JP':'JP price unavailable';
+}
+document.head.insertAdjacentHTML('beforeend',
+  '<style>.jp-state{display:inline-block;font-size:10px;line-height:1.4;padding:0 6px;'+
+  'border-radius:8px;vertical-align:middle;white-space:nowrap}'+
+  '.jp-st-stale{background:#fdf3d8;color:#8a6100;border:1px solid #e8d49a}</style>');
+
 // ─── EDITION (JP/EN) LANGUAGE-CONTEXT PRIMITIVES ─────────────────────────────
 // The single source of truth for "which edition is this, and what's its price".
 // Law 1: every card/price element shows an edition badge FIRST.
@@ -2287,10 +2325,11 @@ function editionPrice(c,ed){
   if(ed==='JP'){
     const jp=marketFor(c,'JP');
     if(!jp)return '—';
+    if(!jpPriced(jp))return `<span class="ed-ref">${jpNoPriceText(jp)}</span>`;
     let approx='';
     if(S.cur==='THB'&&jp.converted_price>0)approx=` <span class="ed-ref">≈฿${Math.round(jp.converted_price).toLocaleString('th-TH')}</span>`;
     else if(S.cur==='USD'&&jp.source_price>0){const usd=jp.source_price*((D.marketsMeta&&D.marketsMeta.fx&&D.marketsMeta.fx.jpy_to_usd)||0.0062);approx=` <span class="ed-ref">≈$${usd.toFixed(0)}</span>`;}
-    return '¥'+Math.round(jp.source_price).toLocaleString()+approx;
+    return '¥'+Math.round(jp.source_price).toLocaleString()+approx+jpStateChip(jp);
   }
   return fp(realPrice(c));
 }
@@ -2300,11 +2339,14 @@ function tilePrice(c){
     const jp=marketFor(c,'JP');
     const ov=_getOverride(c);
     const ovJpy=ov&&ov.override_jp>0?Number(ov.override_jp):0;
-    if(jp||ovJpy>0){
+    if(jp&&!jpPriced(jp)&&!(ovJpy>0))
+      return `<span style="color:var(--faint)">${jpNoPriceText(jp)}</span>`;
+    if((jp&&jpPriced(jp))||ovJpy>0){
       const thb=ovJpy>0?ovJpy*activeJpyFx():(jp.converted_price>0?jp.converted_price:jp.source_price*activeJpyFx());
-      if(S.cur==='THB'&&thb>0)return '฿'+Math.round(thb).toLocaleString('th-TH')+' <span class="ed-ref">อ้างอิง</span>';
+      const chip=(!ovJpy&&jp)?jpStateChip(jp):'';
+      if(S.cur==='THB'&&thb>0)return '฿'+Math.round(thb).toLocaleString('th-TH')+' <span class="ed-ref">อ้างอิง</span>'+chip;
       const jpy=ovJpy||jp?.source_price||0;
-      return '¥'+Math.round(jpy).toLocaleString();
+      return '¥'+Math.round(jpy).toLocaleString()+chip;
     }
     return `<span style="color:var(--faint)">${S.lang==='th'?'ไม่มีข้อมูลราคา JP':'JP price N/A'}</span>`;
   }
@@ -2656,7 +2698,9 @@ function showcasePriceHtml(entry){
 function showcaseSrc(entry){
   const hit=(entry&&entry.id)?cardByImgId(entry.id):null;
   const jp=hit&&marketFor(hit.card,'JP');
-  return (jp&&jp.source_price>0)?{ed:'JP',ref:true}:{ed:'EN',ref:false};
+  // Value surfaces are current-price leaderboards: only LIVE JP records
+  // qualify (stale/under_review/unavailable/conflict never lead).
+  return (jp&&jpCurrent(jp))?{ed:'JP',ref:true}:{ed:'EN',ref:false};
 }
 // CEO ruling 2026-07-13: on homepage VALUE surfaces (Highest Value, Featured
 // Card, hero stat) One Piece shows its JP price ONLY — OP EN-only variants
@@ -3147,7 +3191,8 @@ function jpPreferredPriceThb(c){
   const ov=_getOverride(c);
   if(ov&&ov.override_jp!=null&&ov.override_jp>0)return Number(ov.override_jp)*jpy_thb;
   const jp=marketFor(c,'JP');
-  if(jp&&jp.source_price>0)return jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
+  // Current-value resolver (rankings, floors, collection math): LIVE only.
+  if(jp&&jpCurrent(jp)&&jp.source_price>0)return jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
   const en=marketFor(c,'EN');
   if(en&&en.source_price>0)return en.source_price*(activeFx());
   const m=Number(c.market_price);if(!isNaN(m)&&m>0)return m*(activeFx());
@@ -3156,10 +3201,10 @@ function jpPreferredPriceThb(c){
 // Price display string for the Highest Value panel (always in ฿).
 function jpPreferredDisplay(c){
   const jp=marketFor(c,'JP');
-  if(jp&&jp.source_price>0){
+  if(jp&&jpPriced(jp)&&jp.source_price>0){
     const jpy_thb=activeJpyFx();
     const thb=jp.converted_price>0?jp.converted_price:jp.source_price*jpy_thb;
-    return'฿ '+Math.round(thb).toLocaleString('th-TH');
+    return'฿ '+Math.round(thb).toLocaleString('th-TH')+jpStateChip(jp);
   }
   return fpL(realPrice(c));
 }
@@ -3724,25 +3769,27 @@ function chasePicks(limit){
 // One Piece chase cards show their JP price when a valid JP price exists;
 // otherwise an honest "no JP price yet" — NEVER the EN price. The card stays
 // visible either way. Lorcana (single-edition) keeps its valid EN market price.
-function _chaseNoJp(){return `<span style="font-size:11px;color:var(--faint)">${S.lang==='th'?'ยังไม่มีข้อมูลราคา JP':'JP price unavailable'}</span>`;}
+function _chaseNoJp(m){return `<span style="font-size:11px;color:var(--faint)">${m?jpNoPriceText(m):(S.lang==='th'?'ยังไม่มีข้อมูลราคา JP':'JP price unavailable')}</span>`;}
 function chaseShowcasePrice(entry){
   if(entry.game!=='one-piece')return fpL(entry.price_usd);              // Lorcana keeps EN
   const hit=cardByImgId(entry.id),jp=hit&&marketFor(hit.card,'JP');
-  if(jp&&jp.source_price>0){const thb=jpPreferredPriceThb(hit.card);return fpL(thb/activeFx(),thb);}
-  return _chaseNoJp();
+  if(jp&&jpCurrent(jp)){const thb=jpPreferredPriceThb(hit.card);return fpL(thb/activeFx(),thb);}
+  return _chaseNoJp(jp);
 }
 function chasePageEligible(c){
   if(chaseScore(c)<=0)return false;
   if(singleEdition(c))return realPrice(c)>0&&realPrice(c)*activeFx()>=CHASE_MIN_THB; // Lorcana EN floor
   const jp=marketFor(c,'JP');
-  if(jp&&jp.source_price>0)return jpPreferredPriceThb(c)>=CHASE_MIN_THB;              // OP JP floor
-  return true;                                                                        // OP w/o JP: keep visible
+  if(jp&&jpCurrent(jp))return jpPreferredPriceThb(c)>=CHASE_MIN_THB;                  // OP JP floor (live only)
+  return true;                                          // OP w/o current JP: keep visible, honest label
 }
 function chasePagePrice(c){
   if(singleEdition(c))return `${editionBadge('EN')} ${fpEdition(c)}`;                 // Lorcana EN
   const jp=marketFor(c,'JP');
-  if(jp&&jp.source_price>0){const thb=jpPreferredPriceThb(c);return `${editionBadge('JP')} ${fpL(thb/activeFx(),thb)}`;}
-  return _chaseNoJp();
+  if(jp&&jpCurrent(jp)){const thb=jpPreferredPriceThb(c);return `${editionBadge('JP')} ${fpL(thb/activeFx(),thb)}`;}
+  if(jp&&jpState(jp)==='stale'&&jp.source_price>0)
+    return `${editionBadge('JP')} ¥${Math.round(jp.source_price).toLocaleString()}${jpStateChip(jp)}`;
+  return _chaseNoJp(jp);
 }
 function renderChase(){
   const L=S.lang;
