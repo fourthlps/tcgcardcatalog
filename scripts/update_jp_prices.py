@@ -384,6 +384,21 @@ def main():
     policy = load_json(POLICY_PATH, {})
     policy_threshold = policy.get("high_value_threshold_jpy", 100000)
     approved_hv = policy.get("approved_high_value", {}) or {}
+    approved_legacy = policy.get("approved_legacy_reference", {}) or {}
+    # Auditable in-stock provenance (founder item-1 ruling 2026-07-24): a
+    # retained stale price requires EVIDENCE of a prior in-stock observation
+    # backing it — price equality with a frozen OOS ask proves nothing (could
+    # be a seed value, an import, or coincidence). The evidence layer carries
+    # last_instock_observed_at/last_instock_price durably across OOS
+    # transitions for exactly this purpose.
+    ev_prev = load_json(EVIDENCE_PATH, {"observations": {}}).get("observations", {})
+    instock_provenance = {}
+    for o in ev_prev.values():
+        if o.get("last_instock_price"):
+            instock_provenance[(o.get("card_image_id"), o.get("listing_key"))] = \
+                o["last_instock_price"]
+        elif o.get("stock_state") == "in_stock" and o.get("price"):
+            instock_provenance[(o.get("card_image_id"), o.get("listing_key"))] = o["price"]
     if STRICT:
         # Exclusivity: a verified target id (or tombstoned id) may not keep or
         # gain ANY automatic mapping — the wrong auto key can never coexist
@@ -548,7 +563,17 @@ def main():
         write_price, mstate, mreason, excl = True, "live", None, None
         if STRICT:
             write_price, mstate, mreason, excl = disposition(iid, L)
+            prev_obs = ev_prev.get(f"{iid}|yuyu-tei|{L['key']}", {})
+            if L["in_stock"]:
+                last_instock_at, last_instock_price = TODAY, L["price_jpy"]
+            else:
+                last_instock_at = prev_obs.get("last_instock_observed_at") or (
+                    prev_obs.get("observed_at") if prev_obs.get("stock_state") == "in_stock" else None)
+                last_instock_price = prev_obs.get("last_instock_price") or (
+                    prev_obs.get("price") if prev_obs.get("stock_state") == "in_stock" else None)
             observations[f"{iid}|yuyu-tei|{L['key']}"] = {
+                "last_instock_observed_at": last_instock_at,
+                "last_instock_price": last_instock_price,
                 "card_image_id": iid, "source": "yuyu-tei",
                 "listing_key": L["key"], "price": L["price_jpy"],
                 "currency": "JPY",
@@ -600,29 +625,41 @@ def main():
             if delta > BIG_MOVE_PCT:
                 big_moves += 1
         if STRICT and not write_price:
-            if L["key"] in verified_map:
-                if (not L["in_stock"]) and old > 0 and old == L["price_jpy"]:
-                    # The existing value equals the verified listing's frozen
-                    # OOS ask — provenance is the listing itself. Founder OOS
-                    # rule: retain the last-known-good price, labeled stale;
-                    # never advance its timestamp from an OOS sighting.
-                    state_stamps[iid] = ("stale", "verified_source_out_of_stock")
+            is_verified = L["key"] in verified_map
+            if not L["in_stock"] and old > 0:
+                # Founder item-1/3 ruling (2026-07-24): mutually exclusive
+                # OOS classification. Price equality is NOT provenance.
+                if instock_provenance.get((iid, L["key"])) == old:
+                    # auditable prior in-stock observation backs this value
+                    state_stamps[iid] = ("stale", "verified_instock_provenance")
+                elif iid in approved_legacy:
+                    state_stamps[iid] = ("stale", "founder_approved_legacy_reference")
                 else:
-                    # A value that did not come from the verified listing (or
-                    # an under-review policy failure) must stop being
-                    # publishable (founder step-6 ruling item 2).
-                    if old > 0:
-                        strict_removals.append({
-                            "id": iid, "action": "removed",
-                            "previous_value": e.get("source_price"),
-                            "previous_last_updated": e.get("last_updated"),
-                            "category": "verified_identity_supersedes_legacy_price",
-                            "reason": mreason})
-                        updated += 1
-                    state_stamps[iid] = (mstate, mreason)
-            elif existed:
-                # Ordinary mapping, OOS: price and timestamp untouched;
-                # entry is labeled stale (retained last-known-good).
+                    strict_removals.append({
+                        "id": iid, "action": "removed",
+                        "previous_value": e.get("source_price"),
+                        "previous_last_updated": e.get("last_updated"),
+                        "category": ("verified_identity_supersedes_legacy_price"
+                                     if is_verified else
+                                     "legacy_price_unknown_provenance"),
+                        "reason": mreason})
+                    updated += 1
+                    state_stamps[iid] = ("unavailable",
+                                         "no_auditable_instock_provenance"
+                                         if not is_verified else mreason)
+            elif is_verified:
+                # in-stock but policy-failed (under_review): existing price
+                # stops being publishable (founder step-6 ruling item 2).
+                if old > 0:
+                    strict_removals.append({
+                        "id": iid, "action": "removed",
+                        "previous_value": e.get("source_price"),
+                        "previous_last_updated": e.get("last_updated"),
+                        "category": "verified_identity_supersedes_legacy_price",
+                        "reason": mreason})
+                    updated += 1
+                state_stamps[iid] = (mstate, mreason)
+            elif not existed and is_verified:
                 state_stamps[iid] = (mstate, mreason)
             continue
         if L["price_jpy"] != old or e.get("last_updated") != TODAY:
