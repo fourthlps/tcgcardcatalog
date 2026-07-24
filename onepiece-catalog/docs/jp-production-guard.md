@@ -74,3 +74,18 @@ candidate missing/malformed, checksum mismatch, no results, failed set,
 throttled-incomplete set, floor, mirror/history/trends fault rollback,
 run-id mismatch, promotion, dry-run skip); watchdog 9/9 (happy path + eight
 failure paths incl. API-unreachable → red); prev-status fix 2/2.
+
+## Real-world rejection incidents (live-fire validation)
+
+**2026-07-22, scheduled run 29949024837 — source-page failure.** One Yuyu set page
+failed to fetch. Gate rejected the candidate (`1 set(s) failed`). JP production
+files remained last-known-good (`published_refreshed: 0`, published newest stayed
+2026-07-21); the run's commit contained only the rejection status block;
+`last_successful_run_id` correctly carried the prior good run (29860031897); the
+workflow finished red; the next scheduled run (2026-07-23) promoted normally and
+self-recovered. Prevention validated against a real source failure.
+
+**2026-07-24, dispatch run 30090580089 — throttling.** One set was left incomplete
+by Yuyu throttling after retries. Gate rejected (`1 set(s) left incomplete by
+throttling`); identical protections held (production unchanged, EN preserved,
+red run). A second real failure category handled correctly.
