@@ -1,5 +1,5 @@
 {
- "last_updated": "2026-07-24T12:28:01.105905+00:00",
+ "last_updated": "2026-07-24T12:45:44.895655+00:00",
  "run_date": "2026-07-24",
  "status": "success",
  "api": {
@@ -18,67 +18,36 @@
  },
  "trends": {
   "status": "ok",
-  "gainers_count": 5,
-  "losers_count": 5,
+  "gainers_count": 0,
+  "losers_count": 0,
   "confidence": "high",
-  "baseline_date": "2026-07-23",
-  "days_between_snapshots": 1,
+  "baseline_date": "2026-07-24",
+  "days_between_snapshots": 0,
   "history_days_collected": 33
  },
  "jp": {
-  "attempted_run_id": "30093168649",
-  "attempted_at": "2026-07-24T12:43:48+00:00",
-  "workflow_run_id": "30093168649",
+  "attempted_run_id": "30094263939",
+  "attempted_at": "2026-07-24T13:00:45+00:00",
+  "workflow_run_id": "30094263939",
   "fetch_outcome": "success",
   "candidate_state": "ok",
-  "promotion_state": "promoted",
-  "rejection_reasons": [],
+  "promotion_state": "rejected",
+  "rejection_reasons": [
+   "1 set(s) failed",
+   "1 set(s) left incomplete by throttling"
+  ],
   "attempted": {
-   "listings_seen": 3360,
-   "matched": 2304,
-   "refreshed": 2304
+   "listings_seen": 3172,
+   "matched": 2162,
+   "refreshed": 2162
   },
   "published": {
    "newest_jp_date": "2026-07-24",
-   "refreshed_last_run": 2304,
+   "refreshed_last_run": 0,
    "jp_entries_total": 2541,
    "stale_count": 0,
    "stale_by_set": {},
-   "refreshed_by_set": {
-    "OP01": 141,
-    "OP09": 140,
-    "OP10": 135,
-    "OP08": 132,
-    "OP07": 131,
-    "OP05": 129,
-    "OP13": 123,
-    "OP06": 119,
-    "OP11": 114,
-    "OP16": 114,
-    "OP03": 113,
-    "OP02": 110,
-    "OP04": 109,
-    "OP12": 107,
-    "EB03": 66,
-    "EB01": 55,
-    "EB02": 53,
-    "PRB02": 14,
-    "ST30": 9,
-    "EB04": 8,
-    "ST13": 5,
-    "ST21": 4,
-    "ST15": 3,
-    "ST29": 3,
-    "OP14": 2,
-    "ST04": 2,
-    "ST22": 2,
-    "ST01": 1,
-    "ST02": 1,
-    "ST14": 1,
-    "PRB01": 1,
-    "ST03": 1,
-    "ST12": 1
-   }
+   "refreshed_by_set": {}
   },
   "last_successful_run_id": "30093168649",
   "last_successful_refresh_at": "2026-07-24T12:43:48+00:00",
@@ -86,8 +55,8 @@
    "floor_enforced": 2000,
    "relative_mode": "report-only",
    "baseline": 2304,
-   "relative_threshold": 1960,
-   "relative_pass": true
+   "relative_threshold": 1958,
+   "relative_pass": false
   }
  }
 }
