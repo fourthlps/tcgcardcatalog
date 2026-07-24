@@ -550,7 +550,9 @@ def main():
     fx, fx_src = fetch_fx(fx_prev)
 
     matched = matched_existing = updated = created = big_moves = 0
-    verified_today = 0     # entries CONFIRMED today (incl. unchanged same-day)
+    # verified_today (reported below) = the matched population: every listing
+    # fetched, matched and identity-confirmed THIS run, regardless of whether
+    # its price is ultimately publishable (founder definition 2026-07-24).
     seen_existing = set()
     seen_this_run = set()
     observations = {}     # STRICT: latest observation per card|source|listing key
@@ -696,7 +698,6 @@ def main():
             e["conversion_rate_used"] = fx
             e["last_updated"] = TODAY
             updated += 1
-        verified_today += 1
         if STRICT:
             e["market_state"] = "live"
             e["state_reason"] = None
@@ -855,7 +856,7 @@ def main():
         "listings_seen": len(listings),
         "matched": matched, "matched_existing": matched_existing,
         "match_ratio": round(ratio, 3), "updated": updated,
-        "created": created, "verified_today": verified_today,
+        "created": created, "verified_today": matched,
         "verified_mappings": len(verified_map),
         "deduped_jp_records": deduped_jp_records,
         "new_mappings": new_maps, "new_unmapped": new_unmapped,
