@@ -524,7 +524,8 @@ def main():
             mapped_ids.add(cands[0]); new_maps += 1; continue
         for L in Ls:                                               # price-join
             hits = [i for i in cands
-                    if jp_entry(markets, i) and abs(jp_entry(markets, i)["source_price"] - L["price_jpy"]) < 0.5
+                    if jp_entry(markets, i) and jp_entry(markets, i).get("source_price") is not None
+                    and abs(jp_entry(markets, i)["source_price"] - L["price_jpy"]) < 0.5
                     and i not in mapped_ids]
             if len(hits) == 1:
                 cid_map[L["key"]] = hits[0]; mp["map"][L["key"]] = hits[0]
