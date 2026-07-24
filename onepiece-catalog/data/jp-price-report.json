@@ -1,5 +1,5 @@
 {
- "run_date": "2026-07-23",
+ "run_date": "2026-07-24",
  "source": "yuyu-tei",
  "dry_run": false,
  "transport": "relay",
@@ -10,29 +10,4765 @@
  "sets_failed": 0,
  "sets_missing_on_source": [],
  "throttle_stopped": false,
- "retries_total": 0,
- "runtime_seconds": 314.9,
+ "retries_total": 20,
+ "runtime_seconds": 750.7,
  "listings_seen": 3360,
- "matched": 2306,
- "matched_existing": 2306,
+ "matched": 2304,
+ "matched_existing": 2303,
  "match_ratio": 1.0,
- "updated": 2306,
+ "updated": 2540,
  "created": 0,
- "verified_mappings": 294,
+ "verified_today": 2304,
+ "verified_mappings": 299,
  "deduped_jp_records": [],
  "new_mappings": 0,
- "new_unmapped": 0,
- "unmapped_total": 1054,
+ "new_unmapped": 6,
+ "unmapped_total": 1056,
  "missing_cids": 0,
  "duplicate_cids": [],
- "big_moves": 0,
+ "big_moves": 4,
  "fx": {
   "jpy_to_thb": 0.20691,
-  "source": "frankfurter 2026-07-23"
+  "source": "frankfurter 2026-07-24"
  },
  "aborted": false,
  "abort_reason": null,
+ "tombstone_removals": [
+  {
+   "id": "OP01-016_p2",
+   "action": "removed",
+   "category": "tombstone",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "reason": "no SP listing exists on Yuyu; auto-match had bound the SP variant to the base card (founder 2026-07-19/21)"
+  },
+  {
+   "id": "OP07-051_p3",
+   "action": "removed",
+   "category": "tombstone",
+   "previous_value": 298000,
+   "previous_last_updated": "2026-07-23",
+   "reason": "matched art belongs to OP07-051_p2 per founder Q3 decision 2026-07-21; _p3 SP market needs separate sourcing"
+  },
+  {
+   "id": "OP12-014_p2",
+   "action": "removed",
+   "category": "hold",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "reason": "correct verified listing op15/10149 is outside current fetch scope (founder G2 ruling 2026-07-23)"
+  }
+ ],
+ "strict_removals": [
+  {
+   "id": "OP01-120_p2",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-121_p1",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-120",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-024_p1",
+   "action": "removed",
+   "previous_value": 12800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-025_p1",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-051_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-070_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-078_p1",
+   "action": "removed",
+   "previous_value": 9980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-094_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-093_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-077",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-064",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-003",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-120_p2",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-004",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-013_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-013_p2",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-036",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-062",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-114_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-018_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-058",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-073",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-009",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-031",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-059",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-001",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-025",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-072",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-093",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-122_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-122_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP03-123_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-123",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-013",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-080",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-092_p2",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-114_p2",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-112_p4",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-048",
+   "action": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-001",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-021",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-022",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-058",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-076",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-077",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-099",
+   "action": "removed",
+   "previous_value": 3480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-118",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-119_p2",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-024_p2",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-044_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP04-060",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-064_p2",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-083_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP04-083_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP04-104_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP04-112_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP04-064",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-001",
+   "action": "removed",
+   "previous_value": 9980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-020",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-040",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-058",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-047_p2",
+   "action": "removed",
+   "previous_value": 12800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-078_p2",
+   "action": "removed",
+   "previous_value": 99800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-119_p2",
+   "action": "removed",
+   "previous_value": 1280000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-043",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-051_p2",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-069_p2",
+   "action": "removed",
+   "previous_value": 148000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-074_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-091_p2",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST01-012_p3",
+   "action": "removed",
+   "previous_value": 798000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-034",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-102",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-019",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-038",
+   "action": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-087",
+   "action": "removed",
+   "previous_value": 30,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-092",
+   "action": "removed",
+   "previous_value": 7980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-118_p1",
+   "action": "removed",
+   "previous_value": 7980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-118_p2",
+   "action": "removed",
+   "previous_value": 398000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-119_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-043",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-086_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-013",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-025",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-081",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-050",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-058",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-001_p1",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-022_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-042_p1",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-080_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-008_p1",
+   "action": "removed",
+   "previous_value": 9980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-118_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-119_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-015_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-026_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-029_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-051_p1",
+   "action": "removed",
+   "previous_value": 7980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-022_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-022",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-077",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-001_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-019_p1",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-079_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-097_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-038",
+   "action": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-035_p2",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP01-073_p2",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-003_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-074_p3",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-118_p2",
+   "action": "removed",
+   "previous_value": 59800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP08-007_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-069_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-079_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-112_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-052_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-067_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-062",
+   "action": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-001_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-057_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-058_p1",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP08-098_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST03-004_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST04-005_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST06-006_p2",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-118_p2",
+   "action": "removed",
+   "previous_value": 998000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-119_p2",
+   "action": "removed",
+   "previous_value": 398000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-004_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-004_p2",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-037_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-093_p2",
+   "action": "removed",
+   "previous_value": 248000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-051_p4",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-098",
+   "action": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-042_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-061_p1",
+   "action": "removed",
+   "previous_value": 14800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-119_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP10-119",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-016_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-030_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-112_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-019_p1",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-037_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-111_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-060",
+   "action": "removed",
+   "previous_value": 30,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-022_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-042_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST12-012_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST18-001_p1",
+   "action": "removed",
+   "previous_value": 7980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP11-118_p2",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP11-070",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-018",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-114",
+   "action": "removed",
+   "previous_value": 14800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-061",
+   "action": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-001",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-040",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-062",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-057_p2",
+   "action": "removed",
+   "previous_value": 14800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-119_p8",
+   "action": "removed",
+   "previous_value": 1480000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-119_p7",
+   "action": "removed",
+   "previous_value": 998000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP12-118_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP12-015",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-034",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-056",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-037",
+   "action": "removed",
+   "previous_value": 29800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-043",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-044",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-071",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-112",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-051",
+   "action": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-001",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-040",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-061",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP12-081",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP10-082_p2",
+   "action": "removed",
+   "previous_value": 7980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST18-004_p2",
+   "action": "removed",
+   "previous_value": 24800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-093_p5",
+   "action": "removed",
+   "previous_value": 348000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-093_p4",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-118_p2",
+   "action": "removed",
+   "previous_value": 598000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-118_p3",
+   "action": "removed",
+   "previous_value": 2480000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-119_p2",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "high_value_pending_review",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP13-119_p3",
+   "action": "removed",
+   "previous_value": 798000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-120_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "high_value_pending_review",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP13-120_p3",
+   "action": "removed",
+   "previous_value": 598000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-028",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-082",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-027",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-051",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-114",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP13-100",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP07-118",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-118",
+   "action": "removed",
+   "previous_value": 14800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-119",
+   "action": "removed",
+   "previous_value": 49800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-028",
+   "action": "removed",
+   "previous_value": 9980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP09-004_p6",
+   "action": "removed",
+   "previous_value": 79800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP16-118",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP16-003",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP16-065_p2",
+   "action": "removed",
+   "previous_value": 498000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP16-014",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP16-021",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP16-063_p2",
+   "action": "removed",
+   "previous_value": 398000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP16-073_p2",
+   "action": "removed",
+   "previous_value": 348000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  },
+  {
+   "id": "OP16-001",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP11-067",
+   "action": "removed",
+   "previous_value": 9980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-006_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB01-006_p2",
+   "action": "removed",
+   "previous_value": 348000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB01-012",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-034",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-046",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-048",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-052",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-013",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-056",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-028",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-021",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB01-040",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-061_p2",
+   "action": "removed",
+   "previous_value": 798000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB02-035",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-052",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-003",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-036",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-020",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-041",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-058",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB02-010",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB03-061_p2",
+   "action": "removed",
+   "previous_value": 148000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB03-024_p2",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB03-057",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "EB03-053_p2",
+   "action": "removed",
+   "previous_value": 6980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB03-055_p2",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB04-044_p2",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB04-058_p1",
+   "action": "removed",
+   "previous_value": 14800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB04-002_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB04-001_p1",
+   "action": "removed",
+   "previous_value": 19800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "EB04-003_p1",
+   "action": "removed",
+   "previous_value": 12800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-120_p5",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-120_r2",
+   "action": "removed",
+   "previous_value": 248000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-121_p4",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-121_p3",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-122",
+   "action": "removed",
+   "previous_value": 99800,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-123_p4",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP04-083",
+   "action": "removed",
+   "previous_value": 148000,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-119_p4",
+   "action": "removed",
+   "previous_value": 12800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-121_p7",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-047_p4",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-004_p2",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP02-013_r1",
+   "action": "removed",
+   "previous_value": 248000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-099_p2",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-108",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-113",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-044_p2",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-112",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-006_p3",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-007_p3",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-043_p3",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-069",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-086",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST10-010_p4",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-016_p8",
+   "action": "removed",
+   "previous_value": 128000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-018_p5",
+   "action": "removed",
+   "previous_value": 420,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-089_p4",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-057_p4",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-089_p5",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-110_p5",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP04-089_p3",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-015_p4",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-082_p3",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-082_p4",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-023_p3",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-036_p3",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-065_p3",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-067_p3",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP01-052_p4",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-117",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-056_p4",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-094",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP03-116",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP04-032",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP05-010_p3",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-081_p3",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-081_p4",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP05-117_p4",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-003",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-038",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-091",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-110",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-114",
+   "action": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "OP06-066",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST01-006_p7",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST01-006_p8",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST02-004_p4",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST03-005_p5",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST03-013_p3",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST06-010_p3",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-119_p3",
+   "action": "removed",
+   "previous_value": 198000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "PRB02-005_p1",
+   "action": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "PRB02-010_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "PRB02-014_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST16-004_p2",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST17-002_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "PRB02-003_p1",
+   "action": "removed",
+   "previous_value": 680,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP02-068_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP03-072_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-058_p1",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-076_p2",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-086_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP10-095_p1",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP10-109_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP10-114_p2",
+   "action": "removed",
+   "previous_value": 580,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST18-001_p3",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP06-007_p6",
+   "action": "removed",
+   "previous_value": 17800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-008_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-011_p1",
+   "action": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-013_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-015_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-004_p1",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-009_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-010_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-014_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-016_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-001_p1",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-002_p1",
+   "action": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST13-003_p1",
+   "action": "removed",
+   "previous_value": 24800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-015_p1",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-002_p1",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-004_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-006_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-008_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-009_p1",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-010_p1",
+   "action": "removed",
+   "previous_value": 1780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-011_p1",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-013_p1",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST21-001_p1",
+   "action": "removed",
+   "previous_value": 79800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-002_p1",
+   "action": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-003_p1",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-004_p1",
+   "action": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-006_p1",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-007_p1",
+   "action": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-009_p1",
+   "action": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-010_p1",
+   "action": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-011_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-012_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-013_p1",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-014_p1",
+   "action": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST22-001_p1",
+   "action": "removed",
+   "previous_value": 12800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "OP09-078",
+   "action": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-07-23",
+   "category": "legacy_price_unknown_provenance",
+   "reason": "no_current_instock_observation"
+  },
+  {
+   "id": "ST29-014_p1",
+   "action": "removed",
+   "previous_value": 2480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST29-006_p1",
+   "action": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST29-008_p1",
+   "action": "removed",
+   "previous_value": 3480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST29-009_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST30-007_p1",
+   "action": "removed",
+   "previous_value": 3480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST30-012_p1",
+   "action": "removed",
+   "previous_value": 17800,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST30-004_p1",
+   "action": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST30-014_p1",
+   "action": "removed",
+   "previous_value": 4980,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "verified_source_out_of_stock"
+  },
+  {
+   "id": "ST30-001_p1",
+   "action": "removed",
+   "previous_value": 148000,
+   "previous_last_updated": "2026-07-23",
+   "category": "verified_identity_supersedes_legacy_price",
+   "reason": "high_value_requires_completed_sale_or_founder_approval"
+  }
+ ],
+ "legacy_sweep": [
+  {
+   "id": "OP02-085",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP09-019",
+   "outcome": "removed",
+   "previous_value": 30,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-084_p2",
+   "outcome": "removed",
+   "previous_value": 89800,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-029_p1",
+   "outcome": "removed",
+   "previous_value": 14800,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-096",
+   "outcome": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-108",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-111",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-112",
+   "outcome": "removed",
+   "previous_value": 420,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-105",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-118",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-027",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-074",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-063",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-061",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-110",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-069",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-023",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-104",
+   "outcome": "removed",
+   "previous_value": 980,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-100",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-114",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-031",
+   "outcome": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-033",
+   "outcome": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-113",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-107",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-072",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-049",
+   "outcome": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-067",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-013",
+   "outcome": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-120",
+   "outcome": "removed",
+   "previous_value": 1280,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-068",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-034",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-039",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-016",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-109",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-043",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-099",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-076",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-050",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-083",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-022",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-047",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-115",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-014",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-097",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-054",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-046",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-078",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-036",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-005",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-026",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-056",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-051",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-117",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-077",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-019",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-018",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-024",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-032",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-045",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-011",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-010",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-071",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-004",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-037",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-089",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-002",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-058",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-106",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-062",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-020",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-001",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-017",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-059",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-116",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-065",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-079",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-057",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-040",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-075",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-044",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-012",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-006",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-070",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-082",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-055",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-053",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-003",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-081",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-095",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-064",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-073",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-052",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-030",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-048",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-035",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-021",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-025",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-101",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-028",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-008",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP10-065_p1",
+   "outcome": "removed",
+   "previous_value": 12800,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-066",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-112_p2",
+   "outcome": "removed",
+   "previous_value": 89800,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP07-046_p2",
+   "outcome": "removed",
+   "previous_value": 5980,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-042",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-041",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-098",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-119",
+   "outcome": "removed",
+   "previous_value": 1480,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-038",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-007",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-009",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-015",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-102",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP14-060",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-113",
+   "outcome": "removed",
+   "previous_value": 780,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-092",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-046",
+   "outcome": "removed",
+   "previous_value": 420,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-032",
+   "outcome": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-053",
+   "outcome": "removed",
+   "previous_value": 420,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-040",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-086",
+   "outcome": "removed",
+   "previous_value": 500,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-020",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-078",
+   "outcome": "removed",
+   "previous_value": 1980,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-060",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-114",
+   "outcome": "removed",
+   "previous_value": 320,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-052",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-023",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-088",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-085",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-047",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-066",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-021",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-008",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-007",
+   "outcome": "removed",
+   "previous_value": 220,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-067",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-054",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-077",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-057",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-108",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-061",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-056",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-118",
+   "outcome": "removed",
+   "previous_value": 3980,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-109",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-081",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-116",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-094",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-035",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-076",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-119",
+   "outcome": "removed",
+   "previous_value": 2980,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-071",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-009",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-075",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-027",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-096",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-090",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-038",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-055",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-025",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-006",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-024",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-084",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-003",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-026",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-014",
+   "outcome": "removed",
+   "previous_value": 120,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-095",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-087",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-036",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-105",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-063",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-042",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-098",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-111",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-051",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-019",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-079",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-080",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-044",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-099",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-097",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-002",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-068",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-004",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-015",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-112",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-102",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-012",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-070",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-058",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-013",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-107",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-110",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-117",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-104",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-082",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-001",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-010",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-115",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-100",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-089",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-091",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-005",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-030",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-045",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-048",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-029",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-064",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-072",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-034",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-033",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-018",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-031",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-041",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-039",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-073",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-049",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-016",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-059",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-106",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-093",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-065",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-103",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-043",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-050",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-062",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP13-031_p1",
+   "outcome": "removed",
+   "previous_value": 29800,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-022",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-011",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-017",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-037",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-028",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-074",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-069",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-083",
+   "outcome": "removed",
+   "previous_value": 50,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  },
+  {
+   "id": "OP15-101",
+   "outcome": "removed",
+   "previous_value": 80,
+   "previous_last_updated": "2026-06-30",
+   "category": "legacy_unseen_no_provenance",
+   "reason": "correct_source_outside_current_fetch_scope"
+  }
+ ],
+ "observations_recorded": 2304,
  "verified_violations": [],
- "run_id": "30036209120",
- "candidate_sha256": "df1d03e5808afb4e3a295a677fd2c279f3d7243ea227a428956e9002bcfc474f"
+ "run_id": "30093168649",
+ "candidate_sha256": "94c67b0abf355643a31be433fea26e59cf861ca409cfbc44ad9a621a02ec1d01"
 }
