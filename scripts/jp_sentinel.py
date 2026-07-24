@@ -211,7 +211,9 @@ def gate():
             if not want or sha256_file(CANDIDATE_PATH) != want:
                 reasons.append("candidate checksum mismatch")
         if report_state == "ok" and not report.get("aborted"):
-            refreshed = report.get("updated", 0) + report.get("created", 0)
+            vt = report.get("verified_today")
+            refreshed = vt if vt is not None else (
+                report.get("updated", 0) + report.get("created", 0))
             if report.get("listings_seen", 0) == 0 or refreshed == 0:
                 reasons.append("no usable relay results")
             if refreshed < COVERAGE_FLOOR:
@@ -278,7 +280,7 @@ def gate():
 
     # ── status block: attempted vs published ─────────────────────────────────
     pub = jp_stats(load_json(MARKETS_PATH, {}).get("markets", {}))
-    attempted_refreshed = (report.get("updated", 0) + report.get("created", 0)) \
+    attempted_refreshed = ((report.get("verified_today") if report.get("verified_today") is not None else report.get("updated", 0) + report.get("created", 0))) \
         if isinstance(report, dict) else 0
     published_refreshed = attempted_refreshed if promotion_state == "promoted" else 0
 
