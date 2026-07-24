@@ -15,6 +15,11 @@ on:
         type: boolean
         default: false
         required: false
+      jp_strict:
+        description: 'TEST BRANCH ONLY: enable JP_VERIFIED_STRICT (data model v2 + package + migration sweep) for this dispatch.'
+        type: boolean
+        default: false
+        required: false
       jp_sets:
         description: 'Staged validation: comma-separated Yuyu set slugs (e.g. op01 or op05,st01,eb01). Empty = all sets.'
         type: string
@@ -54,6 +59,7 @@ jobs:
         env:
           JP_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_dry_run || 'false' }}
           JP_SETS: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_sets || '' }}
+          JP_VERIFIED_STRICT: ${{ github.event_name == 'workflow_dispatch' && inputs.jp_strict || 'false' }}
           JP_RELAY_URL: ${{ secrets.JP_RELAY_URL }}
           JP_RELAY_SECRET: ${{ secrets.JP_RELAY_SECRET }}
         run: python scripts/update_jp_prices.py
