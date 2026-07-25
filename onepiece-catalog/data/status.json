@@ -1,34 +1,34 @@
 {
- "last_updated": "2026-07-24T19:13:48.581484+00:00",
- "run_date": "2026-07-24",
- "status": "success",
+ "last_updated": "2026-07-25T18:54:41.570412+00:00",
+ "run_date": "2026-07-25",
+ "status": "partial",
  "api": {
   "source": "optcgapi.com",
-  "status": "ok",
-  "sets_fetched": 51,
-  "sets_failed": 0,
-  "total_cards": 4023,
-  "cards_with_price": 4023
+  "status": "partial",
+  "sets_fetched": 0,
+  "sets_failed": 51,
+  "total_cards": 0,
+  "cards_with_price": 0
  },
  "history": {
-  "status": "ok",
+  "status": "skipped",
   "days_collected": 33,
   "last_snapshot_date": "2026-07-24",
-  "sheets_append": "skipped_safety"
+  "sheets_append": "skipped"
  },
  "trends": {
-  "status": "ok",
-  "gainers_count": 5,
-  "losers_count": 5,
-  "confidence": "high",
-  "baseline_date": "2026-07-23",
-  "days_between_snapshots": 1,
+  "status": "no_baseline",
+  "gainers_count": 0,
+  "losers_count": 0,
+  "confidence": "low",
+  "baseline_date": null,
+  "days_between_snapshots": 0,
   "history_days_collected": 33
  },
  "jp": {
-  "attempted_run_id": "30119973219",
-  "attempted_at": "2026-07-24T19:22:11+00:00",
-  "workflow_run_id": "30119973219",
+  "attempted_run_id": "30170555913",
+  "attempted_at": "2026-07-25T19:15:24+00:00",
+  "workflow_run_id": "30170555913",
   "fetch_outcome": "success",
   "candidate_state": "ok",
   "promotion_state": "promoted",
@@ -39,7 +39,7 @@
    "refreshed": 2306
   },
   "published": {
-   "newest_jp_date": "2026-07-24",
+   "newest_jp_date": "2026-07-25",
    "refreshed_last_run": 2306,
    "jp_entries_total": 2540,
    "stale_count": 234,
@@ -93,8 +93,8 @@
     "ST16": 1
    }
   },
-  "last_successful_run_id": "30119973219",
-  "last_successful_refresh_at": "2026-07-24T19:22:11+00:00",
+  "last_successful_run_id": "30170555913",
+  "last_successful_refresh_at": "2026-07-25T19:15:24+00:00",
   "coverage": {
    "floor_enforced": 2000,
    "relative_mode": "report-only",
