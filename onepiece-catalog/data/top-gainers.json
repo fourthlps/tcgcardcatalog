@@ -1,18 +1,30 @@
 {
-  "generated_at": "2026-07-30T19:11:33.431287+00:00",
-  "snapshot_date": "2026-07-30",
-  "baseline_date": "2026-07-29",
-  "days_between_snapshots": 1,
-  "history_days_collected": 38,
+  "generated_at": "2026-08-01T18:56:13.871862+00:00",
+  "snapshot_date": "2026-08-01",
+  "baseline_date": "2026-07-30",
+  "days_between_snapshots": 2,
+  "history_days_collected": 39,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1251,
-  "cards_with_trend": 18,
+  "cards_evaluated": 1249,
+  "cards_with_trend": 40,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP01-024",
+      "card_image_id": "OP01-024_p1",
+      "card_name": "Monkey.D.Luffy (024) (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-024_p1.jpg",
+      "today_price_usd": 230.77,
+      "baseline_price_usd": 214.99,
+      "price_change_usd": 15.78,
+      "price_change_percent": 7.34
+    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -21,21 +33,9 @@
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
       "today_price_usd": 5.69,
-      "baseline_price_usd": 1.06,
-      "price_change_usd": 4.63,
-      "price_change_percent": 436.79
-    },
-    {
-      "card_id": "EB03-034",
-      "card_image_id": "EB03-034_p1",
-      "card_name": "Charlotte Linlin (Alternate Art)",
-      "set_code": "EB-03",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-034_p1_56maI5N.jpg",
-      "today_price_usd": 16.32,
-      "baseline_price_usd": 12.15,
-      "price_change_usd": 4.17,
-      "price_change_percent": 34.32
+      "baseline_price_usd": 1.07,
+      "price_change_usd": 4.62,
+      "price_change_percent": 431.78
     },
     {
       "card_id": "OP01-033",
@@ -44,34 +44,34 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.69,
+      "today_price_usd": 5.64,
       "baseline_price_usd": 1.84,
-      "price_change_usd": 3.85,
-      "price_change_percent": 209.24
+      "price_change_usd": 3.8,
+      "price_change_percent": 206.52
     },
     {
-      "card_id": "ST16-004",
-      "card_image_id": "ST16-004_p2",
-      "card_name": "Shanks - ST16-004 (Alternate Art)",
+      "card_id": "EB03-026",
+      "card_image_id": "EB03-026_p1",
+      "card_name": "Boa Hancock (Alternate Art)",
+      "set_code": "EB-03",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-026_p1_eFWOcPG.jpg",
+      "today_price_usd": 44.43,
+      "baseline_price_usd": 40.74,
+      "price_change_usd": 3.69,
+      "price_change_percent": 9.06
+    },
+    {
+      "card_id": "PRB02-010",
+      "card_image_id": "PRB02-010",
+      "card_name": "Charlotte Pudding - PRB02-010",
       "set_code": "PRB-02",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST16-004_p2.jpg",
-      "today_price_usd": 56.35,
-      "baseline_price_usd": 54.43,
-      "price_change_usd": 1.92,
-      "price_change_percent": 3.53
-    },
-    {
-      "card_id": "EB01-013",
-      "card_image_id": "EB01-013",
-      "card_name": "Kouzuki Hiyori",
-      "set_code": "EB-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-013.jpg",
-      "today_price_usd": 7.39,
-      "baseline_price_usd": 6.16,
-      "price_change_usd": 1.23,
-      "price_change_percent": 19.97
+      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010.jpg",
+      "today_price_usd": 13.89,
+      "baseline_price_usd": 11.75,
+      "price_change_usd": 2.14,
+      "price_change_percent": 18.21
     }
   ]
 }
