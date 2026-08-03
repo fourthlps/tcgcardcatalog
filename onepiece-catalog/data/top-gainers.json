@@ -1,42 +1,18 @@
 {
-  "generated_at": "2026-08-02T18:56:55.905224+00:00",
-  "snapshot_date": "2026-08-02",
-  "baseline_date": "2026-08-01",
+  "generated_at": "2026-08-03T19:20:28.467011+00:00",
+  "snapshot_date": "2026-08-03",
+  "baseline_date": "2026-08-02",
   "days_between_snapshots": 1,
-  "history_days_collected": 40,
+  "history_days_collected": 41,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1251,
-  "cards_with_trend": 31,
+  "cards_evaluated": 1252,
+  "cards_with_trend": 13,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP09-093",
-      "card_image_id": "OP09-093_p2",
-      "card_name": "Marshall.D.Teach (093) (Manga)",
-      "set_code": "OP-09",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p2.jpg",
-      "today_price_usd": 1999.99,
-      "baseline_price_usd": 1750.0,
-      "price_change_usd": 249.99,
-      "price_change_percent": 14.29
-    },
-    {
-      "card_id": "PRB02-010",
-      "card_image_id": "PRB02-010",
-      "card_name": "Charlotte Pudding - PRB02-010",
-      "set_code": "PRB-02",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010.jpg",
-      "today_price_usd": 19.17,
-      "baseline_price_usd": 13.89,
-      "price_change_usd": 5.28,
-      "price_change_percent": 38.01
-    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -50,18 +26,6 @@
       "price_change_percent": 438.68
     },
     {
-      "card_id": "EB02-017",
-      "card_image_id": "EB02-017_p1",
-      "card_name": "Nami (Alternate Art)",
-      "set_code": "EB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017_p1.jpg",
-      "today_price_usd": 125.74,
-      "baseline_price_usd": 121.46,
-      "price_change_usd": 4.28,
-      "price_change_percent": 3.52
-    },
-    {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
       "card_name": "Izo (OP01-033) (Alternate Art)",
@@ -72,6 +36,42 @@
       "baseline_price_usd": 1.86,
       "price_change_usd": 3.78,
       "price_change_percent": 203.23
+    },
+    {
+      "card_id": "PRB02-010",
+      "card_image_id": "PRB02-010",
+      "card_name": "Charlotte Pudding - PRB02-010",
+      "set_code": "PRB-02",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010.jpg",
+      "today_price_usd": 22.08,
+      "baseline_price_usd": 19.17,
+      "price_change_usd": 2.91,
+      "price_change_percent": 15.18
+    },
+    {
+      "card_id": "OP16-056",
+      "card_image_id": "OP16-056_p1",
+      "card_name": "Mr.3(Galdino) (056) (Alternate Art)",
+      "set_code": "OP-16",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-056_p1_lCCqPWh.jpg",
+      "today_price_usd": 39.57,
+      "baseline_price_usd": 36.88,
+      "price_change_usd": 2.69,
+      "price_change_percent": 7.29
+    },
+    {
+      "card_id": "ST13-001",
+      "card_image_id": "ST13-001_p1",
+      "card_name": "Sabo (001) (Parallel)",
+      "set_code": "ST-13",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST13-001_p1_r1DAPJ3.jpg",
+      "today_price_usd": 19.82,
+      "baseline_price_usd": 17.51,
+      "price_change_usd": 2.31,
+      "price_change_percent": 13.19
     }
   ]
 }
