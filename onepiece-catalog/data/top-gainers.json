@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-03T19:20:28.467011+00:00",
-  "snapshot_date": "2026-08-03",
-  "baseline_date": "2026-08-02",
-  "days_between_snapshots": 1,
-  "history_days_collected": 41,
+  "generated_at": "2026-08-05T19:16:24.900937+00:00",
+  "snapshot_date": "2026-08-05",
+  "baseline_date": "2026-08-03",
+  "days_between_snapshots": 2,
+  "history_days_collected": 42,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1252,
-  "cards_with_trend": 13,
+  "cards_evaluated": 1248,
+  "cards_with_trend": 52,
   "trend_type": "gainers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-01",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
-      "today_price_usd": 5.71,
+      "today_price_usd": 5.72,
       "baseline_price_usd": 1.06,
-      "price_change_usd": 4.65,
-      "price_change_percent": 438.68
+      "price_change_usd": 4.66,
+      "price_change_percent": 439.62
     },
     {
       "card_id": "OP01-033",
@@ -32,46 +32,46 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.64,
+      "today_price_usd": 5.61,
       "baseline_price_usd": 1.86,
-      "price_change_usd": 3.78,
-      "price_change_percent": 203.23
+      "price_change_usd": 3.75,
+      "price_change_percent": 201.61
     },
     {
-      "card_id": "PRB02-010",
-      "card_image_id": "PRB02-010",
-      "card_name": "Charlotte Pudding - PRB02-010",
-      "set_code": "PRB-02",
+      "card_id": "OP03-114",
+      "card_image_id": "OP03-114_p2",
+      "card_name": "Charlotte Linlin (SP)",
+      "set_code": "OP-06",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010.jpg",
-      "today_price_usd": 22.08,
-      "baseline_price_usd": 19.17,
-      "price_change_usd": 2.91,
-      "price_change_percent": 15.18
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP03-114_p2.jpg",
+      "today_price_usd": 89.11,
+      "baseline_price_usd": 85.82,
+      "price_change_usd": 3.29,
+      "price_change_percent": 3.83
     },
     {
-      "card_id": "OP16-056",
-      "card_image_id": "OP16-056_p1",
-      "card_name": "Mr.3(Galdino) (056) (Alternate Art)",
+      "card_id": "OP16-118",
+      "card_image_id": "OP16-118",
+      "card_name": "Portgas.D.Ace (118)",
       "set_code": "OP-16",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-056_p1_lCCqPWh.jpg",
-      "today_price_usd": 39.57,
-      "baseline_price_usd": 36.88,
-      "price_change_usd": 2.69,
-      "price_change_percent": 7.29
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-118_X6FmLLp.jpg",
+      "today_price_usd": 11.05,
+      "baseline_price_usd": 9.16,
+      "price_change_usd": 1.89,
+      "price_change_percent": 20.63
     },
     {
-      "card_id": "ST13-001",
-      "card_image_id": "ST13-001_p1",
-      "card_name": "Sabo (001) (Parallel)",
-      "set_code": "ST-13",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST13-001_p1_r1DAPJ3.jpg",
-      "today_price_usd": 19.82,
-      "baseline_price_usd": 17.51,
-      "price_change_usd": 2.31,
-      "price_change_percent": 13.19
+      "card_id": "OP11-070",
+      "card_image_id": "OP11-070",
+      "card_name": "Charlotte Pudding",
+      "set_code": "OP-11",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-070.jpg",
+      "today_price_usd": 3.68,
+      "baseline_price_usd": 1.82,
+      "price_change_usd": 1.86,
+      "price_change_percent": 102.2
     }
   ]
 }
