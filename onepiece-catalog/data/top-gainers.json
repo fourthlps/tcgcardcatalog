@@ -1,18 +1,42 @@
 {
-  "generated_at": "2026-08-05T19:16:24.900937+00:00",
-  "snapshot_date": "2026-08-05",
-  "baseline_date": "2026-08-03",
-  "days_between_snapshots": 2,
-  "history_days_collected": 42,
+  "generated_at": "2026-08-06T23:50:53.598326+00:00",
+  "snapshot_date": "2026-08-06",
+  "baseline_date": "2026-08-05",
+  "days_between_snapshots": 1,
+  "history_days_collected": 43,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1248,
-  "cards_with_trend": 52,
+  "cards_evaluated": 1249,
+  "cards_with_trend": 44,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP05-119",
+      "card_image_id": "OP05-119_p8",
+      "card_name": "Monkey.D.Luffy (119) (SP) (Gold)",
+      "set_code": "OP-11",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-119_p8.jpg",
+      "today_price_usd": 13000.0,
+      "baseline_price_usd": 4250.0,
+      "price_change_usd": 8750.0,
+      "price_change_percent": 205.88
+    },
+    {
+      "card_id": "OP01-024",
+      "card_image_id": "OP01-024_p1",
+      "card_name": "Monkey.D.Luffy (024) (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-024_p1.jpg",
+      "today_price_usd": 237.8,
+      "baseline_price_usd": 230.77,
+      "price_change_usd": 7.03,
+      "price_change_percent": 3.05
+    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -20,10 +44,10 @@
       "set_code": "PRB-01",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
-      "today_price_usd": 5.72,
+      "today_price_usd": 5.62,
       "baseline_price_usd": 1.06,
-      "price_change_usd": 4.66,
-      "price_change_percent": 439.62
+      "price_change_usd": 4.56,
+      "price_change_percent": 430.19
     },
     {
       "card_id": "OP01-033",
@@ -32,46 +56,22 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.61,
-      "baseline_price_usd": 1.86,
-      "price_change_usd": 3.75,
-      "price_change_percent": 201.61
+      "today_price_usd": 5.56,
+      "baseline_price_usd": 1.88,
+      "price_change_usd": 3.68,
+      "price_change_percent": 195.74
     },
     {
-      "card_id": "OP03-114",
-      "card_image_id": "OP03-114_p2",
-      "card_name": "Charlotte Linlin (SP)",
-      "set_code": "OP-06",
+      "card_id": "PRB02-010",
+      "card_image_id": "PRB02-010_p1",
+      "card_name": "Charlotte Pudding - PRB02-010 (Alternate Art)",
+      "set_code": "PRB-02",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP03-114_p2.jpg",
-      "today_price_usd": 89.11,
-      "baseline_price_usd": 85.82,
-      "price_change_usd": 3.29,
-      "price_change_percent": 3.83
-    },
-    {
-      "card_id": "OP16-118",
-      "card_image_id": "OP16-118",
-      "card_name": "Portgas.D.Ace (118)",
-      "set_code": "OP-16",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-118_X6FmLLp.jpg",
-      "today_price_usd": 11.05,
-      "baseline_price_usd": 9.16,
-      "price_change_usd": 1.89,
-      "price_change_percent": 20.63
-    },
-    {
-      "card_id": "OP11-070",
-      "card_image_id": "OP11-070",
-      "card_name": "Charlotte Pudding",
-      "set_code": "OP-11",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-070.jpg",
-      "today_price_usd": 3.68,
-      "baseline_price_usd": 1.82,
-      "price_change_usd": 1.86,
-      "price_change_percent": 102.2
+      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010_p1.jpg",
+      "today_price_usd": 54.5,
+      "baseline_price_usd": 52.51,
+      "price_change_usd": 1.99,
+      "price_change_percent": 3.79
     }
   ]
 }

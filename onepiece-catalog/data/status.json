@@ -1,6 +1,6 @@
 {
- "last_updated": "2026-08-05T19:16:24.900937+00:00",
- "run_date": "2026-08-05",
+ "last_updated": "2026-08-06T23:50:53.598326+00:00",
+ "run_date": "2026-08-06",
  "status": "success",
  "api": {
   "source": "optcgapi.com",
@@ -12,8 +12,8 @@
  },
  "history": {
   "status": "ok",
-  "days_collected": 42,
-  "last_snapshot_date": "2026-08-05",
+  "days_collected": 43,
+  "last_snapshot_date": "2026-08-06",
   "sheets_append": "skipped_safety"
  },
  "trends": {
@@ -21,18 +21,20 @@
   "gainers_count": 5,
   "losers_count": 5,
   "confidence": "high",
-  "baseline_date": "2026-08-03",
-  "days_between_snapshots": 2,
-  "history_days_collected": 42
+  "baseline_date": "2026-08-05",
+  "days_between_snapshots": 1,
+  "history_days_collected": 43
  },
  "jp": {
-  "attempted_run_id": "31038633132",
-  "attempted_at": "2026-08-05T19:28:09+00:00",
-  "workflow_run_id": "31038633132",
+  "attempted_run_id": "31132516959",
+  "attempted_at": "2026-08-07T00:02:12+00:00",
+  "workflow_run_id": "31132516959",
   "fetch_outcome": "success",
   "candidate_state": "ok",
-  "promotion_state": "promoted",
-  "rejection_reasons": [],
+  "promotion_state": "rejected",
+  "rejection_reasons": [
+   "report run_date 2026-08-06 is not today"
+  ],
   "attempted": {
    "listings_seen": 3360,
    "matched": 2306,
@@ -40,7 +42,7 @@
   },
   "published": {
    "newest_jp_date": "2026-08-05",
-   "refreshed_last_run": 2306,
+   "refreshed_last_run": 0,
    "jp_entries_total": 2540,
    "stale_count": 234,
    "stale_by_set": {
@@ -52,46 +54,7 @@
     "OP07": 1,
     "OP13": 1
    },
-   "refreshed_by_set": {
-    "OP01": 166,
-    "OP09": 158,
-    "OP05": 154,
-    "OP10": 150,
-    "OP06": 148,
-    "OP07": 147,
-    "OP03": 144,
-    "OP08": 144,
-    "OP02": 135,
-    "OP13": 135,
-    "OP04": 129,
-    "OP11": 123,
-    "OP12": 122,
-    "OP16": 122,
-    "EB03": 71,
-    "EB01": 68,
-    "EB02": 63,
-    "PRB02": 18,
-    "ST13": 17,
-    "ST21": 14,
-    "ST22": 14,
-    "ST30": 14,
-    "EB04": 13,
-    "ST29": 7,
-    "ST01": 4,
-    "ST03": 4,
-    "ST04": 3,
-    "ST18": 3,
-    "ST15": 3,
-    "ST02": 2,
-    "ST06": 2,
-    "ST12": 2,
-    "OP14": 2,
-    "ST14": 1,
-    "PRB01": 1,
-    "ST10": 1,
-    "ST17": 1,
-    "ST16": 1
-   }
+   "refreshed_by_set": {}
   },
   "last_successful_run_id": "31038633132",
   "last_successful_refresh_at": "2026-08-05T19:28:09+00:00",
@@ -100,7 +63,7 @@
    "relative_mode": "report-only",
    "baseline": 2306,
    "relative_threshold": 1960,
-   "relative_pass": true
+   "relative_pass": false
   }
  }
 }
