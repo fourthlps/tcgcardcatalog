@@ -1,42 +1,18 @@
 {
-  "generated_at": "2026-08-06T23:50:53.598326+00:00",
-  "snapshot_date": "2026-08-06",
-  "baseline_date": "2026-08-05",
+  "generated_at": "2026-08-07T18:41:19.484101+00:00",
+  "snapshot_date": "2026-08-07",
+  "baseline_date": "2026-08-06",
   "days_between_snapshots": 1,
-  "history_days_collected": 43,
+  "history_days_collected": 44,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1249,
-  "cards_with_trend": 44,
+  "cards_with_trend": 20,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP05-119",
-      "card_image_id": "OP05-119_p8",
-      "card_name": "Monkey.D.Luffy (119) (SP) (Gold)",
-      "set_code": "OP-11",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-119_p8.jpg",
-      "today_price_usd": 13000.0,
-      "baseline_price_usd": 4250.0,
-      "price_change_usd": 8750.0,
-      "price_change_percent": 205.88
-    },
-    {
-      "card_id": "OP01-024",
-      "card_image_id": "OP01-024_p1",
-      "card_name": "Monkey.D.Luffy (024) (Parallel)",
-      "set_code": "OP-01",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-024_p1.jpg",
-      "today_price_usd": 237.8,
-      "baseline_price_usd": 230.77,
-      "price_change_usd": 7.03,
-      "price_change_percent": 3.05
-    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -44,10 +20,10 @@
       "set_code": "PRB-01",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
-      "today_price_usd": 5.62,
+      "today_price_usd": 5.66,
       "baseline_price_usd": 1.06,
-      "price_change_usd": 4.56,
-      "price_change_percent": 430.19
+      "price_change_usd": 4.6,
+      "price_change_percent": 433.96
     },
     {
       "card_id": "OP01-033",
@@ -56,22 +32,34 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.56,
+      "today_price_usd": 5.57,
       "baseline_price_usd": 1.88,
-      "price_change_usd": 3.68,
-      "price_change_percent": 195.74
+      "price_change_usd": 3.69,
+      "price_change_percent": 196.28
     },
     {
-      "card_id": "PRB02-010",
-      "card_image_id": "PRB02-010_p1",
-      "card_name": "Charlotte Pudding - PRB02-010 (Alternate Art)",
-      "set_code": "PRB-02",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010_p1.jpg",
-      "today_price_usd": 54.5,
-      "baseline_price_usd": 52.51,
-      "price_change_usd": 1.99,
-      "price_change_percent": 3.79
+      "card_id": "EB01-001",
+      "card_image_id": "EB01-001_p1",
+      "card_name": "Kouzuki Oden (Alternate Art)",
+      "set_code": "EB-01",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-001_p1.jpg",
+      "today_price_usd": 60.64,
+      "baseline_price_usd": 58.83,
+      "price_change_usd": 1.81,
+      "price_change_percent": 3.08
+    },
+    {
+      "card_id": "OP12-037",
+      "card_image_id": "OP12-037",
+      "card_name": "Demon Aura Nine Sword Style Asura Blades Drawn Dead Man's Game",
+      "set_code": "OP-12",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP12-037_O1p1LAF.jpg",
+      "today_price_usd": 6.75,
+      "baseline_price_usd": 5.49,
+      "price_change_usd": 1.26,
+      "price_change_percent": 22.95
     }
   ]
 }
