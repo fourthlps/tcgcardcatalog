@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-07T18:41:19.484101+00:00",
-  "snapshot_date": "2026-08-07",
-  "baseline_date": "2026-08-06",
+  "generated_at": "2026-08-08T18:23:36.006966+00:00",
+  "snapshot_date": "2026-08-08",
+  "baseline_date": "2026-08-07",
   "days_between_snapshots": 1,
-  "history_days_collected": 44,
+  "history_days_collected": 45,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1249,
-  "cards_with_trend": 20,
+  "cards_evaluated": 1247,
+  "cards_with_trend": 25,
   "trend_type": "gainers",
   "cards": [
     {
@@ -21,9 +21,9 @@
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
       "today_price_usd": 5.66,
-      "baseline_price_usd": 1.06,
-      "price_change_usd": 4.6,
-      "price_change_percent": 433.96
+      "baseline_price_usd": 1.05,
+      "price_change_usd": 4.61,
+      "price_change_percent": 439.05
     },
     {
       "card_id": "OP01-033",
@@ -32,34 +32,46 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.57,
+      "today_price_usd": 5.53,
       "baseline_price_usd": 1.88,
-      "price_change_usd": 3.69,
-      "price_change_percent": 196.28
+      "price_change_usd": 3.65,
+      "price_change_percent": 194.15
     },
     {
-      "card_id": "EB01-001",
-      "card_image_id": "EB01-001_p1",
-      "card_name": "Kouzuki Oden (Alternate Art)",
-      "set_code": "EB-01",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-001_p1.jpg",
-      "today_price_usd": 60.64,
-      "baseline_price_usd": 58.83,
-      "price_change_usd": 1.81,
-      "price_change_percent": 3.08
+      "card_id": "ST01-012",
+      "card_image_id": "ST01-012",
+      "card_name": "Monkey.D.Luffy (012)",
+      "set_code": "ST-01",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST01-012.jpg",
+      "today_price_usd": 8.82,
+      "baseline_price_usd": 6.39,
+      "price_change_usd": 2.43,
+      "price_change_percent": 38.03
     },
     {
-      "card_id": "OP12-037",
-      "card_image_id": "OP12-037",
-      "card_name": "Demon Aura Nine Sword Style Asura Blades Drawn Dead Man's Game",
-      "set_code": "OP-12",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP12-037_O1p1LAF.jpg",
-      "today_price_usd": 6.75,
-      "baseline_price_usd": 5.49,
-      "price_change_usd": 1.26,
-      "price_change_percent": 22.95
+      "card_id": "EB02-045",
+      "card_image_id": "EB02-045_p1",
+      "card_name": "Trafalgar Law (Alternate Art)",
+      "set_code": "EB-02",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-045_p1.jpg",
+      "today_price_usd": 35.92,
+      "baseline_price_usd": 33.97,
+      "price_change_usd": 1.95,
+      "price_change_percent": 5.74
+    },
+    {
+      "card_id": "OP16-003",
+      "card_image_id": "OP16-003_p1",
+      "card_name": "Edward.Newgate (Alternate Art)",
+      "set_code": "OP-16",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-003_p1_cgS2L6U.jpg",
+      "today_price_usd": 21.94,
+      "baseline_price_usd": 20.02,
+      "price_change_usd": 1.92,
+      "price_change_percent": 9.59
     }
   ]
 }
