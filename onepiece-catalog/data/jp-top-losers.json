@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-08T18:31:37.674850+00:00",
-  "snapshot_date": "2026-08-08",
-  "baseline_date": "2026-07-27",
+  "generated_at": "2026-08-09T18:34:46.984950+00:00",
+  "snapshot_date": "2026-08-09",
+  "baseline_date": "2026-07-28",
   "days_between_snapshots": 12,
-  "history_days_collected": 28,
+  "history_days_collected": 29,
   "period": "7_day",
   "confidence": "medium",
   "source": "Yuyu-Tei via jp-card-prices.com",
@@ -15,7 +15,7 @@
   "cards_significant": 0,
   "market_stable": false,
   "recalibrating": true,
-  "recalibration_reason": "frozen_baseline",
+  "recalibration_reason": "frozen_current",
   "window_health": {
     "comparable": 2540
   },
