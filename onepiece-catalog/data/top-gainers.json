@@ -1,29 +1,41 @@
 {
-  "generated_at": "2026-08-09T18:26:44.425727+00:00",
-  "snapshot_date": "2026-08-09",
-  "baseline_date": "2026-08-08",
+  "generated_at": "2026-08-10T18:43:30.912418+00:00",
+  "snapshot_date": "2026-08-10",
+  "baseline_date": "2026-08-09",
   "days_between_snapshots": 1,
-  "history_days_collected": 46,
+  "history_days_collected": 47,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1249,
-  "cards_with_trend": 36,
+  "cards_evaluated": 1253,
+  "cards_with_trend": 32,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP09-093",
-      "card_image_id": "OP09-093_p5",
-      "card_name": "Marshall.D.Teach (SP) (Gold)",
-      "set_code": "OP-12",
+      "card_id": "ST26-005",
+      "card_image_id": "ST26-005_p1",
+      "card_name": "Monkey.D.Luffy (SP)",
+      "set_code": "OP15-EB04",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p5_esui2Sk.jpg",
-      "today_price_usd": 1894.05,
-      "baseline_price_usd": 1792.56,
-      "price_change_usd": 101.49,
-      "price_change_percent": 5.66
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST26-005_p1.jpg",
+      "today_price_usd": 628.08,
+      "baseline_price_usd": 559.2,
+      "price_change_usd": 68.88,
+      "price_change_percent": 12.32
+    },
+    {
+      "card_id": "OP01-121",
+      "card_image_id": "OP01-121_p1",
+      "card_name": "Yamato (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-121_p1.jpg",
+      "today_price_usd": 131.18,
+      "baseline_price_usd": 120.4,
+      "price_change_usd": 10.78,
+      "price_change_percent": 8.95
     },
     {
       "card_id": "OP16-001",
@@ -32,22 +44,10 @@
       "set_code": "OP-16",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-001_p1_ra2rQjc.jpg",
-      "today_price_usd": 44.35,
-      "baseline_price_usd": 39.11,
-      "price_change_usd": 5.24,
-      "price_change_percent": 13.4
-    },
-    {
-      "card_id": "OP01-041",
-      "card_image_id": "OP01-041_p5",
-      "card_name": "Kouzuki Momonosuke (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
-      "today_price_usd": 5.66,
-      "baseline_price_usd": 1.05,
-      "price_change_usd": 4.61,
-      "price_change_percent": 439.05
+      "today_price_usd": 54.39,
+      "baseline_price_usd": 44.35,
+      "price_change_usd": 10.04,
+      "price_change_percent": 22.64
     },
     {
       "card_id": "OP16-003",
@@ -56,22 +56,22 @@
       "set_code": "OP-16",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-003_p1_cgS2L6U.jpg",
-      "today_price_usd": 25.97,
-      "baseline_price_usd": 21.94,
-      "price_change_usd": 4.03,
-      "price_change_percent": 18.37
+      "today_price_usd": 34.38,
+      "baseline_price_usd": 25.97,
+      "price_change_usd": 8.41,
+      "price_change_percent": 32.38
     },
     {
-      "card_id": "OP01-033",
-      "card_image_id": "OP01-033_p5",
-      "card_name": "Izo (OP01-033) (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "UC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.43,
-      "baseline_price_usd": 1.89,
-      "price_change_usd": 3.54,
-      "price_change_percent": 187.3
+      "card_id": "OP16-118",
+      "card_image_id": "OP16-118_p1",
+      "card_name": "Portgas.D.Ace (118) (Alternate Art)",
+      "set_code": "OP-16",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-118_p1_zKFreVA.jpg",
+      "today_price_usd": 33.55,
+      "baseline_price_usd": 28.75,
+      "price_change_usd": 4.8,
+      "price_change_percent": 16.7
     }
   ]
 }
