@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-11T18:58:26.901663+00:00",
-  "snapshot_date": "2026-08-11",
-  "baseline_date": "2026-07-29",
-  "days_between_snapshots": 13,
-  "history_days_collected": 30,
+  "generated_at": "2026-08-13T19:07:52.820852+00:00",
+  "snapshot_date": "2026-08-13",
+  "baseline_date": "2026-08-01",
+  "days_between_snapshots": 12,
+  "history_days_collected": 31,
   "period": "7_day",
   "confidence": "high",
   "source": "Yuyu-Tei via jp-card-prices.com",
   "currency": "JPY",
   "game": "onepiece",
   "cards_evaluated": 2540,
-  "cards_with_trend": 169,
+  "cards_with_trend": 168,
   "significance_threshold_pct": 5.0,
-  "cards_significant": 169,
+  "cards_significant": 168,
   "market_stable": false,
   "recalibrating": false,
   "trend_type": "gainers",
@@ -27,9 +27,9 @@
       "today_price_jpy": 998000.0,
       "baseline_price_jpy": 798000.0,
       "today_price_thb": 207524.0,
-      "baseline_price_thb": 163470.0,
+      "baseline_price_thb": 166662.0,
       "price_change_jpy": 200000.0,
-      "price_change_thb": 44054.0,
+      "price_change_thb": 40862.0,
       "price_change_percent": 25.06
     },
     {
@@ -42,9 +42,9 @@
       "today_price_jpy": 498000.0,
       "baseline_price_jpy": 398000.0,
       "today_price_thb": 103554.0,
-      "baseline_price_thb": 81530.0,
+      "baseline_price_thb": 83122.0,
       "price_change_jpy": 100000.0,
-      "price_change_thb": 22024.0,
+      "price_change_thb": 20432.0,
       "price_change_percent": 25.13
     },
     {
@@ -57,9 +57,9 @@
       "today_price_jpy": 298000.0,
       "baseline_price_jpy": 248000.0,
       "today_price_thb": 61966.0,
-      "baseline_price_thb": 50803.0,
+      "baseline_price_thb": 51795.0,
       "price_change_jpy": 50000.0,
-      "price_change_thb": 11163.0,
+      "price_change_thb": 10171.0,
       "price_change_percent": 20.16
     },
     {
@@ -72,9 +72,9 @@
       "today_price_jpy": 348000.0,
       "baseline_price_jpy": 298000.0,
       "today_price_thb": 72363.0,
-      "baseline_price_thb": 61045.0,
+      "baseline_price_thb": 62237.0,
       "price_change_jpy": 50000.0,
-      "price_change_thb": 11318.0,
+      "price_change_thb": 10126.0,
       "price_change_percent": 16.78
     },
     {
@@ -87,9 +87,9 @@
       "today_price_jpy": 128000.0,
       "baseline_price_jpy": 99800.0,
       "today_price_thb": 26616.0,
-      "baseline_price_thb": 20444.0,
+      "baseline_price_thb": 20843.0,
       "price_change_jpy": 28200.0,
-      "price_change_thb": 6172.0,
+      "price_change_thb": 5773.0,
       "price_change_percent": 28.26
     }
   ]

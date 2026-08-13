@@ -1,6 +1,6 @@
 {
- "last_updated": "2026-08-12T18:50:36.112361+00:00",
- "run_date": "2026-08-12",
+ "last_updated": "2026-08-13T18:51:23.809566+00:00",
+ "run_date": "2026-08-13",
  "status": "success",
  "api": {
   "source": "optcgapi.com",
@@ -12,8 +12,8 @@
  },
  "history": {
   "status": "ok",
-  "days_collected": 49,
-  "last_snapshot_date": "2026-08-12",
+  "days_collected": 50,
+  "last_snapshot_date": "2026-08-13",
   "sheets_append": "skipped_safety"
  },
  "trends": {
@@ -21,29 +21,26 @@
   "gainers_count": 5,
   "losers_count": 5,
   "confidence": "high",
-  "baseline_date": "2026-08-11",
+  "baseline_date": "2026-08-12",
   "days_between_snapshots": 1,
-  "history_days_collected": 49
+  "history_days_collected": 50
  },
  "jp": {
-  "attempted_run_id": "31629660060",
-  "attempted_at": "2026-08-12T19:11:04+00:00",
-  "workflow_run_id": "31629660060",
+  "attempted_run_id": "31732883285",
+  "attempted_at": "2026-08-13T19:07:52+00:00",
+  "workflow_run_id": "31732883285",
   "fetch_outcome": "success",
-  "candidate_state": "missing",
-  "promotion_state": "rejected",
-  "rejection_reasons": [
-   "business rejection: match ratio 0.55 < 0.7",
-   "candidate missing"
-  ],
+  "candidate_state": "ok",
+  "promotion_state": "promoted",
+  "rejection_reasons": [],
   "attempted": {
-   "listings_seen": 1842,
-   "matched": 1278,
-   "refreshed": 1278
+   "listings_seen": 3360,
+   "matched": 2306,
+   "refreshed": 2306
   },
   "published": {
-   "newest_jp_date": "2026-08-11",
-   "refreshed_last_run": 0,
+   "newest_jp_date": "2026-08-13",
+   "refreshed_last_run": 2306,
    "jp_entries_total": 2540,
    "stale_count": 234,
    "stale_by_set": {
@@ -55,16 +52,55 @@
     "OP07": 1,
     "OP13": 1
    },
-   "refreshed_by_set": {}
+   "refreshed_by_set": {
+    "OP01": 166,
+    "OP09": 158,
+    "OP05": 154,
+    "OP10": 150,
+    "OP06": 148,
+    "OP07": 147,
+    "OP03": 144,
+    "OP08": 144,
+    "OP02": 135,
+    "OP13": 135,
+    "OP04": 129,
+    "OP11": 123,
+    "OP12": 122,
+    "OP16": 122,
+    "EB03": 71,
+    "EB01": 68,
+    "EB02": 63,
+    "PRB02": 18,
+    "ST13": 17,
+    "ST21": 14,
+    "ST22": 14,
+    "ST30": 14,
+    "EB04": 13,
+    "ST29": 7,
+    "ST01": 4,
+    "ST03": 4,
+    "ST04": 3,
+    "ST18": 3,
+    "ST15": 3,
+    "ST02": 2,
+    "ST06": 2,
+    "ST12": 2,
+    "OP14": 2,
+    "ST14": 1,
+    "PRB01": 1,
+    "ST10": 1,
+    "ST17": 1,
+    "ST16": 1
+   }
   },
-  "last_successful_run_id": "31524694514",
-  "last_successful_refresh_at": "2026-08-11T18:58:27+00:00",
+  "last_successful_run_id": "31732883285",
+  "last_successful_refresh_at": "2026-08-13T19:07:52+00:00",
   "coverage": {
    "floor_enforced": 2000,
    "relative_mode": "report-only",
    "baseline": 2306,
    "relative_threshold": 1960,
-   "relative_pass": false
+   "relative_pass": true
   }
  }
 }
