@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-13T18:51:23.809566+00:00",
-  "snapshot_date": "2026-08-13",
-  "baseline_date": "2026-08-12",
+  "generated_at": "2026-08-14T18:41:39.350512+00:00",
+  "snapshot_date": "2026-08-14",
+  "baseline_date": "2026-08-13",
   "days_between_snapshots": 1,
-  "history_days_collected": 50,
+  "history_days_collected": 51,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 30,
+  "cards_evaluated": 1256,
+  "cards_with_trend": 14,
   "trend_type": "gainers",
   "cards": [
     {
@@ -26,6 +26,18 @@
       "price_change_percent": 439.05
     },
     {
+      "card_id": "OP16-015",
+      "card_image_id": "OP16-015_p1",
+      "card_name": "Monkey.D.Luffy (Alternate Art)",
+      "set_code": "OP-16",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-015_p1_UT2z1HA.jpg",
+      "today_price_usd": 50.0,
+      "baseline_price_usd": 46.44,
+      "price_change_usd": 3.56,
+      "price_change_percent": 7.67
+    },
+    {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
       "card_name": "Izo (OP01-033) (Alternate Art)",
@@ -36,42 +48,6 @@
       "baseline_price_usd": 1.88,
       "price_change_usd": 3.46,
       "price_change_percent": 184.04
-    },
-    {
-      "card_id": "OP16-001",
-      "card_image_id": "OP16-001_p1",
-      "card_name": "Portgas.D.Ace (001) (Alternate Art)",
-      "set_code": "OP-16",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-001_p1_ra2rQjc.jpg",
-      "today_price_usd": 68.75,
-      "baseline_price_usd": 66.47,
-      "price_change_usd": 2.28,
-      "price_change_percent": 3.43
-    },
-    {
-      "card_id": "OP16-015",
-      "card_image_id": "OP16-015_p1",
-      "card_name": "Monkey.D.Luffy (Alternate Art)",
-      "set_code": "OP-16",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-015_p1_UT2z1HA.jpg",
-      "today_price_usd": 46.44,
-      "baseline_price_usd": 44.41,
-      "price_change_usd": 2.03,
-      "price_change_percent": 4.57
-    },
-    {
-      "card_id": "PRB02-010",
-      "card_image_id": "PRB02-010",
-      "card_name": "Charlotte Pudding - PRB02-010",
-      "set_code": "PRB-02",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-010.jpg",
-      "today_price_usd": 17.25,
-      "baseline_price_usd": 15.37,
-      "price_change_usd": 1.88,
-      "price_change_percent": 12.23
     }
   ]
 }
