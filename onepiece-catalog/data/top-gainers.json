@@ -1,54 +1,18 @@
 {
-  "generated_at": "2026-08-15T18:15:39.146116+00:00",
-  "snapshot_date": "2026-08-15",
-  "baseline_date": "2026-08-14",
+  "generated_at": "2026-08-16T18:15:45.528090+00:00",
+  "snapshot_date": "2026-08-16",
+  "baseline_date": "2026-08-15",
   "days_between_snapshots": 1,
-  "history_days_collected": 52,
+  "history_days_collected": 53,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 45,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 25,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP06-118",
-      "card_image_id": "OP06-118_r1",
-      "card_name": "Roronoa Zoro (Manga)",
-      "set_code": "PRB-01",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-118_r1.jpg",
-      "today_price_usd": 2069.33,
-      "baseline_price_usd": 1975.0,
-      "price_change_usd": 94.33,
-      "price_change_percent": 4.78
-    },
-    {
-      "card_id": "OP01-078",
-      "card_image_id": "OP01-078_p2",
-      "card_name": "Boa Hancock (SP)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-078_p2.jpg",
-      "today_price_usd": 1039.56,
-      "baseline_price_usd": 995.56,
-      "price_change_usd": 44.0,
-      "price_change_percent": 4.42
-    },
-    {
-      "card_id": "OP13-004",
-      "card_image_id": "OP13-004_p1",
-      "card_name": "Sabo (004) (Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
-      "today_price_usd": 27.06,
-      "baseline_price_usd": 19.95,
-      "price_change_usd": 7.11,
-      "price_change_percent": 35.64
-    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -56,10 +20,10 @@
       "set_code": "PRB-01",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
-      "today_price_usd": 5.66,
+      "today_price_usd": 5.61,
       "baseline_price_usd": 1.05,
-      "price_change_usd": 4.61,
-      "price_change_percent": 439.05
+      "price_change_usd": 4.56,
+      "price_change_percent": 434.29
     },
     {
       "card_id": "OP01-033",
@@ -72,6 +36,42 @@
       "baseline_price_usd": 1.88,
       "price_change_usd": 3.41,
       "price_change_percent": 181.38
+    },
+    {
+      "card_id": "OP02-072",
+      "card_image_id": "OP02-072_p1",
+      "card_name": "Zephyr (Alternate Art)",
+      "set_code": "OP-02",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-072_p1.jpg",
+      "today_price_usd": 32.72,
+      "baseline_price_usd": 29.38,
+      "price_change_usd": 3.34,
+      "price_change_percent": 11.37
+    },
+    {
+      "card_id": "OP13-004",
+      "card_image_id": "OP13-004_p1",
+      "card_name": "Sabo (004) (Alternate Art)",
+      "set_code": "OP-13",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
+      "today_price_usd": 28.99,
+      "baseline_price_usd": 27.06,
+      "price_change_usd": 1.93,
+      "price_change_percent": 7.13
+    },
+    {
+      "card_id": "OP07-022",
+      "card_image_id": "OP07-022",
+      "card_name": "Otama",
+      "set_code": "OP-07",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-022.jpg",
+      "today_price_usd": 5.17,
+      "baseline_price_usd": 4.16,
+      "price_change_usd": 1.01,
+      "price_change_percent": 24.28
     }
   ]
 }
