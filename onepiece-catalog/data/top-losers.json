@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-16T18:15:45.528090+00:00",
-  "snapshot_date": "2026-08-16",
-  "baseline_date": "2026-08-15",
+  "generated_at": "2026-08-17T18:24:25.995827+00:00",
+  "snapshot_date": "2026-08-17",
+  "baseline_date": "2026-08-16",
   "days_between_snapshots": 1,
-  "history_days_collected": 53,
+  "history_days_collected": 54,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 25,
+  "cards_evaluated": 1261,
+  "cards_with_trend": 29,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 6.48,
+      "today_price_usd": 6.79,
       "baseline_price_usd": 477.74,
-      "price_change_usd": -471.26,
-      "price_change_percent": -98.64
+      "price_change_usd": -470.95,
+      "price_change_percent": -98.58
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 28.53,
+      "today_price_usd": 28.31,
       "baseline_price_usd": 168.02,
-      "price_change_usd": -139.49,
-      "price_change_percent": -83.02
+      "price_change_usd": -139.71,
+      "price_change_percent": -83.15
     },
     {
       "card_id": "OP05-091",
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 16.5,
+      "today_price_usd": 17.13,
       "baseline_price_usd": 137.07,
-      "price_change_usd": -120.57,
-      "price_change_percent": -87.96
+      "price_change_usd": -119.94,
+      "price_change_percent": -87.5
     },
     {
       "card_id": "OP08-023",
@@ -56,22 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 20.21,
+      "today_price_usd": 19.95,
       "baseline_price_usd": 107.89,
-      "price_change_usd": -87.68,
-      "price_change_percent": -81.27
+      "price_change_usd": -87.94,
+      "price_change_percent": -81.51
     },
     {
-      "card_id": "OP01-078",
-      "card_image_id": "OP01-078_p2",
-      "card_name": "Boa Hancock (SP)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-078_p2.jpg",
-      "today_price_usd": 995.56,
-      "baseline_price_usd": 1039.56,
-      "price_change_usd": -44.0,
-      "price_change_percent": -4.23
+      "card_id": "ST29-001",
+      "card_image_id": "ST29-001",
+      "card_name": "Monkey.D.Luffy (001)",
+      "set_code": "ST-29",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
+      "today_price_usd": 1.88,
+      "baseline_price_usd": 27.79,
+      "price_change_usd": -25.91,
+      "price_change_percent": -93.23
     }
   ]
 }

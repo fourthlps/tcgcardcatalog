@@ -1,18 +1,30 @@
 {
-  "generated_at": "2026-08-16T18:15:45.528090+00:00",
-  "snapshot_date": "2026-08-16",
-  "baseline_date": "2026-08-15",
+  "generated_at": "2026-08-17T18:24:25.995827+00:00",
+  "snapshot_date": "2026-08-17",
+  "baseline_date": "2026-08-16",
   "days_between_snapshots": 1,
-  "history_days_collected": 53,
+  "history_days_collected": 54,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 25,
+  "cards_evaluated": 1261,
+  "cards_with_trend": 29,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP09-093",
+      "card_image_id": "OP09-093_p2",
+      "card_name": "Marshall.D.Teach (093) (Manga)",
+      "set_code": "OP-09",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p2.jpg",
+      "today_price_usd": 2000.99,
+      "baseline_price_usd": 1572.5,
+      "price_change_usd": 428.49,
+      "price_change_percent": 27.25
+    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -32,22 +44,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.29,
-      "baseline_price_usd": 1.88,
-      "price_change_usd": 3.41,
-      "price_change_percent": 181.38
-    },
-    {
-      "card_id": "OP02-072",
-      "card_image_id": "OP02-072_p1",
-      "card_name": "Zephyr (Alternate Art)",
-      "set_code": "OP-02",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-072_p1.jpg",
-      "today_price_usd": 32.72,
-      "baseline_price_usd": 29.38,
-      "price_change_usd": 3.34,
-      "price_change_percent": 11.37
+      "today_price_usd": 5.21,
+      "baseline_price_usd": 1.9,
+      "price_change_usd": 3.31,
+      "price_change_percent": 174.21
     },
     {
       "card_id": "OP13-004",
@@ -56,22 +56,22 @@
       "set_code": "OP-13",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
-      "today_price_usd": 28.99,
-      "baseline_price_usd": 27.06,
-      "price_change_usd": 1.93,
-      "price_change_percent": 7.13
+      "today_price_usd": 31.86,
+      "baseline_price_usd": 28.99,
+      "price_change_usd": 2.87,
+      "price_change_percent": 9.9
     },
     {
-      "card_id": "OP07-022",
-      "card_image_id": "OP07-022",
-      "card_name": "Otama",
-      "set_code": "OP-07",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-022.jpg",
-      "today_price_usd": 5.17,
-      "baseline_price_usd": 4.16,
-      "price_change_usd": 1.01,
-      "price_change_percent": 24.28
+      "card_id": "OP01-078",
+      "card_image_id": "OP01-078_p4",
+      "card_name": "Boa Hancock (OP01-078) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-078_p4.jpg",
+      "today_price_usd": 54.63,
+      "baseline_price_usd": 52.4,
+      "price_change_usd": 2.23,
+      "price_change_percent": 4.26
     }
   ]
 }
