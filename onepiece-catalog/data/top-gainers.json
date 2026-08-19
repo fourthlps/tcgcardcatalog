@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-18T18:23:48.525507+00:00",
-  "snapshot_date": "2026-08-18",
-  "baseline_date": "2026-08-17",
+  "generated_at": "2026-08-19T18:20:47.290098+00:00",
+  "snapshot_date": "2026-08-19",
+  "baseline_date": "2026-08-18",
   "days_between_snapshots": 1,
-  "history_days_collected": 55,
+  "history_days_collected": 56,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1256,
-  "cards_with_trend": 24,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 18,
   "trend_type": "gainers",
   "cards": [
     {
@@ -32,22 +32,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.21,
+      "today_price_usd": 5.14,
       "baseline_price_usd": 1.92,
-      "price_change_usd": 3.29,
-      "price_change_percent": 171.35
-    },
-    {
-      "card_id": "EB04-031",
-      "card_image_id": "EB04-031_p1",
-      "card_name": "King (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-031_p1_KugJhR3.jpg",
-      "today_price_usd": 27.97,
-      "baseline_price_usd": 25.68,
-      "price_change_usd": 2.29,
-      "price_change_percent": 8.92
+      "price_change_usd": 3.22,
+      "price_change_percent": 167.71
     },
     {
       "card_id": "OP13-004",
@@ -56,10 +44,10 @@
       "set_code": "OP-13",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
-      "today_price_usd": 33.64,
-      "baseline_price_usd": 31.86,
-      "price_change_usd": 1.78,
-      "price_change_percent": 5.59
+      "today_price_usd": 35.98,
+      "baseline_price_usd": 33.64,
+      "price_change_usd": 2.34,
+      "price_change_percent": 6.96
     },
     {
       "card_id": "OP04-016",
@@ -68,10 +56,22 @@
       "set_code": "PRB-02",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-016_p1.jpg",
-      "today_price_usd": 30.98,
-      "baseline_price_usd": 29.93,
-      "price_change_usd": 1.05,
-      "price_change_percent": 3.51
+      "today_price_usd": 33.07,
+      "baseline_price_usd": 30.98,
+      "price_change_usd": 2.09,
+      "price_change_percent": 6.75
+    },
+    {
+      "card_id": "EB04-031",
+      "card_image_id": "EB04-031_p1",
+      "card_name": "King (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-031_p1_KugJhR3.jpg",
+      "today_price_usd": 29.15,
+      "baseline_price_usd": 27.97,
+      "price_change_usd": 1.18,
+      "price_change_percent": 4.22
     }
   ]
 }
