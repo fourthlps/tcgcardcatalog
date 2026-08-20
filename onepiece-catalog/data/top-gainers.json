@@ -1,18 +1,30 @@
 {
-  "generated_at": "2026-08-19T18:20:47.290098+00:00",
-  "snapshot_date": "2026-08-19",
-  "baseline_date": "2026-08-18",
+  "generated_at": "2026-08-20T18:25:21.596793+00:00",
+  "snapshot_date": "2026-08-20",
+  "baseline_date": "2026-08-19",
   "days_between_snapshots": 1,
-  "history_days_collected": 56,
+  "history_days_collected": 57,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 18,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 23,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP01-016",
+      "card_image_id": "OP01-016_p1",
+      "card_name": "Nami (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-016_p1.jpg",
+      "today_price_usd": 436.65,
+      "baseline_price_usd": 412.29,
+      "price_change_usd": 24.36,
+      "price_change_percent": 5.91
+    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -21,9 +33,9 @@
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
       "today_price_usd": 5.65,
-      "baseline_price_usd": 1.04,
-      "price_change_usd": 4.61,
-      "price_change_percent": 443.27
+      "baseline_price_usd": 1.05,
+      "price_change_usd": 4.6,
+      "price_change_percent": 438.1
     },
     {
       "card_id": "OP01-033",
@@ -32,10 +44,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.14,
+      "today_price_usd": 5.08,
       "baseline_price_usd": 1.92,
-      "price_change_usd": 3.22,
-      "price_change_percent": 167.71
+      "price_change_usd": 3.16,
+      "price_change_percent": 164.58
     },
     {
       "card_id": "OP13-004",
@@ -44,34 +56,22 @@
       "set_code": "OP-13",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
-      "today_price_usd": 35.98,
-      "baseline_price_usd": 33.64,
-      "price_change_usd": 2.34,
-      "price_change_percent": 6.96
+      "today_price_usd": 38.34,
+      "baseline_price_usd": 35.98,
+      "price_change_usd": 2.36,
+      "price_change_percent": 6.56
     },
     {
-      "card_id": "OP04-016",
-      "card_image_id": "OP04-016_P1",
-      "card_name": "Bad Manners Kick Course (Alternate Art)",
-      "set_code": "PRB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-016_p1.jpg",
-      "today_price_usd": 33.07,
-      "baseline_price_usd": 30.98,
-      "price_change_usd": 2.09,
-      "price_change_percent": 6.75
-    },
-    {
-      "card_id": "EB04-031",
-      "card_image_id": "EB04-031_p1",
-      "card_name": "King (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-031_p1_KugJhR3.jpg",
-      "today_price_usd": 29.15,
-      "baseline_price_usd": 27.97,
-      "price_change_usd": 1.18,
-      "price_change_percent": 4.22
+      "card_id": "OP08-007",
+      "card_image_id": "OP08-007_p1",
+      "card_name": "Tony Tony.Chopper (0070) (Parallel)",
+      "set_code": "OP-08",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-007_p1.jpg",
+      "today_price_usd": 30.12,
+      "baseline_price_usd": 28.99,
+      "price_change_usd": 1.13,
+      "price_change_percent": 3.9
     }
   ]
 }
