@@ -1,29 +1,53 @@
 {
-  "generated_at": "2026-08-20T18:25:21.596793+00:00",
-  "snapshot_date": "2026-08-20",
-  "baseline_date": "2026-08-19",
+  "generated_at": "2026-08-21T18:23:30.183277+00:00",
+  "snapshot_date": "2026-08-21",
+  "baseline_date": "2026-08-20",
   "days_between_snapshots": 1,
-  "history_days_collected": 57,
+  "history_days_collected": 58,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 23,
+  "cards_evaluated": 1253,
+  "cards_with_trend": 27,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP01-016",
-      "card_image_id": "OP01-016_p1",
-      "card_name": "Nami (Parallel)",
-      "set_code": "OP-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-016_p1.jpg",
-      "today_price_usd": 436.65,
-      "baseline_price_usd": 412.29,
-      "price_change_usd": 24.36,
-      "price_change_percent": 5.91
+      "card_id": "OP03-040",
+      "card_image_id": "OP03-040_p1",
+      "card_name": "Nami (040) (Alternate Art)",
+      "set_code": "OP-03",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP03-040_p1.jpg",
+      "today_price_usd": 249.11,
+      "baseline_price_usd": 239.94,
+      "price_change_usd": 9.17,
+      "price_change_percent": 3.82
+    },
+    {
+      "card_id": "ST16-004",
+      "card_image_id": "ST16-004_p1",
+      "card_name": "Shanks (SP)",
+      "set_code": "OP-11",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST16-004_p1.jpg",
+      "today_price_usd": 201.35,
+      "baseline_price_usd": 192.72,
+      "price_change_usd": 8.63,
+      "price_change_percent": 4.48
+    },
+    {
+      "card_id": "OP13-004",
+      "card_image_id": "OP13-004_p1",
+      "card_name": "Sabo (004) (Alternate Art)",
+      "set_code": "OP-13",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
+      "today_price_usd": 44.95,
+      "baseline_price_usd": 38.34,
+      "price_change_usd": 6.61,
+      "price_change_percent": 17.24
     },
     {
       "card_id": "OP01-041",
@@ -44,34 +68,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.08,
+      "today_price_usd": 5.13,
       "baseline_price_usd": 1.92,
-      "price_change_usd": 3.16,
-      "price_change_percent": 164.58
-    },
-    {
-      "card_id": "OP13-004",
-      "card_image_id": "OP13-004_p1",
-      "card_name": "Sabo (004) (Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-004_p1_EdPEmQv.jpg",
-      "today_price_usd": 38.34,
-      "baseline_price_usd": 35.98,
-      "price_change_usd": 2.36,
-      "price_change_percent": 6.56
-    },
-    {
-      "card_id": "OP08-007",
-      "card_image_id": "OP08-007_p1",
-      "card_name": "Tony Tony.Chopper (0070) (Parallel)",
-      "set_code": "OP-08",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-007_p1.jpg",
-      "today_price_usd": 30.12,
-      "baseline_price_usd": 28.99,
-      "price_change_usd": 1.13,
-      "price_change_percent": 3.9
+      "price_change_usd": 3.21,
+      "price_change_percent": 167.19
     }
   ]
 }
