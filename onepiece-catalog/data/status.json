@@ -1,46 +1,49 @@
 {
- "last_updated": "2026-08-23T18:16:03.606392+00:00",
- "run_date": "2026-08-23",
- "status": "partial",
+ "last_updated": "2026-08-24T18:26:39.354665+00:00",
+ "run_date": "2026-08-24",
+ "status": "success",
  "api": {
   "source": "optcgapi.com",
-  "status": "partial",
-  "sets_fetched": 0,
-  "sets_failed": 51,
-  "total_cards": 0,
-  "cards_with_price": 0
+  "status": "ok",
+  "sets_fetched": 51,
+  "sets_failed": 0,
+  "total_cards": 4023,
+  "cards_with_price": 4023
  },
  "history": {
-  "status": "skipped",
-  "days_collected": 59,
-  "last_snapshot_date": "2026-08-22",
-  "sheets_append": "skipped"
+  "status": "ok",
+  "days_collected": 60,
+  "last_snapshot_date": "2026-08-24",
+  "sheets_append": "skipped_safety"
  },
  "trends": {
-  "status": "no_baseline",
-  "gainers_count": 0,
-  "losers_count": 0,
-  "confidence": "low",
-  "baseline_date": null,
-  "days_between_snapshots": 0,
-  "history_days_collected": 59
+  "status": "ok",
+  "gainers_count": 5,
+  "losers_count": 5,
+  "confidence": "high",
+  "baseline_date": "2026-08-22",
+  "days_between_snapshots": 2,
+  "history_days_collected": 60
  },
  "jp": {
-  "attempted_run_id": "32657482358",
-  "attempted_at": "2026-08-23T18:43:41+00:00",
-  "workflow_run_id": "32657482358",
+  "attempted_run_id": "32762435877",
+  "attempted_at": "2026-08-24T18:41:40+00:00",
+  "workflow_run_id": "32762435877",
   "fetch_outcome": "success",
-  "candidate_state": "ok",
-  "promotion_state": "promoted",
-  "rejection_reasons": [],
+  "candidate_state": "missing",
+  "promotion_state": "rejected",
+  "rejection_reasons": [
+   "business rejection: match ratio 0.47 < 0.7",
+   "candidate missing"
+  ],
   "attempted": {
-   "listings_seen": 3360,
-   "matched": 2306,
-   "refreshed": 2306
+   "listings_seen": 1716,
+   "matched": 1093,
+   "refreshed": 1093
   },
   "published": {
    "newest_jp_date": "2026-08-23",
-   "refreshed_last_run": 2306,
+   "refreshed_last_run": 0,
    "jp_entries_total": 2540,
    "stale_count": 234,
    "stale_by_set": {
@@ -52,46 +55,7 @@
     "OP07": 1,
     "OP13": 1
    },
-   "refreshed_by_set": {
-    "OP01": 166,
-    "OP09": 158,
-    "OP05": 154,
-    "OP10": 150,
-    "OP06": 148,
-    "OP07": 147,
-    "OP03": 144,
-    "OP08": 144,
-    "OP02": 135,
-    "OP13": 135,
-    "OP04": 129,
-    "OP11": 123,
-    "OP12": 122,
-    "OP16": 122,
-    "EB03": 71,
-    "EB01": 68,
-    "EB02": 63,
-    "PRB02": 18,
-    "ST13": 17,
-    "ST21": 14,
-    "ST22": 14,
-    "ST30": 14,
-    "EB04": 13,
-    "ST29": 7,
-    "ST01": 4,
-    "ST03": 4,
-    "ST04": 3,
-    "ST18": 3,
-    "ST15": 3,
-    "ST02": 2,
-    "ST06": 2,
-    "ST12": 2,
-    "OP14": 2,
-    "ST14": 1,
-    "PRB01": 1,
-    "ST10": 1,
-    "ST17": 1,
-    "ST16": 1
-   }
+   "refreshed_by_set": {}
   },
   "last_successful_run_id": "32657482358",
   "last_successful_refresh_at": "2026-08-23T18:43:41+00:00",
@@ -100,7 +64,7 @@
    "relative_mode": "report-only",
    "baseline": 2306,
    "relative_threshold": 1960,
-   "relative_pass": true
+   "relative_pass": false
   }
  }
 }
