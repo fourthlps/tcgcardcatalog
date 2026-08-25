@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-24T18:26:39.354665+00:00",
-  "snapshot_date": "2026-08-24",
-  "baseline_date": "2026-08-22",
-  "days_between_snapshots": 2,
-  "history_days_collected": 60,
+  "generated_at": "2026-08-25T18:25:43.665121+00:00",
+  "snapshot_date": "2026-08-25",
+  "baseline_date": "2026-08-24",
+  "days_between_snapshots": 1,
+  "history_days_collected": 61,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1252,
-  "cards_with_trend": 57,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 26,
   "trend_type": "gainers",
   "cards": [
     {
@@ -20,46 +20,22 @@
       "set_code": "PRB-02",
       "rarity": "C",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-097_p2.jpg",
-      "today_price_usd": 18.61,
-      "baseline_price_usd": 6.23,
-      "price_change_usd": 12.38,
-      "price_change_percent": 198.72
+      "today_price_usd": 29.24,
+      "baseline_price_usd": 18.61,
+      "price_change_usd": 10.63,
+      "price_change_percent": 57.12
     },
     {
-      "card_id": "EB01-031",
-      "card_image_id": "EB01-031_p1",
-      "card_name": "Kalifa (Alternate Art)",
-      "set_code": "EB-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-031_p1.jpg",
-      "today_price_usd": 13.78,
-      "baseline_price_usd": 5.6,
-      "price_change_usd": 8.18,
-      "price_change_percent": 146.07
-    },
-    {
-      "card_id": "ST03-009",
-      "card_image_id": "ST03-009_p1",
-      "card_name": "Donquixote Doflamingo (Wanted Poster)",
-      "set_code": "OP-03",
+      "card_id": "OP13-042",
+      "card_image_id": "OP13-042_p2",
+      "card_name": "Edward.Newgate (SP)",
+      "set_code": "OP15-EB04",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST03-009_p1.jpg",
-      "today_price_usd": 97.65,
-      "baseline_price_usd": 90.53,
-      "price_change_usd": 7.12,
-      "price_change_percent": 7.86
-    },
-    {
-      "card_id": "EB04-018",
-      "card_image_id": "EB04-018_p1",
-      "card_name": "Megalo (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-018_p1_xWf2jlX.jpg",
-      "today_price_usd": 23.6,
-      "baseline_price_usd": 16.81,
-      "price_change_usd": 6.79,
-      "price_change_percent": 40.39
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-042_p2.jpg",
+      "today_price_usd": 208.85,
+      "baseline_price_usd": 202.07,
+      "price_change_usd": 6.78,
+      "price_change_percent": 3.36
     },
     {
       "card_id": "OP01-041",
@@ -72,6 +48,30 @@
       "baseline_price_usd": 1.05,
       "price_change_usd": 4.54,
       "price_change_percent": 432.38
+    },
+    {
+      "card_id": "OP01-033",
+      "card_image_id": "OP01-033_p5",
+      "card_name": "Izo (OP01-033) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "UC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
+      "today_price_usd": 5.11,
+      "baseline_price_usd": 1.92,
+      "price_change_usd": 3.19,
+      "price_change_percent": 166.15
+    },
+    {
+      "card_id": "OP04-016",
+      "card_image_id": "OP04-016_P1",
+      "card_name": "Bad Manners Kick Course (Alternate Art)",
+      "set_code": "PRB-02",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-016_p1.jpg",
+      "today_price_usd": 42.23,
+      "baseline_price_usd": 39.3,
+      "price_change_usd": 2.93,
+      "price_change_percent": 7.46
     }
   ]
 }
