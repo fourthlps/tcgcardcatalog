@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-26T19:38:40.126428+00:00",
-  "snapshot_date": "2026-08-26",
-  "baseline_date": "2026-08-25",
-  "days_between_snapshots": 1,
-  "history_days_collected": 62,
+  "generated_at": "2026-08-28T01:56:19.763116+00:00",
+  "snapshot_date": "2026-08-28",
+  "baseline_date": "2026-08-26",
+  "days_between_snapshots": 2,
+  "history_days_collected": 63,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1254,
-  "cards_with_trend": 61,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 77,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 9.92,
+      "today_price_usd": 10.58,
       "baseline_price_usd": 480.55,
-      "price_change_usd": -470.63,
-      "price_change_percent": -97.94
+      "price_change_usd": -469.97,
+      "price_change_percent": -97.8
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 27.02,
+      "today_price_usd": 26.68,
       "baseline_price_usd": 168.02,
-      "price_change_usd": -141.0,
-      "price_change_percent": -83.92
+      "price_change_usd": -141.34,
+      "price_change_percent": -84.12
     },
     {
       "card_id": "OP05-091",
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 17.02,
+      "today_price_usd": 17.29,
       "baseline_price_usd": 136.1,
-      "price_change_usd": -119.08,
-      "price_change_percent": -87.49
+      "price_change_usd": -118.81,
+      "price_change_percent": -87.3
     },
     {
       "card_id": "OP08-023",
@@ -56,22 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 17.45,
+      "today_price_usd": 17.01,
       "baseline_price_usd": 107.89,
-      "price_change_usd": -90.44,
-      "price_change_percent": -83.83
+      "price_change_usd": -90.88,
+      "price_change_percent": -84.23
     },
     {
-      "card_id": "ST29-001",
-      "card_image_id": "ST29-001",
-      "card_name": "Monkey.D.Luffy (001)",
-      "set_code": "ST-29",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
-      "today_price_usd": 1.75,
-      "baseline_price_usd": 27.72,
-      "price_change_usd": -25.97,
-      "price_change_percent": -93.69
+      "card_id": "OP14-084",
+      "card_image_id": "OP14-084_p2",
+      "card_name": "Ms. All Sunday (SP)",
+      "set_code": "OP-16",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-084_p2_EZyGGKP.jpg",
+      "today_price_usd": 568.78,
+      "baseline_price_usd": 624.5,
+      "price_change_usd": -55.72,
+      "price_change_percent": -8.92
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
- "last_updated": "2026-08-26T19:38:40.126428+00:00",
- "run_date": "2026-08-26",
+ "last_updated": "2026-08-28T01:56:19.763116+00:00",
+ "run_date": "2026-08-28",
  "status": "success",
  "api": {
   "source": "optcgapi.com",
@@ -12,8 +12,8 @@
  },
  "history": {
   "status": "ok",
-  "days_collected": 62,
-  "last_snapshot_date": "2026-08-26",
+  "days_collected": 63,
+  "last_snapshot_date": "2026-08-28",
   "sheets_append": "skipped_safety"
  },
  "trends": {
@@ -21,25 +21,24 @@
   "gainers_count": 5,
   "losers_count": 5,
   "confidence": "high",
-  "baseline_date": "2026-08-25",
-  "days_between_snapshots": 1,
-  "history_days_collected": 62
+  "baseline_date": "2026-08-26",
+  "days_between_snapshots": 2,
+  "history_days_collected": 63
  },
  "jp": {
-  "attempted_run_id": "33006233981",
-  "attempted_at": "2026-08-26T20:05:39+00:00",
-  "workflow_run_id": "33006233981",
+  "attempted_run_id": "33134368748",
+  "attempted_at": "2026-08-28T02:11:34+00:00",
+  "workflow_run_id": "33134368748",
   "fetch_outcome": "success",
-  "candidate_state": "missing",
+  "candidate_state": "ok",
   "promotion_state": "rejected",
   "rejection_reasons": [
-   "business rejection: match ratio 0.54 < 0.7",
-   "candidate missing"
+   "1 set(s) left incomplete by throttling"
   ],
   "attempted": {
-   "listings_seen": 1732,
-   "matched": 1240,
-   "refreshed": 1240
+   "listings_seen": 3207,
+   "matched": 2262,
+   "refreshed": 2262
   },
   "published": {
    "newest_jp_date": "2026-08-23",
