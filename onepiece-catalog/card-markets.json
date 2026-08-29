@@ -20,7 +20,7 @@
     "note": "Keyed by exact card_image_id. JP retail-reference prices come from Yuyu-Tei through reviewed one-to-one source mappings; ambiguous or edition-exclusive treatments remain without a JP price. THB values are currency conversions, not verified Thai market prices.",
     "jp_prices_updated": "2026-08-29",
     "jp_price_source": "yuyu-tei",
-    "run_id": "33226146515"
+    "run_id": "33272866445"
   },
   "markets": {
     "OP01-077": [
@@ -49161,9 +49161,9 @@
         "source_market": "JP",
         "source_name": "Yuyu-Tei",
         "source_currency": "JPY",
-        "source_price": 580,
+        "source_price": 500,
         "converted_currency": "THB",
-        "converted_price": 120,
+        "converted_price": 103,
         "conversion_rate_used": 0.20638,
         "last_updated": "2026-08-29",
         "price_type": "Retail Reference",
