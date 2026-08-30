@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-29T01:20:36.927895+00:00",
-  "snapshot_date": "2026-08-29",
-  "baseline_date": "2026-08-28",
+  "generated_at": "2026-08-30T20:19:07.511803+00:00",
+  "snapshot_date": "2026-08-30",
+  "baseline_date": "2026-08-29",
   "days_between_snapshots": 1,
-  "history_days_collected": 64,
+  "history_days_collected": 65,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 35,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 21,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 11.05,
+      "today_price_usd": 11.17,
       "baseline_price_usd": 480.55,
-      "price_change_usd": -469.5,
-      "price_change_percent": -97.7
+      "price_change_usd": -469.38,
+      "price_change_percent": -97.68
     },
     {
       "card_id": "OP10-119",
@@ -32,22 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 26.68,
+      "today_price_usd": 27.0,
       "baseline_price_usd": 168.02,
-      "price_change_usd": -141.34,
-      "price_change_percent": -84.12
-    },
-    {
-      "card_id": "OP10-119",
-      "card_image_id": "OP10-119_p2",
-      "card_name": "Trafalgar Law (119) (Manga)",
-      "set_code": "OP-10",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p2.jpg",
-      "today_price_usd": 707.1,
-      "baseline_price_usd": 828.7,
-      "price_change_usd": -121.6,
-      "price_change_percent": -14.67
+      "price_change_usd": -141.02,
+      "price_change_percent": -83.93
     },
     {
       "card_id": "OP05-091",
@@ -56,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 17.21,
+      "today_price_usd": 17.13,
       "baseline_price_usd": 136.83,
-      "price_change_usd": -119.62,
-      "price_change_percent": -87.42
+      "price_change_usd": -119.7,
+      "price_change_percent": -87.48
     },
     {
       "card_id": "OP08-023",
@@ -68,10 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 16.44,
+      "today_price_usd": 16.05,
       "baseline_price_usd": 107.89,
-      "price_change_usd": -91.45,
-      "price_change_percent": -84.76
+      "price_change_usd": -91.84,
+      "price_change_percent": -85.12
+    },
+    {
+      "card_id": "ST29-001",
+      "card_image_id": "ST29-001",
+      "card_name": "Monkey.D.Luffy (001)",
+      "set_code": "ST-29",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
+      "today_price_usd": 2.16,
+      "baseline_price_usd": 27.68,
+      "price_change_usd": -25.52,
+      "price_change_percent": -92.2
     }
   ]
 }

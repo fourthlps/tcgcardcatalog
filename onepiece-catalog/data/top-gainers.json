@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-29T01:20:36.927895+00:00",
-  "snapshot_date": "2026-08-29",
-  "baseline_date": "2026-08-28",
+  "generated_at": "2026-08-30T20:19:07.511803+00:00",
+  "snapshot_date": "2026-08-30",
+  "baseline_date": "2026-08-29",
   "days_between_snapshots": 1,
-  "history_days_collected": 64,
+  "history_days_collected": 65,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 35,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 21,
   "trend_type": "gainers",
   "cards": [
     {
@@ -26,16 +26,16 @@
       "price_change_percent": 424.76
     },
     {
-      "card_id": "OP08-058",
-      "card_image_id": "OP08-058_p1",
-      "card_name": "Charlotte Pudding (058) (Parallel)",
-      "set_code": "OP-08",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-058_p1.jpg",
-      "today_price_usd": 64.1,
-      "baseline_price_usd": 60.73,
-      "price_change_usd": 3.37,
-      "price_change_percent": 5.55
+      "card_id": "EB04-058",
+      "card_image_id": "EB04-058",
+      "card_name": "Borsalino",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
+      "today_price_usd": 26.23,
+      "baseline_price_usd": 22.71,
+      "price_change_usd": 3.52,
+      "price_change_percent": 15.5
     },
     {
       "card_id": "OP01-033",
@@ -45,21 +45,21 @@
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
       "today_price_usd": 5.11,
-      "baseline_price_usd": 1.92,
-      "price_change_usd": 3.19,
-      "price_change_percent": 166.15
+      "baseline_price_usd": 1.93,
+      "price_change_usd": 3.18,
+      "price_change_percent": 164.77
     },
     {
-      "card_id": "OP11-070",
-      "card_image_id": "OP11-070",
-      "card_name": "Charlotte Pudding",
-      "set_code": "OP-11",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-070.jpg",
-      "today_price_usd": 8.83,
-      "baseline_price_usd": 6.65,
+      "card_id": "OP08-058",
+      "card_image_id": "OP08-058_p1",
+      "card_name": "Charlotte Pudding (058) (Parallel)",
+      "set_code": "OP-08",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-058_p1.jpg",
+      "today_price_usd": 66.28,
+      "baseline_price_usd": 64.1,
       "price_change_usd": 2.18,
-      "price_change_percent": 32.78
+      "price_change_percent": 3.4
     },
     {
       "card_id": "OP11-070",
@@ -68,10 +68,10 @@
       "set_code": "OP-11",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-070_p1.jpg",
-      "today_price_usd": 28.21,
-      "baseline_price_usd": 26.76,
-      "price_change_usd": 1.45,
-      "price_change_percent": 5.42
+      "today_price_usd": 30.11,
+      "baseline_price_usd": 28.21,
+      "price_change_usd": 1.9,
+      "price_change_percent": 6.74
     }
   ]
 }
