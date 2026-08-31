@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-30T20:19:07.511803+00:00",
-  "snapshot_date": "2026-08-30",
-  "baseline_date": "2026-08-29",
+  "generated_at": "2026-08-31T22:12:38.679779+00:00",
+  "snapshot_date": "2026-08-31",
+  "baseline_date": "2026-08-30",
   "days_between_snapshots": 1,
-  "history_days_collected": 65,
+  "history_days_collected": 66,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 21,
+  "cards_evaluated": 1252,
+  "cards_with_trend": 44,
   "trend_type": "gainers",
   "cards": [
     {
@@ -26,16 +26,16 @@
       "price_change_percent": 424.76
     },
     {
-      "card_id": "EB04-058",
-      "card_image_id": "EB04-058",
-      "card_name": "Borsalino",
-      "set_code": "OP15-EB04",
+      "card_id": "OP11-070",
+      "card_image_id": "OP11-070_p1",
+      "card_name": "Charlotte Pudding (Alternate Art)",
+      "set_code": "OP-11",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
-      "today_price_usd": 26.23,
-      "baseline_price_usd": 22.71,
-      "price_change_usd": 3.52,
-      "price_change_percent": 15.5
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-070_p1.jpg",
+      "today_price_usd": 34.23,
+      "baseline_price_usd": 30.11,
+      "price_change_usd": 4.12,
+      "price_change_percent": 13.68
     },
     {
       "card_id": "OP01-033",
@@ -50,28 +50,28 @@
       "price_change_percent": 164.77
     },
     {
-      "card_id": "OP08-058",
-      "card_image_id": "OP08-058_p1",
-      "card_name": "Charlotte Pudding (058) (Parallel)",
-      "set_code": "OP-08",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-058_p1.jpg",
-      "today_price_usd": 66.28,
-      "baseline_price_usd": 64.1,
-      "price_change_usd": 2.18,
-      "price_change_percent": 3.4
+      "card_id": "EB04-058",
+      "card_image_id": "EB04-058",
+      "card_name": "Borsalino",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
+      "today_price_usd": 29.11,
+      "baseline_price_usd": 26.23,
+      "price_change_usd": 2.88,
+      "price_change_percent": 10.98
     },
     {
-      "card_id": "OP11-070",
-      "card_image_id": "OP11-070_p1",
-      "card_name": "Charlotte Pudding (Alternate Art)",
-      "set_code": "OP-11",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-070_p1.jpg",
-      "today_price_usd": 30.11,
-      "baseline_price_usd": 28.21,
-      "price_change_usd": 1.9,
-      "price_change_percent": 6.74
+      "card_id": "OP06-033",
+      "card_image_id": "OP06-033",
+      "card_name": "Vander Decken IX",
+      "set_code": "OP-06",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-033.jpg",
+      "today_price_usd": 6.95,
+      "baseline_price_usd": 4.75,
+      "price_change_usd": 2.2,
+      "price_change_percent": 46.32
     }
   ]
 }
