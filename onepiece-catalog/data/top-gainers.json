@@ -1,18 +1,30 @@
 {
-  "generated_at": "2026-09-01T20:19:46.602856+00:00",
-  "snapshot_date": "2026-09-01",
-  "baseline_date": "2026-08-31",
+  "generated_at": "2026-09-02T20:19:04.314183+00:00",
+  "snapshot_date": "2026-09-02",
+  "baseline_date": "2026-09-01",
   "days_between_snapshots": 1,
-  "history_days_collected": 67,
+  "history_days_collected": 68,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1257,
-  "cards_with_trend": 17,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 40,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP09-062",
+      "card_image_id": "OP09-062_p1",
+      "card_name": "Nico Robin (062) (Parallel)",
+      "set_code": "OP-09",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-062_p1.jpg",
+      "today_price_usd": 120.0,
+      "baseline_price_usd": 113.22,
+      "price_change_usd": 6.78,
+      "price_change_percent": 5.99
+    },
     {
       "card_id": "OP01-041",
       "card_image_id": "OP01-041_p5",
@@ -24,18 +36,6 @@
       "baseline_price_usd": 1.05,
       "price_change_usd": 4.32,
       "price_change_percent": 411.43
-    },
-    {
-      "card_id": "ST23-001",
-      "card_image_id": "ST23-001",
-      "card_name": "Uta",
-      "set_code": "ST-23",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST23-001.jpg",
-      "today_price_usd": 19.52,
-      "baseline_price_usd": 16.35,
-      "price_change_usd": 3.17,
-      "price_change_percent": 19.39
     },
     {
       "card_id": "OP01-033",
@@ -50,28 +50,28 @@
       "price_change_percent": 160.71
     },
     {
-      "card_id": "OP11-040",
-      "card_image_id": "OP11-040_p1",
-      "card_name": "Monkey.D.Luffy (040) (Alternate Art)",
-      "set_code": "OP-11",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-040_p1.jpg",
-      "today_price_usd": 59.27,
-      "baseline_price_usd": 56.92,
-      "price_change_usd": 2.35,
-      "price_change_percent": 4.13
+      "card_id": "OP15-078",
+      "card_image_id": "OP15-078",
+      "card_name": "Mamaragan",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP15-078_Mxy2D9w.jpg",
+      "today_price_usd": 24.75,
+      "baseline_price_usd": 21.9,
+      "price_change_usd": 2.85,
+      "price_change_percent": 13.01
     },
     {
-      "card_id": "OP14-120",
-      "card_image_id": "OP14-120_p1",
-      "card_name": "Crocodile - OP14-120 (Alternate Art)",
-      "set_code": "OP14-EB04",
+      "card_id": "OP16-119",
+      "card_image_id": "OP16-119",
+      "card_name": "Marshall.D.Teach (119)",
+      "set_code": "OP-16",
       "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-120_p1_JDoyJx2.jpg",
-      "today_price_usd": 30.53,
-      "baseline_price_usd": 28.42,
-      "price_change_usd": 2.11,
-      "price_change_percent": 7.42
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_48YgI3E.jpg",
+      "today_price_usd": 22.8,
+      "baseline_price_usd": 20.46,
+      "price_change_usd": 2.34,
+      "price_change_percent": 11.44
     }
   ]
 }
