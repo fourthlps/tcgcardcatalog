@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-09-02T20:19:04.314183+00:00",
-  "snapshot_date": "2026-09-02",
-  "baseline_date": "2026-09-01",
+  "generated_at": "2026-09-03T20:19:12.631167+00:00",
+  "snapshot_date": "2026-09-03",
+  "baseline_date": "2026-09-02",
   "days_between_snapshots": 1,
-  "history_days_collected": 68,
+  "history_days_collected": 69,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 40,
+  "cards_evaluated": 1262,
+  "cards_with_trend": 17,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP09-062",
-      "card_image_id": "OP09-062_p1",
-      "card_name": "Nico Robin (062) (Parallel)",
-      "set_code": "OP-09",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-062_p1.jpg",
-      "today_price_usd": 120.0,
-      "baseline_price_usd": 113.22,
-      "price_change_usd": 6.78,
-      "price_change_percent": 5.99
+      "card_id": "OP04-044",
+      "card_image_id": "OP04-044_p2",
+      "card_name": "Kaido (044) (SP)",
+      "set_code": "OP-05",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-044_p2.jpg",
+      "today_price_usd": 148.85,
+      "baseline_price_usd": 144.49,
+      "price_change_usd": 4.36,
+      "price_change_percent": 3.02
     },
     {
       "card_id": "OP01-041",
@@ -44,22 +44,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.11,
+      "today_price_usd": 5.06,
       "baseline_price_usd": 1.96,
-      "price_change_usd": 3.15,
-      "price_change_percent": 160.71
-    },
-    {
-      "card_id": "OP15-078",
-      "card_image_id": "OP15-078",
-      "card_name": "Mamaragan",
-      "set_code": "OP15-EB04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP15-078_Mxy2D9w.jpg",
-      "today_price_usd": 24.75,
-      "baseline_price_usd": 21.9,
-      "price_change_usd": 2.85,
-      "price_change_percent": 13.01
+      "price_change_usd": 3.1,
+      "price_change_percent": 158.16
     },
     {
       "card_id": "OP16-119",
@@ -68,10 +56,22 @@
       "set_code": "OP-16",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_48YgI3E.jpg",
-      "today_price_usd": 22.8,
-      "baseline_price_usd": 20.46,
-      "price_change_usd": 2.34,
-      "price_change_percent": 11.44
+      "today_price_usd": 23.99,
+      "baseline_price_usd": 22.8,
+      "price_change_usd": 1.19,
+      "price_change_percent": 5.22
+    },
+    {
+      "card_id": "ST16-004",
+      "card_image_id": "ST16-004",
+      "card_name": "Shanks",
+      "set_code": "ST-16",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST16-004.jpg",
+      "today_price_usd": 6.85,
+      "baseline_price_usd": 5.82,
+      "price_change_usd": 1.03,
+      "price_change_percent": 17.7
     }
   ]
 }
