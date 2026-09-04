@@ -1,29 +1,41 @@
 {
-  "generated_at": "2026-09-03T20:19:12.631167+00:00",
-  "snapshot_date": "2026-09-03",
-  "baseline_date": "2026-09-02",
+  "generated_at": "2026-09-04T20:04:25.066330+00:00",
+  "snapshot_date": "2026-09-04",
+  "baseline_date": "2026-09-03",
   "days_between_snapshots": 1,
-  "history_days_collected": 69,
+  "history_days_collected": 70,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1262,
-  "cards_with_trend": 17,
+  "cards_with_trend": 23,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP04-044",
-      "card_image_id": "OP04-044_p2",
-      "card_name": "Kaido (044) (SP)",
-      "set_code": "OP-05",
+      "card_id": "OP01-078",
+      "card_image_id": "OP01-078_p2",
+      "card_name": "Boa Hancock (SP)",
+      "set_code": "OP-04",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-044_p2.jpg",
-      "today_price_usd": 148.85,
-      "baseline_price_usd": 144.49,
-      "price_change_usd": 4.36,
-      "price_change_percent": 3.02
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-078_p2.jpg",
+      "today_price_usd": 1025.56,
+      "baseline_price_usd": 995.56,
+      "price_change_usd": 30.0,
+      "price_change_percent": 3.01
+    },
+    {
+      "card_id": "OP09-062",
+      "card_image_id": "OP09-062_p1",
+      "card_name": "Nico Robin (062) (Parallel)",
+      "set_code": "OP-09",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-062_p1.jpg",
+      "today_price_usd": 132.64,
+      "baseline_price_usd": 122.79,
+      "price_change_usd": 9.85,
+      "price_change_percent": 8.02
     },
     {
       "card_id": "OP01-041",
@@ -56,22 +68,10 @@
       "set_code": "OP-16",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_48YgI3E.jpg",
-      "today_price_usd": 23.99,
-      "baseline_price_usd": 22.8,
-      "price_change_usd": 1.19,
-      "price_change_percent": 5.22
-    },
-    {
-      "card_id": "ST16-004",
-      "card_image_id": "ST16-004",
-      "card_name": "Shanks",
-      "set_code": "ST-16",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST16-004.jpg",
-      "today_price_usd": 6.85,
-      "baseline_price_usd": 5.82,
-      "price_change_usd": 1.03,
-      "price_change_percent": 17.7
+      "today_price_usd": 26.18,
+      "baseline_price_usd": 23.99,
+      "price_change_usd": 2.19,
+      "price_change_percent": 9.13
     }
   ]
 }
