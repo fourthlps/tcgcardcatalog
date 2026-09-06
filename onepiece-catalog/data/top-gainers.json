@@ -1,30 +1,18 @@
 {
-  "generated_at": "2026-09-04T20:04:25.066330+00:00",
-  "snapshot_date": "2026-09-04",
-  "baseline_date": "2026-09-03",
-  "days_between_snapshots": 1,
-  "history_days_collected": 70,
+  "generated_at": "2026-09-06T19:47:52.474749+00:00",
+  "snapshot_date": "2026-09-06",
+  "baseline_date": "2026-09-04",
+  "days_between_snapshots": 2,
+  "history_days_collected": 71,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1262,
-  "cards_with_trend": 23,
+  "cards_evaluated": 1264,
+  "cards_with_trend": 74,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP01-078",
-      "card_image_id": "OP01-078_p2",
-      "card_name": "Boa Hancock (SP)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-078_p2.jpg",
-      "today_price_usd": 1025.56,
-      "baseline_price_usd": 995.56,
-      "price_change_usd": 30.0,
-      "price_change_percent": 3.01
-    },
     {
       "card_id": "OP09-062",
       "card_image_id": "OP09-062_p1",
@@ -32,34 +20,22 @@
       "set_code": "OP-09",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-062_p1.jpg",
-      "today_price_usd": 132.64,
-      "baseline_price_usd": 122.79,
-      "price_change_usd": 9.85,
-      "price_change_percent": 8.02
+      "today_price_usd": 159.18,
+      "baseline_price_usd": 132.64,
+      "price_change_usd": 26.54,
+      "price_change_percent": 20.01
     },
     {
-      "card_id": "OP01-041",
-      "card_image_id": "OP01-041_p5",
-      "card_name": "Kouzuki Momonosuke (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
-      "today_price_usd": 5.37,
-      "baseline_price_usd": 1.05,
-      "price_change_usd": 4.32,
-      "price_change_percent": 411.43
-    },
-    {
-      "card_id": "OP01-033",
-      "card_image_id": "OP01-033_p5",
-      "card_name": "Izo (OP01-033) (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "UC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 5.06,
-      "baseline_price_usd": 1.96,
-      "price_change_usd": 3.1,
-      "price_change_percent": 158.16
+      "card_id": "OP05-002",
+      "card_image_id": "OP05-002_p1",
+      "card_name": "Belo Betty (002) (Alternate Art)",
+      "set_code": "OP-05",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-002_p1.jpg",
+      "today_price_usd": 42.21,
+      "baseline_price_usd": 24.8,
+      "price_change_usd": 17.41,
+      "price_change_percent": 70.2
     },
     {
       "card_id": "OP16-119",
@@ -68,10 +44,34 @@
       "set_code": "OP-16",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_48YgI3E.jpg",
-      "today_price_usd": 26.18,
-      "baseline_price_usd": 23.99,
-      "price_change_usd": 2.19,
-      "price_change_percent": 9.13
+      "today_price_usd": 33.51,
+      "baseline_price_usd": 26.18,
+      "price_change_usd": 7.33,
+      "price_change_percent": 28.0
+    },
+    {
+      "card_id": "OP14-120",
+      "card_image_id": "OP14-120",
+      "card_name": "Crocodile - OP14-120",
+      "set_code": "OP14-EB04",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-120_XqBISrN.jpg",
+      "today_price_usd": 10.19,
+      "baseline_price_usd": 4.64,
+      "price_change_usd": 5.55,
+      "price_change_percent": 119.61
+    },
+    {
+      "card_id": "OP16-119",
+      "card_image_id": "OP16-119_p1",
+      "card_name": "Marshall.D.Teach (119) (Alternate Art)",
+      "set_code": "OP-16",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_p1_pI48EHO.jpg",
+      "today_price_usd": 42.74,
+      "baseline_price_usd": 37.72,
+      "price_change_usd": 5.02,
+      "price_change_percent": 13.31
     }
   ]
 }
