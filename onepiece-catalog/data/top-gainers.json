@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-07T20:56:16.137146+00:00",
-  "snapshot_date": "2026-09-07",
-  "baseline_date": "2026-09-06",
+  "generated_at": "2026-09-08T20:30:44.111897+00:00",
+  "snapshot_date": "2026-09-08",
+  "baseline_date": "2026-09-07",
   "days_between_snapshots": 1,
-  "history_days_collected": 72,
+  "history_days_collected": 73,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1274,
-  "cards_with_trend": 19,
+  "cards_evaluated": 1276,
+  "cards_with_trend": 27,
   "trend_type": "gainers",
   "cards": [
     {
@@ -21,33 +21,9 @@
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-041_p5_BTppBsS.jpg",
       "today_price_usd": 5.35,
-      "baseline_price_usd": 1.05,
-      "price_change_usd": 4.3,
-      "price_change_percent": 409.52
-    },
-    {
-      "card_id": "OP01-033",
-      "card_image_id": "OP01-033_p5",
-      "card_name": "Izo (OP01-033) (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "UC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 4.94,
-      "baseline_price_usd": 1.96,
-      "price_change_usd": 2.98,
-      "price_change_percent": 152.04
-    },
-    {
-      "card_id": "OP05-002",
-      "card_image_id": "OP05-002_p1",
-      "card_name": "Belo Betty (002) (Alternate Art)",
-      "set_code": "OP-05",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-002_p1.jpg",
-      "today_price_usd": 44.77,
-      "baseline_price_usd": 42.21,
-      "price_change_usd": 2.56,
-      "price_change_percent": 6.06
+      "baseline_price_usd": 1.03,
+      "price_change_usd": 4.32,
+      "price_change_percent": 419.42
     },
     {
       "card_id": "OP10-067",
@@ -56,22 +32,46 @@
       "set_code": "OP-10",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-067_p1.jpg",
-      "today_price_usd": 15.22,
-      "baseline_price_usd": 12.74,
-      "price_change_usd": 2.48,
-      "price_change_percent": 19.47
+      "today_price_usd": 18.22,
+      "baseline_price_usd": 15.22,
+      "price_change_usd": 3.0,
+      "price_change_percent": 19.71
     },
     {
-      "card_id": "OP16-118",
-      "card_image_id": "OP16-118",
-      "card_name": "Portgas.D.Ace (118)",
+      "card_id": "OP01-033",
+      "card_image_id": "OP01-033_p5",
+      "card_name": "Izo (OP01-033) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "UC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
+      "today_price_usd": 4.9,
+      "baseline_price_usd": 1.96,
+      "price_change_usd": 2.94,
+      "price_change_percent": 150.0
+    },
+    {
+      "card_id": "EB02-017",
+      "card_image_id": "EB02-017",
+      "card_name": "Nami",
+      "set_code": "EB-02",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017.jpg",
+      "today_price_usd": 17.41,
+      "baseline_price_usd": 15.26,
+      "price_change_usd": 2.15,
+      "price_change_percent": 14.09
+    },
+    {
+      "card_id": "OP16-119",
+      "card_image_id": "OP16-119_p1",
+      "card_name": "Marshall.D.Teach (119) (Alternate Art)",
       "set_code": "OP-16",
       "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-118_X6FmLLp.jpg",
-      "today_price_usd": 18.12,
-      "baseline_price_usd": 16.56,
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_p1_pI48EHO.jpg",
+      "today_price_usd": 44.92,
+      "baseline_price_usd": 43.36,
       "price_change_usd": 1.56,
-      "price_change_percent": 9.42
+      "price_change_percent": 3.6
     }
   ]
 }
