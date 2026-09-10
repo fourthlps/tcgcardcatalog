@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-09T20:13:29.432948+00:00",
-  "snapshot_date": "2026-09-09",
-  "baseline_date": "2026-09-08",
+  "generated_at": "2026-09-10T20:15:34.967480+00:00",
+  "snapshot_date": "2026-09-10",
+  "baseline_date": "2026-09-09",
   "days_between_snapshots": 1,
-  "history_days_collected": 74,
+  "history_days_collected": 75,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1275,
-  "cards_with_trend": 11,
+  "cards_with_trend": 30,
   "trend_type": "gainers",
   "cards": [
     {
@@ -44,10 +44,34 @@
       "set_code": "OP-05",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-002_p1.jpg",
-      "today_price_usd": 46.38,
-      "baseline_price_usd": 44.77,
-      "price_change_usd": 1.61,
-      "price_change_percent": 3.6
+      "today_price_usd": 48.02,
+      "baseline_price_usd": 46.38,
+      "price_change_usd": 1.64,
+      "price_change_percent": 3.54
+    },
+    {
+      "card_id": "ST01-001",
+      "card_image_id": "ST01-001",
+      "card_name": "Monkey.D.Luffy (001)",
+      "set_code": "ST-01",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST01-001.jpg",
+      "today_price_usd": 40.2,
+      "baseline_price_usd": 38.67,
+      "price_change_usd": 1.53,
+      "price_change_percent": 3.96
+    },
+    {
+      "card_id": "EB02-017",
+      "card_image_id": "EB02-017",
+      "card_name": "Nami",
+      "set_code": "EB-02",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017.jpg",
+      "today_price_usd": 18.78,
+      "baseline_price_usd": 17.72,
+      "price_change_usd": 1.06,
+      "price_change_percent": 5.98
     }
   ]
 }
