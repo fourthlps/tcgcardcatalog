@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-10T20:15:34.967480+00:00",
-  "snapshot_date": "2026-09-10",
-  "baseline_date": "2026-09-09",
+  "generated_at": "2026-09-11T20:14:30.877735+00:00",
+  "snapshot_date": "2026-09-11",
+  "baseline_date": "2026-09-10",
   "days_between_snapshots": 1,
-  "history_days_collected": 75,
+  "history_days_collected": 76,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1275,
-  "cards_with_trend": 30,
+  "cards_evaluated": 1274,
+  "cards_with_trend": 19,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 12.74,
+      "today_price_usd": 12.61,
       "baseline_price_usd": 478.59,
-      "price_change_usd": -465.85,
-      "price_change_percent": -97.34
+      "price_change_usd": -465.98,
+      "price_change_percent": -97.37
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 16.51,
+      "today_price_usd": 16.32,
       "baseline_price_usd": 136.83,
-      "price_change_usd": -120.32,
-      "price_change_percent": -87.93
+      "price_change_usd": -120.51,
+      "price_change_percent": -88.07
     },
     {
       "card_id": "OP08-023",
@@ -57,9 +57,9 @@
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
       "today_price_usd": 14.85,
-      "baseline_price_usd": 103.72,
-      "price_change_usd": -88.87,
-      "price_change_percent": -85.68
+      "baseline_price_usd": 101.78,
+      "price_change_usd": -86.93,
+      "price_change_percent": -85.41
     },
     {
       "card_id": "ST29-001",
@@ -68,10 +68,10 @@
       "set_code": "ST-29",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
-      "today_price_usd": 2.67,
+      "today_price_usd": 2.63,
       "baseline_price_usd": 25.11,
-      "price_change_usd": -22.44,
-      "price_change_percent": -89.37
+      "price_change_usd": -22.48,
+      "price_change_percent": -89.53
     }
   ]
 }

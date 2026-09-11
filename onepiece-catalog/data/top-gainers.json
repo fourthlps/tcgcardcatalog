@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-10T20:15:34.967480+00:00",
-  "snapshot_date": "2026-09-10",
-  "baseline_date": "2026-09-09",
+  "generated_at": "2026-09-11T20:14:30.877735+00:00",
+  "snapshot_date": "2026-09-11",
+  "baseline_date": "2026-09-10",
   "days_between_snapshots": 1,
-  "history_days_collected": 75,
+  "history_days_collected": 76,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1275,
-  "cards_with_trend": 30,
+  "cards_evaluated": 1274,
+  "cards_with_trend": 19,
   "trend_type": "gainers",
   "cards": [
     {
@@ -26,6 +26,18 @@
       "price_change_percent": 419.42
     },
     {
+      "card_id": "OP16-119",
+      "card_image_id": "OP16-119",
+      "card_name": "Marshall.D.Teach (119)",
+      "set_code": "OP-16",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_48YgI3E.jpg",
+      "today_price_usd": 35.02,
+      "baseline_price_usd": 31.34,
+      "price_change_usd": 3.68,
+      "price_change_percent": 11.74
+    },
+    {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
       "card_name": "Izo (OP01-033) (Alternate Art)",
@@ -38,40 +50,28 @@
       "price_change_percent": 143.78
     },
     {
-      "card_id": "OP05-002",
-      "card_image_id": "OP05-002_p1",
-      "card_name": "Belo Betty (002) (Alternate Art)",
-      "set_code": "OP-05",
+      "card_id": "ST30-001",
+      "card_image_id": "ST30-001_p1",
+      "card_name": "Luffy & Ace (Parallel)",
+      "set_code": "ST-30",
       "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-002_p1.jpg",
-      "today_price_usd": 48.02,
-      "baseline_price_usd": 46.38,
-      "price_change_usd": 1.64,
-      "price_change_percent": 3.54
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST30-001_p1_xVRPPSd.jpg",
+      "today_price_usd": 59.91,
+      "baseline_price_usd": 57.62,
+      "price_change_usd": 2.29,
+      "price_change_percent": 3.97
     },
     {
-      "card_id": "ST01-001",
-      "card_image_id": "ST01-001",
-      "card_name": "Monkey.D.Luffy (001)",
-      "set_code": "ST-01",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST01-001.jpg",
-      "today_price_usd": 40.2,
-      "baseline_price_usd": 38.67,
-      "price_change_usd": 1.53,
-      "price_change_percent": 3.96
-    },
-    {
-      "card_id": "EB02-017",
-      "card_image_id": "EB02-017",
-      "card_name": "Nami",
-      "set_code": "EB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017.jpg",
-      "today_price_usd": 18.78,
-      "baseline_price_usd": 17.72,
-      "price_change_usd": 1.06,
-      "price_change_percent": 5.98
+      "card_id": "OP16-119",
+      "card_image_id": "OP16-119_p1",
+      "card_name": "Marshall.D.Teach (119) (Alternate Art)",
+      "set_code": "OP-16",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_p1_pI48EHO.jpg",
+      "today_price_usd": 46.92,
+      "baseline_price_usd": 45.52,
+      "price_change_usd": 1.4,
+      "price_change_percent": 3.08
     }
   ]
 }
