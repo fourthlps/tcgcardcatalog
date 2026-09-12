@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-11T20:14:30.877735+00:00",
-  "snapshot_date": "2026-09-11",
-  "baseline_date": "2026-09-10",
+  "generated_at": "2026-09-12T19:54:14.819558+00:00",
+  "snapshot_date": "2026-09-12",
+  "baseline_date": "2026-09-11",
   "days_between_snapshots": 1,
-  "history_days_collected": 76,
+  "history_days_collected": 77,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1274,
-  "cards_with_trend": 19,
+  "cards_evaluated": 1275,
+  "cards_with_trend": 15,
   "trend_type": "gainers",
   "cards": [
     {
@@ -26,16 +26,16 @@
       "price_change_percent": 419.42
     },
     {
-      "card_id": "OP16-119",
-      "card_image_id": "OP16-119",
-      "card_name": "Marshall.D.Teach (119)",
-      "set_code": "OP-16",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_48YgI3E.jpg",
-      "today_price_usd": 35.02,
-      "baseline_price_usd": 31.34,
-      "price_change_usd": 3.68,
-      "price_change_percent": 11.74
+      "card_id": "OP15-078",
+      "card_image_id": "OP15-078_p1",
+      "card_name": "Mamaragan (Alternate Art)",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP15-078_p1_7BksWoF.jpg",
+      "today_price_usd": 52.72,
+      "baseline_price_usd": 48.73,
+      "price_change_usd": 3.99,
+      "price_change_percent": 8.19
     },
     {
       "card_id": "OP01-033",
@@ -50,28 +50,16 @@
       "price_change_percent": 143.78
     },
     {
-      "card_id": "ST30-001",
-      "card_image_id": "ST30-001_p1",
-      "card_name": "Luffy & Ace (Parallel)",
-      "set_code": "ST-30",
+      "card_id": "OP05-002",
+      "card_image_id": "OP05-002_p1",
+      "card_name": "Belo Betty (002) (Alternate Art)",
+      "set_code": "OP-05",
       "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST30-001_p1_xVRPPSd.jpg",
-      "today_price_usd": 59.91,
-      "baseline_price_usd": 57.62,
-      "price_change_usd": 2.29,
-      "price_change_percent": 3.97
-    },
-    {
-      "card_id": "OP16-119",
-      "card_image_id": "OP16-119_p1",
-      "card_name": "Marshall.D.Teach (119) (Alternate Art)",
-      "set_code": "OP-16",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-119_p1_pI48EHO.jpg",
-      "today_price_usd": 46.92,
-      "baseline_price_usd": 45.52,
-      "price_change_usd": 1.4,
-      "price_change_percent": 3.08
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-002_p1.jpg",
+      "today_price_usd": 50.7,
+      "baseline_price_usd": 48.02,
+      "price_change_usd": 2.68,
+      "price_change_percent": 5.58
     }
   ]
 }
