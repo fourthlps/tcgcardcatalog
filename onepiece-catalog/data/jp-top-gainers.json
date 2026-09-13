@@ -1,51 +1,24 @@
 {
-  "generated_at": "2026-09-11T20:26:43.790717+00:00",
-  "snapshot_date": "2026-09-11",
-  "baseline_date": "2026-08-31",
-  "days_between_snapshots": 11,
-  "history_days_collected": 49,
+  "generated_at": "2026-09-13T20:13:30.946147+00:00",
+  "snapshot_date": "2026-09-13",
+  "baseline_date": "2026-09-03",
+  "days_between_snapshots": 10,
+  "history_days_collected": 50,
   "period": "7_day",
   "confidence": "high",
   "source": "Yuyu-Tei via jp-card-prices.com",
   "currency": "JPY",
   "game": "onepiece",
   "cards_evaluated": 2540,
-  "cards_with_trend": 24,
+  "cards_with_trend": 0,
   "significance_threshold_pct": 5.0,
-  "cards_significant": 24,
+  "cards_significant": 0,
   "market_stable": false,
-  "recalibrating": false,
+  "recalibrating": true,
+  "recalibration_reason": "frozen_baseline",
+  "window_health": {
+    "comparable": 2540
+  },
   "trend_type": "gainers",
-  "cards": [
-    {
-      "significant": true,
-      "card_id": "OP09-062_p1",
-      "card_name": "Nico Robin (062) (Parallel)",
-      "set_code": "OP-09",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-062_p1.jpg",
-      "today_price_jpy": 2980.0,
-      "baseline_price_jpy": 1980.0,
-      "today_price_thb": 640.0,
-      "baseline_price_thb": 411.0,
-      "price_change_jpy": 1000.0,
-      "price_change_thb": 229.0,
-      "price_change_percent": 50.51
-    },
-    {
-      "significant": true,
-      "card_id": "EB02-020",
-      "card_name": "We Are!",
-      "set_code": "EB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-020.jpg",
-      "today_price_jpy": 580.0,
-      "baseline_price_jpy": 500.0,
-      "today_price_thb": 125.0,
-      "baseline_price_thb": 104.0,
-      "price_change_jpy": 80.0,
-      "price_change_thb": 21.0,
-      "price_change_percent": 16.0
-    }
-  ]
+  "cards": []
 }
