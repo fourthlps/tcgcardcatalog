@@ -1,18 +1,30 @@
 {
-  "generated_at": "2026-09-13T20:02:02.033622+00:00",
-  "snapshot_date": "2026-09-13",
-  "baseline_date": "2026-09-12",
+  "generated_at": "2026-09-14T21:12:24.925206+00:00",
+  "snapshot_date": "2026-09-14",
+  "baseline_date": "2026-09-13",
   "days_between_snapshots": 1,
-  "history_days_collected": 78,
+  "history_days_collected": 79,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1272,
-  "cards_with_trend": 11,
+  "cards_evaluated": 1271,
+  "cards_with_trend": 27,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "EB02-017",
+      "card_image_id": "EB02-017_p1",
+      "card_name": "Nami (Alternate Art)",
+      "set_code": "EB-02",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017_p1.jpg",
+      "today_price_usd": 143.55,
+      "baseline_price_usd": 138.94,
+      "price_change_usd": 4.61,
+      "price_change_percent": 3.32
+    },
     {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
@@ -26,40 +38,40 @@
       "price_change_percent": 141.09
     },
     {
+      "card_id": "OP15-078",
+      "card_image_id": "OP15-078_p1",
+      "card_name": "Mamaragan (Alternate Art)",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP15-078_p1_7BksWoF.jpg",
+      "today_price_usd": 55.55,
+      "baseline_price_usd": 52.73,
+      "price_change_usd": 2.82,
+      "price_change_percent": 5.35
+    },
+    {
+      "card_id": "EB04-058",
+      "card_image_id": "EB04-058",
+      "card_name": "Borsalino",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
+      "today_price_usd": 27.77,
+      "baseline_price_usd": 26.18,
+      "price_change_usd": 1.59,
+      "price_change_percent": 6.07
+    },
+    {
       "card_id": "OP11-022",
       "card_image_id": "OP11-022_p1",
       "card_name": "Shirahoshi (022) (Alternate Art)",
       "set_code": "OP-11",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-022_p1.jpg",
-      "today_price_usd": 25.69,
-      "baseline_price_usd": 24.23,
-      "price_change_usd": 1.46,
-      "price_change_percent": 6.03
-    },
-    {
-      "card_id": "OP11-054",
-      "card_image_id": "OP11-054_p1",
-      "card_name": "Nami (054) (Alternate Art)",
-      "set_code": "OP-11",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-054_p1.jpg",
-      "today_price_usd": 34.45,
-      "baseline_price_usd": 33.2,
-      "price_change_usd": 1.25,
-      "price_change_percent": 3.77
-    },
-    {
-      "card_id": "ST23-001",
-      "card_image_id": "ST23-001",
-      "card_name": "Uta",
-      "set_code": "ST-23",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST23-001.jpg",
-      "today_price_usd": 14.68,
-      "baseline_price_usd": 13.58,
-      "price_change_usd": 1.1,
-      "price_change_percent": 8.1
+      "today_price_usd": 27.25,
+      "baseline_price_usd": 25.69,
+      "price_change_usd": 1.56,
+      "price_change_percent": 6.07
     }
   ]
 }
