@@ -1,18 +1,54 @@
 {
-  "generated_at": "2026-09-15T20:40:45.586032+00:00",
-  "snapshot_date": "2026-09-15",
-  "baseline_date": "2026-09-14",
+  "generated_at": "2026-09-16T20:40:50.270775+00:00",
+  "snapshot_date": "2026-09-16",
+  "baseline_date": "2026-09-15",
   "days_between_snapshots": 1,
-  "history_days_collected": 80,
+  "history_days_collected": 81,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1274,
-  "cards_with_trend": 16,
+  "cards_evaluated": 1272,
+  "cards_with_trend": 24,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP06-118",
+      "card_image_id": "OP06-118_r1",
+      "card_name": "Roronoa Zoro (Manga)",
+      "set_code": "PRB-01",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-118_r1.jpg",
+      "today_price_usd": 2150.0,
+      "baseline_price_usd": 1975.0,
+      "price_change_usd": 175.0,
+      "price_change_percent": 8.86
+    },
+    {
+      "card_id": "OP14-120",
+      "card_image_id": "OP14-120_p1",
+      "card_name": "Crocodile - OP14-120 (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-120_p1_JDoyJx2.jpg",
+      "today_price_usd": 42.5,
+      "baseline_price_usd": 38.89,
+      "price_change_usd": 3.61,
+      "price_change_percent": 9.28
+    },
+    {
+      "card_id": "OP14-120",
+      "card_image_id": "OP14-120",
+      "card_name": "Crocodile - OP14-120",
+      "set_code": "OP14-EB04",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-120_XqBISrN.jpg",
+      "today_price_usd": 9.79,
+      "baseline_price_usd": 6.63,
+      "price_change_usd": 3.16,
+      "price_change_percent": 47.66
+    },
     {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
@@ -20,10 +56,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 4.87,
+      "today_price_usd": 4.88,
       "baseline_price_usd": 2.02,
-      "price_change_usd": 2.85,
-      "price_change_percent": 141.09
+      "price_change_usd": 2.86,
+      "price_change_percent": 141.58
     },
     {
       "card_id": "OP07-076",
@@ -32,10 +68,10 @@
       "set_code": "PRB-02",
       "rarity": "C",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-076_p1.jpg",
-      "today_price_usd": 3.73,
-      "baseline_price_usd": 1.03,
-      "price_change_usd": 2.7,
-      "price_change_percent": 262.14
+      "today_price_usd": 3.64,
+      "baseline_price_usd": 1.12,
+      "price_change_usd": 2.52,
+      "price_change_percent": 225.0
     }
   ]
 }
