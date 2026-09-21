@@ -1,18 +1,42 @@
 {
-  "generated_at": "2026-09-20T20:01:14.447025+00:00",
-  "snapshot_date": "2026-09-20",
-  "baseline_date": "2026-09-18",
-  "days_between_snapshots": 2,
-  "history_days_collected": 84,
+  "generated_at": "2026-09-21T21:27:07.526992+00:00",
+  "snapshot_date": "2026-09-21",
+  "baseline_date": "2026-09-20",
+  "days_between_snapshots": 1,
+  "history_days_collected": 85,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1260,
-  "cards_with_trend": 54,
+  "cards_evaluated": 1261,
+  "cards_with_trend": 32,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "EB04-048",
+      "card_image_id": "EB04-048_p1",
+      "card_name": "Rob Lucci (Alternate Art)",
+      "set_code": "OP15-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-048_p1_f9OEOVs.jpg",
+      "today_price_usd": 19.47,
+      "baseline_price_usd": 13.02,
+      "price_change_usd": 6.45,
+      "price_change_percent": 49.54
+    },
+    {
+      "card_id": "EB02-017",
+      "card_image_id": "EB02-017_p1",
+      "card_name": "Nami (Alternate Art)",
+      "set_code": "EB-02",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017_p1.jpg",
+      "today_price_usd": 147.91,
+      "baseline_price_usd": 143.55,
+      "price_change_usd": 4.36,
+      "price_change_percent": 3.04
+    },
     {
       "card_id": "OP14-001",
       "card_image_id": "OP14-001_p1",
@@ -20,34 +44,10 @@
       "set_code": "OP14-EB04",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-001_p1_TH0mi0Y.jpg",
-      "today_price_usd": 31.69,
-      "baseline_price_usd": 22.26,
-      "price_change_usd": 9.43,
-      "price_change_percent": 42.36
-    },
-    {
-      "card_id": "OP09-056",
-      "card_image_id": "OP09-056_p1",
-      "card_name": "Mr.3(Galdino) - OP09-056 (Alternate Art)",
-      "set_code": "PRB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-056_p1.jpg",
-      "today_price_usd": 12.18,
-      "baseline_price_usd": 3.94,
-      "price_change_usd": 8.24,
-      "price_change_percent": 209.14
-    },
-    {
-      "card_id": "OP09-046",
-      "card_image_id": "OP09-046_p1",
-      "card_name": "Crocodile (046) (Parallel)",
-      "set_code": "OP-09",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-046_p1.jpg",
-      "today_price_usd": 12.63,
-      "baseline_price_usd": 4.55,
-      "price_change_usd": 8.08,
-      "price_change_percent": 177.58
+      "today_price_usd": 35.58,
+      "baseline_price_usd": 31.69,
+      "price_change_usd": 3.89,
+      "price_change_percent": 12.28
     },
     {
       "card_id": "OP11-022",
@@ -56,22 +56,22 @@
       "set_code": "OP-11",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP11-022_p1.jpg",
-      "today_price_usd": 35.78,
-      "baseline_price_usd": 29.02,
-      "price_change_usd": 6.76,
-      "price_change_percent": 23.29
+      "today_price_usd": 39.36,
+      "baseline_price_usd": 35.78,
+      "price_change_usd": 3.58,
+      "price_change_percent": 10.01
     },
     {
-      "card_id": "EB04-048",
-      "card_image_id": "EB04-048_p1",
-      "card_name": "Rob Lucci (Alternate Art)",
-      "set_code": "OP15-EB04",
+      "card_id": "OP16-056",
+      "card_image_id": "OP16-056_p1",
+      "card_name": "Mr.3(Galdino) (056) (Alternate Art)",
+      "set_code": "OP-16",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-048_p1_f9OEOVs.jpg",
-      "today_price_usd": 13.02,
-      "baseline_price_usd": 6.79,
-      "price_change_usd": 6.23,
-      "price_change_percent": 91.75
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-056_p1_lCCqPWh.jpg",
+      "today_price_usd": 21.55,
+      "baseline_price_usd": 18.03,
+      "price_change_usd": 3.52,
+      "price_change_percent": 19.52
     }
   ]
 }
