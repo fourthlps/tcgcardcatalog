@@ -1,6 +1,6 @@
 {
- "last_updated": "2026-09-21T21:27:07.526992+00:00",
- "run_date": "2026-09-21",
+ "last_updated": "2026-09-22T20:40:51.413946+00:00",
+ "run_date": "2026-09-22",
  "status": "success",
  "api": {
   "source": "optcgapi.com",
@@ -12,8 +12,8 @@
  },
  "history": {
   "status": "ok",
-  "days_collected": 85,
-  "last_snapshot_date": "2026-09-21",
+  "days_collected": 86,
+  "last_snapshot_date": "2026-09-22",
   "sheets_append": "skipped_safety"
  },
  "trends": {
@@ -21,25 +21,25 @@
   "gainers_count": 5,
   "losers_count": 5,
   "confidence": "high",
-  "baseline_date": "2026-09-20",
+  "baseline_date": "2026-09-21",
   "days_between_snapshots": 1,
-  "history_days_collected": 85
+  "history_days_collected": 86
  },
  "jp": {
-  "attempted_run_id": "35657224432",
-  "attempted_at": "2026-09-21T21:48:42+00:00",
-  "workflow_run_id": "35657224432",
+  "attempted_run_id": "35781834704",
+  "attempted_at": "2026-09-22T20:59:12+00:00",
+  "workflow_run_id": "35781834704",
   "fetch_outcome": "success",
-  "candidate_state": "ok",
+  "candidate_state": "missing",
   "promotion_state": "rejected",
   "rejection_reasons": [
-   "refreshed 1715 below catastrophic floor 2000",
-   "24 set(s) failed"
+   "business rejection: match ratio 0.67 < 0.7",
+   "candidate missing"
   ],
   "attempted": {
-   "listings_seen": 2247,
-   "matched": 1715,
-   "refreshed": 1715
+   "listings_seen": 2395,
+   "matched": 1547,
+   "refreshed": 1547
   },
   "published": {
    "newest_jp_date": "2026-09-20",
