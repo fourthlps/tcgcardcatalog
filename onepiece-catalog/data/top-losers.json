@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-25T20:53:40.753261+00:00",
-  "snapshot_date": "2026-09-25",
-  "baseline_date": "2026-09-24",
+  "generated_at": "2026-09-26T20:24:30.293964+00:00",
+  "snapshot_date": "2026-09-26",
+  "baseline_date": "2026-09-25",
   "days_between_snapshots": 1,
-  "history_days_collected": 89,
+  "history_days_collected": 90,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1259,
-  "cards_with_trend": 56,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 39,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 13.1,
+      "today_price_usd": 13.26,
       "baseline_price_usd": 478.67,
-      "price_change_usd": -465.57,
-      "price_change_percent": -97.26
+      "price_change_usd": -465.41,
+      "price_change_percent": -97.23
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 24.31,
+      "today_price_usd": 24.24,
       "baseline_price_usd": 168.52,
-      "price_change_usd": -144.21,
-      "price_change_percent": -85.57
+      "price_change_usd": -144.28,
+      "price_change_percent": -85.62
     },
     {
       "card_id": "OP05-091",
@@ -62,16 +62,16 @@
       "price_change_percent": -85.41
     },
     {
-      "card_id": "ST26-005",
-      "card_image_id": "ST26-005_p1",
-      "card_name": "Monkey.D.Luffy (SP)",
-      "set_code": "OP15-EB04",
+      "card_id": "EB03-053",
+      "card_image_id": "EB03-053_p2",
+      "card_name": "Nami (053) (SP)",
+      "set_code": "EB-03",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST26-005_p1.jpg",
-      "today_price_usd": 534.11,
-      "baseline_price_usd": 580.94,
-      "price_change_usd": -46.83,
-      "price_change_percent": -8.06
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-053_p2_5xa1OeQ.jpg",
+      "today_price_usd": 1269.26,
+      "baseline_price_usd": 1313.18,
+      "price_change_usd": -43.92,
+      "price_change_percent": -3.34
     }
   ]
 }
