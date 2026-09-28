@@ -1,30 +1,18 @@
 {
-  "generated_at": "2026-09-27T20:38:14.164873+00:00",
-  "snapshot_date": "2026-09-27",
-  "baseline_date": "2026-09-26",
+  "generated_at": "2026-09-28T22:47:17.624754+00:00",
+  "snapshot_date": "2026-09-28",
+  "baseline_date": "2026-09-27",
   "days_between_snapshots": 1,
-  "history_days_collected": 91,
+  "history_days_collected": 92,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1252,
-  "cards_with_trend": 17,
+  "cards_evaluated": 1250,
+  "cards_with_trend": 24,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP08-058",
-      "card_image_id": "OP08-058_p1",
-      "card_name": "Charlotte Pudding (058) (Parallel)",
-      "set_code": "OP-08",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-058_p1.jpg",
-      "today_price_usd": 73.63,
-      "baseline_price_usd": 70.4,
-      "price_change_usd": 3.23,
-      "price_change_percent": 4.59
-    },
     {
       "card_id": "OP10-022",
       "card_image_id": "OP10-022_p1",
@@ -32,22 +20,22 @@
       "set_code": "OP-10",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-022_p1.jpg",
-      "today_price_usd": 35.16,
-      "baseline_price_usd": 32.2,
-      "price_change_usd": 2.96,
-      "price_change_percent": 9.19
+      "today_price_usd": 38.54,
+      "baseline_price_usd": 35.16,
+      "price_change_usd": 3.38,
+      "price_change_percent": 9.61
     },
     {
-      "card_id": "OP01-033",
-      "card_image_id": "OP01-033_p5",
-      "card_name": "Izo (OP01-033) (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "UC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 4.34,
-      "baseline_price_usd": 1.99,
-      "price_change_usd": 2.35,
-      "price_change_percent": 118.09
+      "card_id": "OP08-058",
+      "card_image_id": "OP08-058_p1",
+      "card_name": "Charlotte Pudding (058) (Parallel)",
+      "set_code": "OP-08",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-058_p1.jpg",
+      "today_price_usd": 76.89,
+      "baseline_price_usd": 73.63,
+      "price_change_usd": 3.26,
+      "price_change_percent": 4.43
     },
     {
       "card_id": "ST23-001",
@@ -56,22 +44,34 @@
       "set_code": "ST-23",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST23-001.jpg",
-      "today_price_usd": 15.91,
-      "baseline_price_usd": 13.97,
-      "price_change_usd": 1.94,
-      "price_change_percent": 13.89
+      "today_price_usd": 18.5,
+      "baseline_price_usd": 15.91,
+      "price_change_usd": 2.59,
+      "price_change_percent": 16.28
     },
     {
-      "card_id": "OP15-078",
-      "card_image_id": "OP15-078",
-      "card_name": "Mamaragan",
-      "set_code": "OP15-EB04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP15-078_Mxy2D9w.jpg",
-      "today_price_usd": 26.31,
-      "baseline_price_usd": 24.92,
-      "price_change_usd": 1.39,
-      "price_change_percent": 5.58
+      "card_id": "OP01-033",
+      "card_image_id": "OP01-033_p5",
+      "card_name": "Izo (OP01-033) (Alternate Art)",
+      "set_code": "PRB-01",
+      "rarity": "UC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
+      "today_price_usd": 4.27,
+      "baseline_price_usd": 2.0,
+      "price_change_usd": 2.27,
+      "price_change_percent": 113.5
+    },
+    {
+      "card_id": "OP10-001",
+      "card_image_id": "OP10-001_p1",
+      "card_name": "Smoker (001) (Parallel)",
+      "set_code": "OP-10",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-001_p1.jpg",
+      "today_price_usd": 33.98,
+      "baseline_price_usd": 31.78,
+      "price_change_usd": 2.2,
+      "price_change_percent": 6.92
     }
   ]
 }
