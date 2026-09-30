@@ -1,29 +1,41 @@
 {
-  "generated_at": "2026-09-29T21:41:04.069462+00:00",
-  "snapshot_date": "2026-09-29",
-  "baseline_date": "2026-09-28",
+  "generated_at": "2026-09-30T21:41:35.816533+00:00",
+  "snapshot_date": "2026-09-30",
+  "baseline_date": "2026-09-29",
   "days_between_snapshots": 1,
-  "history_days_collected": 93,
+  "history_days_collected": 94,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1251,
+  "cards_evaluated": 1252,
   "cards_with_trend": 20,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP10-001",
-      "card_image_id": "OP10-001_p1",
-      "card_name": "Smoker (001) (Parallel)",
+      "card_id": "EB03-053",
+      "card_image_id": "EB03-053_p2",
+      "card_name": "Nami (053) (SP)",
+      "set_code": "EB-03",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-053_p2_5xa1OeQ.jpg",
+      "today_price_usd": 1313.18,
+      "baseline_price_usd": 1269.26,
+      "price_change_usd": 43.92,
+      "price_change_percent": 3.46
+    },
+    {
+      "card_id": "EB01-056",
+      "card_image_id": "EB01-056_p2",
+      "card_name": "Charlotte Flampe (SP)",
       "set_code": "OP-10",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-001_p1.jpg",
-      "today_price_usd": 37.15,
-      "baseline_price_usd": 33.98,
-      "price_change_usd": 3.17,
-      "price_change_percent": 9.33
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-056_p2.jpg",
+      "today_price_usd": 33.71,
+      "baseline_price_usd": 27.28,
+      "price_change_usd": 6.43,
+      "price_change_percent": 23.57
     },
     {
       "card_id": "OP01-033",
@@ -32,22 +44,10 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 4.12,
+      "today_price_usd": 4.01,
       "baseline_price_usd": 2.0,
-      "price_change_usd": 2.12,
-      "price_change_percent": 106.0
-    },
-    {
-      "card_id": "EB03-024",
-      "card_image_id": "EB03-024_p1",
-      "card_name": "Nefeltari Vivi (024) (Alternate Art)",
-      "set_code": "EB-03",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB03-024_p1_rPzIWnn.jpg",
-      "today_price_usd": 31.62,
-      "baseline_price_usd": 29.82,
-      "price_change_usd": 1.8,
-      "price_change_percent": 6.04
+      "price_change_usd": 2.01,
+      "price_change_percent": 100.5
     },
     {
       "card_id": "OP07-076",
@@ -56,22 +56,10 @@
       "set_code": "PRB-02",
       "rarity": "C",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-076_p1.jpg",
-      "today_price_usd": 2.81,
-      "baseline_price_usd": 1.01,
-      "price_change_usd": 1.8,
-      "price_change_percent": 178.22
-    },
-    {
-      "card_id": "OP13-080",
-      "card_image_id": "OP13-080_p1",
-      "card_name": "St. Ethanbaron V. Nusjuro (Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-080_p1_Znm7jSk.jpg",
-      "today_price_usd": 24.17,
-      "baseline_price_usd": 22.71,
-      "price_change_usd": 1.46,
-      "price_change_percent": 6.43
+      "today_price_usd": 2.93,
+      "baseline_price_usd": 1.02,
+      "price_change_usd": 1.91,
+      "price_change_percent": 187.25
     }
   ]
 }
