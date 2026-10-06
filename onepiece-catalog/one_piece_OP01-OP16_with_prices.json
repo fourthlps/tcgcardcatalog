@@ -73543,8 +73543,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST01-005.jpg"
     },
     {
-      "inventory_price": 1.25,
-      "market_price": 1.86,
+      "inventory_price": 0.95,
+      "market_price": 1.34,
       "card_name": "Usopp",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[DON!! x2] [When Attacking] Your opponent cannot activate a [Blocker] Character that has 5000 or more power during this battle. [Trigger] Play this card.",
@@ -73559,7 +73559,7 @@
       "sub_types": "Straw Hat Crew",
       "counter_amount": 1000,
       "attribute": "Ranged",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST01-002",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST01-002.jpg"
     },
@@ -75466,8 +75466,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST07-015.jpg"
     },
     {
-      "inventory_price": 2.21,
-      "market_price": 2.3,
+      "inventory_price": 2.35,
+      "market_price": 2.19,
       "card_name": "Charlotte Pudding",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[On Play] Look at up to 1 card from the top of your or your opponent's Life cards, and place it at the top or bottom of the Life cards.",
@@ -75482,7 +75482,7 @@
       "sub_types": "Big Mom Pirates",
       "counter_amount": 2000,
       "attribute": "Wisdom",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST07-008",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST07-008.jpg"
     },
@@ -76904,8 +76904,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST12-001.jpg"
     },
     {
-      "inventory_price": 2.21,
-      "market_price": 2.3,
+      "inventory_price": 2.35,
+      "market_price": 2.19,
       "card_name": "Charlotte Pudding",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[Activate:Main] Return this Character to the owner's hand.",
@@ -76920,7 +76920,7 @@
       "sub_types": "Big Mom Pirates",
       "counter_amount": 2000,
       "attribute": "Wisdom",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST12-012",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST12-012.jpg"
     },
@@ -77809,8 +77809,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST13-018_cTpeQOx.jpg"
     },
     {
-      "inventory_price": 1.8,
-      "market_price": 2.49,
+      "inventory_price": 2.0,
+      "market_price": 2.26,
       "card_name": "Yamato",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[Rush] (This card can attack on the turn in which it is played.)\n[On Play] Look at all your Life cards; place 1 at the top of your deck and place the rest back in your Life area in any order.",
@@ -77825,7 +77825,7 @@
       "sub_types": "Land of Wano",
       "counter_amount": 2000,
       "attribute": "Strike",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST13-016",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST13-016_H06pIrQ.jpg"
     },
@@ -78126,8 +78126,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST14-017.jpg"
     },
     {
-      "inventory_price": 1.25,
-      "market_price": 1.86,
+      "inventory_price": 0.95,
+      "market_price": 1.34,
       "card_name": "Usopp",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[DON!! x1] [When Attacking] If you have a Character with a cost of 8 or more, K.O. up to 1 of your opponent's Characters with a cost of 4 or less.",
@@ -78142,7 +78142,7 @@
       "sub_types": "Straw Hat Crew",
       "counter_amount": 1000,
       "attribute": "Ranged",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST14-002",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST14-002.jpg"
     },
@@ -79690,10 +79690,10 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-113_r1.jpg"
     },
     {
-      "inventory_price": 0.01,
-      "market_price": 0.04,
+      "inventory_price": 0.34,
+      "market_price": 0.39,
       "card_name": "Jaguar.D.Saul",
-      "set_name": "Starter Deck 19: BLACK Smoker",
+      "set_name": "The World's Strongest Warriors",
       "card_text": null,
       "set_id": "ST-19",
       "rarity": "C",
@@ -79706,7 +79706,7 @@
       "sub_types": "Giant Navy",
       "counter_amount": 1000,
       "attribute": "Strike",
-      "date_scraped": "2026-09-29",
+      "date_scraped": "2026-10-06",
       "card_image_id": "OP02-109_r1",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP02-109_r1.jpg"
     }
@@ -80513,8 +80513,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST21-011.jpg"
     },
     {
-      "inventory_price": 1.25,
-      "market_price": 1.86,
+      "inventory_price": 0.95,
+      "market_price": 1.4,
       "card_name": "Usopp",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[DON!! x2] [Opponent's Turn] This Character gains +2000 power.",
@@ -80529,7 +80529,7 @@
       "sub_types": "Straw Hat Crew",
       "counter_amount": 2000,
       "attribute": "Ranged",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST21-002",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST21-002.jpg"
     },
@@ -81336,8 +81336,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-001_p2.jpg"
     },
     {
-      "inventory_price": 0.86,
-      "market_price": 0.94,
+      "inventory_price": 0.89,
+      "market_price": 0.86,
       "card_name": "Yasopp",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[Activate:Main] [Once Per Turn] Give up to 1 rested DON!! card to your Leader or 1 of your Characters.",
@@ -81352,7 +81352,7 @@
       "sub_types": "Red-Haired Pirates",
       "counter_amount": 1000,
       "attribute": "Ranged",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST23-005",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST23-005.jpg"
     },
@@ -82921,8 +82921,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST28-004.jpg"
     },
     {
-      "inventory_price": 1.8,
-      "market_price": 2.49,
+      "inventory_price": 2.0,
+      "market_price": 2.26,
       "card_name": "Yamato",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[DON!! x2] [Your Turn] This Character gains +3000 power.\n[On Play] Look at 5 cards from the top of your deck; reveal up to 1 \"Land of Wano\" type card with a cost of 2 or more and add it to your hand. Then, place the rest at the bottom of your deck in any order.",
@@ -82937,7 +82937,7 @@
       "sub_types": "Land of Wano",
       "counter_amount": 1000,
       "attribute": "Strike",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST28-005",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST28-005.jpg"
     },
@@ -83784,8 +83784,8 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-013_Codkxhk.jpg"
     },
     {
-      "inventory_price": 1.25,
-      "market_price": 1.86,
+      "inventory_price": 0.95,
+      "market_price": 1.4,
       "card_name": "Usopp",
       "set_name": "The World's Strongest Warriors",
       "card_text": "[On Play] / [When Attacking] Rest up to 1 of your opponent's Characters with a cost equal to or less than the number of your opponent's Life cards.",
@@ -83800,7 +83800,7 @@
       "sub_types": "Straw Hat Crew Egghead",
       "counter_amount": 1000,
       "attribute": "Ranged",
-      "date_scraped": "2026-10-05",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST29-002",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-002_i2eUNMN.jpg"
     },
@@ -83912,10 +83912,10 @@
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST30-012_3cEcufv.jpg"
     },
     {
-      "inventory_price": 1.78,
-      "market_price": 1.93,
+      "inventory_price": 0.1,
+      "market_price": 0.19,
       "card_name": "Mr.3(Galdino)",
-      "set_name": "Starter Deck EX: Luffy & Ace",
+      "set_name": "Emperors in the New World",
       "card_text": "[Activate: Main] You may rest this Character: Give up to 2 of your Characters with 6000 base power up to 2 rested DON!! cards each.",
       "set_id": "ST-30",
       "rarity": "C",
@@ -83928,7 +83928,7 @@
       "sub_types": "Impel Down Former Baroque Works",
       "counter_amount": 2000,
       "attribute": "Special",
-      "date_scraped": "2026-09-29",
+      "date_scraped": "2026-10-06",
       "card_image_id": "ST30-014",
       "card_image": "https://optcgapi.com/media/static/Card_Images/ST30-014_QpWmWtn.jpg"
     },
