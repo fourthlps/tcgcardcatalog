@@ -1,20 +1,24 @@
 {
-  "generated_at": "2026-10-06T22:16:32.889746+00:00",
-  "snapshot_date": "2026-10-06",
-  "baseline_date": "2026-09-26",
-  "days_between_snapshots": 10,
-  "history_days_collected": 64,
+  "generated_at": "2026-10-07T22:36:16.797385+00:00",
+  "snapshot_date": "2026-10-07",
+  "baseline_date": "2026-09-30",
+  "days_between_snapshots": 7,
+  "history_days_collected": 65,
   "period": "7_day",
   "confidence": "high",
   "source": "Yuyu-Tei via jp-card-prices.com",
   "currency": "JPY",
   "game": "onepiece",
   "cards_evaluated": 2540,
-  "cards_with_trend": 4,
+  "cards_with_trend": 0,
   "significance_threshold_pct": 5.0,
-  "cards_significant": 4,
+  "cards_significant": 0,
   "market_stable": false,
-  "recalibrating": false,
+  "recalibrating": true,
+  "recalibration_reason": "frozen_baseline",
+  "window_health": {
+    "comparable": 2540
+  },
   "trend_type": "gainers",
   "cards": []
 }
