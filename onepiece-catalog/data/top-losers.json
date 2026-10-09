@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-08T22:40:42.945966+00:00",
-  "snapshot_date": "2026-10-08",
-  "baseline_date": "2026-10-07",
+  "generated_at": "2026-10-09T22:02:19.302121+00:00",
+  "snapshot_date": "2026-10-09",
+  "baseline_date": "2026-10-08",
   "days_between_snapshots": 1,
-  "history_days_collected": 102,
+  "history_days_collected": 103,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 12,
+  "cards_evaluated": 1254,
+  "cards_with_trend": 45,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 15.22,
+      "today_price_usd": 15.27,
       "baseline_price_usd": 478.67,
-      "price_change_usd": -463.45,
-      "price_change_percent": -96.82
+      "price_change_usd": -463.4,
+      "price_change_percent": -96.81
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 23.48,
-      "baseline_price_usd": 166.43,
-      "price_change_usd": -142.95,
-      "price_change_percent": -85.89
+      "today_price_usd": 23.51,
+      "baseline_price_usd": 164.87,
+      "price_change_usd": -141.36,
+      "price_change_percent": -85.74
     },
     {
       "card_id": "OP05-091",
@@ -56,10 +56,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 13.44,
+      "today_price_usd": 13.29,
       "baseline_price_usd": 88.74,
-      "price_change_usd": -75.3,
-      "price_change_percent": -84.85
+      "price_change_usd": -75.45,
+      "price_change_percent": -85.02
     },
     {
       "card_id": "ST29-001",

@@ -1,18 +1,66 @@
 {
-  "generated_at": "2026-10-08T22:40:42.945966+00:00",
-  "snapshot_date": "2026-10-08",
-  "baseline_date": "2026-10-07",
+  "generated_at": "2026-10-09T22:02:19.302121+00:00",
+  "snapshot_date": "2026-10-09",
+  "baseline_date": "2026-10-08",
   "days_between_snapshots": 1,
-  "history_days_collected": 102,
+  "history_days_collected": 103,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 12,
+  "cards_evaluated": 1254,
+  "cards_with_trend": 45,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP10-065",
+      "card_image_id": "OP10-065_p1",
+      "card_name": "Sugar - OP10-065 (SP)",
+      "set_code": "OP14-EB04",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-065_p1.jpg",
+      "today_price_usd": 72.72,
+      "baseline_price_usd": 69.8,
+      "price_change_usd": 2.92,
+      "price_change_percent": 4.18
+    },
+    {
+      "card_id": "OP08-058",
+      "card_image_id": "OP08-058_p1",
+      "card_name": "Charlotte Pudding (058) (Parallel)",
+      "set_code": "OP-08",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-058_p1.jpg",
+      "today_price_usd": 88.31,
+      "baseline_price_usd": 85.62,
+      "price_change_usd": 2.69,
+      "price_change_percent": 3.14
+    },
+    {
+      "card_id": "OP14-104",
+      "card_image_id": "OP14-104_p1",
+      "card_name": "Gecko Moria - OP14-104 (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-104_p1_ZK1uyaO.jpg",
+      "today_price_usd": 37.27,
+      "baseline_price_usd": 34.73,
+      "price_change_usd": 2.54,
+      "price_change_percent": 7.31
+    },
+    {
+      "card_id": "EB04-038",
+      "card_image_id": "EB04-038_p1",
+      "card_name": "Rosinante & Law (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-038_p1_Yocax12.jpg",
+      "today_price_usd": 37.9,
+      "baseline_price_usd": 35.4,
+      "price_change_usd": 2.5,
+      "price_change_percent": 7.06
+    },
     {
       "card_id": "OP12-001",
       "card_image_id": "OP12-001_p1",
@@ -20,22 +68,10 @@
       "set_code": "OP-12",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP12-001_p1_z6pLkgf.jpg",
-      "today_price_usd": 24.6,
-      "baseline_price_usd": 20.25,
-      "price_change_usd": 4.35,
-      "price_change_percent": 21.48
-    },
-    {
-      "card_id": "OP01-033",
-      "card_image_id": "OP01-033_p5",
-      "card_name": "Izo (OP01-033) (Alternate Art)",
-      "set_code": "PRB-01",
-      "rarity": "UC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 3.73,
-      "baseline_price_usd": 1.99,
-      "price_change_usd": 1.74,
-      "price_change_percent": 87.44
+      "today_price_usd": 26.95,
+      "baseline_price_usd": 24.6,
+      "price_change_usd": 2.35,
+      "price_change_percent": 9.55
     }
   ]
 }
