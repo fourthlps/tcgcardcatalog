@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-13T22:06:54.157109+00:00",
-  "snapshot_date": "2026-10-13",
-  "baseline_date": "2026-10-12",
+  "generated_at": "2026-10-14T21:07:46.472677+00:00",
+  "snapshot_date": "2026-10-14",
+  "baseline_date": "2026-10-13",
   "days_between_snapshots": 1,
-  "history_days_collected": 107,
+  "history_days_collected": 108,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1260,
-  "cards_with_trend": 23,
+  "cards_with_trend": 13,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,9 +20,9 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 15.26,
+      "today_price_usd": 15.29,
       "baseline_price_usd": 478.59,
-      "price_change_usd": -463.33,
+      "price_change_usd": -463.3,
       "price_change_percent": -96.81
     },
     {
@@ -50,18 +50,6 @@
       "price_change_percent": -85.28
     },
     {
-      "card_id": "OP04-083",
-      "card_image_id": "OP04-083_p2",
-      "card_name": "Sabo (Alternate Art) (Manga)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-083_p2.jpg",
-      "today_price_usd": 749.5,
-      "baseline_price_usd": 836.99,
-      "price_change_usd": -87.49,
-      "price_change_percent": -10.45
-    },
-    {
       "card_id": "OP08-023",
       "card_image_id": "OP08-023_p1",
       "card_name": "Carrot (023) (Parallel)",
@@ -72,6 +60,18 @@
       "baseline_price_usd": 90.3,
       "price_change_usd": -77.53,
       "price_change_percent": -85.86
+    },
+    {
+      "card_id": "ST29-001",
+      "card_image_id": "ST29-001",
+      "card_name": "Monkey.D.Luffy (001)",
+      "set_code": "ST-29",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
+      "today_price_usd": 2.29,
+      "baseline_price_usd": 24.0,
+      "price_change_usd": -21.71,
+      "price_change_percent": -90.46
     }
   ]
 }
