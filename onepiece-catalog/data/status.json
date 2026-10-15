@@ -1,6 +1,6 @@
 {
- "last_updated": "2026-10-14T21:07:46.472677+00:00",
- "run_date": "2026-10-14",
+ "last_updated": "2026-10-15T20:44:48.491459+00:00",
+ "run_date": "2026-10-15",
  "status": "success",
  "api": {
   "source": "optcgapi.com",
@@ -12,8 +12,8 @@
  },
  "history": {
   "status": "ok",
-  "days_collected": 108,
-  "last_snapshot_date": "2026-10-14",
+  "days_collected": 109,
+  "last_snapshot_date": "2026-10-15",
   "sheets_append": "skipped_safety"
  },
  "trends": {
@@ -21,24 +21,24 @@
   "gainers_count": 5,
   "losers_count": 5,
   "confidence": "high",
-  "baseline_date": "2026-10-13",
+  "baseline_date": "2026-10-14",
   "days_between_snapshots": 1,
-  "history_days_collected": 108
+  "history_days_collected": 109
  },
  "jp": {
-  "attempted_run_id": "38637777099",
-  "attempted_at": "2026-10-14T21:15:59+00:00",
-  "workflow_run_id": "38637777099",
+  "attempted_run_id": "38804406007",
+  "attempted_at": "2026-10-15T21:00:03+00:00",
+  "workflow_run_id": "38804406007",
   "fetch_outcome": "success",
   "candidate_state": "ok",
   "promotion_state": "rejected",
   "rejection_reasons": [
-   "2 set(s) failed"
+   "3 set(s) failed"
   ],
   "attempted": {
-   "listings_seen": 3112,
-   "matched": 2091,
-   "refreshed": 2091
+   "listings_seen": 3312,
+   "matched": 2299,
+   "refreshed": 2299
   },
   "published": {
    "newest_jp_date": "2026-10-13",

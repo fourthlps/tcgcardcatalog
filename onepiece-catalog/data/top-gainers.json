@@ -1,18 +1,30 @@
 {
-  "generated_at": "2026-10-14T21:07:46.472677+00:00",
-  "snapshot_date": "2026-10-14",
-  "baseline_date": "2026-10-13",
+  "generated_at": "2026-10-15T20:44:48.491459+00:00",
+  "snapshot_date": "2026-10-15",
+  "baseline_date": "2026-10-14",
   "days_between_snapshots": 1,
-  "history_days_collected": 108,
+  "history_days_collected": 109,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1260,
-  "cards_with_trend": 13,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 16,
   "trend_type": "gainers",
   "cards": [
+    {
+      "card_id": "OP01-016",
+      "card_image_id": "OP01-016_p1",
+      "card_name": "Nami (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-016_p1.jpg",
+      "today_price_usd": 451.43,
+      "baseline_price_usd": 437.04,
+      "price_change_usd": 14.39,
+      "price_change_percent": 3.29
+    },
     {
       "card_id": "OP10-003",
       "card_image_id": "OP10-003_p1",
@@ -20,22 +32,10 @@
       "set_code": "OP-10",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-003_p1.jpg",
-      "today_price_usd": 29.33,
-      "baseline_price_usd": 26.75,
-      "price_change_usd": 2.58,
-      "price_change_percent": 9.64
-    },
-    {
-      "card_id": "OP09-042",
-      "card_image_id": "OP09-042_p1",
-      "card_name": "Buggy (042) (Parallel)",
-      "set_code": "OP-09",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-042_p1.jpg",
-      "today_price_usd": 42.95,
-      "baseline_price_usd": 41.15,
-      "price_change_usd": 1.8,
-      "price_change_percent": 4.37
+      "today_price_usd": 31.25,
+      "baseline_price_usd": 29.33,
+      "price_change_usd": 1.92,
+      "price_change_percent": 6.55
     },
     {
       "card_id": "OP01-033",
@@ -56,22 +56,22 @@
       "set_code": "PRB-02",
       "rarity": "C",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-076_p1.jpg",
-      "today_price_usd": 2.73,
-      "baseline_price_usd": 1.03,
-      "price_change_usd": 1.7,
-      "price_change_percent": 165.05
+      "today_price_usd": 2.64,
+      "baseline_price_usd": 1.0,
+      "price_change_usd": 1.64,
+      "price_change_percent": 164.0
     },
     {
-      "card_id": "EB02-017",
-      "card_image_id": "EB02-017",
-      "card_name": "Nami",
-      "set_code": "EB-02",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-017.jpg",
-      "today_price_usd": 21.54,
-      "baseline_price_usd": 20.45,
-      "price_change_usd": 1.09,
-      "price_change_percent": 5.33
+      "card_id": "OP09-042",
+      "card_image_id": "OP09-042_p1",
+      "card_name": "Buggy (042) (Parallel)",
+      "set_code": "OP-09",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-042_p1.jpg",
+      "today_price_usd": 44.36,
+      "baseline_price_usd": 42.95,
+      "price_change_usd": 1.41,
+      "price_change_percent": 3.28
     }
   ]
 }
