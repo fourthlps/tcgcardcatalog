@@ -1,30 +1,18 @@
 {
-  "generated_at": "2026-10-15T20:44:48.491459+00:00",
-  "snapshot_date": "2026-10-15",
-  "baseline_date": "2026-10-14",
+  "generated_at": "2026-10-16T20:17:36.914620+00:00",
+  "snapshot_date": "2026-10-16",
+  "baseline_date": "2026-10-15",
   "days_between_snapshots": 1,
-  "history_days_collected": 109,
+  "history_days_collected": 110,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 16,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 19,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP01-016",
-      "card_image_id": "OP01-016_p1",
-      "card_name": "Nami (Parallel)",
-      "set_code": "OP-01",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-016_p1.jpg",
-      "today_price_usd": 451.43,
-      "baseline_price_usd": 437.04,
-      "price_change_usd": 14.39,
-      "price_change_percent": 3.29
-    },
     {
       "card_id": "OP10-003",
       "card_image_id": "OP10-003_p1",
@@ -32,10 +20,22 @@
       "set_code": "OP-10",
       "rarity": "L",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-003_p1.jpg",
-      "today_price_usd": 31.25,
-      "baseline_price_usd": 29.33,
-      "price_change_usd": 1.92,
-      "price_change_percent": 6.55
+      "today_price_usd": 34.56,
+      "baseline_price_usd": 31.25,
+      "price_change_usd": 3.31,
+      "price_change_percent": 10.59
+    },
+    {
+      "card_id": "OP05-097",
+      "card_image_id": "OP05-097_p2",
+      "card_name": "Mary Geoise (Alternate Art)",
+      "set_code": "PRB-02",
+      "rarity": "C",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-097_p2.jpg",
+      "today_price_usd": 32.18,
+      "baseline_price_usd": 30.19,
+      "price_change_usd": 1.99,
+      "price_change_percent": 6.59
     },
     {
       "card_id": "OP01-033",
@@ -44,34 +44,22 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 3.77,
+      "today_price_usd": 3.78,
       "baseline_price_usd": 1.99,
-      "price_change_usd": 1.78,
-      "price_change_percent": 89.45
+      "price_change_usd": 1.79,
+      "price_change_percent": 89.95
     },
     {
-      "card_id": "OP07-076",
-      "card_image_id": "OP07-076",
-      "card_name": "Slow-Slow Beam Sword (Pirate Foil)",
-      "set_code": "PRB-02",
-      "rarity": "C",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP07-076_p1.jpg",
-      "today_price_usd": 2.64,
-      "baseline_price_usd": 1.0,
-      "price_change_usd": 1.64,
-      "price_change_percent": 164.0
-    },
-    {
-      "card_id": "OP09-042",
-      "card_image_id": "OP09-042_p1",
-      "card_name": "Buggy (042) (Parallel)",
-      "set_code": "OP-09",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-042_p1.jpg",
-      "today_price_usd": 44.36,
-      "baseline_price_usd": 42.95,
-      "price_change_usd": 1.41,
-      "price_change_percent": 3.28
+      "card_id": "OP13-118",
+      "card_image_id": "OP13-118",
+      "card_name": "Monkey.D.Luffy (118)",
+      "set_code": "OP-13",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_AZWGnsD.jpg",
+      "today_price_usd": 17.17,
+      "baseline_price_usd": 16.14,
+      "price_change_usd": 1.03,
+      "price_change_percent": 6.38
     }
   ]
 }
