@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-10-16T20:17:36.914620+00:00",
-  "snapshot_date": "2026-10-16",
-  "baseline_date": "2026-10-15",
+  "generated_at": "2026-10-17T19:53:18.045355+00:00",
+  "snapshot_date": "2026-10-17",
+  "baseline_date": "2026-10-16",
   "days_between_snapshots": 1,
-  "history_days_collected": 110,
+  "history_days_collected": 111,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1255,
-  "cards_with_trend": 19,
+  "cards_with_trend": 25,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP10-003",
-      "card_image_id": "OP10-003_p1",
-      "card_name": "Sugar (003) (Parallel)",
-      "set_code": "OP-10",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-003_p1.jpg",
-      "today_price_usd": 34.56,
-      "baseline_price_usd": 31.25,
-      "price_change_usd": 3.31,
-      "price_change_percent": 10.59
+      "card_id": "EB02-035",
+      "card_image_id": "EB02-035",
+      "card_name": "Sanji & Pudding",
+      "set_code": "EB-02",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-035.jpg",
+      "today_price_usd": 14.81,
+      "baseline_price_usd": 10.56,
+      "price_change_usd": 4.25,
+      "price_change_percent": 40.25
     },
     {
       "card_id": "OP05-097",
@@ -32,10 +32,34 @@
       "set_code": "PRB-02",
       "rarity": "C",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-097_p2.jpg",
-      "today_price_usd": 32.18,
-      "baseline_price_usd": 30.19,
-      "price_change_usd": 1.99,
-      "price_change_percent": 6.59
+      "today_price_usd": 35.55,
+      "baseline_price_usd": 32.18,
+      "price_change_usd": 3.37,
+      "price_change_percent": 10.47
+    },
+    {
+      "card_id": "ST10-010",
+      "card_image_id": "ST10-010_p2",
+      "card_name": "Trafalgar Law (010) (TR)",
+      "set_code": "OP-07",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST10-010_p2.jpg",
+      "today_price_usd": 99.79,
+      "baseline_price_usd": 96.59,
+      "price_change_usd": 3.2,
+      "price_change_percent": 3.31
+    },
+    {
+      "card_id": "OP13-118",
+      "card_image_id": "OP13-118",
+      "card_name": "Monkey.D.Luffy (118)",
+      "set_code": "OP-13",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_AZWGnsD.jpg",
+      "today_price_usd": 19.61,
+      "baseline_price_usd": 17.17,
+      "price_change_usd": 2.44,
+      "price_change_percent": 14.21
     },
     {
       "card_id": "OP01-033",
@@ -48,18 +72,6 @@
       "baseline_price_usd": 1.99,
       "price_change_usd": 1.79,
       "price_change_percent": 89.95
-    },
-    {
-      "card_id": "OP13-118",
-      "card_image_id": "OP13-118",
-      "card_name": "Monkey.D.Luffy (118)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-118_AZWGnsD.jpg",
-      "today_price_usd": 17.17,
-      "baseline_price_usd": 16.14,
-      "price_change_usd": 1.03,
-      "price_change_percent": 6.38
     }
   ]
 }
