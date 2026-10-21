@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-20T21:01:41.188410+00:00",
-  "snapshot_date": "2026-10-20",
-  "baseline_date": "2026-10-19",
+  "generated_at": "2026-10-21T21:03:10.110837+00:00",
+  "snapshot_date": "2026-10-21",
+  "baseline_date": "2026-10-20",
   "days_between_snapshots": 1,
-  "history_days_collected": 114,
+  "history_days_collected": 115,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1256,
-  "cards_with_trend": 26,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 23,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 21.97,
-      "baseline_price_usd": 478.59,
-      "price_change_usd": -456.62,
-      "price_change_percent": -95.41
+      "today_price_usd": 22.11,
+      "baseline_price_usd": 467.6,
+      "price_change_usd": -445.49,
+      "price_change_percent": -95.27
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 16.45,
-      "baseline_price_usd": 109.22,
-      "price_change_usd": -92.77,
-      "price_change_percent": -84.94
+      "today_price_usd": 16.27,
+      "baseline_price_usd": 105.91,
+      "price_change_usd": -89.64,
+      "price_change_percent": -84.64
     },
     {
       "card_id": "OP08-023",
@@ -57,9 +57,9 @@
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
       "today_price_usd": 12.13,
-      "baseline_price_usd": 90.3,
-      "price_change_usd": -78.17,
-      "price_change_percent": -86.57
+      "baseline_price_usd": 89.22,
+      "price_change_usd": -77.09,
+      "price_change_percent": -86.4
     },
     {
       "card_id": "ST29-001",
