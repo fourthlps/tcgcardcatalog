@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-21T21:03:10.110837+00:00",
-  "snapshot_date": "2026-10-21",
-  "baseline_date": "2026-10-20",
+  "generated_at": "2026-10-22T21:00:00.644072+00:00",
+  "snapshot_date": "2026-10-22",
+  "baseline_date": "2026-10-21",
   "days_between_snapshots": 1,
-  "history_days_collected": 115,
+  "history_days_collected": 116,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1255,
-  "cards_with_trend": 23,
+  "cards_evaluated": 1253,
+  "cards_with_trend": 20,
   "trend_type": "gainers",
   "cards": [
     {
@@ -20,34 +20,22 @@
       "set_code": "OP14-EB04",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-065_p1.jpg",
-      "today_price_usd": 79.91,
-      "baseline_price_usd": 77.17,
-      "price_change_usd": 2.74,
-      "price_change_percent": 3.55
+      "today_price_usd": 83.11,
+      "baseline_price_usd": 79.91,
+      "price_change_usd": 3.2,
+      "price_change_percent": 4.0
     },
     {
-      "card_id": "OP14-001",
-      "card_image_id": "OP14-001_p1",
-      "card_name": "Trafalgar Law - OP14-001 (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-001_p1_TH0mi0Y.jpg",
-      "today_price_usd": 43.74,
-      "baseline_price_usd": 41.14,
-      "price_change_usd": 2.6,
-      "price_change_percent": 6.32
-    },
-    {
-      "card_id": "OP14-013",
-      "card_image_id": "OP14-013_p1",
-      "card_name": "Monkey.D.Luffy - OP14-013 (Alternate Art)",
-      "set_code": "OP14-EB04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-013_p1_0wTWlNh.jpg",
-      "today_price_usd": 30.38,
-      "baseline_price_usd": 28.52,
-      "price_change_usd": 1.86,
-      "price_change_percent": 6.52
+      "card_id": "PRB02-003",
+      "card_image_id": "PRB02-003",
+      "card_name": "Lucky.Roux",
+      "set_code": "PRB-02",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-003.jpg",
+      "today_price_usd": 19.5,
+      "baseline_price_usd": 16.66,
+      "price_change_usd": 2.84,
+      "price_change_percent": 17.05
     },
     {
       "card_id": "OP01-033",
@@ -56,22 +44,34 @@
       "set_code": "PRB-01",
       "rarity": "UC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-033_p5_8AI2ZwU.jpg",
-      "today_price_usd": 3.79,
+      "today_price_usd": 3.81,
       "baseline_price_usd": 1.99,
-      "price_change_usd": 1.8,
-      "price_change_percent": 90.45
+      "price_change_usd": 1.82,
+      "price_change_percent": 91.46
     },
     {
-      "card_id": "OP14-009",
-      "card_image_id": "OP14-009_p1",
-      "card_name": "Trafalgar Law - OP14-009 (Alternate Art)",
-      "set_code": "OP14-EB04",
+      "card_id": "OP05-119",
+      "card_image_id": "OP05-119",
+      "card_name": "Monkey.D.Luffy (119)",
+      "set_code": "OP-05",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-119.jpg",
+      "today_price_usd": 18.23,
+      "baseline_price_usd": 16.7,
+      "price_change_usd": 1.53,
+      "price_change_percent": 9.16
+    },
+    {
+      "card_id": "EB04-007",
+      "card_image_id": "EB04-007",
+      "card_name": "Roronoa Zoro (EB04-007)",
+      "set_code": "OP15-EB04",
       "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-009_p1_xfgCC7W.jpg",
-      "today_price_usd": 32.1,
-      "baseline_price_usd": 30.42,
-      "price_change_usd": 1.68,
-      "price_change_percent": 5.52
+      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-007_TLnEm4i.jpg",
+      "today_price_usd": 16.99,
+      "baseline_price_usd": 15.77,
+      "price_change_usd": 1.22,
+      "price_change_percent": 7.74
     }
   ]
 }

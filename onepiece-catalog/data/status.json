@@ -1,6 +1,6 @@
 {
- "last_updated": "2026-10-21T21:03:10.110837+00:00",
- "run_date": "2026-10-21",
+ "last_updated": "2026-10-22T21:00:00.644072+00:00",
+ "run_date": "2026-10-22",
  "status": "success",
  "api": {
   "source": "optcgapi.com",
@@ -12,8 +12,8 @@
  },
  "history": {
   "status": "ok",
-  "days_collected": 115,
-  "last_snapshot_date": "2026-10-21",
+  "days_collected": 116,
+  "last_snapshot_date": "2026-10-22",
   "sheets_append": "skipped_safety"
  },
  "trends": {
@@ -21,14 +21,14 @@
   "gainers_count": 5,
   "losers_count": 5,
   "confidence": "high",
-  "baseline_date": "2026-10-20",
+  "baseline_date": "2026-10-21",
   "days_between_snapshots": 1,
-  "history_days_collected": 115
+  "history_days_collected": 116
  },
  "jp": {
-  "attempted_run_id": "39675551144",
-  "attempted_at": "2026-10-21T21:11:26+00:00",
-  "workflow_run_id": "39675551144",
+  "attempted_run_id": "39853583859",
+  "attempted_at": "2026-10-22T21:08:07+00:00",
+  "workflow_run_id": "39853583859",
   "fetch_outcome": "success",
   "candidate_state": "ok",
   "promotion_state": "promoted",
@@ -39,7 +39,7 @@
    "refreshed": 2306
   },
   "published": {
-   "newest_jp_date": "2026-10-21",
+   "newest_jp_date": "2026-10-22",
    "refreshed_last_run": 2306,
    "jp_entries_total": 2540,
    "stale_count": 234,
@@ -93,8 +93,8 @@
     "ST16": 1
    }
   },
-  "last_successful_run_id": "39675551144",
-  "last_successful_refresh_at": "2026-10-21T21:11:26+00:00",
+  "last_successful_run_id": "39853583859",
+  "last_successful_refresh_at": "2026-10-22T21:08:07+00:00",
   "coverage": {
    "floor_enforced": 2000,
    "relative_mode": "report-only",
