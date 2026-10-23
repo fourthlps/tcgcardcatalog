@@ -1,29 +1,53 @@
 {
-  "generated_at": "2026-10-22T21:00:00.644072+00:00",
-  "snapshot_date": "2026-10-22",
-  "baseline_date": "2026-10-21",
+  "generated_at": "2026-10-23T20:49:28.653710+00:00",
+  "snapshot_date": "2026-10-23",
+  "baseline_date": "2026-10-22",
   "days_between_snapshots": 1,
-  "history_days_collected": 116,
+  "history_days_collected": 117,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1253,
-  "cards_with_trend": 20,
+  "cards_evaluated": 1252,
+  "cards_with_trend": 22,
   "trend_type": "gainers",
   "cards": [
     {
-      "card_id": "OP10-065",
-      "card_image_id": "OP10-065_p1",
-      "card_name": "Sugar - OP10-065 (SP)",
+      "card_id": "OP09-042",
+      "card_image_id": "OP09-042_p1",
+      "card_name": "Buggy (042) (Parallel)",
+      "set_code": "OP-09",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-042_p1.jpg",
+      "today_price_usd": 59.36,
+      "baseline_price_usd": 53.81,
+      "price_change_usd": 5.55,
+      "price_change_percent": 10.31
+    },
+    {
+      "card_id": "OP14-104",
+      "card_image_id": "OP14-104_p1",
+      "card_name": "Gecko Moria - OP14-104 (Alternate Art)",
       "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-065_p1.jpg",
-      "today_price_usd": 83.11,
-      "baseline_price_usd": 79.91,
-      "price_change_usd": 3.2,
-      "price_change_percent": 4.0
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-104_p1_ZK1uyaO.jpg",
+      "today_price_usd": 44.89,
+      "baseline_price_usd": 41.23,
+      "price_change_usd": 3.66,
+      "price_change_percent": 8.88
+    },
+    {
+      "card_id": "OP14-001",
+      "card_image_id": "OP14-001_p1",
+      "card_name": "Trafalgar Law - OP14-001 (Alternate Art)",
+      "set_code": "OP14-EB04",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-001_p1_TH0mi0Y.jpg",
+      "today_price_usd": 47.44,
+      "baseline_price_usd": 44.66,
+      "price_change_usd": 2.78,
+      "price_change_percent": 6.22
     },
     {
       "card_id": "PRB02-003",
@@ -32,10 +56,10 @@
       "set_code": "PRB-02",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/PRB02-003.jpg",
-      "today_price_usd": 19.5,
-      "baseline_price_usd": 16.66,
-      "price_change_usd": 2.84,
-      "price_change_percent": 17.05
+      "today_price_usd": 21.93,
+      "baseline_price_usd": 19.5,
+      "price_change_usd": 2.43,
+      "price_change_percent": 12.46
     },
     {
       "card_id": "OP01-033",
@@ -48,30 +72,6 @@
       "baseline_price_usd": 1.99,
       "price_change_usd": 1.82,
       "price_change_percent": 91.46
-    },
-    {
-      "card_id": "OP05-119",
-      "card_image_id": "OP05-119",
-      "card_name": "Monkey.D.Luffy (119)",
-      "set_code": "OP-05",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-119.jpg",
-      "today_price_usd": 18.23,
-      "baseline_price_usd": 16.7,
-      "price_change_usd": 1.53,
-      "price_change_percent": 9.16
-    },
-    {
-      "card_id": "EB04-007",
-      "card_image_id": "EB04-007",
-      "card_name": "Roronoa Zoro (EB04-007)",
-      "set_code": "OP15-EB04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-007_TLnEm4i.jpg",
-      "today_price_usd": 16.99,
-      "baseline_price_usd": 15.77,
-      "price_change_usd": 1.22,
-      "price_change_percent": 7.74
     }
   ]
 }
