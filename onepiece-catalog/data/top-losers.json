@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-27T21:38:02.574399+00:00",
-  "snapshot_date": "2026-10-27",
-  "baseline_date": "2026-10-26",
+  "generated_at": "2026-10-28T22:01:20.095204+00:00",
+  "snapshot_date": "2026-10-28",
+  "baseline_date": "2026-10-27",
   "days_between_snapshots": 1,
-  "history_days_collected": 120,
+  "history_days_collected": 121,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1256,
-  "cards_with_trend": 25,
+  "cards_evaluated": 1254,
+  "cards_with_trend": 28,
   "trend_type": "losers",
   "cards": [
     {
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 15.89,
-      "baseline_price_usd": 104.55,
-      "price_change_usd": -88.66,
-      "price_change_percent": -84.8
+      "today_price_usd": 15.95,
+      "baseline_price_usd": 97.66,
+      "price_change_usd": -81.71,
+      "price_change_percent": -83.67
     },
     {
       "card_id": "OP08-023",
@@ -62,16 +62,16 @@
       "price_change_percent": -87.24
     },
     {
-      "card_id": "ST29-001",
-      "card_image_id": "ST29-001",
-      "card_name": "Monkey.D.Luffy (001)",
-      "set_code": "ST-29",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
-      "today_price_usd": 2.29,
-      "baseline_price_usd": 24.0,
-      "price_change_usd": -21.71,
-      "price_change_percent": -90.46
+      "card_id": "OP09-093",
+      "card_image_id": "OP09-093_p5",
+      "card_name": "Marshall.D.Teach (SP) (Gold)",
+      "set_code": "OP-12",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p5_esui2Sk.jpg",
+      "today_price_usd": 1958.14,
+      "baseline_price_usd": 2026.51,
+      "price_change_usd": -68.37,
+      "price_change_percent": -3.37
     }
   ]
 }
