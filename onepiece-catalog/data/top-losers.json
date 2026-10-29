@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-28T22:01:20.095204+00:00",
-  "snapshot_date": "2026-10-28",
-  "baseline_date": "2026-10-27",
+  "generated_at": "2026-10-29T22:13:09.093875+00:00",
+  "snapshot_date": "2026-10-29",
+  "baseline_date": "2026-10-28",
   "days_between_snapshots": 1,
-  "history_days_collected": 121,
+  "history_days_collected": 122,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1254,
-  "cards_with_trend": 28,
+  "cards_evaluated": 1248,
+  "cards_with_trend": 29,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 21.37,
+      "today_price_usd": 20.53,
       "baseline_price_usd": 465.03,
-      "price_change_usd": -443.66,
-      "price_change_percent": -95.4
+      "price_change_usd": -444.5,
+      "price_change_percent": -95.59
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 15.95,
-      "baseline_price_usd": 97.66,
-      "price_change_usd": -81.71,
-      "price_change_percent": -83.67
+      "today_price_usd": 15.98,
+      "baseline_price_usd": 101.25,
+      "price_change_usd": -85.27,
+      "price_change_percent": -84.22
     },
     {
       "card_id": "OP08-023",
@@ -56,22 +56,22 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 11.57,
+      "today_price_usd": 11.61,
       "baseline_price_usd": 90.65,
-      "price_change_usd": -79.08,
-      "price_change_percent": -87.24
+      "price_change_usd": -79.04,
+      "price_change_percent": -87.19
     },
     {
-      "card_id": "OP09-093",
-      "card_image_id": "OP09-093_p5",
-      "card_name": "Marshall.D.Teach (SP) (Gold)",
-      "set_code": "OP-12",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p5_esui2Sk.jpg",
-      "today_price_usd": 1958.14,
-      "baseline_price_usd": 2026.51,
-      "price_change_usd": -68.37,
-      "price_change_percent": -3.37
+      "card_id": "OP14-119",
+      "card_image_id": "OP14-119_p2",
+      "card_name": "Dracule Mihawk (Manga)",
+      "set_code": "OP14-EB04",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP14-119_p2.jpg",
+      "today_price_usd": 694.59,
+      "baseline_price_usd": 716.49,
+      "price_change_usd": -21.9,
+      "price_change_percent": -3.06
     }
   ]
 }
