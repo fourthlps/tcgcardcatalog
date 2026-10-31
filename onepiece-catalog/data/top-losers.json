@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-30T21:48:58.668376+00:00",
-  "snapshot_date": "2026-10-30",
-  "baseline_date": "2026-10-29",
+  "generated_at": "2026-10-31T20:48:41.442546+00:00",
+  "snapshot_date": "2026-10-31",
+  "baseline_date": "2026-10-30",
   "days_between_snapshots": 1,
-  "history_days_collected": 123,
+  "history_days_collected": 124,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1250,
-  "cards_with_trend": 26,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 23,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 20.42,
+      "today_price_usd": 20.15,
       "baseline_price_usd": 476.23,
-      "price_change_usd": -455.81,
-      "price_change_percent": -95.71
+      "price_change_usd": -456.08,
+      "price_change_percent": -95.77
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 22.6,
+      "today_price_usd": 22.64,
       "baseline_price_usd": 159.31,
-      "price_change_usd": -136.71,
-      "price_change_percent": -85.81
+      "price_change_usd": -136.67,
+      "price_change_percent": -85.79
     },
     {
       "card_id": "OP05-091",
@@ -56,10 +56,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 11.51,
-      "baseline_price_usd": 90.65,
-      "price_change_usd": -79.14,
-      "price_change_percent": -87.3
+      "today_price_usd": 10.95,
+      "baseline_price_usd": 91.65,
+      "price_change_usd": -80.7,
+      "price_change_percent": -88.05
     },
     {
       "card_id": "ST29-001",
