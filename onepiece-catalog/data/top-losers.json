@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-31T20:48:41.442546+00:00",
-  "snapshot_date": "2026-10-31",
-  "baseline_date": "2026-10-30",
+  "generated_at": "2026-11-01T21:30:57.514456+00:00",
+  "snapshot_date": "2026-11-01",
+  "baseline_date": "2026-10-31",
   "days_between_snapshots": 1,
-  "history_days_collected": 124,
+  "history_days_collected": 125,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1255,
-  "cards_with_trend": 23,
+  "cards_with_trend": 31,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 20.15,
+      "today_price_usd": 20.06,
       "baseline_price_usd": 476.23,
-      "price_change_usd": -456.08,
-      "price_change_percent": -95.77
+      "price_change_usd": -456.17,
+      "price_change_percent": -95.79
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 22.64,
+      "today_price_usd": 22.56,
       "baseline_price_usd": 159.31,
-      "price_change_usd": -136.67,
-      "price_change_percent": -85.79
+      "price_change_usd": -136.75,
+      "price_change_percent": -85.84
     },
     {
       "card_id": "OP05-091",
@@ -56,10 +56,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 10.95,
+      "today_price_usd": 10.74,
       "baseline_price_usd": 91.65,
-      "price_change_usd": -80.7,
-      "price_change_percent": -88.05
+      "price_change_usd": -80.91,
+      "price_change_percent": -88.28
     },
     {
       "card_id": "ST29-001",
