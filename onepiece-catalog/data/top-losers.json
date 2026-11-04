@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-11-03T00:13:13.304503+00:00",
-  "snapshot_date": "2026-11-03",
-  "baseline_date": "2026-11-01",
-  "days_between_snapshots": 2,
-  "history_days_collected": 126,
+  "generated_at": "2026-11-04T23:00:42.158478+00:00",
+  "snapshot_date": "2026-11-04",
+  "baseline_date": "2026-11-03",
+  "days_between_snapshots": 1,
+  "history_days_collected": 127,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1257,
-  "cards_with_trend": 20,
+  "cards_evaluated": 1258,
+  "cards_with_trend": 56,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,22 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 19.81,
+      "today_price_usd": 19.45,
       "baseline_price_usd": 476.23,
-      "price_change_usd": -456.42,
-      "price_change_percent": -95.84
+      "price_change_usd": -456.78,
+      "price_change_percent": -95.92
+    },
+    {
+      "card_id": "OP04-083",
+      "card_image_id": "OP04-083_p2",
+      "card_name": "Sabo (Alternate Art) (Manga)",
+      "set_code": "OP-04",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-083_p2.jpg",
+      "today_price_usd": 749.48,
+      "baseline_price_usd": 899.0,
+      "price_change_usd": -149.52,
+      "price_change_percent": -16.63
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +44,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 22.39,
-      "baseline_price_usd": 156.1,
-      "price_change_usd": -133.71,
-      "price_change_percent": -85.66
+      "today_price_usd": 21.81,
+      "baseline_price_usd": 141.16,
+      "price_change_usd": -119.35,
+      "price_change_percent": -84.55
     },
     {
       "card_id": "OP05-091",
@@ -56,22 +68,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 10.63,
+      "today_price_usd": 10.44,
       "baseline_price_usd": 89.33,
-      "price_change_usd": -78.7,
-      "price_change_percent": -88.1
-    },
-    {
-      "card_id": "OP09-093",
-      "card_image_id": "OP09-093_p4",
-      "card_name": "Marshall.D.Teach (SP) (Silver)",
-      "set_code": "OP-12",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-093_p4_yGd9lfW.jpg",
-      "today_price_usd": 1090.0,
-      "baseline_price_usd": 1126.66,
-      "price_change_usd": -36.66,
-      "price_change_percent": -3.25
+      "price_change_usd": -78.89,
+      "price_change_percent": -88.31
     }
   ]
 }
