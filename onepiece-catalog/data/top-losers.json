@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-11-04T23:00:42.158478+00:00",
-  "snapshot_date": "2026-11-04",
-  "baseline_date": "2026-11-03",
+  "generated_at": "2026-11-05T23:03:33.946904+00:00",
+  "snapshot_date": "2026-11-05",
+  "baseline_date": "2026-11-04",
   "days_between_snapshots": 1,
-  "history_days_collected": 127,
+  "history_days_collected": 128,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1258,
-  "cards_with_trend": 56,
+  "cards_evaluated": 1260,
+  "cards_with_trend": 23,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,22 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 19.45,
+      "today_price_usd": 19.2,
       "baseline_price_usd": 476.23,
-      "price_change_usd": -456.78,
-      "price_change_percent": -95.92
-    },
-    {
-      "card_id": "OP04-083",
-      "card_image_id": "OP04-083_p2",
-      "card_name": "Sabo (Alternate Art) (Manga)",
-      "set_code": "OP-04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-083_p2.jpg",
-      "today_price_usd": 749.48,
-      "baseline_price_usd": 899.0,
-      "price_change_usd": -149.52,
-      "price_change_percent": -16.63
+      "price_change_usd": -457.03,
+      "price_change_percent": -95.97
     },
     {
       "card_id": "OP10-119",
@@ -44,22 +32,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 21.81,
+      "today_price_usd": 21.62,
       "baseline_price_usd": 141.16,
-      "price_change_usd": -119.35,
-      "price_change_percent": -84.55
-    },
-    {
-      "card_id": "OP05-091",
-      "card_image_id": "OP05-091_p1",
-      "card_name": "Rebecca (Alternate Art)",
-      "set_code": "OP-05",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 15.88,
-      "baseline_price_usd": 97.66,
-      "price_change_usd": -81.78,
-      "price_change_percent": -83.74
+      "price_change_usd": -119.54,
+      "price_change_percent": -84.68
     },
     {
       "card_id": "OP08-023",
@@ -72,6 +48,30 @@
       "baseline_price_usd": 89.33,
       "price_change_usd": -78.89,
       "price_change_percent": -88.31
+    },
+    {
+      "card_id": "OP05-091",
+      "card_image_id": "OP05-091_p1",
+      "card_name": "Rebecca (Alternate Art)",
+      "set_code": "OP-05",
+      "rarity": "SR",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
+      "today_price_usd": 15.97,
+      "baseline_price_usd": 94.32,
+      "price_change_usd": -78.35,
+      "price_change_percent": -83.07
+    },
+    {
+      "card_id": "OP01-016",
+      "card_image_id": "OP01-016_p2",
+      "card_name": "Nami (SP)",
+      "set_code": "OP-05",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-016_p2.jpg",
+      "today_price_usd": 498.54,
+      "baseline_price_usd": 525.28,
+      "price_change_usd": -26.74,
+      "price_change_percent": -5.09
     }
   ]
 }
