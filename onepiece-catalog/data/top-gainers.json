@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-07T21:14:45.760944+00:00",
-  "snapshot_date": "2026-11-07",
-  "baseline_date": "2026-11-06",
+  "generated_at": "2026-11-08T21:29:44.933778+00:00",
+  "snapshot_date": "2026-11-08",
+  "baseline_date": "2026-11-07",
   "days_between_snapshots": 1,
-  "history_days_collected": 130,
+  "history_days_collected": 131,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
@@ -14,16 +14,28 @@
   "trend_type": "gainers",
   "cards": [
     {
+      "card_id": "OP01-060",
+      "card_image_id": "OP01-060_p1",
+      "card_name": "Donquixote Doflamingo (060) (Parallel)",
+      "set_code": "OP-01",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP01-060_p1.jpg",
+      "today_price_usd": 202.0,
+      "baseline_price_usd": 193.57,
+      "price_change_usd": 8.43,
+      "price_change_percent": 4.36
+    },
+    {
       "card_id": "EB01-027",
       "card_image_id": "EB01-027_p1",
       "card_name": "Mr. 1 (Daz.Bonez) (Alternate Art)",
       "set_code": "EB-01",
       "rarity": "R",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB01-027_p1.jpg",
-      "today_price_usd": 25.67,
-      "baseline_price_usd": 23.13,
-      "price_change_usd": 2.54,
-      "price_change_percent": 10.98
+      "today_price_usd": 27.37,
+      "baseline_price_usd": 25.67,
+      "price_change_usd": 1.7,
+      "price_change_percent": 6.62
     },
     {
       "card_id": "OP01-033",
@@ -38,16 +50,28 @@
       "price_change_percent": 83.42
     },
     {
-      "card_id": "EB04-058",
-      "card_image_id": "EB04-058",
-      "card_name": "Borsalino",
-      "set_code": "OP15-EB04",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/EB04-058_LxNnvX2.jpg",
-      "today_price_usd": 34.92,
-      "baseline_price_usd": 33.43,
-      "price_change_usd": 1.49,
-      "price_change_percent": 4.46
+      "card_id": "ST02-007",
+      "card_image_id": "ST02-007",
+      "card_name": "Jewelry Bonney",
+      "set_code": "ST-02",
+      "rarity": "C",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST02-007.jpg",
+      "today_price_usd": 10.51,
+      "baseline_price_usd": 9.23,
+      "price_change_usd": 1.28,
+      "price_change_percent": 13.87
+    },
+    {
+      "card_id": "ST21-004",
+      "card_image_id": "ST21-004",
+      "card_name": "Jewelry Bonney",
+      "set_code": "ST-21",
+      "rarity": "C",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST21-004.jpg",
+      "today_price_usd": 10.51,
+      "baseline_price_usd": 9.28,
+      "price_change_usd": 1.23,
+      "price_change_percent": 13.25
     }
   ]
 }
