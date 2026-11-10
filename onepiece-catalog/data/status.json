@@ -1,5 +1,5 @@
 {
- "last_updated": "2026-11-10T00:59:31.661168+00:00",
+ "last_updated": "2026-11-10T22:40:09.786884+00:00",
  "run_date": "2026-11-10",
  "status": "success",
  "api": {
@@ -18,27 +18,27 @@
  },
  "trends": {
   "status": "ok",
-  "gainers_count": 5,
-  "losers_count": 5,
+  "gainers_count": 0,
+  "losers_count": 0,
   "confidence": "high",
-  "baseline_date": "2026-11-08",
-  "days_between_snapshots": 2,
+  "baseline_date": "2026-11-10",
+  "days_between_snapshots": 0,
   "history_days_collected": 132
  },
  "jp": {
-  "attempted_run_id": "42732435741",
-  "attempted_at": "2026-11-10T01:11:57+00:00",
-  "workflow_run_id": "42732435741",
+  "attempted_run_id": "42916635151",
+  "attempted_at": "2026-11-10T22:53:08+00:00",
+  "workflow_run_id": "42916635151",
   "fetch_outcome": "success",
   "candidate_state": "ok",
   "promotion_state": "rejected",
   "rejection_reasons": [
-   "1 set(s) failed"
+   "2 set(s) failed"
   ],
   "attempted": {
-   "listings_seen": 3209,
-   "matched": 2161,
-   "refreshed": 2161
+   "listings_seen": 3059,
+   "matched": 2046,
+   "refreshed": 2046
   },
   "published": {
    "newest_jp_date": "2026-11-01",
