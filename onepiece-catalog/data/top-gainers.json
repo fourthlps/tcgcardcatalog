@@ -1,30 +1,18 @@
 {
-  "generated_at": "2026-11-14T21:49:56.063967+00:00",
-  "snapshot_date": "2026-11-14",
-  "baseline_date": "2026-11-13",
+  "generated_at": "2026-11-15T22:18:11.497197+00:00",
+  "snapshot_date": "2026-11-15",
+  "baseline_date": "2026-11-14",
   "days_between_snapshots": 1,
-  "history_days_collected": 136,
+  "history_days_collected": 137,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1257,
-  "cards_with_trend": 34,
+  "cards_evaluated": 1255,
+  "cards_with_trend": 24,
   "trend_type": "gainers",
   "cards": [
-    {
-      "card_id": "OP04-044",
-      "card_image_id": "OP04-044_p2",
-      "card_name": "Kaido (044) (SP)",
-      "set_code": "OP-05",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP04-044_p2.jpg",
-      "today_price_usd": 100.43,
-      "baseline_price_usd": 97.39,
-      "price_change_usd": 3.04,
-      "price_change_percent": 3.12
-    },
     {
       "card_id": "OP01-033",
       "card_image_id": "OP01-033_p5",
@@ -36,18 +24,6 @@
       "baseline_price_usd": 1.99,
       "price_change_usd": 1.6,
       "price_change_percent": 80.4
-    },
-    {
-      "card_id": "OP16-056",
-      "card_image_id": "OP16-056_p1",
-      "card_name": "Mr.3(Galdino) (056) (Alternate Art)",
-      "set_code": "OP-16",
-      "rarity": "SR",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP16-056_p1_lCCqPWh.jpg",
-      "today_price_usd": 27.85,
-      "baseline_price_usd": 26.69,
-      "price_change_usd": 1.16,
-      "price_change_percent": 4.35
     }
   ]
 }
