@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-11-17T01:19:22.162632+00:00",
-  "snapshot_date": "2026-11-17",
-  "baseline_date": "2026-11-15",
-  "days_between_snapshots": 2,
-  "history_days_collected": 138,
+  "generated_at": "2026-11-18T00:15:10.518678+00:00",
+  "snapshot_date": "2026-11-18",
+  "baseline_date": "2026-11-17",
+  "days_between_snapshots": 1,
+  "history_days_collected": 139,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1254,
-  "cards_with_trend": 24,
+  "cards_evaluated": 1253,
+  "cards_with_trend": 37,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,22 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 16.37,
+      "today_price_usd": 15.77,
       "baseline_price_usd": 471.42,
-      "price_change_usd": -455.05,
-      "price_change_percent": -96.53
+      "price_change_usd": -455.65,
+      "price_change_percent": -96.65
+    },
+    {
+      "card_id": "OP05-067",
+      "card_image_id": "OP09-051_p2",
+      "card_name": "Buggy (051) (Manga)",
+      "set_code": "OP-09",
+      "rarity": "R",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p2.jpg",
+      "today_price_usd": 1505.5,
+      "baseline_price_usd": 1650.0,
+      "price_change_usd": -144.5,
+      "price_change_percent": -8.76
     },
     {
       "card_id": "OP10-119",
@@ -32,10 +44,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 20.98,
+      "today_price_usd": 20.85,
       "baseline_price_usd": 118.89,
-      "price_change_usd": -97.91,
-      "price_change_percent": -82.35
+      "price_change_usd": -98.04,
+      "price_change_percent": -82.46
     },
     {
       "card_id": "OP05-091",
@@ -56,22 +68,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 10.18,
+      "today_price_usd": 10.04,
       "baseline_price_usd": 77.48,
-      "price_change_usd": -67.3,
-      "price_change_percent": -86.86
-    },
-    {
-      "card_id": "OP13-119",
-      "card_image_id": "OP13-119_p2",
-      "card_name": "Portgas.D.Ace (119) (Super Alternate Art)",
-      "set_code": "OP-13",
-      "rarity": "SEC",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP13-119_p2.jpg",
-      "today_price_usd": 1044.28,
-      "baseline_price_usd": 1101.42,
-      "price_change_usd": -57.14,
-      "price_change_percent": -5.19
+      "price_change_usd": -67.44,
+      "price_change_percent": -87.04
     }
   ]
 }
