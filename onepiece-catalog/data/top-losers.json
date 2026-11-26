@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-11-25T01:45:51.242961+00:00",
-  "snapshot_date": "2026-11-25",
-  "baseline_date": "2026-11-24",
+  "generated_at": "2026-11-26T01:20:51.580238+00:00",
+  "snapshot_date": "2026-11-26",
+  "baseline_date": "2026-11-25",
   "days_between_snapshots": 1,
-  "history_days_collected": 144,
+  "history_days_collected": 145,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
   "cards_evaluated": 1248,
-  "cards_with_trend": 12,
+  "cards_with_trend": 31,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,22 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 15.19,
+      "today_price_usd": 15.37,
       "baseline_price_usd": 471.42,
-      "price_change_usd": -456.23,
-      "price_change_percent": -96.78
+      "price_change_usd": -456.05,
+      "price_change_percent": -96.74
+    },
+    {
+      "card_id": "OP06-119",
+      "card_image_id": "OP06-119_p3",
+      "card_name": "Sanji - OP06-119 (Manga)",
+      "set_code": "PRB-02",
+      "rarity": "SEC",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/OP06-119_p3.jpg",
+      "today_price_usd": 2033.38,
+      "baseline_price_usd": 2338.11,
+      "price_change_usd": -304.73,
+      "price_change_percent": -13.03
     },
     {
       "card_id": "OP05-091",
@@ -32,10 +44,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 13.81,
+      "today_price_usd": 13.21,
       "baseline_price_usd": 104.19,
-      "price_change_usd": -90.38,
-      "price_change_percent": -86.75
+      "price_change_usd": -90.98,
+      "price_change_percent": -87.32
     },
     {
       "card_id": "OP10-119",
@@ -56,22 +68,10 @@
       "set_code": "OP-08",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
-      "today_price_usd": 9.5,
+      "today_price_usd": 9.31,
       "baseline_price_usd": 78.1,
-      "price_change_usd": -68.6,
-      "price_change_percent": -87.84
-    },
-    {
-      "card_id": "ST29-001",
-      "card_image_id": "ST29-001",
-      "card_name": "Monkey.D.Luffy (001)",
-      "set_code": "ST-29",
-      "rarity": "L",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
-      "today_price_usd": 2.29,
-      "baseline_price_usd": 24.0,
-      "price_change_usd": -21.71,
-      "price_change_percent": -90.46
+      "price_change_usd": -68.79,
+      "price_change_percent": -88.08
     }
   ]
 }
