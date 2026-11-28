@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-11-27T01:18:51.091658+00:00",
-  "snapshot_date": "2026-11-27",
-  "baseline_date": "2026-11-26",
+  "generated_at": "2026-11-28T00:52:42.714417+00:00",
+  "snapshot_date": "2026-11-28",
+  "baseline_date": "2026-11-27",
   "days_between_snapshots": 1,
-  "history_days_collected": 146,
+  "history_days_collected": 147,
   "period": "day_over_day",
   "confidence": "high",
   "source": "optcgapi.com",
   "currency": "USD",
   "game": "onepiece",
-  "cards_evaluated": 1244,
-  "cards_with_trend": 41,
+  "cards_evaluated": 1246,
+  "cards_with_trend": 23,
   "trend_type": "losers",
   "cards": [
     {
@@ -20,10 +20,10 @@
       "set_code": "PRB-02",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/EB02-061_r1_87VjsGa.jpg",
-      "today_price_usd": 15.4,
+      "today_price_usd": 15.84,
       "baseline_price_usd": 471.42,
-      "price_change_usd": -456.02,
-      "price_change_percent": -96.73
+      "price_change_usd": -455.58,
+      "price_change_percent": -96.64
     },
     {
       "card_id": "OP05-091",
@@ -32,10 +32,10 @@
       "set_code": "OP-05",
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP05-091_p1.jpg",
-      "today_price_usd": 12.23,
+      "today_price_usd": 10.32,
       "baseline_price_usd": 104.19,
-      "price_change_usd": -91.96,
-      "price_change_percent": -88.26
+      "price_change_usd": -93.87,
+      "price_change_percent": -90.1
     },
     {
       "card_id": "OP10-119",
@@ -44,10 +44,10 @@
       "set_code": "OP-10",
       "rarity": "SEC",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP10-119_p1.jpg",
-      "today_price_usd": 19.83,
+      "today_price_usd": 19.75,
       "baseline_price_usd": 107.8,
-      "price_change_usd": -87.97,
-      "price_change_percent": -81.6
+      "price_change_usd": -88.05,
+      "price_change_percent": -81.68
     },
     {
       "card_id": "OP08-023",
@@ -57,21 +57,21 @@
       "rarity": "SR",
       "card_image": "https://optcgapi.com/media/static/Card_Images/OP08-023_p1.jpg",
       "today_price_usd": 9.23,
-      "baseline_price_usd": 78.1,
-      "price_change_usd": -68.87,
-      "price_change_percent": -88.18
+      "baseline_price_usd": 80.94,
+      "price_change_usd": -71.71,
+      "price_change_percent": -88.6
     },
     {
-      "card_id": "OP09-051",
-      "card_image_id": "OP09-051_p5",
-      "card_name": "Buggy - OP09-051 (SP)",
-      "set_code": "OP14-EB04",
-      "rarity": "R",
-      "card_image": "https://optcgapi.com/media/static/Card_Images/OP09-051_p5.jpg",
-      "today_price_usd": 780.39,
-      "baseline_price_usd": 805.74,
-      "price_change_usd": -25.35,
-      "price_change_percent": -3.15
+      "card_id": "ST29-001",
+      "card_image_id": "ST29-001",
+      "card_name": "Monkey.D.Luffy (001)",
+      "set_code": "ST-29",
+      "rarity": "L",
+      "card_image": "https://optcgapi.com/media/static/Card_Images/ST29-001_EZnknPV.jpg",
+      "today_price_usd": 2.29,
+      "baseline_price_usd": 24.0,
+      "price_change_usd": -21.71,
+      "price_change_percent": -90.46
     }
   ]
 }
